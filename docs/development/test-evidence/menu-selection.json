@@ -1,0 +1,148 @@
+{
+  "checks": {
+    "scene": {
+      "actual": 3,
+      "expected": 3,
+      "passed": true
+    }
+  },
+  "passed": true,
+  "samples": [
+    {
+      "scene": 1,
+      "wall_time": 0.017
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.121
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.226
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.33
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.434
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.538
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.644
+    },
+    {
+      "scene": 3,
+      "wall_time": 0.746
+    },
+    {
+      "scene": 3,
+      "wall_time": 0.85
+    },
+    {
+      "scene": 3,
+      "wall_time": 0.955
+    },
+    {
+      "scene": 3,
+      "wall_time": 1.059
+    },
+    {
+      "scene": 3,
+      "wall_time": 1.163
+    },
+    {
+      "scene": 3,
+      "wall_time": 1.267
+    },
+    {
+      "scene": 3,
+      "wall_time": 1.371
+    },
+    {
+      "scene": 3,
+      "wall_time": 1.475
+    },
+    {
+      "scene": 3,
+      "wall_time": 1.579
+    },
+    {
+      "scene": 3,
+      "wall_time": 1.683
+    },
+    {
+      "scene": 3,
+      "wall_time": 1.788
+    },
+    {
+      "scene": 3,
+      "wall_time": 1.891
+    },
+    {
+      "scene": 3,
+      "wall_time": 1.996
+    },
+    {
+      "scene": 3,
+      "wall_time": 2.1
+    },
+    {
+      "scene": 3,
+      "wall_time": 2.205
+    },
+    {
+      "scene": 3,
+      "wall_time": 2.308
+    },
+    {
+      "scene": 3,
+      "wall_time": 2.413
+    },
+    {
+      "scene": 3,
+      "wall_time": 2.516
+    },
+    {
+      "scene": 3,
+      "wall_time": 2.62
+    },
+    {
+      "scene": 3,
+      "wall_time": 2.725
+    },
+    {
+      "scene": 3,
+      "wall_time": 2.829
+    },
+    {
+      "scene": 3,
+      "wall_time": 2.933
+    }
+  ],
+  "scenario": {
+    "duration": 3,
+    "events": [
+      {
+        "down": true,
+        "key": "Return",
+        "time": 0.6
+      },
+      {
+        "down": false,
+        "key": "Return",
+        "time": 0.7
+      }
+    ],
+    "expect": {
+      "scene": 3
+    },
+    "level": -1,
+    "name": "menu-selection"
+  }
+}

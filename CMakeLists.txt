@@ -8,8 +8,18 @@ if(POLICY CMP0141)
 endif()
 
 project(FlyMe2TheMoon LANGUAGES C CXX)
+include(CTest)
 
 if(MSVC)
+    # A non-UTF8 Chinese /showIncludes prefix was misdetected by this CMake/Ninja
+    # combination, silently recording zero header dependencies. Keep compiler
+    # diagnostics deterministic even when building outside the helper scripts.
+    find_package(Python3 REQUIRED COMPONENTS Interpreter)
+    set(CMAKE_C_COMPILER_LAUNCHER "${Python3_EXECUTABLE};${PROJECT_SOURCE_DIR}/game/tools/msvc_output.py")
+    set(CMAKE_CXX_COMPILER_LAUNCHER "${Python3_EXECUTABLE};${PROJECT_SOURCE_DIR}/game/tools/msvc_output.py")
+    set(CMAKE_C_CL_SHOWINCLUDES_PREFIX "Note: including file: ")
+    set(CMAKE_CXX_CL_SHOWINCLUDES_PREFIX "Note: including file: ")
+    set(CMAKE_CL_SHOWINCLUDES_PREFIX "Note: including file: ")
     # CMake 3.24 stores /Zi in flags instead of using the debug format property.
     foreach(language C CXX)
         string(REGEX REPLACE "/Z[iI]([ \t]|$)" "/Z7\\1"
@@ -47,6 +57,14 @@ endif()
 add_subdirectory(engine)
 add_subdirectory(game)
 
+option(FLY_DEBUG_SYMBOLS "Keep symbols for crash diagnosis in optimized builds" ON)
+if(FLY_DEBUG_SYMBOLS AND MSVC)
+    foreach(FLY_SYMBOL_TARGET engine_lib game_lib fly_lua)
+        target_compile_options(${FLY_SYMBOL_TARGET} PRIVATE /Z7)
+        target_link_options(${FLY_SYMBOL_TARGET} INTERFACE /DEBUG /INCREMENTAL:NO)
+    endforeach()
+endif()
+
 
 if(ELYSIA_ENABLE_ASAN AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
     include(CheckCXXSourceCompiles)
@@ -64,10 +82,23 @@ if(ELYSIA_ENABLE_ASAN AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
     endforeach()
 endif()
 
+if(ELYSIA_ENABLE_ASAN AND MSVC)
+    foreach(FLY_ASAN_TARGET engine_lib game_lib fly_lua SDL3_ttf-static harfbuzz)
+        target_compile_options(${FLY_ASAN_TARGET} PRIVATE /fsanitize=address /Z7)
+        target_link_options(${FLY_ASAN_TARGET} INTERFACE /DEBUG /INCREMENTAL:NO)
+    endforeach()
+endif()
+
 
 add_executable(FlyMe2TheMoon "main.cpp")
 
 target_link_libraries(FlyMe2TheMoon PRIVATE game_lib)
+if(FLY_DEBUG_SYMBOLS AND MSVC)
+    target_compile_options(FlyMe2TheMoon PRIVATE /Z7)
+endif()
+if(ELYSIA_ENABLE_ASAN AND MSVC)
+    target_compile_options(FlyMe2TheMoon PRIVATE /fsanitize=address /Z7)
+endif()
 
 elysia_copy_sdl_runtime(FlyMe2TheMoon)
 

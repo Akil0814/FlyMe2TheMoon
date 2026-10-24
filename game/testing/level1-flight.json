@@ -1,0 +1,7 @@
+{
+  "name": "level1-flight",
+  "level": 1,
+  "duration": 6,
+  "events": [{"time": 0.5, "key": "Space", "down": true}, {"time": 4.5, "key": "Space", "down": false}],
+  "expect": {"success": true, "stars": 3, "level": 1}
+}

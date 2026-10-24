@@ -1,6 +1,9 @@
 
 #include "game_module.h"
 #include "../scene/main_menu_scene.h"
+#include "../scene/flight_scene.h"
+#include "../scene/selection_scene.h"
+#include "../testing/replay_probe.h"
 
 #include "../../engine/builtin/builtin_scene_keys.h"
 #include "../../engine/builtin/scenes/startup_loading_scene.h"
@@ -27,7 +30,7 @@ namespace game::application
         descriptor.presentation.startup.engine_logo =
             elysia::application::ApplicationEngineLogoVariant::White;
         descriptor.presentation.fonts.ui.source =
-            elysia::typography::FontSource::EngineBuiltIn;
+            elysia::typography::FontSource::Project;
         descriptor.presentation.fonts.floating_number.source =
             elysia::typography::FontSource::EngineBuiltIn;
         descriptor.initial_route = SceneRoute{
@@ -45,12 +48,20 @@ namespace game::application
             .reload_mode = SceneReloadMode::Reuse
         };
 
+        if(const int level=game::testing::ReplayProbe::requested_level();level!=0) {
+            descriptor.initial_route.payload=StartupLoadingScenePayload{
+                .success_route=SceneRoute{.target=level>0?game::scene_keys::Flight:game::scene_keys::MainMenu,.payload=game::scene::FlightPayload{std::max(1,level)},.reload_mode=SceneReloadMode::Recreate},
+                .wait_for_logo_sequence=true,.wait_for_confirmation=false};
+        }
         return descriptor;
     }
 
     void GameModule::register_scenes(elysia::scene::SceneManager& scene_manager) const
     {
         scene_manager.register_game_scene<game::scene::MainMenuScene>(game::scene_keys::MainMenu);
+        scene_manager.register_game_scene<game::scene::FlightScene>(game::scene_keys::Flight);
+        scene_manager.register_game_scene<game::scene::SelectionScene>(game::scene_keys::Selection);
+        scene_manager.register_game_scene<game::scene::AchievementsScene>(game::scene_keys::Achievements);
     }
 
     std::unique_ptr<elysia::tools::IDevelopmentOverlay>

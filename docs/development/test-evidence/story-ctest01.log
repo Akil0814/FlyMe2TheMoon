@@ -1,0 +1,15 @@
+Test project C:/Code/FlyMe2TheMoon/out/build/release
+    Start 1: fly_game_rules_and_save
+1/2 Test #1: fly_game_rules_and_save ..........   Passed    0.10 sec
+    Start 2: fly_original_story
+2/2 Test #2: fly_original_story ...............***Failed    2.34 sec
+FAIL: Story coverage unexpectedly small
+
+
+50% tests passed, 1 tests failed out of 2
+
+Total Test time (real) =   2.61 sec
+
+The following tests FAILED:
+	  2 - fly_original_story (Failed)
+Errors while running CTest

@@ -1,0 +1,1594 @@
+**********************************************************************
+** Visual Studio 2022 Developer Command Prompt v17.14.10
+** Copyright (c) 2025 Microsoft Corporation
+**********************************************************************
+[vcvarsall.bat] Environment initialized for: 'x64'
+-- CMake C compiler: MSVC
+-- CMake C++ compiler: MSVC
+-- CMake system name: Windows
+-- CMake host system processor: AMD64
+-- Box2D on MSVC
+-- Could NOT find PkgConfig (missing: PKG_CONFIG_EXECUTABLE) 
+-- Could NOT find LibUSB (missing: LibUSB_LIBRARY LibUSB_INCLUDE_PATH) (found version "LibUSB_VERSION-NOTFOUND")
+-- 
+-- SDL3 was configured with the following options:
+-- 
+-- Platform: Windows-6.2.9200
+-- 64-bit:   TRUE
+-- Compiler: C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe
+-- Revision: SDL-release-3.4.16-0-gfa2c02bb6
+-- Vendor:   
+-- 
+-- Subsystems:
+--   Audio:    ON
+--   Video:    ON
+--   GPU:      ON
+--   Render:   ON
+--   Camera:   ON
+--   Joystick: ON
+--   Haptic:   ON
+--   Hidapi:   ON
+--   Power:    ON
+--   Sensor:   ON
+--   Dialog:   ON
+--   Tray:     ON
+-- 
+-- Options:
+--   SDL_ALSA                    (Wanted: OFF): OFF
+--   SDL_ALSA_SHARED             (Wanted: OFF): OFF
+--   SDL_ALTIVEC                 (Wanted: OFF): OFF
+--   SDL_ARMNEON                 (Wanted: OFF): OFF
+--   SDL_ASAN                    (Wanted: OFF): OFF
+--   SDL_ASSEMBLY                (Wanted: ON): ON
+--   SDL_ASSERTIONS              (Wanted: auto): auto
+--   SDL_AVX                     (Wanted: ON): ON
+--   SDL_AVX2                    (Wanted: ON): ON
+--   SDL_AVX512F                 (Wanted: ON): ON
+--   SDL_BACKGROUNDING_SIGNAL    (Wanted: OFF): OFF
+--   SDL_CCACHE                  (Wanted: OFF): OFF
+--   SDL_CLANG_TIDY              (Wanted: OFF): OFF
+--   SDL_CLOCK_GETTIME           (Wanted: OFF): OFF
+--   SDL_COCOA                   (Wanted: OFF): OFF
+--   SDL_DBUS                    (Wanted: OFF): OFF
+--   SDL_DEPS_SHARED             (Wanted: ON): OFF
+--   SDL_DIRECTX                 (Wanted: ON): ON
+--   SDL_DISKAUDIO               (Wanted: ON): ON
+--   SDL_DLOPEN_NOTES            (Wanted: OFF): OFF
+--   SDL_DUMMYAUDIO              (Wanted: ON): ON
+--   SDL_DUMMYCAMERA             (Wanted: ON): ON
+--   SDL_DUMMYVIDEO              (Wanted: ON): ON
+--   SDL_EXAMPLES                (Wanted: OFF): OFF
+--   SDL_EXAMPLES_LINK_SHARED    (Wanted: ON): OFF
+--   SDL_FOREGROUNDING_SIGNAL    (Wanted: OFF): OFF
+--   SDL_FRIBIDI                 (Wanted: OFF): OFF
+--   SDL_FRIBIDI_SHARED          (Wanted: OFF): OFF
+--   SDL_GCC_ATOMICS             (Wanted: OFF): OFF
+--   SDL_HIDAPI                  (Wanted: ON): ON
+--   SDL_HIDAPI_JOYSTICK         (Wanted: ON): ON
+--   SDL_HIDAPI_LIBUSB           (Wanted: ON): OFF
+--   SDL_HIDAPI_LIBUSB_SHARED    (Wanted: ON): OFF
+--   SDL_IBUS                    (Wanted: OFF): OFF
+--   SDL_INSTALL                 (Wanted: OFF): OFF
+--   SDL_INSTALL_TESTS           (Wanted: OFF): OFF
+--   SDL_JACK                    (Wanted: OFF): OFF
+--   SDL_JACK_SHARED             (Wanted: OFF): OFF
+--   SDL_KMSDRM                  (Wanted: OFF): OFF
+--   SDL_KMSDRM_SHARED           (Wanted: OFF): OFF
+--   SDL_LASX                    (Wanted: OFF): OFF
+--   SDL_LIBC                    (Wanted: ON): ON
+--   SDL_LIBICONV                (Wanted: OFF): OFF
+--   SDL_LIBTHAI                 (Wanted: OFF): OFF
+--   SDL_LIBTHAI_SHARED          (Wanted: OFF): OFF
+--   SDL_LIBUDEV                 (Wanted: ON): OFF
+--   SDL_LIBURING                (Wanted: OFF): OFF
+--   SDL_LSX                     (Wanted: OFF): OFF
+--   SDL_METAL                   (Wanted: OFF): OFF
+--   SDL_MMX                     (Wanted: ON): OFF
+--   SDL_OFFSCREEN               (Wanted: ON): ON
+--   SDL_OPENGL                  (Wanted: ON): ON
+--   SDL_OPENGLES                (Wanted: ON): ON
+--   SDL_OPENVR                  (Wanted: OFF): OFF
+--   SDL_OSS                     (Wanted: OFF): OFF
+--   SDL_PIPEWIRE                (Wanted: OFF): OFF
+--   SDL_PIPEWIRE_SHARED         (Wanted: OFF): OFF
+--   SDL_PTHREADS                (Wanted: OFF): OFF
+--   SDL_PTHREADS_SEM            (Wanted: OFF): OFF
+--   SDL_PULSEAUDIO              (Wanted: OFF): OFF
+--   SDL_PULSEAUDIO_SHARED       (Wanted: OFF): OFF
+--   SDL_RENDER_D3D              (Wanted: ON): ON
+--   SDL_RENDER_D3D11            (Wanted: ON): ON
+--   SDL_RENDER_D3D12            (Wanted: ON): ON
+--   SDL_RENDER_GPU              (Wanted: ON): ON
+--   SDL_RENDER_METAL            (Wanted: OFF): OFF
+--   SDL_RENDER_VULKAN           (Wanted: ON): ON
+--   SDL_ROCKCHIP                (Wanted: OFF): OFF
+--   SDL_RPATH                   (Wanted: OFF): OFF
+--   SDL_RPI                     (Wanted: OFF): OFF
+--   SDL_SNDIO                   (Wanted: OFF): OFF
+--   SDL_SNDIO_SHARED            (Wanted: OFF): OFF
+--   SDL_SSE                     (Wanted: ON): ON
+--   SDL_SSE2                    (Wanted: ON): ON
+--   SDL_SSE3                    (Wanted: ON): ON
+--   SDL_SSE4_1                  (Wanted: ON): ON
+--   SDL_SSE4_2                  (Wanted: ON): ON
+--   SDL_SYSTEM_ICONV            (Wanted: OFF): OFF
+--   SDL_TESTS                   (Wanted: OFF): OFF
+--   SDL_TESTS_LINK_SHARED       (Wanted: ON): OFF
+--   SDL_UNINSTALL               (Wanted: OFF): OFF
+--   SDL_VIRTUAL_JOYSTICK        (Wanted: ON): ON
+--   SDL_VIVANTE                 (Wanted: OFF): OFF
+--   SDL_VULKAN                  (Wanted: ON): ON
+--   SDL_WASAPI                  (Wanted: ON): ON
+--   SDL_WAYLAND                 (Wanted: OFF): OFF
+--   SDL_WAYLAND_LIBDECOR        (Wanted: OFF): OFF
+--   SDL_WAYLAND_LIBDECOR_SHARED (Wanted: OFF): OFF
+--   SDL_WAYLAND_SHARED          (Wanted: OFF): OFF
+--   SDL_X11                     (Wanted: OFF): OFF
+--   SDL_X11_SHARED              (Wanted: OFF): OFF
+--   SDL_X11_XCURSOR             (Wanted: OFF): OFF
+--   SDL_X11_XDBE                (Wanted: OFF): OFF
+--   SDL_X11_XFIXES              (Wanted: OFF): OFF
+--   SDL_X11_XINPUT              (Wanted: OFF): OFF
+--   SDL_X11_XRANDR              (Wanted: OFF): OFF
+--   SDL_X11_XSCRNSAVER          (Wanted: OFF): OFF
+--   SDL_X11_XSHAPE              (Wanted: OFF): OFF
+--   SDL_X11_XSYNC               (Wanted: OFF): OFF
+--   SDL_X11_XTEST               (Wanted: OFF): OFF
+--   SDL_XINPUT                  (Wanted: ON): ON
+-- 
+--  Build Shared Library: ON
+--  Build Static Library: OFF
+-- 
+-- Enabled backends:
+--   Video drivers: dummy offscreen windows
+--   Render drivers: d3d d3d11 d3d12 gpu ogl ogl_es2 vulkan
+--   GPU drivers: d3d12 vulkan
+--   Audio drivers: disk dsound dummy wasapi
+--   Joystick drivers: dinput gameinput hidapi rawinput virtual wgi xinput
+--   Camera drivers: dummy mediafoundation
+-- 
+-- Configuring SDL3_image 3.4.6
+-- SDL3_image: Using vendored zlib
+-- SDL3_image: Using vendored libjpeg
+-- SDL3_image: Using vendored libpng
+-- Building for target architecture: amd64
+-- Could not find an AWK-compatible program
+-- Using standard libconf header: C:/Code/FlyMe2TheMoon/thirdparty/SDL3_image/external/libpng/scripts/pnglibconf.h.prebuilt
+-- SDL3_image backends:
+-- - enabled:  ani bmp gif jpg lbm pcx png apng pnm qoi svg tga xcf xpm xv
+-- - disabled: stb imageio wic avif jxl tif webp
+-- Configuring SDL3_ttf 3.2.2
+-- SDL3_ttf: Using vendored harfbuzz library
+WARNHarfBuzz has a Meson port and tries to migrate all the other build systems to it, please consider using it as we might remove our cmake port soon.
+Building introspection files on Windows requires BUILD_SHARED_LIBS to be enabled.
+-- SDL3_ttf: Using vendored freetype library
+-- Could NOT find PkgConfig (missing: PKG_CONFIG_EXECUTABLE) 
+-- SDL3_ttf backends:
+-- - enabled:  harfbuzz freetype
+-- - disabled: plutosvg
+-- Configuring SDL3_mixer 3.2.4
+-- SDL3_mixer backends:
+-- - enabled:  vorbis_stb flac_drflac mp3_drmp3 wave aiff voc au
+-- - disabled: opus vorbis_tremor vorbis_vorbisfile flac_libflac gme mod_xmp mp3_mpg123 midi_fluidsynth midi_timidity wavpack
+-- Configuring done (2.0s)
+-- Generating done (0.4s)
+-- Build files have been written to: C:/Code/FlyMe2TheMoon/out/build/release
+[0/2] Re-checking globbed directories...
+[1/9] Building C object thirdparty\SDL3_ttf\CMakeFiles\SDL3_ttf-static.dir\src\SDL_hashtable_ttf.c.obj
+注意: 包含文件:  C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\include\SDL3_ttf/SDL_ttf.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_stdinc.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_platform_defines.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\shared\winapifamily.h
+注意: 包含文件:       C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\shared\winpackagefamily.h
+注意: 包含文件:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\stdarg.h
+注意: 包含文件:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vcruntime.h
+注意: 包含文件:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\sal.h
+注意: 包含文件:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\concurrencysal.h
+注意: 包含文件:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vadefs.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\string.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_memory.h
+注意: 包含文件:       C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_memcpy_s.h
+注意: 包含文件:        C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\errno.h
+注意: 包含文件:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vcruntime_string.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wstring.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\wchar.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wconio.h
+注意: 包含文件:       C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_stdio_config.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wctype.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wdirect.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wio.h
+注意: 包含文件:       C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_share.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wprocess.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wstdio.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wstdlib.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wtime.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\sys/stat.h
+注意: 包含文件:       C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\sys/types.h
+注意: 包含文件:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\intrin.h
+注意: 包含文件:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\intrin0.inl.h
+注意: 包含文件:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\setjmp.h
+注意: 包含文件:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\immintrin.h
+注意: 包含文件:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\wmmintrin.h
+注意: 包含文件:         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\nmmintrin.h
+注意: 包含文件:          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\smmintrin.h
+注意: 包含文件:           C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\tmmintrin.h
+注意: 包含文件:            C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\pmmintrin.h
+注意: 包含文件:             C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\emmintrin.h
+注意: 包含文件:              C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmmintrin.h
+注意: 包含文件:               C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\mmintrin.h
+注意: 包含文件:               C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\malloc.h
+注意: 包含文件:                C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_malloc.h
+注意: 包含文件:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\zmmintrin.h
+注意: 包含文件:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\ammintrin.h
+注意: 包含文件:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\stdint.h
+注意: 包含文件:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\stdbool.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_assert.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_asyncio.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_atomic.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_audio.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_endian.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_error.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_mutex.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_thread.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_properties.h
+注意: 包含文件:        C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:        C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:       C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\process.h
+注意: 包含文件:        C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_startup.h
+注意: 包含文件:         C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\math.h
+注意: 包含文件:          C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_math.h
+注意: 包含文件:         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vcruntime_startup.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_iostream.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_bits.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_blendmode.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_camera.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_pixels.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_surface.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_rect.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_clipboard.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_cpuinfo.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_dialog.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_video.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_dlopennote.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_events.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_gamepad.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_guid.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_joystick.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_power.h
+注意: 包含文件:        C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:        C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_sensor.h
+注意: 包含文件:        C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:        C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_keyboard.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_keycode.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_scancode.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_mouse.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_pen.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_touch.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_filesystem.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_gpu.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_haptic.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_hidapi.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_hints.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_init.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_loadso.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_locale.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_log.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_messagebox.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_metal.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_misc.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_platform.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_process.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_render.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_storage.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_system.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_time.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_timer.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_tray.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_version.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_oldnames.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:  C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\src\SDL_hashtable.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\src\SDL_hashtable_names.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:  C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\src\SDL_hashtable_ttf.h
+[2/9] Building C object thirdparty\SDL3_ttf\CMakeFiles\SDL3_ttf-static.dir\src\SDL_hashtable.c.obj
+注意: 包含文件:  C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_stdinc.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_platform_defines.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\shared\winapifamily.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\shared\winpackagefamily.h
+注意: 包含文件:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\stdarg.h
+注意: 包含文件:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vcruntime.h
+注意: 包含文件:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\sal.h
+注意: 包含文件:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\concurrencysal.h
+注意: 包含文件:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vadefs.h
+注意: 包含文件:    C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\string.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_memory.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_memcpy_s.h
+注意: 包含文件:       C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\errno.h
+注意: 包含文件:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vcruntime_string.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wstring.h
+注意: 包含文件:    C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\wchar.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wconio.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_stdio_config.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wctype.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wdirect.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wio.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_share.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wprocess.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wstdio.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wstdlib.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wtime.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\sys/stat.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\sys/types.h
+注意: 包含文件:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\intrin.h
+注意: 包含文件:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\intrin0.inl.h
+注意: 包含文件:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\setjmp.h
+注意: 包含文件:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\immintrin.h
+注意: 包含文件:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\wmmintrin.h
+注意: 包含文件:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\nmmintrin.h
+注意: 包含文件:         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\smmintrin.h
+注意: 包含文件:          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\tmmintrin.h
+注意: 包含文件:           C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\pmmintrin.h
+注意: 包含文件:            C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\emmintrin.h
+注意: 包含文件:             C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmmintrin.h
+注意: 包含文件:              C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\mmintrin.h
+注意: 包含文件:              C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\malloc.h
+注意: 包含文件:               C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_malloc.h
+注意: 包含文件:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\zmmintrin.h
+注意: 包含文件:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\ammintrin.h
+注意: 包含文件:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\stdint.h
+注意: 包含文件:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\stdbool.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_assert.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_asyncio.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_atomic.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_audio.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_endian.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_error.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_mutex.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_thread.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_properties.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\process.h
+注意: 包含文件:       C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_startup.h
+注意: 包含文件:        C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\math.h
+注意: 包含文件:         C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_math.h
+注意: 包含文件:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vcruntime_startup.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_iostream.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_bits.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_blendmode.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_camera.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_pixels.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_surface.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_rect.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_clipboard.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_cpuinfo.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_dialog.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_video.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_dlopennote.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_events.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_gamepad.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_guid.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_joystick.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_power.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_sensor.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_keyboard.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_keycode.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_scancode.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_mouse.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_pen.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_touch.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_filesystem.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_gpu.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_haptic.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_hidapi.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_hints.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_init.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_loadso.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_locale.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_log.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_messagebox.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_metal.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_misc.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_platform.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_process.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_render.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_storage.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_system.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_time.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_timer.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_tray.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_version.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_oldnames.h
+注意: 包含文件:  C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\src\SDL_hashtable.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\src\SDL_hashtable_names.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+[3/9] Building C object thirdparty\SDL3_ttf\CMakeFiles\SDL3_ttf-static.dir\src\SDL_surface_textengine.c.obj
+注意: 包含文件:  C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\include\SDL3_ttf/SDL_textengine.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_stdinc.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_platform_defines.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\shared\winapifamily.h
+注意: 包含文件:       C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\shared\winpackagefamily.h
+注意: 包含文件:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\stdarg.h
+注意: 包含文件:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vcruntime.h
+注意: 包含文件:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\sal.h
+注意: 包含文件:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\concurrencysal.h
+注意: 包含文件:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vadefs.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\string.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_memory.h
+注意: 包含文件:       C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_memcpy_s.h
+注意: 包含文件:        C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\errno.h
+注意: 包含文件:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vcruntime_string.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wstring.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\wchar.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wconio.h
+注意: 包含文件:       C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_stdio_config.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wctype.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wdirect.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wio.h
+注意: 包含文件:       C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_share.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wprocess.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wstdio.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wstdlib.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wtime.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\sys/stat.h
+注意: 包含文件:       C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\sys/types.h
+注意: 包含文件:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\intrin.h
+注意: 包含文件:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\intrin0.inl.h
+注意: 包含文件:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\setjmp.h
+注意: 包含文件:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\immintrin.h
+注意: 包含文件:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\wmmintrin.h
+注意: 包含文件:         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\nmmintrin.h
+注意: 包含文件:          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\smmintrin.h
+注意: 包含文件:           C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\tmmintrin.h
+注意: 包含文件:            C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\pmmintrin.h
+注意: 包含文件:             C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\emmintrin.h
+注意: 包含文件:              C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmmintrin.h
+注意: 包含文件:               C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\mmintrin.h
+注意: 包含文件:               C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\malloc.h
+注意: 包含文件:                C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_malloc.h
+注意: 包含文件:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\zmmintrin.h
+注意: 包含文件:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\ammintrin.h
+注意: 包含文件:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\stdint.h
+注意: 包含文件:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\stdbool.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_assert.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_asyncio.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_atomic.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_audio.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_endian.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_error.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_mutex.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_thread.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_properties.h
+注意: 包含文件:        C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:        C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:       C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\process.h
+注意: 包含文件:        C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_startup.h
+注意: 包含文件:         C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\math.h
+注意: 包含文件:          C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_math.h
+注意: 包含文件:         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vcruntime_startup.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_iostream.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_bits.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_blendmode.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_camera.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_pixels.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_surface.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_rect.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_clipboard.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_cpuinfo.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_dialog.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_video.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_dlopennote.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_events.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_gamepad.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_guid.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_joystick.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_power.h
+注意: 包含文件:        C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:        C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_sensor.h
+注意: 包含文件:        C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:        C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_keyboard.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_keycode.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_scancode.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_mouse.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_pen.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_touch.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_filesystem.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_gpu.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_haptic.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_hidapi.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_hints.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_init.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_loadso.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_locale.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_log.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_messagebox.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_metal.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_misc.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_platform.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_process.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_render.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_storage.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_system.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_time.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_timer.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_tray.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_version.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_oldnames.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\include\SDL3_ttf/SDL_ttf.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:  C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\src\SDL_hashtable.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\src\SDL_hashtable_names.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:  C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\src\SDL_hashtable_ttf.h
+[4/9] Building C object thirdparty\SDL3_ttf\CMakeFiles\SDL3_ttf-static.dir\src\SDL_gpu_textengine.c.obj
+注意: 包含文件:  C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_stdinc.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_platform_defines.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\shared\winapifamily.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\shared\winpackagefamily.h
+注意: 包含文件:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\stdarg.h
+注意: 包含文件:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vcruntime.h
+注意: 包含文件:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\sal.h
+注意: 包含文件:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\concurrencysal.h
+注意: 包含文件:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vadefs.h
+注意: 包含文件:    C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\string.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_memory.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_memcpy_s.h
+注意: 包含文件:       C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\errno.h
+注意: 包含文件:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vcruntime_string.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wstring.h
+注意: 包含文件:    C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\wchar.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wconio.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_stdio_config.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wctype.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wdirect.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wio.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_share.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wprocess.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wstdio.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wstdlib.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wtime.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\sys/stat.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\sys/types.h
+注意: 包含文件:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\intrin.h
+注意: 包含文件:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\intrin0.inl.h
+注意: 包含文件:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\setjmp.h
+注意: 包含文件:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\immintrin.h
+注意: 包含文件:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\wmmintrin.h
+注意: 包含文件:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\nmmintrin.h
+注意: 包含文件:         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\smmintrin.h
+注意: 包含文件:          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\tmmintrin.h
+注意: 包含文件:           C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\pmmintrin.h
+注意: 包含文件:            C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\emmintrin.h
+注意: 包含文件:             C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmmintrin.h
+注意: 包含文件:              C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\mmintrin.h
+注意: 包含文件:              C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\malloc.h
+注意: 包含文件:               C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_malloc.h
+注意: 包含文件:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\zmmintrin.h
+注意: 包含文件:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\ammintrin.h
+注意: 包含文件:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\stdint.h
+注意: 包含文件:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\stdbool.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_assert.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_asyncio.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_atomic.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_audio.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_endian.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_error.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_mutex.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_thread.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_properties.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\process.h
+注意: 包含文件:       C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_startup.h
+注意: 包含文件:        C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\math.h
+注意: 包含文件:         C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_math.h
+注意: 包含文件:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vcruntime_startup.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_iostream.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_bits.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_blendmode.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_camera.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_pixels.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_surface.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_rect.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_clipboard.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_cpuinfo.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_dialog.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_video.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_dlopennote.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_events.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_gamepad.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_guid.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_joystick.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_power.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_sensor.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_keyboard.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_keycode.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_scancode.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_mouse.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_pen.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_touch.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_filesystem.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_gpu.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_haptic.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_hidapi.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_hints.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_init.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_loadso.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_locale.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_log.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_messagebox.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_metal.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_misc.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_platform.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_process.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_render.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_storage.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_system.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_time.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_timer.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_tray.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_version.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_oldnames.h
+注意: 包含文件:  C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\include\SDL3_ttf/SDL_textengine.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\include\SDL3_ttf/SDL_ttf.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:  C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\src\SDL_hashtable.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\src\SDL_hashtable_names.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:  C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\src\SDL_hashtable_ttf.h
+注意: 包含文件:  C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\src\stb_rect_pack.h
+[5/9] Building C object thirdparty\SDL3_ttf\CMakeFiles\SDL3_ttf-static.dir\src\SDL_renderer_textengine.c.obj
+注意: 包含文件:  C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\include\SDL3_ttf/SDL_textengine.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_stdinc.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_platform_defines.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\shared\winapifamily.h
+注意: 包含文件:       C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\shared\winpackagefamily.h
+注意: 包含文件:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\stdarg.h
+注意: 包含文件:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vcruntime.h
+注意: 包含文件:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\sal.h
+注意: 包含文件:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\concurrencysal.h
+注意: 包含文件:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vadefs.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\string.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_memory.h
+注意: 包含文件:       C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_memcpy_s.h
+注意: 包含文件:        C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\errno.h
+注意: 包含文件:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vcruntime_string.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wstring.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\wchar.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wconio.h
+注意: 包含文件:       C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_stdio_config.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wctype.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wdirect.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wio.h
+注意: 包含文件:       C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_share.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wprocess.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wstdio.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wstdlib.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wtime.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\sys/stat.h
+注意: 包含文件:       C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\sys/types.h
+注意: 包含文件:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\intrin.h
+注意: 包含文件:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\intrin0.inl.h
+注意: 包含文件:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\setjmp.h
+注意: 包含文件:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\immintrin.h
+注意: 包含文件:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\wmmintrin.h
+注意: 包含文件:         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\nmmintrin.h
+注意: 包含文件:          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\smmintrin.h
+注意: 包含文件:           C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\tmmintrin.h
+注意: 包含文件:            C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\pmmintrin.h
+注意: 包含文件:             C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\emmintrin.h
+注意: 包含文件:              C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmmintrin.h
+注意: 包含文件:               C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\mmintrin.h
+注意: 包含文件:               C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\malloc.h
+注意: 包含文件:                C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_malloc.h
+注意: 包含文件:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\zmmintrin.h
+注意: 包含文件:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\ammintrin.h
+注意: 包含文件:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\stdint.h
+注意: 包含文件:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\stdbool.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_assert.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_asyncio.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_atomic.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_audio.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_endian.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_error.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_mutex.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_thread.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_properties.h
+注意: 包含文件:        C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:        C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:       C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\process.h
+注意: 包含文件:        C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_startup.h
+注意: 包含文件:         C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\math.h
+注意: 包含文件:          C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_math.h
+注意: 包含文件:         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vcruntime_startup.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_iostream.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_bits.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_blendmode.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_camera.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_pixels.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_surface.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_rect.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_clipboard.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_cpuinfo.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_dialog.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_video.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_dlopennote.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_events.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_gamepad.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_guid.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_joystick.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_power.h
+注意: 包含文件:        C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:        C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_sensor.h
+注意: 包含文件:        C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:        C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_keyboard.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_keycode.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_scancode.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_mouse.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_pen.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_touch.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_filesystem.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_gpu.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_haptic.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_hidapi.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_hints.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_init.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_loadso.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_locale.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_log.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_messagebox.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_metal.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_misc.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_platform.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_process.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_render.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_storage.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_system.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_time.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_timer.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_tray.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_version.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_oldnames.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\include\SDL3_ttf/SDL_ttf.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:  C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\src\SDL_hashtable.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\src\SDL_hashtable_names.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:  C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\src\SDL_hashtable_ttf.h
+注意: 包含文件:  C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\src\stb_rect_pack.h
+[6/9] Building C object thirdparty\SDL3_ttf\CMakeFiles\SDL3_ttf-static.dir\src\SDL_ttf.c.obj
+注意: 包含文件:  C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_stdinc.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_platform_defines.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\shared\winapifamily.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\shared\winpackagefamily.h
+注意: 包含文件:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\stdarg.h
+注意: 包含文件:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vcruntime.h
+注意: 包含文件:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\sal.h
+注意: 包含文件:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\concurrencysal.h
+注意: 包含文件:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vadefs.h
+注意: 包含文件:    C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\string.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_memory.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_memcpy_s.h
+注意: 包含文件:       C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\errno.h
+注意: 包含文件:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vcruntime_string.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wstring.h
+注意: 包含文件:    C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\wchar.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wconio.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_stdio_config.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wctype.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wdirect.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wio.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_share.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wprocess.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wstdio.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wstdlib.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_wtime.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\sys/stat.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\sys/types.h
+注意: 包含文件:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\intrin.h
+注意: 包含文件:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\intrin0.inl.h
+注意: 包含文件:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\setjmp.h
+注意: 包含文件:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\immintrin.h
+注意: 包含文件:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\wmmintrin.h
+注意: 包含文件:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\nmmintrin.h
+注意: 包含文件:         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\smmintrin.h
+注意: 包含文件:          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\tmmintrin.h
+注意: 包含文件:           C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\pmmintrin.h
+注意: 包含文件:            C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\emmintrin.h
+注意: 包含文件:             C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xmmintrin.h
+注意: 包含文件:              C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\mmintrin.h
+注意: 包含文件:              C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\malloc.h
+注意: 包含文件:               C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_malloc.h
+注意: 包含文件:       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\zmmintrin.h
+注意: 包含文件:      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\ammintrin.h
+注意: 包含文件:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\stdint.h
+注意: 包含文件:    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\stdbool.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_assert.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_asyncio.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_atomic.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_audio.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_endian.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_error.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_mutex.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_thread.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_properties.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\process.h
+注意: 包含文件:       C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_startup.h
+注意: 包含文件:        C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\math.h
+注意: 包含文件:         C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_math.h
+注意: 包含文件:        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vcruntime_startup.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_iostream.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_bits.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_blendmode.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_camera.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_pixels.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_surface.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_rect.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_clipboard.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_cpuinfo.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_dialog.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_video.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_dlopennote.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_events.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_gamepad.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_guid.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_joystick.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_power.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_sensor.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_keyboard.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_keycode.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_scancode.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_mouse.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_pen.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_touch.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_filesystem.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_gpu.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_haptic.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_hidapi.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_hints.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_init.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_loadso.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_locale.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_log.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_messagebox.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_metal.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_misc.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_platform.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_process.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_render.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_storage.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_system.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_time.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_timer.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_tray.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_version.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_oldnames.h
+注意: 包含文件:  C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\include\SDL3_ttf/SDL_ttf.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:  C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\include\SDL3_ttf/SDL_textengine.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:  C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\src\SDL_hashtable.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\src\SDL_hashtable_names.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_begin_code.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3\include\SDL3/SDL_close_code.h
+注意: 包含文件:  C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\freetype\include\ft2build.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\freetype\include\freetype/config/ftheader.h
+注意: 包含文件:  C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\freetype\include\freetype/freetype.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\out\build\release\thirdparty\SDL3_ttf\external\freetype\include\freetype/config/ftconfig.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\out\build\release\thirdparty\SDL3_ttf\external\freetype\include\freetype/config/ftoption.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\freetype\include\freetype/config/ftstdlib.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\stddef.h
+注意: 包含文件:     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\limits.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\stdio.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\stdlib.h
+注意: 包含文件:      C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\corecrt_search.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\freetype\include\freetype/config/integer-types.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\freetype\include\freetype/config/public-macros.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\freetype\include\freetype/config/mac-support.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\freetype\include\freetype/fttypes.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\freetype\include\freetype/ftsystem.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\freetype\include\freetype/ftimage.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\freetype\include\freetype/fterrors.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\freetype\include\freetype/ftmoderr.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\freetype\include\freetype/fterrdef.h
+注意: 包含文件:  C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\freetype\include\freetype/ftoutln.h
+注意: 包含文件:  C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\freetype\include\freetype/ftstroke.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\freetype\include\freetype/ftglyph.h
+注意: 包含文件:  C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\freetype\include\freetype/ttnameid.h
+注意: 包含文件:  C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\freetype\include\freetype/tttables.h
+注意: 包含文件:  C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\freetype\include\freetype/ftmodapi.h
+注意: 包含文件:  C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\harfbuzz\src\hb.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\harfbuzz\src\hb-blob.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\harfbuzz\src\hb-common.h
+注意: 包含文件:     C:\Program Files (x86)\Windows Kits\10\include\10.0.26100.0\ucrt\inttypes.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\harfbuzz\src\hb-buffer.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\harfbuzz\src\hb-common.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\harfbuzz\src\hb-unicode.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\harfbuzz\src\hb-common.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\harfbuzz\src\hb-font.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\harfbuzz\src\hb-common.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\harfbuzz\src\hb-face.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\harfbuzz\src\hb-common.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\harfbuzz\src\hb-blob.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\harfbuzz\src\hb-map.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\harfbuzz\src\hb-common.h
+注意: 包含文件:       C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\harfbuzz\src\hb-set.h
+注意: 包含文件:        C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\harfbuzz\src\hb-common.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\harfbuzz\src\hb-set.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\harfbuzz\src\hb-draw.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\harfbuzz\src\hb.h
+注意: 包含文件:     C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\harfbuzz\src\hb-paint.h
+注意: 包含文件:      C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\harfbuzz\src\hb-common.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\harfbuzz\src\hb-common.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\harfbuzz\src\hb-deprecated.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\harfbuzz\src\hb-common.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\harfbuzz\src\hb-unicode.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\harfbuzz\src\hb-font.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\harfbuzz\src\hb-set.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\harfbuzz\src\hb-draw.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\harfbuzz\src\hb-face.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\harfbuzz\src\hb-font.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\harfbuzz\src\hb-map.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\harfbuzz\src\hb-paint.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\harfbuzz\src\hb-set.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\harfbuzz\src\hb-shape.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\harfbuzz\src\hb-common.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\harfbuzz\src\hb-buffer.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\harfbuzz\src\hb-font.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\harfbuzz\src\hb-shape-plan.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\harfbuzz\src\hb-common.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\harfbuzz\src\hb-font.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\harfbuzz\src\hb-style.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\harfbuzz\src\hb-unicode.h
+注意: 包含文件:   C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\harfbuzz\src\hb-version.h
+注意: 包含文件:    C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\harfbuzz\src\hb-common.h
+注意: 包含文件:  C:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\external\harfbuzz\src\hb-ft.h
+[7/9] Linking CXX static library thirdparty\SDL3_ttf\SDL3_ttf-static.lib
+[8/9] Linking CXX executable FlyMe2TheMoon.exe
+FAILED: FlyMe2TheMoon.exe 
+C:\WINDOWS\system32\cmd.exe /C "cd . && "C:\Program Files\mingw64\bin\cmake.exe" -E vs_link_exe --msvc-ver=1944 --intdir=CMakeFiles\FlyMe2TheMoon.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100261~1.0\x64\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100261~1.0\x64\mt.exe --manifests  -- C:\PROGRA~1\MICROS~3\2022\COMMUN~1\VC\Tools\MSVC\1444~1.352\bin\Hostx64\x64\link.exe /nologo CMakeFiles\FlyMe2TheMoon.dir\main.cpp.obj  /out:FlyMe2TheMoon.exe /implib:FlyMe2TheMoon.lib /pdb:FlyMe2TheMoon.pdb /version:0.0 /machine:x64 /INCREMENTAL:NO /subsystem:console /DEBUG /INCREMENTAL:NO  game\game_lib.lib  engine\engine_lib.lib  thirdparty\SDL3_image\SDL3_image-static.lib  thirdparty\SDL3_image\external\jpeg-build\jpeg.lib  thirdparty\SDL3_image\external\libpng-build\libpng16_static.lib  thirdparty\SDL3_image\external\zlib-build\zlibstatic.lib  thirdparty\SDL3_ttf\SDL3_ttf-static.lib  usp10.lib  gdi32.lib  rpcrt4.lib  thirdparty\SDL3_mixer\SDL3_mixer-static.lib  elysia_sdl_gfx.lib  thirdparty\SDL3\SDL3.lib  thirdparty\box2d\src\box2d.lib  thirdparty\enet\enet.lib  ws2_32.lib  winmm.lib  game\fly_lua.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Code\FlyMe2TheMoon\out\build\release && "C:\Program Files\mingw64\bin\cmake.exe" -E copy_if_different C:/Code/FlyMe2TheMoon/out/build/release/thirdparty/SDL3/SDL3.dll C:/Code/FlyMe2TheMoon/out/build/release""
+LINK: command "C:\PROGRA~1\MICROS~3\2022\COMMUN~1\VC\Tools\MSVC\1444~1.352\bin\Hostx64\x64\link.exe /nologo CMakeFiles\FlyMe2TheMoon.dir\main.cpp.obj /out:FlyMe2TheMoon.exe /implib:FlyMe2TheMoon.lib /pdb:FlyMe2TheMoon.pdb /version:0.0 /machine:x64 /INCREMENTAL:NO /subsystem:console /DEBUG /INCREMENTAL:NO game\game_lib.lib engine\engine_lib.lib thirdparty\SDL3_image\SDL3_image-static.lib thirdparty\SDL3_image\external\jpeg-build\jpeg.lib thirdparty\SDL3_image\external\libpng-build\libpng16_static.lib thirdparty\SDL3_image\external\zlib-build\zlibstatic.lib thirdparty\SDL3_ttf\SDL3_ttf-static.lib usp10.lib gdi32.lib rpcrt4.lib thirdparty\SDL3_mixer\SDL3_mixer-static.lib elysia_sdl_gfx.lib thirdparty\SDL3\SDL3.lib thirdparty\box2d\src\box2d.lib thirdparty\enet\enet.lib ws2_32.lib winmm.lib game\fly_lua.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST:EMBED,ID=1" failed (exit code 1319) with the following output:
+SDL3_ttf-static.lib(harfbuzz.cc.obj) : error LNK2038: 检测到“annotate_string”的不匹配项: 值�?”不匹配值�?�?main.cpp.obj �?
+
+SDL3_ttf-static.lib(harfbuzz.cc.obj) : error LNK2038: 检测到“annotate_vector”的不匹配项: 值�?”不匹配值�?�?main.cpp.obj �?
+
+FlyMe2TheMoon.exe : fatal error LNK1319: 检测到 2 个不匹配�?
+ninja: build stopped: subcommand failed.

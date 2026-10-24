@@ -1,0 +1,20 @@
+{
+  "name": "menu-selection",
+  "level": -1,
+  "duration": 3,
+  "events": [
+    {
+      "time": 0.6,
+      "key": "Return",
+      "down": true
+    },
+    {
+      "time": 0.7,
+      "key": "Return",
+      "down": false
+    }
+  ],
+  "expect": {
+    "scene": 3
+  }
+}

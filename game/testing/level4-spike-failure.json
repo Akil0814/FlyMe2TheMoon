@@ -1,0 +1,82 @@
+{
+  "name": "level4-spike-failure",
+  "level": 4,
+  "duration": 8,
+  "events": [
+    {
+      "time": 1.2,
+      "key": "Return",
+      "down": true
+    },
+    {
+      "time": 1.3,
+      "key": "Return",
+      "down": false
+    },
+    {
+      "time": 1.8,
+      "key": "Return",
+      "down": true
+    },
+    {
+      "time": 1.9000000000000001,
+      "key": "Return",
+      "down": false
+    },
+    {
+      "time": 2.4,
+      "key": "Return",
+      "down": true
+    },
+    {
+      "time": 2.5,
+      "key": "Return",
+      "down": false
+    },
+    {
+      "time": 3,
+      "key": "Return",
+      "down": true
+    },
+    {
+      "time": 3.1,
+      "key": "Return",
+      "down": false
+    },
+    {
+      "time": 3.6,
+      "key": "Return",
+      "down": true
+    },
+    {
+      "time": 3.7,
+      "key": "Return",
+      "down": false
+    },
+    {
+      "time": 4.2,
+      "key": "Return",
+      "down": true
+    },
+    {
+      "time": 4.3,
+      "key": "Return",
+      "down": false
+    },
+    {
+      "time": 5,
+      "key": "Space",
+      "down": true
+    },
+    {
+      "time": 7,
+      "key": "Space",
+      "down": false
+    }
+  ],
+  "expect": {
+    "level": 4,
+    "finished": true,
+    "success": false
+  }
+}

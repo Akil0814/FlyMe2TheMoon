@@ -1,0 +1,20 @@
+2026-10-23 22:00:54 [INFO] [application] (application.cpp:460) SDL3 GPU backend: direct3d12
+2026-10-23 22:00:54 [INFO] [scene] (scene_manager.cpp:216) Switching to SceneKey 4294901761 with reload mode 0
+2026-10-23 22:00:55 [INFO] [resource] (game_content_loader.cpp:143) Total requests built: 1205, total work units: 1479
+2026-10-23 22:01:00 [INFO] [scene] (scene_manager.cpp:216) Switching to SceneKey 2 with reload mode 2
+2026-10-23 22:01:00 [INFO] [fly.test] (replay_probe.cpp:18) Input replay started; no simulation overrides
+2026-10-23 22:01:00 [INFO] [fly.story] (flight_scene.cpp:155) Dialogue: Level1-1
+2026-10-23 22:01:00 [INFO] [fly] (flight_scene.cpp:59) Entered level 1: 14 entities, 1 contours
+2026-10-23 22:01:02 [INFO] [fly.story] (flight_scene.cpp:155) Dialogue: ~~~~~~
+2026-10-23 22:01:05 [INFO] [fly.story] (flight_scene.cpp:155) Dialogue: Level1-2
+2026-10-23 22:01:06 [INFO] [fly.story] (flight_scene.cpp:155) Dialogue: Level1-3
+2026-10-23 22:01:06 [INFO] [fly.story] (flight_scene.cpp:155) Dialogue: Level1-4
+2026-10-23 22:01:07 [INFO] [fly.story] (flight_scene.cpp:155) Dialogue: Level1-5
+2026-10-23 22:01:08 [INFO] [fly.story] (flight_scene.cpp:155) Dialogue: Level1-6
+2026-10-23 22:01:08 [INFO] [fly.story] (flight_scene.cpp:155) Dialogue: Level1-7
+2026-10-23 22:01:12 [INFO] [fly.story] (flight_scene.cpp:134) Original Rep_rd_1 file missing: demonstrating vertical thrust through the normal physics path
+2026-10-23 22:01:12 [INFO] [fly.story] (flight_scene.cpp:155) Dialogue: Level1-8
+2026-10-23 22:01:15 [ERROR] [scene] (scene.cpp:348) APPLICATION-FATAL [scene]
+Invalid level clear result
+[1] type=scene key=2 reason=Update source=scene.cpp:348
+2026-10-23 22:01:15 [INFO] [scene] (scene_manager.cpp:216) Switching to SceneKey 4294901765 with reload mode 2

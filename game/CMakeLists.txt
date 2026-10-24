@@ -1,10 +1,32 @@
 file(GLOB_RECURSE GAME CONFIGURE_DEPENDS "*.cpp")
+list(FILTER GAME EXCLUDE REGEX "/tests/.*\\.cpp$")
 
 add_library(game_lib ${GAME})
+file(GLOB LUA_SOURCES CONFIGURE_DEPENDS "vendor/lua/*.c")
+add_library(fly_lua STATIC ${LUA_SOURCES})
+target_include_directories(fly_lua PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/vendor/lua")
 
 target_include_directories(game_lib PUBLIC ${PROJECT_SOURCE_DIR})
-target_link_libraries(game_lib PUBLIC engine_lib)
+target_link_libraries(game_lib PUBLIC engine_lib fly_lua)
 
 # Propagate objects directly to executables so registration-only units are not
 # discarded as unreferenced members of a static library.
 target_link_libraries(game_lib)
+
+if(BUILD_TESTING)
+    add_executable(fly_game_tests tests/progress_tests.cpp)
+    target_link_libraries(fly_game_tests PRIVATE game_lib)
+    elysia_copy_sdl_runtime(fly_game_tests)
+    add_test(NAME fly_game_rules_and_save COMMAND fly_game_tests)
+    set_tests_properties(fly_game_rules_and_save PROPERTIES WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}")
+    add_executable(fly_story_tests tests/story_tests.cpp)
+    target_link_libraries(fly_story_tests PRIVATE game_lib)
+    elysia_copy_sdl_runtime(fly_story_tests)
+    add_test(NAME fly_original_story COMMAND fly_story_tests)
+    set_tests_properties(fly_original_story PROPERTIES WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}")
+    add_executable(fly_mechanism_tests tests/mechanism_tests.cpp)
+    target_link_libraries(fly_mechanism_tests PRIVATE game_lib)
+    elysia_copy_sdl_runtime(fly_mechanism_tests)
+    add_test(NAME fly_mechanisms COMMAND fly_mechanism_tests)
+    set_tests_properties(fly_mechanisms PROPERTIES WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}")
+endif()

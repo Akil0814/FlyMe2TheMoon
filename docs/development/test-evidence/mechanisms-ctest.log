@@ -1,0 +1,32 @@
+Test project C:/Code/FlyMe2TheMoon/out/build/release
+    Start 1: fly_game_rules_and_save
+1/3 Test #1: fly_game_rules_and_save ..........   Passed    0.10 sec
+    Start 2: fly_original_story
+2/3 Test #2: fly_original_story ...............   Passed    0.29 sec
+    Start 3: fly_mechanisms
+Could not find executable C:/Code/FlyMe2TheMoon/out/build/release/game/fly_mechanism_tests.exe
+Looked in the following places:
+C:/Code/FlyMe2TheMoon/out/build/release/game/fly_mechanism_tests.exe
+C:/Code/FlyMe2TheMoon/out/build/release/game/fly_mechanism_tests.exe.exe
+C:/Code/FlyMe2TheMoon/out/build/release/game/Release/fly_mechanism_tests.exe
+C:/Code/FlyMe2TheMoon/out/build/release/game/Release/fly_mechanism_tests.exe.exe
+C:/Code/FlyMe2TheMoon/out/build/release/game/Debug/fly_mechanism_tests.exe
+C:/Code/FlyMe2TheMoon/out/build/release/game/Debug/fly_mechanism_tests.exe.exe
+C:/Code/FlyMe2TheMoon/out/build/release/game/MinSizeRel/fly_mechanism_tests.exe
+C:/Code/FlyMe2TheMoon/out/build/release/game/MinSizeRel/fly_mechanism_tests.exe.exe
+C:/Code/FlyMe2TheMoon/out/build/release/game/RelWithDebInfo/fly_mechanism_tests.exe
+C:/Code/FlyMe2TheMoon/out/build/release/game/RelWithDebInfo/fly_mechanism_tests.exe.exe
+C:/Code/FlyMe2TheMoon/out/build/release/game/Deployment/fly_mechanism_tests.exe
+C:/Code/FlyMe2TheMoon/out/build/release/game/Deployment/fly_mechanism_tests.exe.exe
+Unable to find executable: C:/Code/FlyMe2TheMoon/out/build/release/game/fly_mechanism_tests.exe
+C:/Code/FlyMe2TheMoon/out/build/release/game/Development/fly_mechanism_tests.exe
+C:/Code/FlyMe2TheMoon/out/build/release/game/Development/fly_mechanism_tests.exe.exe
+3/3 Test #3: fly_mechanisms ...................***Not Run   0.00 sec
+
+67% tests passed, 1 tests failed out of 3
+
+Total Test time (real) =   0.51 sec
+
+The following tests FAILED:
+	  3 - fly_mechanisms (Not Run)
+Errors while running CTest

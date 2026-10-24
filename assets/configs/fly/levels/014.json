@@ -1,0 +1,4752 @@
+{
+  "id": 14,
+  "width": 1280.0,
+  "height": 2880.0,
+  "suite": 1,
+  "born": [
+    352.0,
+    2544.0
+  ],
+  "decor": [
+    {
+      "key": "fly.far1.Farground_011",
+      "x": 86.0,
+      "y": 2518.5,
+      "w": 164.0,
+      "h": 129.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Farground",
+      "layerWidth": 608.0,
+      "layerHeight": 1200.0
+    },
+    {
+      "key": "fly.far1.Farground_012",
+      "x": 104.0,
+      "y": 2329.0,
+      "w": 263.5,
+      "h": 80.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Farground",
+      "layerWidth": 608.0,
+      "layerHeight": 1200.0
+    },
+    {
+      "key": "fly.far1.Farground_001",
+      "x": 18.0,
+      "y": 2404.0,
+      "w": 53.0,
+      "h": 40.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Farground",
+      "layerWidth": 608.0,
+      "layerHeight": 1200.0
+    },
+    {
+      "key": "fly.far1.Farground_004",
+      "x": -3.0,
+      "y": 2176.5,
+      "w": 61.0,
+      "h": 53.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Farground",
+      "layerWidth": 608.0,
+      "layerHeight": 1200.0
+    },
+    {
+      "key": "fly.far1.Farground_007",
+      "x": 167.0,
+      "y": 2127.0,
+      "w": 145.0,
+      "h": 66.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Farground",
+      "layerWidth": 608.0,
+      "layerHeight": 1200.0
+    },
+    {
+      "key": "fly.far1.Farground_006",
+      "x": 319.0,
+      "y": 2065.5,
+      "w": 92.0,
+      "h": 48.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Farground",
+      "layerWidth": 608.0,
+      "layerHeight": 1200.0
+    },
+    {
+      "key": "fly.far1.Farground_001",
+      "x": 228.0,
+      "y": 1974.0,
+      "w": 53.0,
+      "h": 40.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Farground",
+      "layerWidth": 608.0,
+      "layerHeight": 1200.0
+    },
+    {
+      "key": "fly.terrain1.Texture_027",
+      "x": 501.0,
+      "y": 1326.0,
+      "w": 113.0,
+      "h": 105.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_027",
+      "x": 501.5,
+      "y": 1095.0,
+      "w": 113.0,
+      "h": 105.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_056",
+      "x": 639.8,
+      "y": 784.6500000000001,
+      "w": 216.0,
+      "h": 198.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_062",
+      "x": 253.33,
+      "y": 1248.0,
+      "w": 80.0,
+      "h": 74.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_069",
+      "x": 355.0,
+      "y": 1388.0,
+      "w": 75.5,
+      "h": 86.0,
+      "rotation": 30.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_062",
+      "x": 218.69,
+      "y": 1722.42,
+      "w": 80.0,
+      "h": 74.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_068",
+      "x": 385.81,
+      "y": 2082.12,
+      "w": 56.0,
+      "h": 61.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_055",
+      "x": 285.19,
+      "y": 1913.92,
+      "w": 14.0,
+      "h": 12.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_064",
+      "x": 440.65,
+      "y": 1702.31,
+      "w": 78.0,
+      "h": 99.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_035",
+      "x": 370.5,
+      "y": 1578.5,
+      "w": 42.5,
+      "h": 26.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_028",
+      "x": 364.5,
+      "y": 1506.0,
+      "w": 98.0,
+      "h": 96.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_066",
+      "x": 411.0,
+      "y": 2211.0,
+      "w": 73.5,
+      "h": 81.5,
+      "rotation": 180.0,
+      "flip": true,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_062",
+      "x": 251.0,
+      "y": 2284.0,
+      "w": 80.0,
+      "h": 74.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_067",
+      "x": 175.5,
+      "y": 2243.5,
+      "w": 73.0,
+      "h": 78.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_026",
+      "x": 687.0,
+      "y": 1369.5,
+      "w": 157.5,
+      "h": 158.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_067",
+      "x": 222.5,
+      "y": 2243.5,
+      "w": 73.0,
+      "h": 78.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_067",
+      "x": 438.5,
+      "y": 2243.5,
+      "w": 73.0,
+      "h": 78.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_067",
+      "x": 230.15,
+      "y": 2161.45,
+      "w": 73.0,
+      "h": 78.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_067",
+      "x": 187.85,
+      "y": 2160.45,
+      "w": 73.0,
+      "h": 78.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_028",
+      "x": 216.7,
+      "y": 1184.8,
+      "w": 98.0,
+      "h": 96.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_056",
+      "x": 263.5,
+      "y": 2127.0,
+      "w": 216.0,
+      "h": 198.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_063",
+      "x": 390.5,
+      "y": 2077.0,
+      "w": 91.5,
+      "h": 110.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_064",
+      "x": 266.0,
+      "y": 2088.0,
+      "w": 78.0,
+      "h": 99.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_067",
+      "x": 443.5,
+      "y": 2164.5,
+      "w": 73.0,
+      "h": 78.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_063",
+      "x": 413.5,
+      "y": 2484.0,
+      "w": 91.5,
+      "h": 110.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_066",
+      "x": 320.0,
+      "y": 2510.5,
+      "w": 73.5,
+      "h": 81.5,
+      "rotation": 0.0,
+      "flip": true,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_060",
+      "x": 225.5,
+      "y": 2547.0,
+      "w": 278.0,
+      "h": 86.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_055",
+      "x": 251.5,
+      "y": 2310.5,
+      "w": 14.0,
+      "h": 12.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_040",
+      "x": 255.0,
+      "y": 2616.0,
+      "w": 325.5,
+      "h": 245.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_040",
+      "x": 466.0,
+      "y": 2385.0,
+      "w": 325.5,
+      "h": 245.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_050",
+      "x": 466.0,
+      "y": 2588.5,
+      "w": 33.5,
+      "h": 29.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_052",
+      "x": 462.0,
+      "y": 2607.0,
+      "w": 31.5,
+      "h": 29.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_040",
+      "x": 565.0,
+      "y": 2620.0,
+      "w": 325.5,
+      "h": 245.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_028",
+      "x": 620.0,
+      "y": 1430.5,
+      "w": 98.0,
+      "h": 96.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_067",
+      "x": 485.5,
+      "y": 2241.5,
+      "w": 73.0,
+      "h": 78.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_067",
+      "x": 484.3,
+      "y": 2160.45,
+      "w": 73.0,
+      "h": 78.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_040",
+      "x": -55.5,
+      "y": 2614.0,
+      "w": 325.5,
+      "h": 245.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_040",
+      "x": -56.5,
+      "y": 2381.0,
+      "w": 325.5,
+      "h": 245.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_052",
+      "x": 239.5,
+      "y": 2602.0,
+      "w": 31.5,
+      "h": 29.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_062",
+      "x": 281.33,
+      "y": 1181.6,
+      "w": 80.0,
+      "h": 74.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_043",
+      "x": 465.0,
+      "y": 2303.5,
+      "w": 113.5,
+      "h": 103.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_043",
+      "x": 271.5,
+      "y": 2305.0,
+      "w": 113.5,
+      "h": 103.0,
+      "rotation": 0.0,
+      "flip": true,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_041",
+      "x": 545.0,
+      "y": 2232.5,
+      "w": 166.0,
+      "h": 165.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_066",
+      "x": 862.5,
+      "y": 924.0,
+      "w": 73.5,
+      "h": 81.5,
+      "rotation": 243.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_041",
+      "x": 30.5,
+      "y": 2229.0,
+      "w": 166.0,
+      "h": 165.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_047",
+      "x": 442.5,
+      "y": 2224.0,
+      "w": 40.5,
+      "h": 40.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_046",
+      "x": 463.33,
+      "y": 2161.0,
+      "w": 31.0,
+      "h": 63.0,
+      "rotation": 90.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_047",
+      "x": 516.7,
+      "y": 2222.7,
+      "w": 40.5,
+      "h": 40.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_051",
+      "x": 532.7,
+      "y": 2218.83,
+      "w": 41.0,
+      "h": 23.5,
+      "rotation": 189.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_049",
+      "x": 469.0,
+      "y": 2210.33,
+      "w": 17.5,
+      "h": 35.0,
+      "rotation": 90.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_040",
+      "x": 539.33,
+      "y": 2021.6999999999998,
+      "w": 325.5,
+      "h": 245.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_068",
+      "x": 220.7,
+      "y": 1254.33,
+      "w": 56.0,
+      "h": 61.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_049",
+      "x": 470.0,
+      "y": 2133.33,
+      "w": 17.5,
+      "h": 35.0,
+      "rotation": 90.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_051",
+      "x": 533.7,
+      "y": 2141.83,
+      "w": 41.0,
+      "h": 23.5,
+      "rotation": 189.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_049",
+      "x": 245.0,
+      "y": 2210.0,
+      "w": 17.5,
+      "h": 35.0,
+      "rotation": 90.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_047",
+      "x": 517.7,
+      "y": 2139.7,
+      "w": 40.5,
+      "h": 40.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_046",
+      "x": 464.33,
+      "y": 2084.0,
+      "w": 31.0,
+      "h": 63.0,
+      "rotation": 90.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_047",
+      "x": 443.5,
+      "y": 2147.0,
+      "w": 40.5,
+      "h": 40.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_060",
+      "x": 572.95,
+      "y": 515.25,
+      "w": 278.0,
+      "h": 86.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_048",
+      "x": 518.53,
+      "y": 2162.33,
+      "w": 29.5,
+      "h": 24.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_063",
+      "x": 586.0,
+      "y": 1372.0,
+      "w": 91.5,
+      "h": 110.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_051",
+      "x": 448.2,
+      "y": 2140.8,
+      "w": 41.0,
+      "h": 23.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_049",
+      "x": 480.3,
+      "y": 2104.93,
+      "w": 17.5,
+      "h": 35.0,
+      "rotation": 90.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_048",
+      "x": 499.3,
+      "y": 2138.23,
+      "w": 29.5,
+      "h": 24.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_045",
+      "x": 237.0,
+      "y": 2162.0,
+      "w": 34.0,
+      "h": 62.0,
+      "rotation": 90.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_049",
+      "x": 299.0,
+      "y": 2210.0,
+      "w": 17.5,
+      "h": 35.0,
+      "rotation": 270.0,
+      "flip": true,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_047",
+      "x": 217.73,
+      "y": 2223.67,
+      "w": 40.5,
+      "h": 40.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_055",
+      "x": 245.0,
+      "y": 2226.5,
+      "w": 14.0,
+      "h": 12.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_050",
+      "x": 197.2,
+      "y": 2225.5,
+      "w": 33.5,
+      "h": 29.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_051",
+      "x": 184.5,
+      "y": 2240.17,
+      "w": 41.0,
+      "h": 23.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_063",
+      "x": 331.83,
+      "y": 1413.83,
+      "w": 91.5,
+      "h": 110.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_064",
+      "x": 659.0,
+      "y": 1322.0,
+      "w": 78.0,
+      "h": 99.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_049",
+      "x": 199.0,
+      "y": 2210.0,
+      "w": 17.5,
+      "h": 35.0,
+      "rotation": 90.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_062",
+      "x": 633.0,
+      "y": 1383.0,
+      "w": 80.0,
+      "h": 74.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_050",
+      "x": 176.5,
+      "y": 2220.8,
+      "w": 33.5,
+      "h": 29.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_050",
+      "x": 177.5,
+      "y": 2135.8,
+      "w": 33.5,
+      "h": 29.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_063",
+      "x": 770.8,
+      "y": 709.6500000000001,
+      "w": 91.5,
+      "h": 110.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_049",
+      "x": 200.0,
+      "y": 2125.0,
+      "w": 17.5,
+      "h": 35.0,
+      "rotation": 90.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_051",
+      "x": 185.5,
+      "y": 2155.17,
+      "w": 41.0,
+      "h": 23.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_062",
+      "x": 574.85,
+      "y": 566.4000000000001,
+      "w": 80.0,
+      "h": 74.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_050",
+      "x": 198.2,
+      "y": 2140.5,
+      "w": 33.5,
+      "h": 29.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_055",
+      "x": 246.0,
+      "y": 2141.5,
+      "w": 14.0,
+      "h": 12.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_047",
+      "x": 218.73,
+      "y": 2138.67,
+      "w": 40.5,
+      "h": 40.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_049",
+      "x": 300.0,
+      "y": 2125.0,
+      "w": 17.5,
+      "h": 35.0,
+      "rotation": 270.0,
+      "flip": true,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_045",
+      "x": 238.0,
+      "y": 2077.0,
+      "w": 34.0,
+      "h": 62.0,
+      "rotation": 90.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_049",
+      "x": 266.0,
+      "y": 2133.0,
+      "w": 17.5,
+      "h": 35.0,
+      "rotation": 90.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_051",
+      "x": 274.83,
+      "y": 2140.17,
+      "w": 41.0,
+      "h": 23.5,
+      "rotation": 189.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_046",
+      "x": 189.5,
+      "y": 2091.33,
+      "w": 31.0,
+      "h": 63.0,
+      "rotation": 90.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_040",
+      "x": -122.17,
+      "y": 2000.0,
+      "w": 325.5,
+      "h": 245.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_040",
+      "x": 536.5,
+      "y": 1801.0,
+      "w": 325.5,
+      "h": 245.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_040",
+      "x": -113.15,
+      "y": 1768.95,
+      "w": 325.5,
+      "h": 245.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_049",
+      "x": 463.0,
+      "y": 1746.0,
+      "w": 17.5,
+      "h": 35.0,
+      "rotation": 180.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_046",
+      "x": 451.0,
+      "y": 1717.0,
+      "w": 31.0,
+      "h": 63.0,
+      "rotation": 93.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_045",
+      "x": 449.54,
+      "y": 1730.81,
+      "w": 34.0,
+      "h": 62.0,
+      "rotation": 90.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_046",
+      "x": 276.19,
+      "y": 1751.31,
+      "w": 31.0,
+      "h": 63.0,
+      "rotation": -90.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_045",
+      "x": 214.88,
+      "y": 1731.88,
+      "w": 34.0,
+      "h": 62.0,
+      "rotation": 90.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_050",
+      "x": 197.62,
+      "y": 1798.65,
+      "w": 33.5,
+      "h": 29.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_051",
+      "x": 202.23,
+      "y": 1779.23,
+      "w": 41.0,
+      "h": 23.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_040",
+      "x": 491.0,
+      "y": 1586.0,
+      "w": 325.5,
+      "h": 245.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_040",
+      "x": -82.1,
+      "y": 1554.95,
+      "w": 325.5,
+      "h": 245.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_041",
+      "x": 667.0,
+      "y": 1487.0,
+      "w": 166.0,
+      "h": 165.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_040",
+      "x": 817.0,
+      "y": 1486.0,
+      "w": 325.5,
+      "h": 245.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_040",
+      "x": 115.5,
+      "y": 960.0,
+      "w": 325.5,
+      "h": 245.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_050",
+      "x": 405.5,
+      "y": 1170.5,
+      "w": 33.5,
+      "h": 29.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_040",
+      "x": 816.5,
+      "y": 760.0,
+      "w": 325.5,
+      "h": 245.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_040",
+      "x": 817.5,
+      "y": 966.0,
+      "w": 325.5,
+      "h": 245.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_040",
+      "x": 256.86,
+      "y": 551.4299999999998,
+      "w": 325.5,
+      "h": 245.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_040",
+      "x": 235.5,
+      "y": 766.4300000000001,
+      "w": 325.5,
+      "h": 245.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_043",
+      "x": 424.07,
+      "y": 988.4300000000001,
+      "w": 113.5,
+      "h": 103.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_040",
+      "x": 492.36,
+      "y": 220.28999999999996,
+      "w": 325.5,
+      "h": 245.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_040",
+      "x": 805.21,
+      "y": 257.42999999999984,
+      "w": 325.5,
+      "h": 245.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_040",
+      "x": 943.79,
+      "y": 454.57000000000016,
+      "w": 325.5,
+      "h": 245.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_089",
+      "x": 259.9,
+      "y": 1474.95,
+      "w": 277.5,
+      "h": 98.0,
+      "rotation": 195.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_043",
+      "x": 475.0,
+      "y": 1223.0,
+      "w": 113.5,
+      "h": 103.0,
+      "rotation": 180.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_069",
+      "x": 368.5,
+      "y": 2504.0,
+      "w": 75.5,
+      "h": 86.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_069",
+      "x": 320.0,
+      "y": 2202.0,
+      "w": 75.5,
+      "h": 86.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_069",
+      "x": 496.0,
+      "y": 1482.0,
+      "w": 75.5,
+      "h": 86.0,
+      "rotation": 180.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_047",
+      "x": 381.2,
+      "y": 1544.5,
+      "w": 40.5,
+      "h": 40.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_027",
+      "x": 405.17,
+      "y": 1427.13,
+      "w": 113.0,
+      "h": 105.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_030",
+      "x": 442.47,
+      "y": 1512.13,
+      "w": 33.5,
+      "h": 66.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_034",
+      "x": 463.17,
+      "y": 1521.93,
+      "w": 34.0,
+      "h": 31.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_030",
+      "x": 384.5,
+      "y": 1431.83,
+      "w": 33.5,
+      "h": 66.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_036",
+      "x": 389.17,
+      "y": 1488.63,
+      "w": 34.5,
+      "h": 31.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_036",
+      "x": 366.5,
+      "y": 1433.67,
+      "w": 34.5,
+      "h": 31.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_067",
+      "x": 442.5,
+      "y": 1533.33,
+      "w": 73.0,
+      "h": 78.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_037",
+      "x": 387.83,
+      "y": 1591.5,
+      "w": 25.0,
+      "h": 23.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_030",
+      "x": 603.5,
+      "y": 1455.0,
+      "w": 33.5,
+      "h": 66.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_031",
+      "x": 799.0,
+      "y": 1370.0,
+      "w": 39.5,
+      "h": 41.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_037",
+      "x": 780.0,
+      "y": 1370.0,
+      "w": 25.0,
+      "h": 23.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_036",
+      "x": 760.0,
+      "y": 1355.5,
+      "w": 34.5,
+      "h": 31.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_034",
+      "x": 669.0,
+      "y": 1408.5,
+      "w": 34.0,
+      "h": 31.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_066",
+      "x": 754.0,
+      "y": 1321.5,
+      "w": 73.5,
+      "h": 81.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_060",
+      "x": 652.55,
+      "y": 669.8499999999999,
+      "w": 278.0,
+      "h": 86.0,
+      "rotation": 111.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_062",
+      "x": 623.55,
+      "y": 929.8499999999999,
+      "w": 80.0,
+      "h": 74.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_069",
+      "x": 802.5,
+      "y": 861.5,
+      "w": 75.5,
+      "h": 86.0,
+      "rotation": 180.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_065",
+      "x": 721.8,
+      "y": 757.6500000000001,
+      "w": 79.5,
+      "h": 86.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_066",
+      "x": 795.0,
+      "y": 573.5,
+      "w": 73.5,
+      "h": 81.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_068",
+      "x": 778.0,
+      "y": 564.0,
+      "w": 56.0,
+      "h": 61.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_041",
+      "x": 377.5,
+      "y": 1037.0,
+      "w": 166.0,
+      "h": 165.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_043",
+      "x": 511.0,
+      "y": 1394.0,
+      "w": 113.5,
+      "h": 103.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_043",
+      "x": 437.0,
+      "y": 1324.0,
+      "w": 113.5,
+      "h": 103.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_045",
+      "x": 460.5,
+      "y": 1342.65,
+      "w": 34.0,
+      "h": 62.0,
+      "rotation": 96.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_045",
+      "x": 495.0,
+      "y": 1431.0,
+      "w": 34.0,
+      "h": 62.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_047",
+      "x": 577.0,
+      "y": 1378.0,
+      "w": 40.5,
+      "h": 40.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_049",
+      "x": 570.0,
+      "y": 1370.0,
+      "w": 17.5,
+      "h": 35.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_052",
+      "x": 578.0,
+      "y": 1355.0,
+      "w": 31.5,
+      "h": 29.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_053",
+      "x": 594.0,
+      "y": 1367.6,
+      "w": 22.0,
+      "h": 20.0,
+      "rotation": -15.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_055",
+      "x": 445.35,
+      "y": 1810.25,
+      "w": 14.0,
+      "h": 12.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_047",
+      "x": 263.85,
+      "y": 1781.85,
+      "w": 40.5,
+      "h": 40.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_053",
+      "x": 275.85,
+      "y": 1806.85,
+      "w": 22.0,
+      "h": 20.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_069",
+      "x": 347.5,
+      "y": 2081.0,
+      "w": 75.5,
+      "h": 86.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_055",
+      "x": 502.0,
+      "y": 1817.5,
+      "w": 14.0,
+      "h": 12.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_055",
+      "x": 267.5,
+      "y": 1815.5,
+      "w": 14.0,
+      "h": 12.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_041",
+      "x": -119.5,
+      "y": 2231.15,
+      "w": 166.0,
+      "h": 165.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_041",
+      "x": 697.0,
+      "y": 2248.0,
+      "w": 166.0,
+      "h": 165.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_040",
+      "x": 188.5,
+      "y": 325.6500000000001,
+      "w": 325.5,
+      "h": 245.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Texture_040",
+      "x": 188.5,
+      "y": 100.65000000000009,
+      "w": 325.5,
+      "h": 245.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Texture",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_081",
+      "x": 556.5,
+      "y": 1028.15,
+      "w": 76.5,
+      "h": 83.0,
+      "rotation": 189.0,
+      "flip": true,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_073",
+      "x": 55.5,
+      "y": 1378.6,
+      "w": 205.0,
+      "h": 223.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_073",
+      "x": -101.0,
+      "y": 1360.0,
+      "w": 205.0,
+      "h": 223.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_073",
+      "x": 56.0,
+      "y": 1224.0,
+      "w": 205.0,
+      "h": 223.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_072",
+      "x": -113.0,
+      "y": 1213.5,
+      "w": 213.5,
+      "h": 195.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_072",
+      "x": -118.0,
+      "y": 1053.5,
+      "w": 213.5,
+      "h": 195.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_089",
+      "x": 62.0,
+      "y": 905.0,
+      "w": 277.5,
+      "h": 98.0,
+      "rotation": 90.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_092",
+      "x": 93.0,
+      "y": 1133.5,
+      "w": 90.5,
+      "h": 122.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_093",
+      "x": 172.0,
+      "y": 1130.0,
+      "w": 78.0,
+      "h": 111.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_097",
+      "x": 140.0,
+      "y": 1163.5,
+      "w": 55.5,
+      "h": 72.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_083",
+      "x": 117.0,
+      "y": 1199.5,
+      "w": 71.0,
+      "h": 75.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_082",
+      "x": 178.0,
+      "y": 1206.5,
+      "w": 70.5,
+      "h": 78.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_084",
+      "x": 165.0,
+      "y": 1210.0,
+      "w": 53.5,
+      "h": 58.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_089",
+      "x": 529.0,
+      "y": 1030.0,
+      "w": 277.5,
+      "h": 98.0,
+      "rotation": -69.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_093",
+      "x": 587.0,
+      "y": 975.0,
+      "w": 78.0,
+      "h": 111.0,
+      "rotation": 192.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_084",
+      "x": 570.55,
+      "y": 893.8499999999999,
+      "w": 53.5,
+      "h": 58.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_094",
+      "x": 533.5,
+      "y": 733.9000000000001,
+      "w": 79.0,
+      "h": 97.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_082",
+      "x": 520.45,
+      "y": 799.3499999999999,
+      "w": 70.5,
+      "h": 78.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_083",
+      "x": 561.5,
+      "y": 806.3499999999999,
+      "w": 71.0,
+      "h": 75.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_089",
+      "x": 322.85,
+      "y": 424.4000000000001,
+      "w": 277.5,
+      "h": 98.0,
+      "rotation": 177.0,
+      "flip": true,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_088",
+      "x": 424.95,
+      "y": 413.75,
+      "w": 278.0,
+      "h": 128.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_088",
+      "x": 666.95,
+      "y": 389.75,
+      "w": 278.0,
+      "h": 128.5,
+      "rotation": 15.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_076",
+      "x": 567.95,
+      "y": 483.25,
+      "w": 275.5,
+      "h": 83.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_088",
+      "x": 1128.5,
+      "y": 557.5,
+      "w": 278.0,
+      "h": 128.5,
+      "rotation": 180.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_089",
+      "x": 886.75,
+      "y": 396.5500000000002,
+      "w": 277.5,
+      "h": 98.0,
+      "rotation": 75.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_092",
+      "x": 883.0,
+      "y": 1361.5,
+      "w": 90.5,
+      "h": 122.5,
+      "rotation": 96.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_082",
+      "x": 826.0,
+      "y": 526.0,
+      "w": 70.5,
+      "h": 78.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_083",
+      "x": 863.0,
+      "y": 561.0,
+      "w": 71.0,
+      "h": 75.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_087",
+      "x": 848.0,
+      "y": 646.0,
+      "w": 70.0,
+      "h": 73.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_087",
+      "x": 893.0,
+      "y": 635.0,
+      "w": 70.0,
+      "h": 73.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_084",
+      "x": 844.0,
+      "y": 592.5,
+      "w": 53.5,
+      "h": 58.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_084",
+      "x": 851.0,
+      "y": 617.5,
+      "w": 53.5,
+      "h": 58.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_084",
+      "x": 882.0,
+      "y": 608.5,
+      "w": 53.5,
+      "h": 58.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_089",
+      "x": 811.0,
+      "y": 1126.0,
+      "w": 277.5,
+      "h": 98.0,
+      "rotation": 6.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_088",
+      "x": 1092.0,
+      "y": 1284.5,
+      "w": 278.0,
+      "h": 128.5,
+      "rotation": 180.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_094",
+      "x": 914.0,
+      "y": 1399.5,
+      "w": 79.0,
+      "h": 97.5,
+      "rotation": 180.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_073",
+      "x": 805.0,
+      "y": 1153.0,
+      "w": 205.0,
+      "h": 223.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_073",
+      "x": 965.0,
+      "y": 1164.0,
+      "w": 205.0,
+      "h": 223.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_076",
+      "x": 812.0,
+      "y": 1328.0,
+      "w": 275.5,
+      "h": 83.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_076",
+      "x": 1092.0,
+      "y": 1362.0,
+      "w": 275.5,
+      "h": 83.0,
+      "rotation": 0.0,
+      "flip": true,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_078",
+      "x": 605.0,
+      "y": 1337.5,
+      "w": 78.0,
+      "h": 71.5,
+      "rotation": 30.0,
+      "flip": true,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_098",
+      "x": 687.0,
+      "y": 1445.0,
+      "w": 75.0,
+      "h": 98.0,
+      "rotation": 144.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_099",
+      "x": 668.0,
+      "y": 1384.0,
+      "w": 79.0,
+      "h": 111.0,
+      "rotation": 117.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_087",
+      "x": 617.0,
+      "y": 1477.5,
+      "w": 70.0,
+      "h": 73.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_087",
+      "x": 549.0,
+      "y": 1445.5,
+      "w": 70.0,
+      "h": 73.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_082",
+      "x": 466.0,
+      "y": 1529.5,
+      "w": 70.5,
+      "h": 78.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_092",
+      "x": 590.0,
+      "y": 1416.5,
+      "w": 90.5,
+      "h": 122.5,
+      "rotation": 180.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_096",
+      "x": 624.5,
+      "y": 1454.0,
+      "w": 73.0,
+      "h": 90.0,
+      "rotation": 180.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_097",
+      "x": 663.5,
+      "y": 1487.5,
+      "w": 55.5,
+      "h": 72.5,
+      "rotation": 180.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_083",
+      "x": 601.5,
+      "y": 1506.5,
+      "w": 71.0,
+      "h": 75.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_082",
+      "x": 418.0,
+      "y": 1371.5,
+      "w": 70.5,
+      "h": 78.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_084",
+      "x": 567.0,
+      "y": 1409.0,
+      "w": 53.5,
+      "h": 58.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_084",
+      "x": 488.0,
+      "y": 1437.0,
+      "w": 53.5,
+      "h": 58.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_087",
+      "x": 489.0,
+      "y": 1463.5,
+      "w": 70.0,
+      "h": 73.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_084",
+      "x": 523.0,
+      "y": 1440.0,
+      "w": 53.5,
+      "h": 58.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_084",
+      "x": 588.0,
+      "y": 1483.0,
+      "w": 53.5,
+      "h": 58.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_084",
+      "x": 535.0,
+      "y": 1488.0,
+      "w": 53.5,
+      "h": 58.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_084",
+      "x": 565.5,
+      "y": 1508.0,
+      "w": 53.5,
+      "h": 58.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_084",
+      "x": 490.0,
+      "y": 1506.0,
+      "w": 53.5,
+      "h": 58.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_084",
+      "x": 530.0,
+      "y": 1509.0,
+      "w": 53.5,
+      "h": 58.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_078",
+      "x": 405.0,
+      "y": 1374.5,
+      "w": 78.0,
+      "h": 71.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_081",
+      "x": 366.0,
+      "y": 1363.0,
+      "w": 76.5,
+      "h": 83.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_016",
+      "x": 362.0,
+      "y": 1396.0,
+      "w": 47.5,
+      "h": 68.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_015",
+      "x": 398.0,
+      "y": 1313.0,
+      "w": 22.0,
+      "h": 22.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_014",
+      "x": 427.0,
+      "y": 1310.0,
+      "w": 20.0,
+      "h": 26.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_023",
+      "x": 344.5,
+      "y": 1100.0,
+      "w": 29.0,
+      "h": 98.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_015",
+      "x": 827.5,
+      "y": 751.0,
+      "w": 22.0,
+      "h": 22.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_004",
+      "x": 850.5,
+      "y": 1025.0,
+      "w": 50.0,
+      "h": 43.0,
+      "rotation": 270.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_010",
+      "x": 606.0,
+      "y": 1470.5,
+      "w": 38.0,
+      "h": 31.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_022",
+      "x": 505.0,
+      "y": 1631.0,
+      "w": 26.5,
+      "h": 87.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_003",
+      "x": 226.2,
+      "y": 1766.2,
+      "w": 49.0,
+      "h": 33.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_002",
+      "x": 474.5,
+      "y": 1773.3,
+      "w": 36.0,
+      "h": 20.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_002",
+      "x": 472.15,
+      "y": 2134.75,
+      "w": 36.0,
+      "h": 20.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_014",
+      "x": 244.45,
+      "y": 2129.3,
+      "w": 20.0,
+      "h": 26.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_004",
+      "x": 256.5,
+      "y": 2593.0,
+      "w": 50.0,
+      "h": 43.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_002",
+      "x": 434.0,
+      "y": 2610.5,
+      "w": 36.0,
+      "h": 20.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_015",
+      "x": 321.0,
+      "y": 2613.0,
+      "w": 22.0,
+      "h": 22.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_014",
+      "x": 336.0,
+      "y": 2606.0,
+      "w": 20.0,
+      "h": 26.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_023",
+      "x": 478.0,
+      "y": 2472.0,
+      "w": 29.0,
+      "h": 98.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_013",
+      "x": 288.15,
+      "y": 1903.05,
+      "w": 19.5,
+      "h": 22.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_081",
+      "x": 561.5,
+      "y": 751.8,
+      "w": 76.5,
+      "h": 83.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_004",
+      "x": 586.5,
+      "y": 744.8000000000002,
+      "w": 50.0,
+      "h": 43.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_076",
+      "x": 548.0,
+      "y": 788.0,
+      "w": 275.5,
+      "h": 83.0,
+      "rotation": 90.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_077",
+      "x": 521.9,
+      "y": 1017.05,
+      "w": 71.0,
+      "h": 75.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_020",
+      "x": 561.5,
+      "y": 1140.65,
+      "w": 52.5,
+      "h": 98.5,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_094",
+      "x": 533.0,
+      "y": 974.0,
+      "w": 79.0,
+      "h": 97.5,
+      "rotation": 270.0,
+      "flip": true,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_089",
+      "x": 240.5,
+      "y": 2079.15,
+      "w": 277.5,
+      "h": 98.0,
+      "rotation": 270.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_090",
+      "x": 238.5,
+      "y": 1840.15,
+      "w": 73.0,
+      "h": 90.0,
+      "rotation": 270.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_093",
+      "x": 141.85,
+      "y": 1852.95,
+      "w": 78.0,
+      "h": 111.0,
+      "rotation": -30.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_095",
+      "x": 133.35,
+      "y": 1799.8,
+      "w": 73.0,
+      "h": 93.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_089",
+      "x": 505.5,
+      "y": 1748.0,
+      "w": 277.5,
+      "h": 98.0,
+      "rotation": 90.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_093",
+      "x": 519.3,
+      "y": 1967.6999999999998,
+      "w": 78.0,
+      "h": 111.0,
+      "rotation": 102.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_093",
+      "x": 601.3,
+      "y": 1971.6999999999998,
+      "w": 78.0,
+      "h": 111.0,
+      "rotation": 30.0,
+      "flip": true,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    },
+    {
+      "key": "fly.terrain1.Foreground_084",
+      "x": 499.3,
+      "y": 2119.0,
+      "w": 53.5,
+      "h": 58.0,
+      "rotation": 0.0,
+      "flip": false,
+      "layer": "Foreground",
+      "layerWidth": 1280.0,
+      "layerHeight": 2880.0
+    }
+  ],
+  "edges": [
+    [
+      [
+        429.5500030517578,
+        2623.949999999255
+      ],
+      [
+        440.9499969482422,
+        2623.949999999255
+      ],
+      [
+        463.8999938964844,
+        2623.949999999255
+      ],
+      [
+        471.8999938964844,
+        2620.4000000953674
+      ],
+      [
+        471.8999938964844,
+        2608.8999996185303
+      ],
+      [
+        471.8999938964844,
+        2321.6499938964844
+      ],
+      [
+        475.04998779296875,
+        2313.3999938964844
+      ],
+      [
+        486.6000061035156,
+        2313.3999938964844
+      ],
+      [
+        544.0499877929688,
+        2313.3999938964844
+      ],
+      [
+        549.8999938964844,
+        2307.75
+      ],
+      [
+        549.8999938964844,
+        2296.2999877929688
+      ],
+      [
+        549.8999938964844,
+        2273.3500061035156
+      ],
+      [
+        548.3500061035156,
+        2263.3999938964844
+      ],
+      [
+        536.7999877929688,
+        2263.3999938964844
+      ],
+      [
+        456.3999938964844,
+        2263.3999938964844
+      ],
+      [
+        449.8999938964844,
+        2258.3500061035156
+      ],
+      [
+        449.8999938964844,
+        2246.9500122070312
+      ],
+      [
+        449.8999938964844,
+        2235.3999938964844
+      ],
+      [
+        455.29998779296875,
+        2229.3999938964844
+      ],
+      [
+        466.8500061035156,
+        2229.3999938964844
+      ],
+      [
+        535.7999877929688,
+        2229.3999938964844
+      ],
+      [
+        546.0499877929688,
+        2228.2000122070312
+      ],
+      [
+        546.0499877929688,
+        2216.6499938964844
+      ],
+      [
+        546.0499877929688,
+        2193.7000122070312
+      ],
+      [
+        542.1000061035156,
+        2186.1499938964844
+      ],
+      [
+        530.6499938964844,
+        2186.1499938964844
+      ],
+      [
+        450.25,
+        2186.1499938964844
+      ],
+      [
+        449.04998779296875,
+        2175.8500061035156
+      ],
+      [
+        449.04998779296875,
+        2164.2999877929688
+      ],
+      [
+        449.04998779296875,
+        2152.8999938964844
+      ],
+      [
+        452.8500061035156,
+        2145.1499938964844
+      ],
+      [
+        464.29998779296875,
+        2145.1499938964844
+      ],
+      [
+        510.29998779296875,
+        2145.1499938964844
+      ],
+      [
+        515.0499877929688,
+        2138.3500061035156
+      ],
+      [
+        515.0499877929688,
+        2126.9500122070312
+      ],
+      [
+        515.0499877929688,
+        1874.25
+      ],
+      [
+        520.5,
+        1868.1500244140625
+      ],
+      [
+        532.0499877929688,
+        1868.1500244140625
+      ],
+      [
+        543.4500122070312,
+        1868.1500244140625
+      ],
+      [
+        548.0499877929688,
+        1861.2000122070312
+      ],
+      [
+        548.0499877929688,
+        1849.6500244140625
+      ],
+      [
+        548.0499877929688,
+        1838.25
+      ],
+      [
+        546.6000061035156,
+        1828.1500244140625
+      ],
+      [
+        535.2000122070312,
+        1828.1500244140625
+      ],
+      [
+        454.70001220703125,
+        1828.1500244140625
+      ],
+      [
+        449.04998779296875,
+        1822.3499755859375
+      ],
+      [
+        449.04998779296875,
+        1810.8499755859375
+      ],
+      [
+        449.04998779296875,
+        1799.4000244140625
+      ],
+      [
+        449.29998779296875,
+        1788.1500244140625
+      ],
+      [
+        460.8500061035156,
+        1788.1500244140625
+      ],
+      [
+        495.25,
+        1788.1500244140625
+      ],
+      [
+        496.04998779296875,
+        1777.4500122070312
+      ],
+      [
+        496.04998779296875,
+        1765.9000244140625
+      ],
+      [
+        496.04998779296875,
+        1444.199951171875
+      ],
+      [
+        487.6499938964844,
+        1441.199951171875
+      ],
+      [
+        476.1000061035156,
+        1441.199951171875
+      ],
+      [
+        372.75,
+        1441.199951171875
+      ],
+      [
+        371.0500030517578,
+        1431.3499755859375
+      ],
+      [
+        371.0500030517578,
+        1419.949951171875
+      ],
+      [
+        371.0500030517578,
+        1339.449951171875
+      ],
+      [
+        376.25,
+        1333.199951171875
+      ],
+      [
+        387.75,
+        1333.199951171875
+      ],
+      [
+        537.1499938964844,
+        1333.199951171875
+      ],
+      [
+        538.0499877929688,
+        1343.699951171875
+      ],
+      [
+        538.0499877929688,
+        1355.25
+      ],
+      [
+        538.0499877929688,
+        1401.1500244140625
+      ],
+      [
+        548.5499877929688,
+        1402.199951171875
+      ],
+      [
+        560.0499877929688,
+        1402.199951171875
+      ],
+      [
+        571.5,
+        1402.199951171875
+      ],
+      [
+        576.0499877929688,
+        1395.199951171875
+      ],
+      [
+        576.0499877929688,
+        1383.800048828125
+      ],
+      [
+        576.0499877929688,
+        1337.800048828125
+      ],
+      [
+        583.0,
+        1333.199951171875
+      ],
+      [
+        594.3999938964844,
+        1333.199951171875
+      ],
+      [
+        605.9500122070312,
+        1333.199951171875
+      ],
+      [
+        612.0499877929688,
+        1338.550048828125
+      ],
+      [
+        612.0499877929688,
+        1350.050048828125
+      ],
+      [
+        612.0499877929688,
+        1487.9000244140625
+      ],
+      [
+        616.3500061035156,
+        1495.1500244140625
+      ],
+      [
+        627.75,
+        1495.1500244140625
+      ],
+      [
+        811.5999755859375,
+        1495.1500244140625
+      ],
+      [
+        823.0499877929688,
+        1495.050048828125
+      ],
+      [
+        823.0499877929688,
+        1483.6500244140625
+      ],
+      [
+        823.0499877929688,
+        771.25
+      ],
+      [
+        831.5499877929688,
+        768.199951171875
+      ],
+      [
+        842.9500122070312,
+        768.199951171875
+      ],
+      [
+        854.5,
+        768.199951171875
+      ],
+      [
+        859.0499877929688,
+        761.3499755859375
+      ],
+      [
+        859.0499877929688,
+        749.800048828125
+      ],
+      [
+        859.0499877929688,
+        565.949951171875
+      ],
+      [
+        856.4000244140625,
+        557.199951171875
+      ],
+      [
+        844.8499755859375,
+        557.199951171875
+      ],
+      [
+        580.6000061035156,
+        557.199951171875
+      ],
+      [
+        578.0499877929688,
+        566.10009765625
+      ],
+      [
+        578.0499877929688,
+        577.5999755859375
+      ],
+      [
+        578.0499877929688,
+        761.449951171875
+      ],
+      [
+        582.75,
+        768.199951171875
+      ],
+      [
+        594.2999877929688,
+        768.199951171875
+      ],
+      [
+        605.7999877929688,
+        768.199951171875
+      ],
+      [
+        612.0499877929688,
+        773.4000244140625
+      ],
+      [
+        612.0499877929688,
+        784.9000244140625
+      ],
+      [
+        612.0499877929688,
+        1198.550048828125
+      ],
+      [
+        602.2999877929688,
+        1200.199951171875
+      ],
+      [
+        590.75,
+        1200.199951171875
+      ],
+      [
+        579.3500061035156,
+        1200.199951171875
+      ],
+      [
+        576.0499877929688,
+        1191.949951171875
+      ],
+      [
+        576.0499877929688,
+        1180.4000244140625
+      ],
+      [
+        576.0499877929688,
+        1134.5
+      ],
+      [
+        570.7999877929688,
+        1128.199951171875
+      ],
+      [
+        559.3999938964844,
+        1128.199951171875
+      ],
+      [
+        547.8500061035156,
+        1128.199951171875
+      ],
+      [
+        538.0499877929688,
+        1129.800048828125
+      ],
+      [
+        538.0499877929688,
+        1141.3499755859375
+      ],
+      [
+        538.0499877929688,
+        1198.800048828125
+      ],
+      [
+        527.9500122070312,
+        1200.199951171875
+      ],
+      [
+        516.5,
+        1200.199951171875
+      ],
+      [
+        240.75,
+        1200.199951171875
+      ],
+      [
+        239.04999923706055,
+        1209.949951171875
+      ],
+      [
+        239.04999923706055,
+        1221.5
+      ],
+      [
+        239.04999923706055,
+        1784.5
+      ],
+      [
+        246.79999923706055,
+        1788.1500244140625
+      ],
+      [
+        258.3499984741211,
+        1788.1500244140625
+      ],
+      [
+        292.8000030517578,
+        1788.1500244140625
+      ],
+      [
+        298.0500030517578,
+        1794.3499755859375
+      ],
+      [
+        298.0500030517578,
+        1805.9000244140625
+      ],
+      [
+        298.0500030517578,
+        1817.4000244140625
+      ],
+      [
+        297.3499984741211,
+        1828.1500244140625
+      ],
+      [
+        285.8499984741211,
+        1828.1500244140625
+      ],
+      [
+        205.44999980926514,
+        1828.1500244140625
+      ],
+      [
+        199.05000019073486,
+        1833.2999877929688
+      ],
+      [
+        199.05000019073486,
+        1844.7000122070312
+      ],
+      [
+        199.05000019073486,
+        1867.6500244140625
+      ],
+      [
+        210.10000038146973,
+        1868.1500244140625
+      ],
+      [
+        221.64999961853027,
+        1868.1500244140625
+      ],
+      [
+        231.0999984741211,
+        1870.0999755859375
+      ],
+      [
+        231.0999984741211,
+        1881.6500244140625
+      ],
+      [
+        231.0999984741211,
+        2134.3500061035156
+      ],
+      [
+        232.70000076293945,
+        2144.2999877929688
+      ],
+      [
+        244.0999984741211,
+        2144.2999877929688
+      ],
+      [
+        290.1500015258789,
+        2144.2999877929688
+      ],
+      [
+        298.0500030517578,
+        2147.8999938964844
+      ],
+      [
+        298.0500030517578,
+        2159.3500061035156
+      ],
+      [
+        298.0500030517578,
+        2182.2999877929688
+      ],
+      [
+        290.3499984741211,
+        2186.1499938964844
+      ],
+      [
+        278.8499984741211,
+        2186.1499938964844
+      ],
+      [
+        209.95000076293945,
+        2186.1499938964844
+      ],
+      [
+        200.05000019073486,
+        2187.75
+      ],
+      [
+        200.05000019073486,
+        2199.2000122070312
+      ],
+      [
+        200.05000019073486,
+        2222.25
+      ],
+      [
+        204.30000019073486,
+        2229.3999938964844
+      ],
+      [
+        215.85000038146973,
+        2229.3999938964844
+      ],
+      [
+        296.25,
+        2229.3999938964844
+      ],
+      [
+        298.0,
+        2239.2000122070312
+      ],
+      [
+        298.0,
+        2250.6000061035156
+      ],
+      [
+        298.0,
+        2262.1499938964844
+      ],
+      [
+        287.8499984741211,
+        2263.3999938964844
+      ],
+      [
+        276.3000030517578,
+        2263.3999938964844
+      ],
+      [
+        195.90000009536743,
+        2263.3999938964844
+      ],
+      [
+        192.0,
+        2271.0499877929688
+      ],
+      [
+        192.0,
+        2282.5499877929688
+      ],
+      [
+        192.0,
+        2305.5
+      ],
+      [
+        195.54999995231628,
+        2313.3999938964844
+      ],
+      [
+        207.05000019073486,
+        2313.3999938964844
+      ],
+      [
+        253.0,
+        2313.3999938964844
+      ],
+      [
+        264.1500015258789,
+        2313.75
+      ],
+      [
+        264.1500015258789,
+        2325.2999877929688
+      ],
+      [
+        264.1500015258789,
+        2623.89999999851
+      ],
+      [
+        275.6500015258789,
+        2623.949999999255
+      ],
+      [
+        287.1999969482422,
+        2623.949999999255
+      ],
+      [
+        429.5500030517578,
+        2623.949999999255
+      ]
+    ],
+    [
+      [
+        384.0,
+        1584.0
+      ],
+      [
+        416.0,
+        1584.0
+      ],
+      [
+        416.0,
+        1552.0
+      ],
+      [
+        384.0,
+        1552.0
+      ],
+      [
+        384.0,
+        1584.0
+      ]
+    ]
+  ],
+  "entities": [
+    {
+      "kind": 107,
+      "item": false,
+      "id": 0,
+      "x": 323.0,
+      "y": 2288.0,
+      "w": 96.0,
+      "h": 32.0,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.DynamicObject_107",
+      "info": {
+        "X": "-64",
+        "Y": "0",
+        "Cycle": "3",
+        "Lag": "9999",
+        "PauseHalf": "9999",
+        "Spikes": "0001"
+      }
+    },
+    {
+      "kind": 107,
+      "item": false,
+      "id": 1,
+      "x": 419.0,
+      "y": 2288.0,
+      "w": 96.0,
+      "h": 32.0,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.DynamicObject_107",
+      "info": {
+        "X": "64",
+        "Y": "0",
+        "Cycle": "3",
+        "Lag": "9999",
+        "PauseHalf": "9999",
+        "Spikes": "0001"
+      }
+    },
+    {
+      "kind": 107,
+      "item": false,
+      "id": 2,
+      "x": 251.0,
+      "y": 2203.0,
+      "w": 96.0,
+      "h": 32.0,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.DynamicObject_107",
+      "info": {
+        "X": "96",
+        "Y": "0",
+        "Cycle": "8",
+        "Lag": "9999",
+        "PauseHalf": "9999",
+        "Spikes": "1001",
+        "Lock": "1"
+      }
+    },
+    {
+      "kind": 107,
+      "item": false,
+      "id": 3,
+      "x": 496.0,
+      "y": 2203.0,
+      "w": 96.0,
+      "h": 32.0,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.DynamicObject_107",
+      "info": {
+        "X": "-96",
+        "Y": "0",
+        "Cycle": "8",
+        "Lag": "9999",
+        "PauseHalf": "9999",
+        "Spikes": "0011",
+        "Lock": "1"
+      }
+    },
+    {
+      "kind": 107,
+      "item": false,
+      "id": 4,
+      "x": 494.0,
+      "y": 1846.0,
+      "w": 96.0,
+      "h": 32.0,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.DynamicObject_107",
+      "info": {
+        "X": "-72",
+        "Y": "0",
+        "Cycle": "15",
+        "Lag": "9999",
+        "PauseHalf": "9999",
+        "Lock": "1",
+        "Spikes": "0010"
+      }
+    },
+    {
+      "kind": 107,
+      "item": false,
+      "id": 5,
+      "x": 256.0,
+      "y": 1846.0,
+      "w": 96.0,
+      "h": 32.0,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.DynamicObject_107",
+      "info": {
+        "X": "72",
+        "Y": "0",
+        "Cycle": "15",
+        "Lag": "9999",
+        "PauseHalf": "9999",
+        "Lock": "1",
+        "Spikes": "1000"
+      }
+    },
+    {
+      "kind": 107,
+      "item": false,
+      "id": 6,
+      "x": 304.0,
+      "y": 1696.0,
+      "w": 96.0,
+      "h": 32.0,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.DynamicObject_107",
+      "info": {
+        "X": "0",
+        "Y": "284",
+        "Cycle": "10",
+        "Rate": "1.5",
+        "Lag": "0",
+        "Spikes": "0100"
+      }
+    },
+    {
+      "kind": 105,
+      "item": false,
+      "id": 9,
+      "x": 801.0,
+      "y": 1472.0,
+      "w": 32.0,
+      "h": 32.0,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.DynamicObject_105",
+      "info": {
+        "X": "0",
+        "Y": "672",
+        "Cycle": "18",
+        "PauseHalf": "9999",
+        "Lag": "9999",
+        "Lock": "1",
+        "Spikes": "0100",
+        "Rate": "2"
+      }
+    },
+    {
+      "kind": 105,
+      "item": false,
+      "id": 10,
+      "x": 760.0,
+      "y": 1472.0,
+      "w": 32.0,
+      "h": 32.0,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.DynamicObject_105",
+      "info": {
+        "X": "0",
+        "Y": "672",
+        "Cycle": "18",
+        "PauseHalf": "9999",
+        "Lag": "9999",
+        "Lock": "1",
+        "Spikes": "0100",
+        "Rate": "2"
+      }
+    },
+    {
+      "kind": 105,
+      "item": false,
+      "id": 11,
+      "x": 717.0,
+      "y": 1472.0,
+      "w": 32.0,
+      "h": 32.0,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.DynamicObject_105",
+      "info": {
+        "X": "0",
+        "Y": "672",
+        "Cycle": "18",
+        "PauseHalf": "9999",
+        "Lag": "9999",
+        "Lock": "1",
+        "Spikes": "0100",
+        "Rate": "2"
+      }
+    },
+    {
+      "kind": 105,
+      "item": false,
+      "id": 12,
+      "x": 675.0,
+      "y": 1472.0,
+      "w": 32.0,
+      "h": 32.0,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.DynamicObject_105",
+      "info": {
+        "X": "0",
+        "Y": "672",
+        "Cycle": "18",
+        "PauseHalf": "9999",
+        "Lag": "9999",
+        "Lock": "1",
+        "Spikes": "0100",
+        "Rate": "2"
+      }
+    },
+    {
+      "kind": 101,
+      "item": false,
+      "id": 13,
+      "x": 726.0,
+      "y": 650.0,
+      "w": 172.0,
+      "h": 172.0,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.DynamicObject_101",
+      "info": {}
+    },
+    {
+      "kind": 106,
+      "item": false,
+      "id": 8,
+      "x": 272.0,
+      "y": 2112.0,
+      "w": 64.0,
+      "h": 32.0,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.DynamicObject_106",
+      "info": {
+        "X": "72",
+        "Y": "0",
+        "Cycle": "6",
+        "Lag": "99999",
+        "PauseHalf": "9999",
+        "Spikes": "1010"
+      }
+    },
+    {
+      "kind": 106,
+      "item": false,
+      "id": 18,
+      "x": 272.0,
+      "y": 2048.0,
+      "w": 64.0,
+      "h": 32.0,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.DynamicObject_106",
+      "info": {
+        "X": "72",
+        "Y": "0",
+        "Cycle": "8",
+        "Lag": "99999",
+        "PauseHalf": "9999",
+        "Spikes": "1010"
+      }
+    },
+    {
+      "kind": 106,
+      "item": false,
+      "id": 19,
+      "x": 272.0,
+      "y": 1984.0,
+      "w": 64.0,
+      "h": 32.0,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.DynamicObject_106",
+      "info": {
+        "X": "72",
+        "Y": "0",
+        "Cycle": "10",
+        "Lag": "99999",
+        "PauseHalf": "9999",
+        "Spikes": "1010"
+      }
+    },
+    {
+      "kind": 106,
+      "item": false,
+      "id": 20,
+      "x": 272.0,
+      "y": 1920.0,
+      "w": 64.0,
+      "h": 32.0,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.DynamicObject_106",
+      "info": {
+        "X": "72",
+        "Y": "0",
+        "Cycle": "12",
+        "Lag": "99999",
+        "PauseHalf": "9999",
+        "Spikes": "1010"
+      }
+    },
+    {
+      "kind": 106,
+      "item": false,
+      "id": 17,
+      "x": 480.0,
+      "y": 1920.0,
+      "w": 64.0,
+      "h": 32.0,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.DynamicObject_106",
+      "info": {
+        "X": "-72",
+        "Y": "0",
+        "Cycle": "12",
+        "Lag": "99999",
+        "PauseHalf": "9999",
+        "Spikes": "1010"
+      }
+    },
+    {
+      "kind": 106,
+      "item": false,
+      "id": 21,
+      "x": 480.0,
+      "y": 1984.0,
+      "w": 64.0,
+      "h": 32.0,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.DynamicObject_106",
+      "info": {
+        "X": "-72",
+        "Y": "0",
+        "Cycle": "10",
+        "Lag": "99999",
+        "PauseHalf": "9999",
+        "Spikes": "1010"
+      }
+    },
+    {
+      "kind": 106,
+      "item": false,
+      "id": 22,
+      "x": 480.0,
+      "y": 2048.0,
+      "w": 64.0,
+      "h": 32.0,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.DynamicObject_106",
+      "info": {
+        "X": "-72",
+        "Y": "0",
+        "Cycle": "8",
+        "Lag": "99999",
+        "PauseHalf": "9999",
+        "Spikes": "1010"
+      }
+    },
+    {
+      "kind": 106,
+      "item": false,
+      "id": 23,
+      "x": 480.0,
+      "y": 2112.0,
+      "w": 64.0,
+      "h": 32.0,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.DynamicObject_106",
+      "info": {
+        "X": "-72",
+        "Y": "0",
+        "Cycle": "6",
+        "Lag": "99999",
+        "PauseHalf": "9999",
+        "Spikes": "1010"
+      }
+    },
+    {
+      "kind": 106,
+      "item": false,
+      "id": 24,
+      "x": 573.0,
+      "y": 1120.0,
+      "w": 64.0,
+      "h": 32.0,
+      "rotation": 90.0,
+      "key": "fly.DynamicObjectsLite.DynamicObject_106",
+      "info": {
+        "X": "0",
+        "Y": "-64",
+        "Cycle": "1",
+        "PauseHalf": "9999",
+        "Lock": "1",
+        "Lag": "9999"
+      }
+    },
+    {
+      "kind": 106,
+      "item": false,
+      "id": 25,
+      "x": 573.0,
+      "y": 1312.0,
+      "w": 64.0,
+      "h": 32.0,
+      "rotation": 90.0,
+      "key": "fly.DynamicObjectsLite.DynamicObject_106",
+      "info": {
+        "X": "0",
+        "Y": "64",
+        "Cycle": "1",
+        "PauseHalf": "9999",
+        "Lock": "1",
+        "Lag": "9999"
+      }
+    },
+    {
+      "kind": 105,
+      "item": false,
+      "id": 14,
+      "x": 634.0,
+      "y": 1472.0,
+      "w": 32.0,
+      "h": 32.0,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.DynamicObject_105",
+      "info": {
+        "X": "0",
+        "Y": "672",
+        "Cycle": "18",
+        "PauseHalf": "9999",
+        "Lag": "9999",
+        "Lock": "1",
+        "Spikes": "0100",
+        "Rate": "2"
+      }
+    },
+    {
+      "kind": 3,
+      "item": true,
+      "id": 0,
+      "x": 454.75,
+      "y": 1466.0,
+      "w": 45.5,
+      "h": 44.0,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.Item_003",
+      "info": {}
+    },
+    {
+      "kind": 3,
+      "item": true,
+      "id": 2,
+      "x": 774.75,
+      "y": 1322.0,
+      "w": 45.5,
+      "h": 44.0,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.Item_003",
+      "info": {}
+    },
+    {
+      "kind": 4,
+      "item": true,
+      "id": 3,
+      "x": 368.75,
+      "y": 2248.75,
+      "w": 21.5,
+      "h": 26.5,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.Item_004",
+      "info": {}
+    },
+    {
+      "kind": 4,
+      "item": true,
+      "id": 4,
+      "x": 368.75,
+      "y": 2216.75,
+      "w": 21.5,
+      "h": 26.5,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.Item_004",
+      "info": {}
+    },
+    {
+      "kind": 4,
+      "item": true,
+      "id": 5,
+      "x": 368.75,
+      "y": 2184.75,
+      "w": 21.5,
+      "h": 26.5,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.Item_004",
+      "info": {}
+    },
+    {
+      "kind": 4,
+      "item": true,
+      "id": 6,
+      "x": 368.75,
+      "y": 2152.75,
+      "w": 21.5,
+      "h": 26.5,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.Item_004",
+      "info": {}
+    },
+    {
+      "kind": 5,
+      "item": true,
+      "id": 7,
+      "x": 367.75,
+      "y": 1884.75,
+      "w": 27.5,
+      "h": 34.5,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.Item_005",
+      "info": {}
+    },
+    {
+      "kind": 4,
+      "item": true,
+      "id": 8,
+      "x": 366.75,
+      "y": 1856.75,
+      "w": 21.5,
+      "h": 26.5,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.Item_004",
+      "info": {}
+    },
+    {
+      "kind": 4,
+      "item": true,
+      "id": 9,
+      "x": 366.75,
+      "y": 1824.75,
+      "w": 21.5,
+      "h": 26.5,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.Item_004",
+      "info": {}
+    },
+    {
+      "kind": 4,
+      "item": true,
+      "id": 10,
+      "x": 366.75,
+      "y": 1792.75,
+      "w": 21.5,
+      "h": 26.5,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.Item_004",
+      "info": {}
+    },
+    {
+      "kind": 4,
+      "item": true,
+      "id": 11,
+      "x": 407.25,
+      "y": 1471.55,
+      "w": 21.5,
+      "h": 26.5,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.Item_004",
+      "info": {}
+    },
+    {
+      "kind": 4,
+      "item": true,
+      "id": 12,
+      "x": 417.9,
+      "y": 1498.85,
+      "w": 21.5,
+      "h": 26.5,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.Item_004",
+      "info": {}
+    },
+    {
+      "kind": 4,
+      "item": true,
+      "id": 13,
+      "x": 446.9,
+      "y": 1516.85,
+      "w": 21.5,
+      "h": 26.5,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.Item_004",
+      "info": {}
+    },
+    {
+      "kind": 4,
+      "item": true,
+      "id": 14,
+      "x": 479.75,
+      "y": 1523.75,
+      "w": 21.5,
+      "h": 26.5,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.Item_004",
+      "info": {}
+    },
+    {
+      "kind": 5,
+      "item": true,
+      "id": 15,
+      "x": 271.75,
+      "y": 1231.75,
+      "w": 27.5,
+      "h": 34.5,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.Item_005",
+      "info": {}
+    },
+    {
+      "kind": 4,
+      "item": true,
+      "id": 16,
+      "x": 314.75,
+      "y": 1250.75,
+      "w": 21.5,
+      "h": 26.5,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.Item_004",
+      "info": {}
+    },
+    {
+      "kind": 4,
+      "item": true,
+      "id": 17,
+      "x": 282.75,
+      "y": 1282.75,
+      "w": 21.5,
+      "h": 26.5,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.Item_004",
+      "info": {}
+    },
+    {
+      "kind": 5,
+      "item": true,
+      "id": 26,
+      "x": 796.75,
+      "y": 846.75,
+      "w": 27.5,
+      "h": 34.5,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.Item_005",
+      "info": {}
+    },
+    {
+      "kind": 5,
+      "item": true,
+      "id": 27,
+      "x": 764.75,
+      "y": 878.75,
+      "w": 27.5,
+      "h": 34.5,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.Item_005",
+      "info": {}
+    },
+    {
+      "kind": 5,
+      "item": true,
+      "id": 28,
+      "x": 732.75,
+      "y": 910.75,
+      "w": 27.5,
+      "h": 34.5,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.Item_005",
+      "info": {}
+    },
+    {
+      "kind": 5,
+      "item": true,
+      "id": 29,
+      "x": 700.75,
+      "y": 942.75,
+      "w": 27.5,
+      "h": 34.5,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.Item_005",
+      "info": {}
+    },
+    {
+      "kind": 3,
+      "item": true,
+      "id": 1,
+      "x": 342.75,
+      "y": 1946.0,
+      "w": 45.5,
+      "h": 44.0,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.Item_003",
+      "info": {}
+    },
+    {
+      "kind": 5,
+      "item": true,
+      "id": 18,
+      "x": 368.75,
+      "y": 1758.75,
+      "w": 27.5,
+      "h": 34.5,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.Item_005",
+      "info": {}
+    },
+    {
+      "kind": 4,
+      "item": true,
+      "id": 19,
+      "x": 330.75,
+      "y": 1218.75,
+      "w": 21.5,
+      "h": 26.5,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.Item_004",
+      "info": {}
+    },
+    {
+      "kind": 4,
+      "item": true,
+      "id": 20,
+      "x": 250.75,
+      "y": 1298.75,
+      "w": 21.5,
+      "h": 26.5,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.Item_004",
+      "info": {}
+    },
+    {
+      "kind": 5,
+      "item": true,
+      "id": 21,
+      "x": 733.75,
+      "y": 1374.75,
+      "w": 27.5,
+      "h": 34.5,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.Item_005",
+      "info": {}
+    },
+    {
+      "kind": 4,
+      "item": true,
+      "id": 22,
+      "x": 698.75,
+      "y": 1378.75,
+      "w": 21.5,
+      "h": 26.5,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.Item_004",
+      "info": {}
+    },
+    {
+      "kind": 4,
+      "item": true,
+      "id": 23,
+      "x": 666.75,
+      "y": 1346.75,
+      "w": 21.5,
+      "h": 26.5,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.Item_004",
+      "info": {}
+    },
+    {
+      "kind": 4,
+      "item": true,
+      "id": 24,
+      "x": 762.75,
+      "y": 1378.75,
+      "w": 21.5,
+      "h": 26.5,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.Item_004",
+      "info": {}
+    },
+    {
+      "kind": 4,
+      "item": true,
+      "id": 25,
+      "x": 794.75,
+      "y": 1346.75,
+      "w": 21.5,
+      "h": 26.5,
+      "rotation": 0.0,
+      "key": "fly.DynamicObjectsLite.Item_004",
+      "info": {}
+    }
+  ],
+  "areas": [
+    {
+      "x": 224.0,
+      "y": 2319.0,
+      "w": 289.0,
+      "h": 81.0,
+      "actions": [
+        {
+          "Target": "4:0",
+          "Action": "Start",
+          "Delay": "0"
+        },
+        {
+          "Target": "4:1",
+          "Action": "Start",
+          "Delay": "0"
+        },
+        {
+          "Target": "4:2",
+          "Action": "Start",
+          "Delay": "1.5"
+        },
+        {
+          "Target": "4:3",
+          "Action": "Start",
+          "Delay": "1.5"
+        }
+      ]
+    },
+    {
+      "x": 620.0,
+      "y": 1151.0,
+      "w": 33.0,
+      "h": 257.0,
+      "actions": [
+        {
+          "Target": "4:9",
+          "Action": "Start",
+          "Delay": "0"
+        },
+        {
+          "Target": "4:10",
+          "Action": "Start",
+          "Delay": "0.7"
+        },
+        {
+          "Target": "4:11",
+          "Action": "Start",
+          "Delay": "1.4"
+        },
+        {
+          "Target": "4:12",
+          "Action": "Start",
+          "Delay": "2.1"
+        },
+        {
+          "Target": "4:14",
+          "Action": "Start",
+          "Delay": "2.8"
+        },
+        {
+          "Target": "4:24",
+          "Action": "Start",
+          "Delay": "0"
+        },
+        {
+          "Target": "4:25",
+          "Action": "Start",
+          "Delay": "0"
+        }
+      ]
+    },
+    {
+      "x": 252.0,
+      "y": 2169.0,
+      "w": 247.0,
+      "h": 23.0,
+      "actions": [
+        {
+          "Target": "4:8",
+          "Action": "Start",
+          "Delay": "0"
+        },
+        {
+          "Target": "4:23",
+          "Action": "Start",
+          "Delay": "0"
+        },
+        {
+          "Target": "4:18",
+          "Action": "Start",
+          "Delay": "0.2"
+        },
+        {
+          "Target": "4:22",
+          "Action": "Start",
+          "Delay": "0.2"
+        },
+        {
+          "Target": "4:19",
+          "Action": "Start",
+          "Delay": "0.4"
+        },
+        {
+          "Target": "4:21",
+          "Action": "Start",
+          "Delay": "0.4"
+        },
+        {
+          "Target": "4:17",
+          "Action": "Start",
+          "Delay": "0.6"
+        },
+        {
+          "Target": "4:20",
+          "Action": "Start",
+          "Delay": "0.6"
+        },
+        {
+          "Target": "4:4",
+          "Action": "Start",
+          "Delay": "0.9"
+        },
+        {
+          "Target": "4:5",
+          "Action": "Start",
+          "Delay": "0.9"
+        }
+      ]
+    }
+  ],
+  "script": "\n---level7 script---\n\nlocal isPlayingDemo = false\nlocal countFail = 0\nlocal isSkip = true\nlocal hasViewedStory = global.getBool(\"lvl7_b1\")\n\nif not hasViewedStory or not game.isRestart() then\n\trepeat\n\t\tif hasViewedStory then dialog.setSkipEnabled(true) end\n\t\t\n\t\tgame.setUserInputEnabled(false)\n\t\trole.setIdleActionEnabled(false)\n\t\tscript.delay(1)\n\t\tsound.play(\"43-1\")\n\t\tif dialog.show(\"Level7-1\", faceZhoumei) ==1 then break end\n\t\tsound.play(\"57-1\")\n\t\tif dialog.showMinTime(\"Level7-2\", faceManyi,0) ==1 then break end\n\t\tif dialog.show(\"Level7-3\", facePutong) ==1 then break end\n\t\tcamera.setFollowRoleMode(false)\n\t\tcamera.gotoPosition(360,1010)\n\t\tif dialog.showMinTime(\"Level7-4\", faceZhoumei,0) ==1 then break end\n\t\tcamera.gotoRole()\n\t\tif dialog.show(\"Level7-5\", faceRenzhen) ==1 then break end\n\t\tcamera.setFollowRoleMode(true)\n\n\t\t--set story viewed flag\n        global.setBool(\"lvl7_b1\")\t\t\n\t\t\n\t\tgame.restartTiming()\n\t\tgame.setUserInputEnabled(true)\n\t\trole.setIdleActionEnabled(true)\n\t\tisPlayingDemo = false\n\t\tisSkip = false\n\t\t\n\tuntil true\nend\n\nif isSkip then\n\tcamera.gotoRole()\n\tcamera.setFollowRoleMode(true)\n\tdialog.setSkipEnabled(false)\n\tgame.resumeLogic()\n\tgame.showTutorialDiagram(0)\n\tgame.setUserInputEnabled(true)\n\trole.setIdleActionEnabled(true)\n\tgame.restartTiming()\nend\n\nonRoleReachedMoon = function() \n    game.pauseLogic()\n    if global.isLevelPassed(15) then\n\t\tif global.getBool(\"stg_b1\") then dialog.setSkipEnabled(true) end\n\t\trepeat\n\t\t\tsound.play(\"60-2\")\n\t\t\tif dialog.show(\"Stage1F-1\", faceWunai) ==1 then break end\n\t\t\tsound.play(\"54-1\")\n\t\t\tif dialog.show(\"Stage1F-2\", faceManyi) ==1 then break end\n\t\t\tsound.play(\"58-1\")\n\t\t\tif dialog.show(\"Stage1F-3\", faceShengqi) ==1 then break end\n\t\t\tif dialog.show(\"Stage1F-4\", faceZhoumei) ==1 then break end\n\t\t\tif dialog.show(\"Stage1F-5\", faceBujie) ==1 then break end\n\t\t\tif dialog.show(\"Stage1F-6\", faceRenzhen) ==1 then break end\n\t\t\tglobal.setBool(\"stg_b1\")\n\t\tuntil true\n\t\tdialog.setSkipEnabled(false)\n    else\n\t\tsound.play(\"49-1\")\n    \tdialog.show(\"Level7-6\", faceWunai)\n    end\n    game.success()\nend"
+}
