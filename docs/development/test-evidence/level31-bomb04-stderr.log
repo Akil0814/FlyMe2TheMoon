@@ -1,0 +1,23 @@
+2026-10-24 10:00:10 [INFO] [application] (application.cpp:460) SDL3 GPU backend: direct3d12
+2026-10-24 10:00:10 [INFO] [scene] (scene_manager.cpp:216) Switching to SceneKey 4294901761 with reload mode 0
+2026-10-24 10:00:10 [INFO] [resource] (game_content_loader.cpp:143) Total requests built: 1240, total work units: 1514
+2026-10-24 10:00:16 [INFO] [scene] (scene_manager.cpp:216) Switching to SceneKey 2 with reload mode 2
+2026-10-24 10:00:16 [INFO] [fly.test] (replay_probe.cpp:19) Input replay started; no simulation overrides
+2026-10-24 10:00:16 [INFO] [fly] (flight_scene.cpp:77) Entered level 31: 113 entities, 4 contours
+2026-10-24 10:00:17 [WARN] [resource] (audio_manager.cpp:95) Find sound failed: resource does not exist: fly.voice_53
+2026-10-24 10:00:17 [WARN] [audio] (audio_service.cpp:60) Play sound failed: sound does not exist: fly.voice_53
+2026-10-24 10:00:17 [WARN] [fly.audio] (flight_scene.cpp:168) Original voice request rejected: 53
+2026-10-24 10:00:17 [INFO] [fly.story] (flight_scene.cpp:177) Dialogue: Level31-1
+2026-10-24 10:00:17 [INFO] [fly.test.input] (replay_probe.cpp:37) 1.212000 Return down
+2026-10-24 10:00:17 [INFO] [fly.story] (flight_scene.cpp:177) Dialogue: Level31-2
+2026-10-24 10:00:17 [INFO] [fly.test.input] (replay_probe.cpp:37) 1.317000 Return up
+2026-10-24 10:00:18 [INFO] [fly.test.input] (replay_probe.cpp:37) 1.816000 Return down
+2026-10-24 10:00:18 [INFO] [fly.story] (flight_scene.cpp:177) Dialogue: Level31-3
+2026-10-24 10:00:18 [INFO] [fly.test.input] (replay_probe.cpp:37) 1.900000 Return up
+2026-10-24 10:00:18 [INFO] [fly.test.input] (replay_probe.cpp:37) 2.419000 Return down
+2026-10-24 10:00:18 [INFO] [fly.test.input] (replay_probe.cpp:37) 2.504000 Return up
+2026-10-24 10:00:19 [INFO] [fly.test.input] (replay_probe.cpp:37) 2.609000 Space down
+2026-10-24 10:00:22 [INFO] [fly.test.input] (replay_probe.cpp:37) 5.608000 Space up
+2026-10-24 10:00:23 [INFO] [fly] (flight_scene.cpp:122) Level 31 FAIL time=4.332 stars=0 crystals=8
+2026-10-24 10:00:28 [INFO] [fly.test] (replay_probe.cpp:60) Replay assertions PASS
+2026-10-24 10:00:28 [INFO] [application] (application.cpp:722) Application shutdown complete

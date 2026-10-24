@@ -79,8 +79,8 @@ def main():
                             px,py=(px*math.cos(rad)-py*math.sin(rad))*scale,(px*math.sin(rad)+py*math.cos(rad))*scale
                             points.append([x+px,h-y-py])
                         level['edges'].append(points)
-                elif name in ['Texture','Foreground','Farground']:
-                    prefix=f'far{suite}.Farground' if name=='Farground' else f'terrain{suite}.{name}'
+                elif name in ['Texture','Foreground','Farground','Background']:
+                    prefix=f'far{suite}.{name}' if name in ['Farground','Background'] else f'terrain{suite}.{name}'
                     key=f'{prefix}_{seq:03}'
                     if key not in sizes:
                         unresolved.append([index,name,seq,key]);continue

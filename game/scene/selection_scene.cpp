@@ -27,22 +27,22 @@ void SelectionScene::on_enter(const elysia::scene::ScenePayload& payload) {
     int chapter=0;if(auto p=elysia::scene::try_scene_payload<SelectionPayload>(payload))chapter=std::clamp(p->chapter,0,3);
     auto* window=create_and_add_object<ui::UiWindow>(core::Rect{0,0,1280,720});window->set_on_cancel([this]{request_scene_switch(scene_keys::MainMenu);});
     auto list=std::make_unique<ui::UiListContainer>(core::Rect{0,0,1120,640});list->set_item_spacing(18);
-    title(*list,std::format("FlyMe2TheMoon · 第 {} 章",chapter+1));
+    title(*list,content::format("chapter_title",chapter+1));
     auto chapters=std::make_unique<ui::UiGridContainer>(core::Rect{0,0,1120,48});chapters->set_column_count(4);chapters->set_cell_spacing({16,0});
-    for(int c=0;c<4;++c)chapters->add_child(button(std::format("第 {} 章   {}—{}",c+1,c*15+1,c*15+15),265,48,[this,c]{request_scene_switch(scene_keys::Selection,SelectionPayload{c},elysia::scene::SceneReloadMode::Recreate);}));
+    for(int c=0;c<4;++c)chapters->add_child(button(content::format("chapter_range",c+1,c*15+1,c*15+15),265,48,[this,c]{request_scene_switch(scene_keys::Selection,SelectionPayload{c},elysia::scene::SceneReloadMode::Recreate);}));
     auto* chapters_scope=chapters.get();list->add_back(std::move(chapters));
     auto levels=std::make_unique<ui::UiGridContainer>(core::Rect{0,0,1120,330});levels->set_column_count(5);levels->set_cell_spacing({16,18});
     for(int id=chapter*15+1;id<=chapter*15+15;++id) {
         const bool open=store.data.unlocked(id,content::catalog().at("dependencies"));const int stars=store.data.stars[id-1];
-        const std::string status=!open?"未解锁":stars<0?"开始挑战":std::format("{} / 3 星",stars);
-        auto b=button(std::format("{:02}    {}",id,status),210,94,[this,id]{request_scene_switch(scene_keys::Flight,FlightPayload{id},elysia::scene::SceneReloadMode::Recreate);});b->set_enabled(open);levels->add_child(std::move(b));
+        const std::string status=!open?content::ui("locked"):stars<0?content::ui("challenge"):content::format("stars",stars);
+        auto b=button(content::format("level_button",id,status),210,94,[this,id]{request_scene_switch(scene_keys::Flight,FlightPayload{id},elysia::scene::SceneReloadMode::Recreate);});b->set_enabled(open);levels->add_child(std::move(b));
     }
     auto* levels_scope=levels.get();list->add_back(std::move(levels));
     const int cleared=static_cast<int>(std::count_if(store.data.stars.begin(),store.data.stars.end(),[](int s){return s>=0;}));
-    std::string summary=std::format("已完成 {} / 60 关     总分 {}     成就 {} / 17",cleared,std::accumulate(store.data.scores.begin(),store.data.scores.end(),std::int64_t{0}),store.data.achievements.size());
-    if(!store.error.empty())summary="存档不可写："+store.error;else if(store.recovered)summary+=" · 已从备份恢复进度";
+    std::string summary=content::format("progress",cleared,std::accumulate(store.data.scores.begin(),store.data.scores.end(),std::int64_t{0}),store.data.achievements.size());
+    if(!store.error.empty())summary=content::format("save_error",store.error);else if(store.recovered)summary+=content::ui("save_recovered");
     list->add_back(std::make_unique<ui::UiLabel>(core::Rect{0,0,1120,40},0,ui::ui_raw_text(summary)));
-    list->add_back(button("返回主菜单",1120,50,[this]{request_scene_switch(scene_keys::MainMenu);}));
+    list->add_back(button(content::ui("back"),1120,50,[this]{request_scene_switch(scene_keys::MainMenu);}));
     auto* list_scope=list.get();window->add_child(std::move(list),ui::UiLayoutChildOptions{._anchor=ui::UiLayoutAnchor::Center});
     window->register_focus_scope(*chapters_scope);window->register_focus_scope(*levels_scope);window->register_focus_scope(*list_scope);window->set_focused_scope(levels_scope);
 }
@@ -50,14 +50,14 @@ void AchievementsScene::on_enter(const elysia::scene::ScenePayload&) {
     clear_scene_objects();auto& store=progress::Store::instance();(void)store.load();
     auto* window=create_and_add_object<ui::UiWindow>(core::Rect{0,0,1280,720});window->set_on_cancel([this]{request_scene_switch(scene_keys::MainMenu);});
     auto list=std::make_unique<ui::UiListContainer>(core::Rect{0,0,1160,660});list->set_item_spacing(14);
-    title(*list,std::format("成就 · {} / 17",store.data.achievements.size()));
+    title(*list,content::format("achievements_title",store.data.achievements.size()));
     auto grid=std::make_unique<ui::UiGridContainer>(core::Rect{0,0,1160,510});grid->set_column_count(2);grid->set_cell_spacing({22,6});
-    const auto descriptions=content::read("text/zh-Hans/gcDescriptions.json");
+    const auto descriptions=content::read("text/"+content::language()+"/gcDescriptions.json");
     for(const auto& [key,a]:descriptions.at("achievements").items()) {
-        auto label=std::make_unique<ui::UiLabel>(core::Rect{0,0,565,48},0,ui::ui_raw_text(std::format("{} {} · {}",store.data.achievements.contains(std::stoi(key))?"[已获得]":"[未获得]",a.at("title").get<std::string>(),a.at("earnedDesc").get<std::string>())));
+        auto label=std::make_unique<ui::UiLabel>(core::Rect{0,0,565,48},0,ui::ui_raw_text(std::format("{} {} · {}",store.data.achievements.contains(std::stoi(key))?content::ui("earned"):content::ui("not_earned"),a.at("title").get<std::string>(),a.at("earnedDesc").get<std::string>())));
         label->set_text_fit_mode(ui::UiLabelTextFitMode::ShrinkToFit);grid->add_child(std::move(label));
     }
-    list->add_back(std::move(grid));list->add_back(button("返回主菜单",1160,50,[this]{request_scene_switch(scene_keys::MainMenu);}));
+    list->add_back(std::move(grid));list->add_back(button(content::ui("back"),1160,50,[this]{request_scene_switch(scene_keys::MainMenu);}));
     auto* scope=list.get();window->add_child(std::move(list),ui::UiLayoutChildOptions{._anchor=ui::UiLayoutAnchor::Center});window->register_focus_scope(*scope);window->focus_first_available_scope();
 }
 }

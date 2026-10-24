@@ -498,5 +498,36 @@
       "rejected": "Playback request rejected",
       "scheduled": "Playback scheduled"
     }
+  },
+  "fly": {
+    "play": "Play · Select level",
+    "achievements": "Achievements",
+    "settings": "Settings",
+    "exit": "Exit",
+    "back": "Main menu",
+    "chapter_title": "FlyMe2TheMoon · Chapter {}",
+    "chapter_range": "Chapter {}   {}–{}",
+    "locked": "Locked",
+    "challenge": "Play",
+    "stars": "{} / 3 stars",
+    "level_button": "{:02}    {}",
+    "progress": "Cleared {} / 60     Score {}     Achievements {} / 17",
+    "save_error": "Save unavailable: {}",
+    "save_recovered": " · Progress recovered from backup",
+    "achievements_title": "Achievements · {} / 17",
+    "earned": "Earned",
+    "not_earned": "Locked",
+    "hud": "Moon Realm    {:02} / 60       Stars {} / 3       Crystals {}       {:.1f} s{}",
+    "done": "    Clear",
+    "failed": "    Failed",
+    "demo": "    Demonstration",
+    "paused": "    Paused",
+    "wait": "Please wait…",
+    "continue": "Enter / Click: continue",
+    "skip": "Enter / Click: continue      Tab: skip previously read story",
+    "controls": "Hold Space / W: rise · A / D: steer · Hold mouse below Kiana: cast magic    P pause    R retry    Esc levels",
+    "success_hint": "Moon reached! Enter: next level    R: retry for stars    Esc: levels",
+    "failure_hint": "Kiana fell! Enter / R: retry    Esc: levels",
+    "save_failure": "Progress could not be saved. Existing save retained. R: retry    Esc: levels"
   }
 }

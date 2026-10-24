@@ -20,12 +20,14 @@ FlightScene::FlightScene():Scene(elysia::scene::SceneRuntimeFeatures{
     .physics=physics::PhysicsWorldConfig{.units_per_meter=32,.gravity={0,320}},
     .camera=elysia::scene::CameraSceneConfig{.focus_mode=elysia::scene::CameraFocusMode::ResolveEachFrame,.advance_when_paused=true}}) {}
 void FlightScene::on_enter(const elysia::scene::ScenePayload& payload) {
+    _probe.begin();
     clear_scene_objects();_entities.clear();_projectiles.clear();_shots_fired=0;_homing_fired=0;_player=nullptr;_portal_lock=nullptr;_portal_transits=0;
     if(const auto* p=elysia::scene::try_scene_payload<FlightPayload>(payload)){_level=p->level;_restart=p->restart;}
     _data=content::level(_level);_stars=0;_crystals=0;_crystal_count=0;_elapsed=0;_finished=false;_success=false;
     (void)progress::Store::instance().load();
-    _text=content::read("text/zh-Hans/strings.json");_input_enabled=true;_demo=false;_demo_paused=false;_event_pending=false;_follow_role=true;_dialogue_key.clear();
+    _text=content::read("text/"+content::language()+"/strings.json");_input_enabled=true;_demo=false;_demo_paused=false;_event_pending=false;_follow_role=true;_dialogue_key.clear();
     _mechanism_time=0;_triggered_areas.assign(_data.at("areas").size(),false);_scheduled_actions.clear();
+    create_and_add_object<Parallax>(_data,&camera());
     create_and_add_object<Decor>(_data,false);
     for(const auto& line:_data.at("edges"))for(size_t i=1;i<line.size();++i) {
         Vec a{line[i-1][0],line[i-1][1]},b{line[i][0],line[i][1]};
@@ -115,10 +117,10 @@ void FlightScene::apply_pointer(Vec point) {
 }
 void FlightScene::finish(bool success) {
     if(_finished)return;_finished=true;_success=success;_player->thrust={};pause();
-    _hint->set_text_content(ui::ui_raw_text(success?"Moon reached! Enter: next level   R: retry for all stars   Esc: menu":"Kiana fell! Enter / R: retry   Esc: menu"));
+    _hint->set_text_content(ui::ui_raw_text(content::ui(success?"success_hint":"failure_hint")));
     auto& store=progress::Store::instance();
     const bool saved=success?store.record_clear(_level,_stars,_crystals,_crystal_count,_stars+_crystal_count,_elapsed):store.record_death(_level,_crystal_count);
-    if(!saved)_hint->set_text_content(ui::ui_raw_text("Progress could not be saved. R: retry    Esc: menu. Existing save retained."));
+    if(!saved)_hint->set_text_content(ui::ui_raw_text(content::ui("save_failure")));
     ELYSIA_LOG_INFO("fly",std::format("Level {} {} time={:.3f} stars={} crystals={}",_level,success?"SUCCESS":"FAIL",_elapsed,_stars,_crystals));
 }
 void FlightScene::reached(bool success) {
@@ -249,9 +251,9 @@ void FlightScene::on_after_update(double delta) {
         }
         if(_player->center().y>_data.at("height").get<float>()+100||_player->center().x< -100||_player->center().x>_data.at("width").get<float>()+100)reached(false);
     }
-    _hud->set_text_content(ui::ui_raw_text(std::format("月之残境    {:02} / 60       星星  {} / 3       水晶  {}       {:.1f} 秒{}",_level,_stars,_crystals,_elapsed,_finished?(_success?"    完成":"    失败"):_demo?"    飞行示范":is_paused()?"    暂停":"")));
-    if(_story.dialogue())_hint->set_text_content(ui::ui_raw_text(_story.dialogue()->remaining>0?"请稍候……":_story.skip_enabled()?"Enter / 单击：继续      Tab：跳过已读剧情":"Enter / 单击：继续"));
-    else if(!_finished)_hint->set_text_content(ui::ui_raw_text("按住 Space / W 上升 · A / D 转向 · 鼠标按住角色下方施放魔法    P 暂停    R 重试    Esc 选关"));
+    _hud->set_text_content(ui::ui_raw_text(content::format("hud",_level,_stars,_crystals,_elapsed,_finished?content::ui(_success?"done":"failed"):_demo?content::ui("demo"):is_paused()?content::ui("paused"):"")));
+    if(_story.dialogue())_hint->set_text_content(ui::ui_raw_text(content::ui(_story.dialogue()->remaining>0?"wait":_story.skip_enabled()?"skip":"continue")));
+    else if(!_finished)_hint->set_text_content(ui::ui_raw_text(content::ui("controls")));
     if(_probe.enabled()) {
     content::Json mechanisms=content::Json::array();
     for(const auto* entity:_entities)if(!entity->item&&((entity->kind>=105&&entity->kind<=107)||entity->rotating()))mechanisms.push_back({{"id",entity->id},{"kind",entity->kind},{"x",entity->position().x},{"y",entity->position().y},{"angle",entity->physics_state()->angle}});

@@ -3,6 +3,7 @@
 #include "engine/tools/logger.h"
 #include <fstream>
 #include <cstdlib>
+#include "engine/localization/localization_service.h"
 
 namespace game::testing {
 int ReplayProbe::requested_level() {
@@ -14,6 +15,7 @@ void ReplayProbe::begin() {
     if(_enabled||!_scenario.is_null())return;
     const char* value=std::getenv("FLY_REPLAY_SCENARIO");if(!value)return;
     std::ifstream in(value);_scenario=content::Json::parse(in);
+    if(_scenario.contains("language"))if(!ELYSIA_LOCALIZATION->set_language(_scenario.at("language")))throw std::runtime_error("QA language selection failed");
     _output=elysia::io::PathManager::instance()->root()/"docs/development/test-evidence"/_scenario.at("name").get<std::string>();
     _start=SDL_GetTicks();_enabled=true;
     ELYSIA_LOG_INFO("fly.test","Input replay started; no simulation overrides");

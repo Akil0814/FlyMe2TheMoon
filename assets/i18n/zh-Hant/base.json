@@ -498,5 +498,36 @@
       "rejected": "播放請求被拒絕",
       "scheduled": "已安排延遲播放"
     }
+  },
+  "fly": {
+    "play": "开始游戏 · 选择关卡",
+    "achievements": "成就",
+    "settings": "设置",
+    "exit": "退出",
+    "back": "返回主菜单",
+    "chapter_title": "FlyMe2TheMoon · 第 {} 章",
+    "chapter_range": "第 {} 章   {}—{}",
+    "locked": "未解锁",
+    "challenge": "开始挑战",
+    "stars": "{} / 3 星",
+    "level_button": "{:02}    {}",
+    "progress": "已完成 {} / 60 关     总分 {}     成就 {} / 17",
+    "save_error": "存档不可写：{}",
+    "save_recovered": " · 已从备份恢复进度",
+    "achievements_title": "成就 · {} / 17",
+    "earned": "已获得",
+    "not_earned": "未获得",
+    "hud": "月之残境    {:02} / 60       星星 {} / 3       水晶 {}       {:.1f} 秒{}",
+    "done": "    完成",
+    "failed": "    失败",
+    "demo": "    飞行示范",
+    "paused": "    暂停",
+    "wait": "请稍候……",
+    "continue": "Enter / 单击：继续",
+    "skip": "Enter / 单击：继续      Tab：跳过已读剧情",
+    "controls": "按住 Space / W 上升 · A / D 转向 · 鼠标按住角色下方施放魔法    P 暂停    R 重试    Esc 选关",
+    "success_hint": "到达月亮！Enter 下一关    R 重试收集星星    Esc 选关",
+    "failure_hint": "挑战失败。Enter / R 重试    Esc 选关",
+    "save_failure": "进度未能保存，已保留原存档。R 重试    Esc 选关"
   }
 }

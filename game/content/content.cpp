@@ -3,6 +3,7 @@
 #include <fstream>
 #include <format>
 #include <stdexcept>
+#include "engine/localization/localization_service.h"
 
 namespace game::content {
 Json read(const std::string& relative) {
@@ -16,4 +17,6 @@ Json level(int id) {
     if(id<1 || id>60) throw std::out_of_range("Level id outside 1..60");
     return read(std::format("levels/{:03}.json",id));
 }
+std::string language(){const auto& language=ELYSIA_LOCALIZATION->current_language();return language=="ja"?"ja":language.starts_with("zh")?"zh-Hans":"en";}
+std::string ui(const std::string& key){return std::string(ELYSIA_LOCALIZATION->tr("fly."+key));}
 }

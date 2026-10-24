@@ -7,12 +7,23 @@
 #include "game/content/content.h"
 #include "motion_profile.h"
 #include "shot_schedule.h"
+#include "engine/camera/camera.h"
 #include <array>
 #include <map>
 
 namespace game::play {
 using Vec = elysia::core::Vector2;
 using Rect = elysia::core::Rect;
+class Parallax final:public elysia::core::GameObject {
+public:
+    Parallax(const content::Json& data,const elysia::camera::Camera* camera);
+    void submit_render_commands(std::vector<elysia::core::RenderCommand>& out)const override;
+private:
+    struct LayerImage {elysia::core::RenderCommand command;Vec extent;};
+    std::vector<LayerImage> _images;
+    Vec _world_size;
+    const elysia::camera::Camera* _camera;
+};
 class Decor final : public elysia::core::GameObject {
 public:
     Decor(const content::Json& data, bool foreground);

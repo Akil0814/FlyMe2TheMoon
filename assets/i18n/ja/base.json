@@ -498,5 +498,36 @@
       "rejected": "再生要求を拒否",
       "scheduled": "再生予約済み"
     }
+  },
+  "fly": {
+    "play": "ゲーム開始 · ステージ選択",
+    "achievements": "実績",
+    "settings": "設定",
+    "exit": "終了",
+    "back": "メインメニュー",
+    "chapter_title": "FlyMe2TheMoon · 第 {} 章",
+    "chapter_range": "第 {} 章   {}–{}",
+    "locked": "未解放",
+    "challenge": "挑戦",
+    "stars": "星 {} / 3",
+    "level_button": "{:02}    {}",
+    "progress": "クリア {} / 60     スコア {}     実績 {} / 17",
+    "save_error": "保存できません：{}",
+    "save_recovered": " · バックアップから復元しました",
+    "achievements_title": "実績 · {} / 17",
+    "earned": "達成",
+    "not_earned": "未達成",
+    "hud": "月の残境    {:02} / 60       星 {} / 3       水晶 {}       {:.1f} 秒{}",
+    "done": "    クリア",
+    "failed": "    失敗",
+    "demo": "    飛行のお手本",
+    "paused": "    一時停止",
+    "wait": "お待ちください…",
+    "continue": "Enter / クリック：次へ",
+    "skip": "Enter / クリック：次へ      Tab：既読をスキップ",
+    "controls": "Space / W：上昇 · A / D：移動 · キアナの下でマウスを押す：魔法    P 一時停止    R 再挑戦    Esc 選択",
+    "success_hint": "月に到着！Enter 次のステージ    R 星を集め直す    Esc 選択",
+    "failure_hint": "失敗！Enter / R 再挑戦    Esc ステージ選択",
+    "save_failure": "進行を保存できません。以前の保存は保持されています。R 再挑戦    Esc 選択"
   }
 }

@@ -9,14 +9,34 @@
 namespace game::play {
 using namespace elysia::core;
 using namespace elysia::physics;
-Decor::Decor(const content::Json& data,bool foreground):GameObject(foreground?DepthLayer::Foreground:DepthLayer::Terrain) {
-    if(!foreground) {
-        RenderCommand bg; bg.type=RenderCommandType::FillRect;
-        bg.command_rect={-2000,-2000,data.at("width").get<float>()+4000,data.at("height").get<float>()+4000};
-        bg.color={14,22,49,255}; _commands.push_back(bg);
+Parallax::Parallax(const content::Json& data,const elysia::camera::Camera* camera):GameObject(DepthLayer::Background),_world_size{data.at("width"),data.at("height")},_camera(camera) {
+    for(const auto& d:data.at("decor"))if(d.at("layer")=="Farground"||d.at("layer")=="Background"){
+        LayerImage image;image.extent={d.at("layerWidth"),d.at("layerHeight")};
+        image.command.texture=ELYSIA_RESOURCES->find_texture(d.at("key").get<std::string>());
+        if(!image.command.texture)throw std::runtime_error("Missing parallax texture");
+        image.command.command_rect={d.at("x"),d.at("y").get<float>()-_world_size.y+image.extent.y,d.at("w"),d.at("h")};
+        image.command.rotation_degrees=d.at("rotation");image.command.rotation_origin={0,1};
+        image.command.flip=d.at("flip").get<bool>()?SpriteFlip::Horizontal:SpriteFlip::None;
+        _images.push_back(image);
     }
+}
+void Parallax::submit_render_commands(std::vector<RenderCommand>& out)const {
+    const auto view=_camera->view_rect();
+    RenderCommand bg;bg.type=RenderCommandType::FillRect;bg.command_rect=view;bg.color={14,22,49,255};out.push_back(bg);
+    for(const auto& image:_images){auto cmd=image.command;
+        const auto offset=[](float camera,float viewport,float layer,float world){
+            const float travel=std::max(0.f,layer-viewport),range=std::max(0.f,world-viewport);
+            const float scroll=range>0?std::clamp(camera/range,0.f,1.f)*travel:0;
+            return camera+std::max(0.f,(viewport-layer)/2)-scroll;
+        };
+        cmd.command_rect.set_position(cmd.command_rect.position()+Vec{
+            offset(view.x(),view.width(),image.extent.x,_world_size.x),
+            offset(view.y(),view.height(),image.extent.y,_world_size.y)});out.push_back(cmd);
+    }
+}
+Decor::Decor(const content::Json& data,bool foreground):GameObject(foreground?DepthLayer::Foreground:DepthLayer::Terrain) {
     for(const auto& d:data.at("decor")) {
-        if((d.at("layer")=="Foreground")!=foreground || d.at("layer")=="Farground")continue;
+        if((d.at("layer")=="Foreground")!=foreground || d.at("layer")=="Farground"||d.at("layer")=="Background")continue;
         RenderCommand cmd;cmd.texture=ELYSIA_RESOURCES->find_texture(d.at("key").get<std::string>());
         if(!cmd.texture)throw std::runtime_error("Missing level texture");
         cmd.command_rect={d.at("x"),d.at("y"),d.at("w"),d.at("h")};
