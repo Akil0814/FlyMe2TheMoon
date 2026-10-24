@@ -1,0 +1,15 @@
+{
+  "name": "level20-projectiles",
+  "level": 20,
+  "duration": 8,
+  "events": [],
+  "expect": {
+    "level": 20
+  },
+  "observe": [
+    {
+      "field": "shots_fired",
+      "max_at_least": 1
+    }
+  ]
+}

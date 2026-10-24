@@ -1,4 +1,8 @@
 #include "game/gameplay/motion_profile.h"
+#include "game/gameplay/tutorial_replay.h"
+#include "game/gameplay/flight_input.h"
+#include "game/gameplay/wind_field.h"
+#include "game/gameplay/shot_schedule.h"
 #include "engine/physics/physics_world.h"
 #include "engine/core/game_object.h"
 #include <fstream>
@@ -8,9 +12,36 @@
 void check(bool b,const char* message){if(!b)throw std::runtime_error(message);}
 int main(){try{
     using namespace game::play;using namespace elysia::physics;using game::content::Json;
+    std::ifstream catalog_file("assets/configs/fly/catalog.json");const auto config=Json::parse(catalog_file).at("role");
+    const auto vertical=pointer_thrust({464,1182},{508,1370},config);
+    check(std::abs(vertical.x)<.001&&vertical.y<-.99,"Central touch cone must remain vertical");
+    const auto left=pointer_thrust({0,0},{80,70},config),right=pointer_thrust({0,0},{-80,70},config),above=pointer_thrust({0,0},{0,-100},config);
+    check(left.x<0&&right.x>0&&std::abs(left.x+right.x)<.001&&above.length_squared()==0,"Touch steering symmetry / upper rejection failed");
+    std::ifstream recording("assets/configs/fly/tutorial.json");const auto tutorial=Json::parse(recording);
+    for(const auto& [key,record]:tutorial.items()) {
+        TutorialReplay replay;replay.load(record);replay.skip_idle();
+        const auto expected=record.at("frames")[replay.cursor()];const auto input=replay.next(1440);
+        check(input&&std::abs(input->x-expected[0].get<float>())<.001f&&std::abs(input->y-(1440-expected[1].get<float>()))<.001f,"Original replay coordinate conversion failed");
+        while(!replay.ended())replay.next(1440);
+        check(replay.cursor()==record.at("frames").size()&&!replay.next(1440),"Replay overran original input sequence");
+    }
+    check(tutorial.at("Rep_rd_1").at("frames").size()==718&&tutorial.at("Rep_rd_2").at("frames").size()==1422&&tutorial.at("Rep_rd_3").at("frames").size()==1103,"Tutorial record inventory changed");
+    const Json wind_info{{"Strength","10"},{"Fade","11"}};
+    check(std::abs(angle_difference(1.5f*std::numbers::pi_v<float>,-.5f*std::numbers::pi_v<float>))<.0001f,"Carrier pose must treat 270 and -90 degrees as identical");
+    const auto force=wind_force({0,0},{0,0},{256,128},0,wind_info);
+    const auto rotated=wind_force({0,0},{0,0},{256,128},std::numbers::pi_v<float>/2,wind_info);
+    check(force.y==-320&&std::abs(rotated.x-320)<.001&&std::abs(rotated.y)<.001,"Wind direction or original strength scale failed");
+    check(wind_force({0,64},{0,0},{256,128},0,wind_info).length_squared()==0&&wind_force({129,0},{0,0},{256,128},0,wind_info).length_squared()==0,"Wind leaked outside field / faded endpoint");
+    ShotSchedule volley(Json{{"Seq","0,0.05,0.1,0.15,2"},{"Lag","1"}});
+    int shots=0;for(int tick=0;tick<60;++tick)shots+=volley.advance(1./60);
+    check(shots<=1,"Firing occurred before configured lag");
+    for(int tick=0;tick<12;++tick)shots+=volley.advance(1./60);
+    check(shots==4,"Burst schedule missed closely spaced shots");
+    for(int tick=0;tick<120;++tick)shots+=volley.advance(1./60);
+    check(shots==8,"Burst repetition failed");
     MotionProfile gate(Json{{"Cycle","4"},{"Lag","99"},{"PauseHalf","2"},{"PauseEnd","3"},{"Rate","1"}});
     check(gate.fraction(98)==0&&gate.fraction(100)==.5&&gate.fraction(102)==1&&gate.fraction(104)==.5&&gate.fraction(106)==0&&gate.fraction(108)==0,"Gate travel, endpoint dwell, or cycle timing failed");
-    int moving=0,rotating=0,actions=0;
+    int moving=0,rotating=0,actions=0,carriers=0;
     for(int i=1;i<=60;++i){std::ifstream input(std::format("assets/configs/fly/levels/{:03}.json",i));auto data=Json::parse(input);std::set<int> targets;
         for(const auto& e:data.at("entities"))if(!e.at("item").get<bool>()){
             targets.insert(e.at("id").get<int>());const int k=e.at("kind");
@@ -19,8 +50,23 @@ int main(){try{
             if(k==108||k==109||k==110||k==117){++rotating;const double anchor=parameter(e.at("info"),"Anchor",.5);check(anchor>=0&&anchor<=1,"Invalid rotational anchor");}
         }
         for(const auto& area:data.at("areas"))for(const auto& a:area.at("actions")){++actions;const auto name=a.at("Target").get<std::string>();check(name.starts_with("4:")&&targets.contains(std::stoi(name.substr(2))),"Area references missing dynamic object");check(a.at("Action")=="Start"&&parameter(a,"Delay")>=0,"Unsupported trigger action");}
+        for(const auto& e:data.at("entities"))if(e.at("info").contains("CarrierID")){++carriers;check(targets.contains(static_cast<int>(parameter(e.at("info"),"CarrierID"))),"Carrier target absent");}
+        for(const auto& e:data.at("entities"))if(e.at("kind")==112||e.at("kind")==113){ShotSchedule sequence(e.at("info"));int total=0;for(int tick=0;tick<3600;++tick)total+=sequence.advance(1./60);check(total>0&&total<2000,"Original firing sequence did not produce bounded fire over 60 seconds");}
     }
     check(moving==388&&rotating==65&&actions==102,"Original mechanism inventory changed");
+    check(carriers==71,"Carrier inventory changed");
+    {
+        PhysicsWorld beam_world({.units_per_meter=32,.gravity={0,0}});
+        elysia::core::GameObject wall(elysia::core::DepthLayer::Terrain),role(elysia::core::DepthLayer::Character);
+        wall.set_world_rect({100,-100,10,200});role.set_world_rect({200,0,1,1});
+        Collider obstacle;obstacle.shape=AabbShape{{0,0,10,200}};obstacle.filter={.category=2,.mask=1};
+        Collider player;player.shape=CircleShape{{0,0},14};player.filter={.category=1,.mask=2|4|8};
+        const auto w=beam_world.register_object(wall,BodyDefinition{},std::span(&obstacle,1));
+        const auto p=beam_world.register_object(role,BodyDefinition{},std::span(&player,1));
+        const RayCastQuery ray{.origin={0,0},.direction={1,0},.max_distance=1000,.filter={.category=1|8,.mask=1|2|8}};
+        auto hit=beam_world.raycast(ray);check(hit&&hit->target.collider==beam_world.collider_id(w,0)&&std::abs(hit->distance-100)<.01,"Terrain must occlude lethal laser");
+        beam_world.unregister_object(w);hit=beam_world.raycast(ray);check(hit&&hit->target.collider==beam_world.collider_id(p,0),"Laser filter failed to see unoccluded player");
+    }
     elysia::core::GameObject anchor(elysia::core::DepthLayer::Terrain),bar(elysia::core::DepthLayer::Terrain);anchor.set_world_rect({0,0,1,1});bar.set_world_rect({60,0,120,12});
     PhysicsWorld world({.units_per_meter=32,.gravity={0,0}});
     Collider pin;pin.shape=CircleShape{{0,0},1};pin.filter={.category=0,.mask=0};pin.response=CollisionResponse::Ignore;

@@ -1,0 +1,7602 @@
+{
+  "checks": {
+    "level": {
+      "actual": 31,
+      "expected": 31,
+      "passed": true
+    },
+    "observe.armed_bombs": {
+      "maximum": 0.0,
+      "minimum": 0.0,
+      "passed": false,
+      "requested": {
+        "field": "armed_bombs",
+        "max_at_least": 1
+      }
+    }
+  },
+  "passed": false,
+  "samples": [
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 0.0,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": false,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2622.0
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 1.1836946978149854e-09,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2624.0
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 15.963400840759277,
+      "wall_time": 0.032,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.0,
+      "y": 2563.4326171875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 0.0,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": false,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2622.0
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 1.1201391814097406e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2624.0
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 52.9024772644043,
+      "wall_time": 0.142,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.0,
+      "y": 2567.53076171875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 0.0,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": false,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2622.0
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 2.6000153141580995e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2624.0
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 84.22346496582031,
+      "wall_time": 0.246,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.0,
+      "y": 2574.455322265625
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 0.0,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": false,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2622.0
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 4.84688911228659e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2624.0
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": -4.596323321948148e-14,
+      "vy": 1.8544756008598284e-11,
+      "wall_time": 0.351,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.0018005371094,
+      "y": 2582.244140625
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 0.0,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": false,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2622.0
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.098392984516977e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2624.0
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 0.455,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.0037841796875,
+      "y": 2581.853271484375
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 0.0,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": false,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2622.0
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2624.0
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 0.559,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.0041198730469,
+      "y": 2581.785888671875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 0.0,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": false,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2622.0
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2624.0
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 0.663,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.7744140625
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 0.0,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": false,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2622.0
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2624.0
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 0.768,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 0.0,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": false,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2622.0
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2624.0
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 0.873,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "Level31-1",
+      "elapsed": 0.0,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": false,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2622.0
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2624.0
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 0.981,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "Level31-1",
+      "elapsed": 0.0,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": false,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2622.0
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2624.0
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 1.099,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "Level31-1",
+      "elapsed": 0.0,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": false,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2622.0
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2624.0
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 1.203,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "Level31-2",
+      "elapsed": 0.0,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": false,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2622.0
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2624.0
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 1.306,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "Level31-2",
+      "elapsed": 0.0,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": false,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2622.0
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2624.0
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 1.411,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "Level31-2",
+      "elapsed": 0.0,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": false,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2622.0
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2624.0
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 1.515,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "Level31-2",
+      "elapsed": 0.0,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": false,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2622.0
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2624.0
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 1.619,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "Level31-2",
+      "elapsed": 0.0,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": false,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2622.0
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2624.0
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 1.722,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "Level31-3",
+      "elapsed": 0.0,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": false,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2622.0
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2624.0
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 1.828,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "Level31-3",
+      "elapsed": 0.0,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": false,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2622.0
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2624.0
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 1.931,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "Level31-3",
+      "elapsed": 0.0,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": false,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2622.0
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2624.0
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 2.035,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "Level31-3",
+      "elapsed": 0.0,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": false,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2622.0
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2624.0
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 2.139,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "Level31-3",
+      "elapsed": 0.0,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": false,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2622.0
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2624.0
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 2.243,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "Level31-3",
+      "elapsed": 0.0,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": false,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2622.0
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2624.0
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 2.347,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 0.0415206,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2621.905029296875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2623.905029296875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 2.453,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 0.1453738,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2621.14501953125
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2623.14501953125
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 2.556,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 0.24962350000000003,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2619.625
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2621.625
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 2.661,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 0.3543782,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2617.344970703125
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2619.344970703125
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 2.767,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 0.4578424,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2613.724365234375
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2615.724365234375
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 2.87,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 0.5618869,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2609.7978515625
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2611.7978515625
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 2.973,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 0.6660100999999999,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2605.111083984375
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2607.111083984375
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 3.077,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 0.7700006999999999,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2599.66455078125
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2601.66455078125
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 3.181,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 0.8328001999999999,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2594.544921875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2596.544921875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 3.283,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 0.8328001999999999,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2594.544921875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2596.544921875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 3.388,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 0.8328001999999999,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2594.544921875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2596.544921875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 3.493,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 0.8328001999999999,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2594.544921875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2596.544921875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 3.597,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 0.0835902,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2622.0
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 3.096088274645581e-09,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2624.0
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 26.561429977416992,
+      "wall_time": 3.703,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.0,
+      "y": 2564.16357421875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 0.18784060000000002,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2622.0
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 1.3321360903262303e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2624.0
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 58.14440155029297,
+      "wall_time": 3.807,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.0,
+      "y": 2568.467041015625
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 0.29188460000000005,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2622.0
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 2.890620010020939e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2624.0
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 89.41326904296875,
+      "wall_time": 3.911,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.0,
+      "y": 2575.9130859375
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 0.395787,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2622.0
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 4.84688911228659e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2624.0
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": -4.596323321948148e-14,
+      "vy": 1.8544756008598284e-11,
+      "wall_time": 4.014,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.0018005371094,
+      "y": 2582.244140625
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 0.5000336,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2622.0
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2624.0
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 4.12,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.0038757324219,
+      "y": 2581.83251953125
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 0.6039199,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2622.0
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2624.0
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 4.223,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.782470703125
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 0.708208,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2622.0
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2624.0
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 4.327,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.773681640625
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 0.8145831,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2622.0
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2624.0
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 4.433,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 0.9141837,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2622.0
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2624.0
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 4.534,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.0234583000000002,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2621.989501953125
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2623.989501953125
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 4.646,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.1420604000000003,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2621.324462890625
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2623.324462890625
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 4.761,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.2496173000000004,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2619.93115234375
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2621.93115234375
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 4.868,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.3556344000000002,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2617.344970703125
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2619.344970703125
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 4.974,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.4578027000000002,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2614.304931640625
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2616.304931640625
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 5.077,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.5701464000000003,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2609.7978515625
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2611.7978515625
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 5.193,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.6818827000000003,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2605.111083984375
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2607.111083984375
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 5.301,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.7959388000000003,
+      "finished": false,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2598.682861328125
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2600.682861328125
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 5.417,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 5.551,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 5.66,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 5.762,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 5.866,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 5.97,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 6.074,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 6.178,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 6.282,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 6.386,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 6.49,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 6.594,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 6.698,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 6.803,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 6.907,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 7.011,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 7.115,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 7.219,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 7.323,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 7.427,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 7.532,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 7.636,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 7.74,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 7.844,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 7.948,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 8.052,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 8.156,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 8.26,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 8.364,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 8.469,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 8.573,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 8.677,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 8.781,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 8.885,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 8.99,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 9.093,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 9.197,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 9.301,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 9.405,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 9.509,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 9.614,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 9.718,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 9.822,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 9.926,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 10.03,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 10.134,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 10.238,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 10.342,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 10.446,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 10.551,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 10.655,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 10.759,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 10.863,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 10.967,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 11.071,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 11.175,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 11.279,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 11.383,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 11.488,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 11.592,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 11.696,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 11.8,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 11.904,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    },
+    {
+      "active_lasers": 3,
+      "armed_bombs": 0,
+      "crystal_count": 0,
+      "crystals": 0,
+      "demo": false,
+      "demo_frame": 0,
+      "dialogue": "",
+      "elapsed": 1.8489367,
+      "finished": true,
+      "homing_fired": 0,
+      "input_enabled": true,
+      "level": 31,
+      "mechanisms": [
+        {
+          "angle": 0.0,
+          "id": 1,
+          "kind": 105,
+          "x": 230.0,
+          "y": 2593.457763671875
+        },
+        {
+          "angle": 0.0,
+          "id": 27,
+          "kind": 106,
+          "x": 704.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 0.0,
+          "id": 28,
+          "kind": 106,
+          "x": 896.0,
+          "y": 1037.0
+        },
+        {
+          "angle": 7.496684872876358e-08,
+          "id": 15,
+          "kind": 109,
+          "x": 1601.0,
+          "y": 1866.002197265625
+        },
+        {
+          "angle": 3.1415927410125732,
+          "id": 35,
+          "kind": 105,
+          "x": 448.0,
+          "y": 2595.457763671875
+        }
+      ],
+      "portal_transits": 0,
+      "projectiles": 0,
+      "scene": 2,
+      "shots_fired": 0,
+      "stars": 0,
+      "success": false,
+      "triggered_count": 0,
+      "vx": 0.0,
+      "vy": 0.0,
+      "wall_time": 12.008,
+      "wind_x": 0.0,
+      "wind_y": 0.0,
+      "x": 336.004150390625,
+      "y": 2581.772216796875
+    }
+  ],
+  "scenario": {
+    "duration": 12,
+    "events": [
+      {
+        "down": true,
+        "key": "Return",
+        "time": 1.2
+      },
+      {
+        "down": false,
+        "key": "Return",
+        "time": 1.3
+      },
+      {
+        "down": true,
+        "key": "Return",
+        "time": 1.7999999999999998
+      },
+      {
+        "down": false,
+        "key": "Return",
+        "time": 1.9
+      },
+      {
+        "down": true,
+        "key": "Return",
+        "time": 2.4
+      },
+      {
+        "down": false,
+        "key": "Return",
+        "time": 2.5
+      },
+      {
+        "down": true,
+        "key": "Return",
+        "time": 3.0
+      },
+      {
+        "down": false,
+        "key": "Return",
+        "time": 3.0999999999999996
+      },
+      {
+        "down": true,
+        "key": "Return",
+        "time": 3.5999999999999996
+      },
+      {
+        "down": false,
+        "key": "Return",
+        "time": 3.7
+      },
+      {
+        "down": true,
+        "key": "Return",
+        "time": 4.2
+      },
+      {
+        "down": false,
+        "key": "Return",
+        "time": 4.3
+      },
+      {
+        "down": true,
+        "key": "Return",
+        "time": 4.8
+      },
+      {
+        "down": false,
+        "key": "Return",
+        "time": 4.8999999999999995
+      },
+      {
+        "down": true,
+        "key": "Return",
+        "time": 5.4
+      },
+      {
+        "down": false,
+        "key": "Return",
+        "time": 5.5
+      },
+      {
+        "down": true,
+        "key": "Space",
+        "time": 6
+      },
+      {
+        "down": false,
+        "key": "Space",
+        "time": 9
+      }
+    ],
+    "expect": {
+      "level": 31
+    },
+    "level": 31,
+    "name": "level31-bomb03",
+    "observe": [
+      {
+        "field": "armed_bombs",
+        "max_at_least": 1
+      }
+    ]
+  }
+}

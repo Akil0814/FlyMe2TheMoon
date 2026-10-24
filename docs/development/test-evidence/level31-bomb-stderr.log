@@ -1,0 +1,48 @@
+2026-10-24 03:21:06 [INFO] [application] (application.cpp:460) SDL3 GPU backend: direct3d12
+2026-10-24 03:21:07 [INFO] [scene] (scene_manager.cpp:216) Switching to SceneKey 4294901761 with reload mode 0
+2026-10-24 03:21:08 [INFO] [resource] (game_content_loader.cpp:143) Total requests built: 1240, total work units: 1514
+2026-10-24 03:21:16 [INFO] [scene] (scene_manager.cpp:216) Switching to SceneKey 2 with reload mode 2
+2026-10-24 03:21:16 [INFO] [fly.test] (replay_probe.cpp:19) Input replay started; no simulation overrides
+2026-10-24 03:21:16 [INFO] [fly] (flight_scene.cpp:77) Entered level 31: 113 entities, 4 contours
+2026-10-24 03:21:17 [WARN] [resource] (audio_manager.cpp:95) Find sound failed: resource does not exist: fly.voice_53
+2026-10-24 03:21:17 [WARN] [audio] (audio_service.cpp:60) Play sound failed: sound does not exist: fly.voice_53
+2026-10-24 03:21:17 [WARN] [fly.audio] (flight_scene.cpp:168) Original voice request rejected: 53
+2026-10-24 03:21:17 [INFO] [fly.story] (flight_scene.cpp:177) Dialogue: Level31-1
+2026-10-24 03:21:17 [INFO] [fly.test.input] (replay_probe.cpp:37) 1.201000 Return down
+2026-10-24 03:21:17 [INFO] [fly.story] (flight_scene.cpp:177) Dialogue: Level31-2
+2026-10-24 03:21:18 [INFO] [fly.test.input] (replay_probe.cpp:37) 1.305000 Return up
+2026-10-24 03:21:18 [INFO] [fly.test.input] (replay_probe.cpp:37) 1.805000 Return down
+2026-10-24 03:21:18 [INFO] [fly.story] (flight_scene.cpp:177) Dialogue: Level31-3
+2026-10-24 03:21:18 [INFO] [fly.test.input] (replay_probe.cpp:37) 1.909000 Return up
+2026-10-24 03:21:19 [INFO] [fly.test.input] (replay_probe.cpp:37) 2.409000 Return down
+2026-10-24 03:21:19 [INFO] [fly] (flight_scene.cpp:122) Level 31 FAIL time=0.000 stars=0 crystals=0
+2026-10-24 03:21:19 [INFO] [fly.test.input] (replay_probe.cpp:37) 2.517000 Return up
+2026-10-24 03:21:19 [INFO] [fly.test.input] (replay_probe.cpp:37) 3.013000 Return down
+2026-10-24 03:21:19 [INFO] [scene] (scene_manager.cpp:216) Switching to SceneKey 2 with reload mode 2
+2026-10-24 03:21:19 [INFO] [fly] (flight_scene.cpp:77) Entered level 31: 113 entities, 4 contours
+2026-10-24 03:21:19 [INFO] [fly] (flight_scene.cpp:122) Level 31 FAIL time=0.000 stars=0 crystals=0
+2026-10-24 03:21:19 [INFO] [fly.test.input] (replay_probe.cpp:37) 3.104000 Return up
+2026-10-24 03:21:20 [INFO] [fly.test.input] (replay_probe.cpp:37) 3.616000 Return down
+2026-10-24 03:21:20 [INFO] [scene] (scene_manager.cpp:216) Switching to SceneKey 2 with reload mode 2
+2026-10-24 03:21:20 [INFO] [fly] (flight_scene.cpp:77) Entered level 31: 113 entities, 4 contours
+2026-10-24 03:21:20 [INFO] [fly] (flight_scene.cpp:122) Level 31 FAIL time=0.000 stars=0 crystals=0
+2026-10-24 03:21:20 [INFO] [fly.test.input] (replay_probe.cpp:37) 3.706000 Return up
+2026-10-24 03:21:20 [INFO] [fly.test.input] (replay_probe.cpp:37) 4.220000 Return down
+2026-10-24 03:21:20 [INFO] [scene] (scene_manager.cpp:216) Switching to SceneKey 2 with reload mode 2
+2026-10-24 03:21:20 [INFO] [fly] (flight_scene.cpp:77) Entered level 31: 113 entities, 4 contours
+2026-10-24 03:21:20 [INFO] [fly] (flight_scene.cpp:122) Level 31 FAIL time=0.000 stars=0 crystals=0
+2026-10-24 03:21:21 [INFO] [fly.test.input] (replay_probe.cpp:37) 4.310000 Return up
+2026-10-24 03:21:21 [INFO] [fly.test.input] (replay_probe.cpp:37) 4.803000 Return down
+2026-10-24 03:21:21 [INFO] [scene] (scene_manager.cpp:216) Switching to SceneKey 2 with reload mode 2
+2026-10-24 03:21:21 [INFO] [fly] (flight_scene.cpp:77) Entered level 31: 113 entities, 4 contours
+2026-10-24 03:21:21 [INFO] [fly] (flight_scene.cpp:122) Level 31 FAIL time=0.000 stars=0 crystals=0
+2026-10-24 03:21:21 [INFO] [fly.test.input] (replay_probe.cpp:37) 4.912000 Return up
+2026-10-24 03:21:22 [INFO] [fly.test.input] (replay_probe.cpp:37) 5.407000 Return down
+2026-10-24 03:21:22 [INFO] [scene] (scene_manager.cpp:216) Switching to SceneKey 2 with reload mode 2
+2026-10-24 03:21:22 [INFO] [fly] (flight_scene.cpp:77) Entered level 31: 113 entities, 4 contours
+2026-10-24 03:21:22 [INFO] [fly] (flight_scene.cpp:122) Level 31 FAIL time=0.000 stars=0 crystals=0
+2026-10-24 03:21:22 [INFO] [fly.test.input] (replay_probe.cpp:37) 5.514000 Return up
+2026-10-24 03:21:22 [INFO] [fly.test.input] (replay_probe.cpp:37) 6.011000 Space down
+2026-10-24 03:21:25 [INFO] [fly.test.input] (replay_probe.cpp:37) 9.009000 Space up
+2026-10-24 03:21:28 [INFO] [fly.test] (replay_probe.cpp:60) Replay assertions FAIL
+2026-10-24 03:21:30 [INFO] [application] (application.cpp:722) Application shutdown complete

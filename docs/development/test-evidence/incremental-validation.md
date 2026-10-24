@@ -17,7 +17,22 @@
 - `build-story-scene01.log` 只重编译 `flight_objects.cpp` 和 `flight_scene.cpp`，没有重新编译包含新 `FlightScene` 类定义、负责模板实例化分配的 `game_module.cpp`。
 - `ninja -C out/build/release -t deps game/CMakeFiles/game_lib.dir/application/game_module.cpp.obj` 得到 `#deps 0`，见 `header-deps-before.log`。CMake 生成的 `msvc_deps_prefix` 是中文编码乱码，而 MSVC 实际输出正常中文。故头文件修改没有触发重编译，旧分配尺寸与新构造函数不一致。
 - Windows 应用日志记录 `0xc0000374` 堆损坏及清理阶段 `0xc0000005`。不是据此推断引擎缺陷。
-- 根构建配置用 `cmake -E env VSLANG=1033` 作为编译器 launcher，并将 showIncludes 前缀统一为英文；适用于从 helper 和直接 Ninja 构建。只改变项目构建配置，无引擎源码修改。
+- 单独设置 VSLANG 无效（本机只有中文编译器语言资源）；根构建配置最终使用 Python `game/tools/msvc_output.py` 作为 launcher，将中文 showIncludes 前缀转换为 Ninja 预期的英文，并保留编译器退出码；适用于从 helper 和直接 Ninja 构建。只改变项目构建配置，无引擎源码修改。
 - 增加 MSVC AddressSanitizer 构建入口，工具链的 STL 容器注解要求主程序、游戏、引擎及 HarfBuzz 使用一致 ASan 编译选项；首次链接不匹配记录于 `build-asan*.log`，已修正构建目标配置。
 - 另发现教程时序问题：原脚本在演示之后才定义 `onRoleReachedMoon`。协程运行器现缓存初始脚本执行期间的事件，待回调定义完成再派发；新增“事件先于回调定义”的单测。
 - `story-asan02.log`：首关原对白、教程演示、复位、玩家输入、3 星通关、干净退出，进程退出码 0，无 ASan 报错。普通优化 Release 正在完整重建复测，不能用诊断版替代最终交付。
+
+## 2026-10-24 普通 Release、机关与教程记录
+
+- `build-dependency-fix02.log`：普通 Release 全量重建成功；`header-deps-after.log` 中 game_module 对象记录 182 项依赖。后续修改 FlightScene 头文件正确触发所有包含者重编译。
+- `story-release-fixed.log`：普通 Release 的首关完整剧情、演示复位、键盘飞行、3 星通关及干净退出通过。
+- `mechanisms-ctest02.log`：3 项 CTest 均通过；运动参数边界、转轴引擎约束、原始触发目标均有覆盖。
+- `level4-moving.json`：第 4 关两平台实际 x 行程约 223.94 和 191.97；`level7-rotating.json`：第 7 关有多个实际旋转轴；`level4-spike-failure.json`：输入后触碰尖刺，失败并退出码 0。平台默认曲线和尖刺边编号仍属近似。
+- `menu-snapshot`、`menu-selection`：实际启动并由 Enter 切换菜单到选关，渲染截图中中文正常，第一关三星存档与第二关解锁可见。
+- 教程缺失判定更正：`tutorialRep_001.plist` 内三个键分别解码出 718、1422、1103 帧，按压帧 322、1052、357；每条记录由 8 字节头及 1 字节标记、按压时 8 字节浮点坐标组成，恰好消费所有源字节。`tutorial-import.json` 可核查。
+- `level1-original-replay01.json`：首次原始输入回放失败，角色因旧连续角度映射偏左，触碰顶部而未到月亮，教程不能结束。保留失败与原预期；没有删除通关/三星/退出演示等断言。修复按角色配置定义中央竖直区域，外围平滑转向和上方按压拒绝；角度传递函数仍为推断，不能宣称精确原手感。
+
+- `level1-original-replay02.json`：原始录制到月、角色复位和三星通关都已发生，但脚本末尾无条件 Enter 又进入第二关，最终关卡断言失败。为避免依赖结算时长，新增事件 `when` 条件，仅在指定对白可见时发送末尾确认；输入仍通过 SDL 正常队列，不改位置、存档或成功规则。
+- `level1-original-replay03.json` / stderr.log：修正回归脚本后所有原预期（第一关、三星、成功、输入恢复、演示结束）通过，进程退出 0。`tutorial-ctest01.log` 3 项通过，包括原始回放完整遍历和角度边界。
+
+- `wind-portal-ctest01.log`：3 项测试通过，新增风场旋转、强度、淡出与范围边界。`level10-wind.json`：风力最大 x=320，角色实际 x 位移约 124；`level13-portal.json`：正常输入飞行穿过 0→1 传送门，随后触发对象 2 的 Start，均退出 0，截图已查看。新增采样范围断言用于验证实际发生的过程，不仅检查最终状态。

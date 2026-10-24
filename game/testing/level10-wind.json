@@ -1,0 +1,20 @@
+{
+  "name": "level10-wind",
+  "level": 10,
+  "duration": 6,
+  "events": [],
+  "expect": {
+    "level": 10,
+    "finished": false
+  },
+  "observe": [
+    {
+      "field": "wind_x",
+      "max_at_least": 100
+    },
+    {
+      "field": "x",
+      "span_at_least": 15
+    }
+  ]
+}

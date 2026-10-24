@@ -7,6 +7,8 @@
 #include "engine/ui/widgets/text/ui_text_block.h"
 #include "engine/ui/widgets/image/ui_image.h"
 #include "engine/audio/sound_playback_types.h"
+#include "game/gameplay/tutorial_replay.h"
+#include "game/gameplay/projectile.h"
 
 namespace game::scene_keys {inline constexpr elysia::scene::SceneKey Flight=2;}
 namespace game::scene {
@@ -27,6 +29,7 @@ private:
     void finish(bool success);
     void reached(bool success);
     void restore_player();
+    void apply_pointer(play::Vec point);
     content::Json story_action(const std::string&,const content::Json&);
     void update_dialogue();
     int _level=1,_stars=0,_crystals=0,_crystal_count=0;
@@ -37,10 +40,17 @@ private:
     content::Json _data;
     play::Player* _player=nullptr;
     std::vector<play::Entity*> _entities;
+    play::Entity* _portal_lock=nullptr;
+    int _portal_transits=0;
+    play::Vec _wind_force{};
+    bool _laser_hit=false;
+    std::vector<play::Projectile*> _projectiles;
+    int _shots_fired=0,_homing_fired=0;
     elysia::ui::UiLabel* _hud=nullptr;
     elysia::ui::UiLabel* _hint=nullptr;
     testing::ReplayProbe& _probe=testing::ReplayProbe::shared();
     story::Runtime _story;
+    play::TutorialReplay _tutorial_replay;
     content::Json _text;
     std::string _dialogue_key;
     elysia::ui::UiTextBlock* _dialogue=nullptr;

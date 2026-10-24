@@ -3,6 +3,7 @@ from pathlib import Path
 import json, math, shutil, struct, re, collections
 from PIL import Image
 from analyze_reference import ROOT, REF, OUT, loose_json, original_file, ET
+from import_tutorial import main as import_tutorial
 
 ASSETS=ROOT/'assets'
 TEXTURES=ASSETS/'textures/fly'
@@ -14,6 +15,7 @@ def write_json(path,data):
     path.write_text(json.dumps(data,ensure_ascii=False,indent=2),encoding='utf-8')
 
 def main():
+    import_tutorial()
     textures={}; sizes={}; animations=[]
     def texture(key,p,scale=0.5):
         target=TEXTURES/(key.replace('.','/')+'.png');target.parent.mkdir(parents=True,exist_ok=True)
@@ -89,7 +91,12 @@ def main():
                     key=f'DynamicObjectsLite.{"Item" if name=="Item" else "DynamicObject"}_{seq:03}'
                     sw,sh=sizes[key]
                     info=obj.find('Info')
-                    level['entities'].append({'kind':seq,'item':name=='Item','id':int(a['ID']), 'x':x+sw/2,'y':h-y-sh/2,
+                    # Cocos editor placements use the lower-left image anchor;
+                    # rotate its local half-size before converting to body center.
+                    rad=math.radians(rotation) if seq not in [8,24,25] else 0
+                    cx=x+sw/2*math.cos(rad)+sh/2*math.sin(rad)
+                    cy=h-y+sw/2*math.sin(rad)-sh/2*math.cos(rad)
+                    level['entities'].append({'kind':seq,'item':name=='Item','id':int(a['ID']), 'x':cx,'y':cy,
                         'w':sw,'h':sh,'rotation':rotation,'key':'fly.'+key,'info':dict(info.attrib) if info is not None else {}})
                 elif name=='Area':
                     level['areas'].append({'x':x,'y':h-y-float(a['Height']),'w':float(a['Width']),'h':float(a['Height']),

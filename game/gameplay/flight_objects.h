@@ -6,6 +6,7 @@
 #include "engine/animation/animation.h"
 #include "game/content/content.h"
 #include "motion_profile.h"
+#include "shot_schedule.h"
 #include <array>
 #include <map>
 
@@ -38,6 +39,7 @@ public:
     void update(double delta) override;
     void submit_render_commands(std::vector<elysia::core::RenderCommand>& out) const override;
     Vec thrust{};
+    void die();
     bool idle_enabled=true,dead=false;
     double look_time=0;
 private:
@@ -58,6 +60,16 @@ public:
     Vec center()const noexcept{return position();}
     void trigger_start(){_time=_motion.lag;}
     bool rotating()const{return kind==108||kind==109||kind==110||kind==117;}
+    bool wind()const{return kind==8||kind==24||kind==25;}
+    Vec wind_force_at(Vec point)const;
+    void attach_carrier(Entity* carrier);
+    bool update_laser(Vec target,elysia::physics::ColliderId player);
+    bool laser_active()const{return _laser_active;}
+    float laser_length()const{return (_laser_end-_laser_start).length();}
+    int shots_due(double delta,Vec target);
+    Vec fire_direction(Vec target)const;
+    bool update_bomb(double delta,Vec target);
+    int bomb_state()const{return _bomb_state;}
     bool lethal(elysia::physics::ColliderId hit)const;
     int kind=0,id=0;
     bool item=false,collected=false;
@@ -73,6 +85,15 @@ private:
     double _time=0;
     std::vector<Vec> _spike_positions;
     SDL_Texture* _spike_texture=nullptr;
+    Entity* _carrier=nullptr;
+    Vec _carrier_offset{};
+    float _carrier_angle=0;
+    bool _laser_active=false;
+    Vec _laser_start{},_laser_end{};
+    std::optional<ShotSchedule> _shots;
+    int _bomb_state=0;
+    double _bomb_time=0;
+    std::unique_ptr<elysia::animation::Animation> _bomb_armed,_bomb_blast;
 };
 class Pivot final:public elysia::core::GameObject,public elysia::physics::PhysicsParticipant {
 public:

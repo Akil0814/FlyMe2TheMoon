@@ -1,0 +1,30 @@
+2026-10-24 03:13:21 [INFO] [application] (application.cpp:460) SDL3 GPU backend: direct3d12
+2026-10-24 03:13:21 [INFO] [scene] (scene_manager.cpp:216) Switching to SceneKey 4294901761 with reload mode 0
+2026-10-24 03:13:21 [INFO] [resource] (game_content_loader.cpp:143) Total requests built: 1240, total work units: 1514
+2026-10-24 03:13:27 [INFO] [scene] (scene_manager.cpp:216) Switching to SceneKey 2 with reload mode 2
+2026-10-24 03:13:27 [INFO] [fly.test] (replay_probe.cpp:19) Input replay started; no simulation overrides
+2026-10-24 03:13:27 [INFO] [fly] (flight_scene.cpp:71) Entered level 13: 116 entities, 4 contours
+2026-10-24 03:13:28 [INFO] [fly.story] (flight_scene.cpp:170) Dialogue: Level46-1
+2026-10-24 03:13:28 [INFO] [fly.test.input] (replay_probe.cpp:37) 1.213000 Return down
+2026-10-24 03:13:28 [INFO] [fly.story] (flight_scene.cpp:170) Dialogue: Level46-2
+2026-10-24 03:13:28 [INFO] [fly.test.input] (replay_probe.cpp:37) 1.320000 Return up
+2026-10-24 03:13:28 [INFO] [fly.test.input] (replay_probe.cpp:37) 1.714000 Return down
+2026-10-24 03:13:28 [INFO] [fly.story] (flight_scene.cpp:170) Dialogue: Level46-3
+2026-10-24 03:13:28 [INFO] [fly.test.input] (replay_probe.cpp:37) 1.820000 Return up
+2026-10-24 03:13:29 [INFO] [fly.test.input] (replay_probe.cpp:37) 2.215000 Return down
+2026-10-24 03:13:29 [INFO] [fly.story] (flight_scene.cpp:170) Dialogue: Level46-4
+2026-10-24 03:13:29 [INFO] [fly.test.input] (replay_probe.cpp:37) 2.318000 Return up
+2026-10-24 03:13:29 [INFO] [fly.test.input] (replay_probe.cpp:37) 2.712000 Return down
+2026-10-24 03:13:29 [INFO] [fly.story] (flight_scene.cpp:170) Dialogue: Level46-5
+2026-10-24 03:13:29 [INFO] [fly.test.input] (replay_probe.cpp:37) 2.816000 Return up
+2026-10-24 03:13:30 [INFO] [fly.test.input] (replay_probe.cpp:37) 3.212000 Return down
+2026-10-24 03:13:30 [INFO] [fly.story] (flight_scene.cpp:170) Dialogue: Level46-6
+2026-10-24 03:13:30 [INFO] [fly.test.input] (replay_probe.cpp:37) 3.316000 Return up
+2026-10-24 03:13:30 [INFO] [fly.test.input] (replay_probe.cpp:37) 3.712000 Return down
+2026-10-24 03:13:30 [INFO] [fly.test.input] (replay_probe.cpp:37) 3.815000 Return up
+2026-10-24 03:13:32 [INFO] [fly.test.input] (replay_probe.cpp:37) 5.003000 Space down
+2026-10-24 03:13:33 [INFO] [fly.portal] (flight_scene.cpp:224) Transit 0 -> 1
+2026-10-24 03:13:34 [INFO] [fly.test.input] (replay_probe.cpp:37) 7.004000 Space up
+2026-10-24 03:13:34 [INFO] [fly.trigger] (flight_scene.cpp:187) Start entity 2 at 7.467
+2026-10-24 03:13:37 [INFO] [fly.test] (replay_probe.cpp:60) Replay assertions PASS
+2026-10-24 03:13:37 [INFO] [application] (application.cpp:722) Application shutdown complete
