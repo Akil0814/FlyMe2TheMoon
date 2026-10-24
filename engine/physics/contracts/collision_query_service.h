@@ -28,15 +28,11 @@ public:
         const SegmentCastQuery& query,
         std::vector<CollisionQueryHit>& out_hits) const = 0;
 
-    virtual void overlap_aabb(
-        const AabbOverlapQuery& query,
+    virtual void overlap_shape(const ShapeOverlapQuery& query,
         std::vector<CollisionOverlapQueryHit>& out_hits) const = 0;
-
-    virtual void overlap_circle(
-        const CircleOverlapQuery& query,
-        std::vector<CollisionOverlapQueryHit>& out_hits) const = 0;
-
-    [[nodiscard]] virtual std::optional<CollisionQueryHit> sweep_aabb(
-        const AabbSweepQuery& query) const = 0;
+    [[nodiscard]] virtual std::optional<CollisionQueryHit> shape_cast(
+        const ShapeCastQuery& query) const = 0;
+    virtual void shape_cast_all(const ShapeCastQuery& query,
+        std::vector<CollisionQueryHit>& out_hits) const = 0;
 };
 }

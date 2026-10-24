@@ -86,7 +86,7 @@ struct OneWayCollision
 struct Collider
 {
     bool operator==(const Collider&) const noexcept = default;
-    ColliderShape shape{AabbShape{}};
+    ColliderShape shape{BoxShape{}};
 
     CollisionFilter filter{};
     CollisionResponse response = CollisionResponse::Block;

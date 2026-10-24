@@ -316,7 +316,7 @@ private:
     {
         elysia::core::SceneObject* object = nullptr;
         elysia::physics::PhysicsObjectHandle handle{};
-        std::vector<elysia::physics::ColliderId> colliders;
+        std::unique_ptr<std::vector<elysia::physics::ColliderId>> colliders;
     };
 
     std::unique_ptr<SceneCameraRuntime> _camera_runtime;

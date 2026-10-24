@@ -29,7 +29,7 @@ bool nonnegative(float v)
 } // namespace
 
 std::optional<ColliderValidationFailure> detail::collider_validation_failure(
-    const Collider& collider)
+    const Collider& collider, float units_per_meter)
 {
     if (!nonnegative(collider.material.friction))
         return ColliderValidationFailure::Friction;
@@ -40,31 +40,9 @@ std::optional<ColliderValidationFailure> detail::collider_validation_failure(
     if (collider.one_way && !nonnegative(collider.one_way->tolerance))
         return ColliderValidationFailure::OneWayTolerance;
 
-    return std::visit(
-        [](const auto& shape) -> std::optional<ColliderValidationFailure>
-        {
-            using Shape = std::decay_t<decltype(shape)>;
-            if constexpr (std::is_same_v<Shape, AabbShape>)
-            {
-                if (!finite(shape.local_rect.position()))
-                    return ColliderValidationFailure::AabbPosition;
-                if (!finite(shape.local_rect.size())
-                    || shape.local_rect.width() <= 0
-                    || shape.local_rect.height() <= 0)
-                {
-                    return ColliderValidationFailure::AabbSize;
-                }
-            }
-            else
-            {
-                if (!finite(shape.local_center))
-                    return ColliderValidationFailure::CircleCenter;
-                if (!std::isfinite(shape.radius) || shape.radius <= 0)
-                    return ColliderValidationFailure::CircleRadius;
-            }
-            return std::nullopt;
-        },
-        collider.shape);
+    if (!detail::shape_geometry(collider.shape, detail::PhysicsUnits(units_per_meter)))
+        return ColliderValidationFailure::Geometry;
+    return std::nullopt;
 }
 
 namespace
@@ -92,29 +70,9 @@ void append_collider_validation_detail(
         stream << "one-way tolerance must be finite and non-negative; tolerance="
                << collider.one_way->tolerance;
         return;
-    case ColliderValidationFailure::AabbPosition:
-    case ColliderValidationFailure::AabbSize:
-    {
-        const auto& shape = std::get<AabbShape>(collider.shape);
-        stream << (failure == ColliderValidationFailure::AabbPosition
-                       ? "AABB position must be finite"
-                       : "AABB size must be finite and positive")
-               << "; position=(" << shape.local_rect.position().x << ','
-               << shape.local_rect.position().y << ") size=("
-               << shape.local_rect.width() << ',' << shape.local_rect.height() << ')';
+    case ColliderValidationFailure::Geometry:
+        stream << "invalid collider geometry; shape_index=" << collider.shape.index();
         return;
-    }
-    case ColliderValidationFailure::CircleCenter:
-    case ColliderValidationFailure::CircleRadius:
-    {
-        const auto& shape = std::get<CircleShape>(collider.shape);
-        stream << (failure == ColliderValidationFailure::CircleCenter
-                       ? "circle center must be finite"
-                       : "circle radius must be finite and positive")
-               << "; center=(" << shape.local_center.x << ',' << shape.local_center.y
-               << ") radius=" << shape.radius;
-        return;
-    }
     }
 }
 
@@ -175,6 +133,7 @@ void PhysicsWorld::Impl::create_shape(Shape &s, b2BodyId body)
     if (!c.enabled || c.response == CollisionResponse::Ignore)
         return;
     auto d = b2DefaultShapeDef();
+    d.updateBodyMass = false;
     d.isSensor = c.response == CollisionResponse::Overlap;
     d.enableSensorEvents = true;
     d.enableContactEvents = true;
@@ -185,25 +144,21 @@ void PhysicsWorld::Impl::create_shape(Shape &s, b2BodyId body)
     d.material.friction = c.material.friction;
     d.material.restitution = c.material.restitution;
     d.density = d.isSensor && !c.sensor_contributes_mass ? 0 : c.density.kilograms_per_square_meter;
-    std::visit(
-        [&](auto &shape) {
-            using T = std::decay_t<decltype(shape)>;
-            if constexpr (std::is_same_v<T, AabbShape>)
-            {
-                auto r = shape.local_rect;
-                auto poly =
-                    b2MakeOffsetBox(units.to_length(r.width() / 2), units.to_length(r.height() / 2),
-                                    to(r.center()), b2Rot_identity);
-                s.native = b2CreatePolygonShape(body, &d, &poly);
-            }
-            else
-            {
-                b2Circle circle{to(shape.local_center), units.to_length(shape.radius)};
-                s.native = b2CreateCircleShape(body, &d, &circle);
-            }
-        },
-        c.shape);
-    mapping.emplace(b2StoreShapeId(s.native), Mapping{s.target, 0});
+    const auto geometry = detail::shape_geometry(c.shape, units);
+    if (!geometry) return;
+    switch (geometry->kind)
+    {
+    case detail::ShapeGeometry::Kind::Segment:
+        d.density=0;s.native=b2CreateSegmentShape(body,&d,&geometry->segment);break;
+    case detail::ShapeGeometry::Kind::Circle:
+        s.native = b2CreateCircleShape(body, &d, &geometry->circle); break;
+    case detail::ShapeGeometry::Kind::Capsule:
+        s.native = b2CreateCapsuleShape(body, &d, &geometry->capsule); break;
+    case detail::ShapeGeometry::Kind::Polygon:
+        s.native = b2CreatePolygonShape(body, &d, &geometry->polygon); break;
+    }
+    try { mapping.emplace(b2StoreShapeId(s.native), Mapping{s.target, 0}); }
+    catch (...) { b2DestroyShape(s.native, false); s.native = b2_nullShapeId; throw; }
 }
 void PhysicsWorld::Impl::retire(Shape &s)
 {
@@ -225,9 +180,10 @@ bool PhysicsWorld::Impl::bullet(const Object &o) const
 }
 void PhysicsWorld::Impl::mass(Object &o)
 {
+    // Kinematic extents are also required by native target-transform sleeping.
+    b2Body_ApplyMassFromShapes(o.native);
     if (o.definition.type != BodyType::Dynamic)
         return;
-    b2Body_ApplyMassFromShapes(o.native);
     if (o.definition.mass_policy == MassPolicy::ExplicitMass)
     {
         auto m = b2Body_GetMassData(o.native);
@@ -242,6 +198,11 @@ void PhysicsWorld::Impl::destroy_object(std::uint64_t h)
     auto it = objects.find(h);
     if (it == objects.end())
         return;
+    for(auto chain=chains.begin();chain!=chains.end();)
+    {
+        auto current=chain++;
+        if(current->second->owner.value==h)destroy_chain_record(current->first,true);
+    }
     if (it->second.owner)
         it->second.owner->set_position(it->second.current.position);
     for (auto id : it->second.shapes)
@@ -277,6 +238,7 @@ void PhysicsWorld::Impl::clear()
             o.owner->set_position(o.current.position);
     commands.clear();
     joints.clear();
+    chains.clear();
     objects.clear();
     shapes.clear();
     tile_shapes.clear();
@@ -308,8 +270,8 @@ void PhysicsWorld::Impl::flush()
         clear();
         return;
     }
-    auto pending = std::move(commands);
-    commands.clear();
+    std::vector<std::function<void()>> pending(std::size_t{0});
+    pending.swap(commands);
     try
     {
         for (auto &f : pending)
@@ -324,6 +286,11 @@ void PhysicsWorld::Impl::flush()
 }
 void PhysicsWorld::Impl::rollback_registration(std::uint64_t h) noexcept
 {
+    for(auto i=chains.begin();i!=chains.end();)
+    {
+        auto current=i++;
+        if(current->second->owner.value==h)destroy_chain_record(current->first,false,B2_IS_NULL(current->second->native));
+    }
     auto object = objects.find(h);
     if (object == objects.end())
         return;
@@ -345,6 +312,28 @@ void PhysicsWorld::Impl::rollback_registration(std::uint64_t h) noexcept
 }
 void PhysicsWorld::Impl::rollback_aborted_registrations() noexcept
 {
+    for(auto i=chains.begin();i!=chains.end();)
+    {
+        auto current=i++;
+        const auto& chain=*current->second;
+        if(chain.removed||B2_IS_NULL(chain.native)||!get(chain.owner))
+            destroy_chain_record(current->first,false,B2_IS_NULL(chain.native));
+    }
+    for (auto i=joints.begin();i!=joints.end();)
+    {
+        auto& joint=i->second;
+        if (B2_IS_NULL(joint.native)||joint.removed||!get(joint.first)||!get(joint.second))
+        {
+            if (B2_IS_NON_NULL(joint.native))
+            {
+                b2Joint_SetCollideConnected(joint.native,true);
+                b2Joint_WakeBodies(joint.native);
+                b2DestroyJoint(joint.native);
+            }
+            i=joints.erase(i);
+        }
+        else ++i;
+    }
     for (auto it = objects.begin(); it != objects.end();)
     {
         if (!it->second.pending_creation && !it->second.removed)
@@ -385,9 +374,11 @@ PhysicsObjectHandle PhysicsWorld::register_object(elysia::core::GameObject &owne
         !std::isfinite(d.gravity_scale) || !nonnegative(d.linear_damping) ||
         !nonnegative(d.angular_damping) || !std::isfinite(d.mass) || d.mass <= 0)
         return {};
+    if (d.type==BodyType::Dynamic && std::ranges::any_of(cs,[](const Collider& c){
+        return std::holds_alternative<SegmentShape>(c.shape);})) return {};
     for (std::size_t index = 0; index < cs.size(); ++index)
     {
-        if (const auto failure = collider_validation_failure(cs[index]))
+        if (const auto failure = collider_validation_failure(cs[index], p.config.units_per_meter))
         {
             log_invalid_collider_registration(owner, index, *failure, cs[index]);
             return {};
@@ -415,7 +406,12 @@ PhysicsObjectHandle PhysicsWorld::register_object(elysia::core::GameObject &owne
             try { o.shapes.push_back(id); }
             catch (...) { p.shapes.erase(id); throw; }
         }
-        p.objects.emplace(h.value, std::move(o));
+        auto [entry,inserted]=p.objects.try_emplace(h.value);
+        auto& registered=entry->second;
+        registered.owner=o.owner;registered.definition=o.definition;
+        registered.previous=o.previous;registered.current=o.current;
+        registered.pending_creation=o.pending_creation;
+        registered.shapes.swap(o.shapes);
     }
     catch (...)
     {
@@ -495,7 +491,9 @@ std::optional<PhysicsObjectHandle> PhysicsWorld::object_handle(
 bool PhysicsWorld::contains_collider(ColliderId id) const noexcept
 {
     auto it = _impl->shapes.find(id);
-    return it != _impl->shapes.end() && contains_object(it->second.owner);
+    if(it==_impl->shapes.end()||!contains_object(it->second.owner))return false;
+    if(it->second.chain.is_valid())return chain_state(it->second.chain).has_value();
+    return true;
 }
 std::size_t PhysicsWorld::registered_object_count() const noexcept
 {
@@ -508,7 +506,7 @@ std::size_t PhysicsWorld::registered_collider_count() const noexcept
 {
     std::size_t n = 0;
     for (auto &[id, s] : _impl->shapes)
-        n += contains_object(s.owner);
+        n += contains_collider(id);
     return n;
 }
 ColliderId PhysicsWorld::collider_id(PhysicsObjectHandle h, std::size_t index) const noexcept
@@ -709,8 +707,14 @@ void PhysicsWorld::Impl::transform(Object &o, PhysicsPose pose, TeleportVelocity
 {
     for (auto id : o.shapes)
         cache.invalidate_target(CollisionTarget::from_collider(id));
+    for (const auto& [id, chain] : chains)
+        if (raw(chain->owner) == &o) cache.invalidate_targets(chain->targets);
     b2Body_SetTransform(o.native, to(pose.position), b2MakeRot(pose.angle));
     b2Body_SetAwake(o.native, true);
+    // Moving a static anchor must also wake its sleeping constrained bodies.
+    for(const auto& [id,joint]:joints)
+        if(!joint.removed&&B2_IS_NON_NULL(joint.native)&&(raw(joint.first)==&o||raw(joint.second)==&o))
+            b2Joint_WakeBodies(joint.native);
     o.previous = o.current = pose;
     o.owner->set_position(pose.position);
     if (mode == TeleportVelocityMode::Clear)
@@ -733,9 +737,11 @@ bool PhysicsWorld::set_transform(PhysicsObjectHandle h, PhysicsPose pose, Telepo
 bool PhysicsWorld::update_collider(ColliderId id, const Collider &c)
 {
     auto &p = *_impl;
-    if (!contains_collider(id))
+    if (!contains_collider(id) || p.shapes.at(id).chain.is_valid())
         return false;
-    if (const auto failure = collider_validation_failure(c))
+    if (auto* owner=p.get(p.shapes.at(id).owner); !owner ||
+        (owner->definition.type==BodyType::Dynamic && std::holds_alternative<SegmentShape>(c.shape))) return false;
+    if (const auto failure = collider_validation_failure(c, p.config.units_per_meter))
     {
         const auto key = std::pair{id, static_cast<std::uint8_t>(*failure)};
         if (p.logged_invalid_collider_updates.insert(key).second)
@@ -749,21 +755,30 @@ bool PhysicsWorld::update_collider(ColliderId id, const Collider &c)
         auto &s = it->second;
         if (s.definition == c)
             return;
-        p.retire(s);
-        s.definition = c;
-        if (auto *o = p.raw(s.owner))
+        auto *o = p.get(s.owner);
+        if (!o || B2_IS_NULL(o->native)) return;
+        Impl::Shape replacement{{},s.owner,s.target,c};
+        p.create_shape(replacement,o->native);
+        try { p.retire(s); }
+        catch (...)
         {
-            p.create_shape(s, o->native);
-            p.mass(*o);
-            b2Body_SetBullet(o->native, p.bullet(*o));
+            if (B2_IS_NON_NULL(replacement.native))
+            {
+                p.mapping.erase(b2StoreShapeId(replacement.native));
+                b2DestroyShape(replacement.native,false);
+            }
+            throw;
         }
+        s=replacement;
+        p.mass(*o);
+        b2Body_SetBullet(o->native,p.bullet(*o));
     });
     return true;
 }
 bool PhysicsWorld::set_collider_enabled(ColliderId id, bool enabled)
 {
     auto &p = *_impl;
-    if (!contains_collider(id))
+    if (!contains_collider(id) || p.shapes.at(id).chain.is_valid())
         return false;
     p.enqueue([&p, id, enabled] {
         auto it = p.shapes.find(id);
@@ -833,6 +848,13 @@ PhysicsContactState PhysicsWorld::contact_state(PhysicsObjectHandle h) const noe
             s.wall_left |= c.wall_left;
             s.wall_right |= c.wall_right;
         }
+    for(const auto& [id,chain]:_impl->chains)
+        if(chain->owner==h&&!chain->removed)
+            for(auto collider:chain->colliders)
+            {
+                auto c=contact_state(CollisionTarget::from_collider(collider));
+                s.grounded|=c.grounded;s.ceiling|=c.ceiling;s.wall_left|=c.wall_left;s.wall_right|=c.wall_right;
+            }
     return s;
 }
 bool PhysicsWorld::request_pass_through(ColliderId actor, CollisionTarget support)
@@ -880,20 +902,8 @@ void PhysicsWorld::Impl::prepare_snapshot()
         auto previous_transform = transform;
         if (auto *object = get(s.owner))
             previous_transform = {to(object->previous.position), b2MakeRot(object->previous.angle)};
-        b2AABB bounds;
-        b2AABB previous_bounds;
-        if (b2Shape_GetType(s.native) == b2_circleShape)
-        {
-            auto circle = b2Shape_GetCircle(s.native);
-            bounds = b2ComputeCircleAABB(&circle, transform);
-            previous_bounds = b2ComputeCircleAABB(&circle, previous_transform);
-        }
-        else
-        {
-            auto polygon = b2Shape_GetPolygon(s.native);
-            bounds = b2ComputePolygonAABB(&polygon, transform);
-            previous_bounds = b2ComputePolygonAABB(&polygon, previous_transform);
-        }
+        auto bounds = detail::shape_bounds(s.native, transform);
+        auto previous_bounds = detail::shape_bounds(s.native, previous_transform);
         unsigned internal_faces = 0;
         if (s.target.kind == CollisionTargetKind::Tile && !s.definition.one_way && tiles &&
             s.target.tile.x >= 0 && s.target.tile.x < tiles->columns() && s.target.tile.y >= 0 &&
@@ -1123,7 +1133,7 @@ void PhysicsWorld::step(double fixed_delta_seconds)
             p.flush();
             if (!reset)
             {
-                std::vector<std::uint64_t> dead;
+                std::vector<std::uint64_t> dead(std::size_t{0});
                 for (auto &[id, o] : p.objects)
                 {
                     if (o.owner->is_destroyed())
@@ -1142,15 +1152,16 @@ void PhysicsWorld::step(double fixed_delta_seconds)
                 }
                 for (const auto id : dead)
                     p.destroy_object(id);
+                p.refresh_joint_targets();
                 p.prepare_snapshot();
                 for (auto &[id, o] : p.objects)
                     o.previous = o.current;
                 b2World_Step(p.world, static_cast<float>(fixed_delta_seconds),
                              static_cast<int>(p.config.sub_steps));
                 ++p.epoch;
-                std::vector<CollisionContact> contacts;
+                std::vector<CollisionContact> contacts(std::size_t{0});
                 p.collect(contacts);
-                std::vector<CollisionEvent> events;
+                std::vector<CollisionEvent> events(std::size_t{0});
                 p.cache.update(contacts, events);
                 for (auto &[id, o] : p.objects)
                 {
@@ -1175,6 +1186,7 @@ void PhysicsWorld::step(double fixed_delta_seconds)
                             .count();
                     p.stats.awake_bodies = b2World_GetAwakeBodyCount(p.world);
                     p.stats.joints = p.joints.size();
+                    p.stats.chains = p.chains.size();
                 }
             }
         }

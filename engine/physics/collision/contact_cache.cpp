@@ -74,10 +74,14 @@ void ContactCache::collect_contacts(
 
 void ContactCache::invalidate_target(CollisionTarget target)
 {
+    invalidate_targets({&target,1});
+}
+void ContactCache::invalidate_targets(std::span<const CollisionTarget> targets)
+{
     _invalidated.reserve(_invalidated.size() + _contacts.size());
     std::erase_if(_contacts, [&](const CollisionContact& contact)
     {
-        const bool remove = contact.pair.first == target || contact.pair.second == target;
+        const bool remove = std::ranges::any_of(targets,[&](auto target){return contact.pair.first==target||contact.pair.second==target;});
         if (remove) _invalidated.push_back(contact);
         return remove;
     });

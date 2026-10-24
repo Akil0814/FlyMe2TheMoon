@@ -504,10 +504,11 @@ void Scene::register_scene_object_interfaces(elysia::core::SceneObject* object)
             throw std::runtime_error("Scene physics registration failed for a GameObject.");
         try
         {
-            PhysicsRegistrationEntry registration{object, handle, {}};
-            registration.colliders.reserve(colliders.size());
+            PhysicsRegistrationEntry registration{object, handle,
+                std::make_unique<std::vector<elysia::physics::ColliderId>>(std::size_t{0})};
+            registration.colliders->reserve(colliders.size());
             for (std::size_t index = 0; index < colliders.size(); ++index)
-                registration.colliders.push_back(_physics_world->collider_id(handle, index));
+                registration.colliders->push_back(_physics_world->collider_id(handle, index));
             _physics_registrations.push_back(std::move(registration));
         }
         catch (...)
@@ -700,7 +701,7 @@ std::span<const elysia::physics::ColliderId> Scene::registered_physics_colliders
         [&object](const auto& entry) { return entry.object == &object; });
     return found == _physics_registrations.end()
         ? std::span<const elysia::physics::ColliderId>{}
-        : std::span<const elysia::physics::ColliderId>{found->colliders};
+        : std::span<const elysia::physics::ColliderId>{*found->colliders};
 }
 
 void Scene::clear_scene_objects()

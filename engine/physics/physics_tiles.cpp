@@ -24,7 +24,7 @@ void PhysicsWorld::Impl::build_tiles(TileCoordinate begin, TileCoordinate end)
             Shape s;
             s.target = CollisionTarget::from_tile(coord);
             s.definition.shape =
-                AabbShape{{origin.x + x * size.x, origin.y + y * size.y, size.x, size.y}};
+                BoxShape::from_rect({origin.x + x * size.x, origin.y + y * size.y, size.x, size.y});
             s.definition.filter = cell.filter;
             s.definition.material = cell.material;
             s.definition.tag = cell.tag;
@@ -33,7 +33,7 @@ void PhysicsWorld::Impl::build_tiles(TileCoordinate begin, TileCoordinate end)
                                         : CollisionResponse::Block;
             if (cell.type == TileCollisionType::OneWay)
                 s.definition.one_way = cell.one_way;
-            if (detail::collider_validation_failure(s.definition))
+            if (detail::collider_validation_failure(s.definition, config.units_per_meter))
                 continue;
             create_shape(s, tile_body);
             tile_shapes.emplace(coord, std::move(s));
@@ -68,7 +68,7 @@ bool PhysicsWorld::set_tile_world(const ITileCollisionWorld &t)
             {
                 Impl::Shape s;
                 s.target = CollisionTarget::from_tile(ids[i]);
-                s.definition.shape = AabbShape{walls[i]};
+                s.definition.shape = BoxShape::from_rect(walls[i]);
                 p.create_shape(s, p.tile_body);
                 p.tile_shapes.emplace(ids[i], std::move(s));
             }

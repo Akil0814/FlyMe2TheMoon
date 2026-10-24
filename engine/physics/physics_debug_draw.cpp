@@ -7,33 +7,62 @@
 
 namespace elysia::physics
 {
-void submit_physics_debug_snapshot(const PhysicsDebugSnapshot &snapshot,
-                                   elysia::tools::DebugDraw &debug_draw)
+void submit_physics_debug_snapshot(const PhysicsDebugSnapshot &snapshot, elysia::tools::DebugDraw &debug_draw)
 {
     using elysia::tools::DebugDrawCategory;
     const float alpha = std::clamp(snapshot.interpolation_alpha, 0.0f, 1.0f);
     const auto render_point = [&](elysia::core::Vector2 point, const PhysicsPose &previous,
                                   const PhysicsPose &current) {
-        const float delta =
-            std::remainder(current.angle - previous.angle, 2 * std::numbers::pi_v<float>);
+        const float delta = std::remainder(current.angle - previous.angle, 2 * std::numbers::pi_v<float>);
         const float angle = (alpha - 1) * delta;
         const auto relative = point - current.position;
         const auto origin = previous.position + (current.position - previous.position) * alpha;
-        return origin +
-               elysia::core::Vector2{std::cos(angle) * relative.x - std::sin(angle) * relative.y,
-                                     std::sin(angle) * relative.x + std::cos(angle) * relative.y};
+        return origin + elysia::core::Vector2{std::cos(angle) * relative.x - std::sin(angle) * relative.y,
+                                              std::sin(angle) * relative.x + std::cos(angle) * relative.y};
     };
     const auto draw_shape = [&](const WorldColliderShape &shape, DebugDrawCategory category,
                                 elysia::core::Color color) {
         if (!debug_draw.is_enabled(category))
             return;
-        if (const auto *box = std::get_if<WorldAabb>(&shape))
-            debug_draw.draw_rect(category, box->rect, color);
+        if (const auto* segment=std::get_if<WorldSegment>(&shape))
+        {
+            debug_draw.draw_line(category,segment->first,segment->second,color);
+            if (segment->one_sided)
+            {
+                auto delta=(segment->second-segment->first).normalized();
+                auto center=(segment->first+segment->second)*.5f;
+                debug_draw.draw_line(category,center,center+elysia::core::Vector2{delta.y,-delta.x}*12,color);
+            }
+        }
         else if (const auto *polygon = std::get_if<WorldPolygon>(&shape))
         {
-            for (int i = 0; i < 4; ++i)
-                debug_draw.draw_line(category, polygon->vertices[i], polygon->vertices[(i + 1) % 4],
+            for (int i = 0; i < polygon->vertex_count; ++i)
+                debug_draw.draw_line(category, polygon->vertices[i], polygon->vertices[(i + 1) % polygon->vertex_count],
                                      color);
+        }
+        else if (const auto *capsule = std::get_if<WorldCapsule>(&shape))
+        {
+            const auto delta = capsule->second - capsule->first;
+            if (delta.is_zero())
+                debug_draw.draw_circle(category, capsule->first, capsule->radius, color);
+            else
+            {
+                const float angle = std::atan2(delta.y, delta.x), pi = std::numbers::pi_v<float>;
+                const auto arc = [&](elysia::core::Vector2 center, float start) {
+                    auto point = [&](float a) {
+                        return center + elysia::core::Vector2{std::cos(a), std::sin(a)} * capsule->radius;
+                    };
+                    for (int i = 0; i < 16; ++i)
+                        debug_draw.draw_line(category, point(start + pi * i / 16), point(start + pi * (i + 1) / 16),
+                                             color);
+                };
+                arc(capsule->first, angle + pi / 2);
+                arc(capsule->second, angle - pi / 2);
+                const auto axis = delta.normalized();
+                const elysia::core::Vector2 offset{-axis.y * capsule->radius, axis.x * capsule->radius};
+                debug_draw.draw_line(category, capsule->first + offset, capsule->second + offset, color);
+                debug_draw.draw_line(category, capsule->first - offset, capsule->second - offset, color);
+            }
         }
         else
         {
@@ -45,8 +74,18 @@ void submit_physics_debug_snapshot(const PhysicsDebugSnapshot &snapshot,
     {
         auto rendered = shape.current;
         if (auto *polygon = std::get_if<WorldPolygon>(&rendered))
-            for (auto &point : polygon->vertices)
-                point = render_point(point, shape.previous_pose, shape.current_pose);
+            for (int i = 0; i < polygon->vertex_count; ++i)
+                polygon->vertices[i] = render_point(polygon->vertices[i], shape.previous_pose, shape.current_pose);
+        else if (auto* segment=std::get_if<WorldSegment>(&rendered))
+        {
+            segment->first=render_point(segment->first,shape.previous_pose,shape.current_pose);
+            segment->second=render_point(segment->second,shape.previous_pose,shape.current_pose);
+        }
+        else if (auto *capsule = std::get_if<WorldCapsule>(&rendered))
+        {
+            capsule->first = render_point(capsule->first, shape.previous_pose, shape.current_pose);
+            capsule->second = render_point(capsule->second, shape.previous_pose, shape.current_pose);
+        }
         else if (auto *circle = std::get_if<WorldCircle>(&rendered))
             circle->center = render_point(circle->center, shape.previous_pose, shape.current_pose);
         draw_shape(rendered, DebugDrawCategory::PhysicsCollider,
@@ -56,14 +95,16 @@ void submit_physics_debug_snapshot(const PhysicsDebugSnapshot &snapshot,
         draw_shape(shape.previous, DebugDrawCategory::PhysicsPoseHistory, {110, 120, 150, 180});
         draw_shape(shape.current, DebugDrawCategory::PhysicsPoseHistory, {240, 240, 240, 190});
         if (debug_draw.is_enabled(DebugDrawCategory::PhysicsBroadPhase))
-            debug_draw.draw_rect(DebugDrawCategory::PhysicsBroadPhase, shape.native_bounds,
-                                 {230, 190, 70, 180});
+            debug_draw.draw_rect(DebugDrawCategory::PhysicsBroadPhase, shape.native_bounds, {230, 190, 70, 180});
     }
     for (const auto &joint : snapshot.joints)
     {
         auto a = render_point(joint.first_anchor, joint.first_previous, joint.first_current);
         auto b = render_point(joint.second_anchor, joint.second_previous, joint.second_current);
-        debug_draw.draw_line(DebugDrawCategory::PhysicsJoint, a, b, {230, 120, 240});
+        if(joint.filtering)
+            for(int i=0;i<10;i+=2)
+                debug_draw.draw_line(DebugDrawCategory::PhysicsJoint,a+(b-a)*(i/10.f),a+(b-a)*((i+1)/10.f),{150,160,180});
+        else debug_draw.draw_line(DebugDrawCategory::PhysicsJoint, a, b, {230, 120, 240});
         debug_draw.draw_point(DebugDrawCategory::PhysicsJoint, a, 7, {255, 110, 200});
         debug_draw.draw_point(DebugDrawCategory::PhysicsJoint, b, 4, {100, 220, 255});
     }
@@ -73,8 +114,7 @@ void submit_physics_debug_snapshot(const PhysicsDebugSnapshot &snapshot,
         {
             const auto point = contact.manifold.contact_points[i];
             if (debug_draw.is_enabled(DebugDrawCategory::PhysicsContact))
-                debug_draw.draw_point(DebugDrawCategory::PhysicsContact, point, 4.0f,
-                                      {255, 80, 80});
+                debug_draw.draw_point(DebugDrawCategory::PhysicsContact, point, 4.0f, {255, 80, 80});
             if (debug_draw.is_enabled(DebugDrawCategory::PhysicsContactNormal))
                 debug_draw.draw_line(DebugDrawCategory::PhysicsContactNormal, point,
                                      point + contact.manifold.normal * 16.0f, {255, 120, 40});

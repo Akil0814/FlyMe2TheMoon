@@ -4,6 +4,7 @@
 #include "collision/world_shape.h"
 #include "physics_object_handle.h"
 #include "body/body_definition.h"
+#include "joint_definition.h"
 
 #include <cstddef>
 #include <cstdint>
@@ -59,6 +60,7 @@ struct PhysicsStepStats
     std::size_t registered_colliders = 0;
     std::size_t awake_bodies = 0;
     std::size_t joints = 0;
+    std::size_t chains = 0;
     double step_milliseconds = 0;
     std::size_t contacts = 0;
 };
@@ -66,8 +68,8 @@ struct PhysicsStepStats
 struct PhysicsDebugShape
 {
     CollisionTarget target{};
-    WorldColliderShape previous{WorldAabb{}};
-    WorldColliderShape current{WorldAabb{}};
+    WorldColliderShape previous{WorldPolygon{}};
+    WorldColliderShape current{WorldPolygon{}};
     elysia::core::Rect native_bounds{};
     PhysicsPose previous_pose{}, current_pose{};
     bool sensor = false;
@@ -76,8 +78,10 @@ struct PhysicsDebugShape
 
 struct PhysicsDebugJoint
 {
+    JointHandle handle{};
     elysia::core::Vector2 first_anchor{}, second_anchor{};
     PhysicsPose first_previous{}, first_current{}, second_previous{}, second_current{};
+    bool filtering = false;
 };
 
 struct PhysicsDebugVelocity

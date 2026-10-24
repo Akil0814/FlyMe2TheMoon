@@ -23,7 +23,7 @@ EngineCharacter::EngineCharacter(elysia::input::InputActionId movement_action) :
 {
     set_world_rect(kDefaultWorldRect);
 
-    _collider.shape = elysia::physics::AabbShape{kLocalColliderRect};
+    _collider.shape = elysia::physics::BoxShape::from_rect(kLocalColliderRect);
     _collider.filter.category = 0;
     _collider.filter.mask = 0;
     _collider.response = elysia::physics::CollisionResponse::Ignore;
@@ -126,14 +126,14 @@ void EngineCharacter::submit_debug_draw() const
     if (!_collider.enabled)
         return;
 
-    const auto* aabb = std::get_if<elysia::physics::AabbShape>(
+    const auto* aabb = std::get_if<elysia::physics::BoxShape>(
         &_collider.shape);
     if (!aabb)
         return;
 
     elysia::tools::DebugDraw::instance()->draw_rect(
         elysia::tools::DebugDrawCategory::PhysicsCollider,
-        aabb->local_rect.translated(position()),
+        aabb->local_bounds().translated(position()),
         elysia::core::colors::green_500,
         2.0f);
 }

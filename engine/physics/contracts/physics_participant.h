@@ -60,6 +60,10 @@ class PhysicsParticipant
         if (_world)
             _world->set_velocity_y(_handle, y);
     }
+    bool set_target_transform(PhysicsPose target,double fixed_delta_seconds)
+    {
+        return _world && _world->set_target_transform(_handle,target,fixed_delta_seconds);
+    }
     void update_physics_collider(std::size_t i, const Collider &c)
     {
         if (_world)

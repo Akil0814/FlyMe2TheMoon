@@ -3,18 +3,24 @@
 #include <cmath>
 namespace elysia::physics
 {
-void PhysicsWorld::Impl::query(const b2ShapeProxy &proxy, b2Vec2 translation,
-                               const CollisionFilter &filter, bool sweep, bool ray,
+void PhysicsWorld::Impl::query(const b2ShapeProxy &proxy, b2Vec2 translation, const CollisionQueryFilter &filter,
+                               bool sweep, bool ray, elysia::core::Vector2 origin,
                                std::vector<CollisionQueryHit> &out) const
 {
     out.clear();
+    if (!b2IsValidVec2(translation) || !std::isfinite(b2Length(translation)))
+        return;
+    for (int i = 0; i < proxy.count; ++i)
+        if (!b2IsValidVec2(proxy.points[i]))
+            return;
     struct Context
     {
         const Impl *p;
-        const CollisionFilter *filter;
+        const CollisionQueryFilter *filter;
+        elysia::core::Vector2 origin;
         std::vector<CollisionQueryHit> *out;
         float length;
-        bool accept(b2ShapeId id, b2Vec2 point, b2Vec2 normal, float fraction)
+        bool accept(b2ShapeId id, b2Vec2 point, b2Vec2 normal, float fraction, bool initial = false)
         {
             auto target = p->target(id);
             if (!target)
@@ -23,7 +29,8 @@ void PhysicsWorld::Impl::query(const b2ShapeProxy &proxy, b2Vec2 translation,
             if (target->kind == CollisionTargetKind::Collider)
             {
                 auto i = p->shapes.find(target->collider);
-                if (i == p->shapes.end() || !p->get(i->second.owner))
+                if (i == p->shapes.end() || !p->get(i->second.owner) ||
+                    (i->second.chain.is_valid() && (p->chains.at(i->second.chain.value)->removed || B2_IS_NULL(p->chains.at(i->second.chain.value)->native))))
                     return false;
                 s = &i->second;
             }
@@ -34,22 +41,23 @@ void PhysicsWorld::Impl::query(const b2ShapeProxy &proxy, b2Vec2 translation,
                     return false;
                 s = &i->second;
             }
-            const auto &f = s->definition.filter;
-            bool allowed = (filter->group && filter->group == f.group)
-                               ? filter->group > 0
-                               : ((filter->mask & f.category) && (f.mask & filter->category));
-            if (!allowed || !s->definition.enabled ||
-                s->definition.response == CollisionResponse::Ignore)
+            if (filter->ignored_object.is_valid() && s->owner == filter->ignored_object)
                 return false;
-            out->push_back({*target,
-                            p->from(point),
-                            {normal.x, normal.y},
-                            length * fraction,
-                            fraction,
-                            s->definition.response});
+            if (!filter->include_sensors && s->definition.response == CollisionResponse::Overlap)
+                return false;
+            const auto &f = s->definition.filter;
+            const auto *collision = &filter->collision;
+            bool allowed = (collision->group && collision->group == f.group)
+                               ? collision->group > 0
+                               : ((collision->mask & f.category) && (f.mask & collision->category));
+            if (!allowed || !s->definition.enabled || s->definition.response == CollisionResponse::Ignore)
+                return false;
+            out->push_back({*target, initial ? origin : p->from(point),
+                            initial ? elysia::core::Vector2{} : elysia::core::Vector2{normal.x, normal.y},
+                            length * fraction, fraction, s->definition.response, initial});
             return true;
         }
-    } ctx{this, &filter, &out, units.from_length(b2Length(translation))};
+    } ctx{this, &filter, origin, &out, units.from_length(b2Length(translation))};
     auto q = b2DefaultQueryFilter();
     q.categoryBits = ~std::uint64_t(0);
     q.maskBits = ~std::uint64_t(0);
@@ -57,14 +65,13 @@ void PhysicsWorld::Impl::query(const b2ShapeProxy &proxy, b2Vec2 translation,
         world, &proxy, q,
         [](b2ShapeId id, void *raw) {
             auto &c = *static_cast<Context *>(raw);
-            c.accept(id, b2Shape_GetAABB(id).lowerBound, b2Vec2_zero, 0);
+            c.accept(id, b2Vec2_zero, b2Vec2_zero, 0, true);
             return true;
         },
         &ctx);
-    if (sweep)
+    if (sweep && b2LengthSquared(translation) > 0)
     {
-        auto cast = [](b2ShapeId id, b2Vec2 point, b2Vec2 normal, float fraction,
-                       void *raw) -> float {
+        auto cast = [](b2ShapeId id, b2Vec2 point, b2Vec2 normal, float fraction, void *raw) -> float {
             static_cast<Context *>(raw)->accept(id, point, normal, fraction);
             return 1;
         };
@@ -73,8 +80,61 @@ void PhysicsWorld::Impl::query(const b2ShapeProxy &proxy, b2Vec2 translation,
         else
             b2World_CastShape(world, &proxy, translation, q, cast, &ctx);
     }
+    // Native query filters have no group override. Recover forced-positive-group
+    // targets with zero masks/categories using the same native narrow phase.
+    if (filter.collision.group > 0)
+    {
+        auto forced = [&](const Shape &shape) {
+            const auto &f = shape.definition.filter;
+            if (f.group != filter.collision.group || (f.category != 0 && f.mask != 0) || B2_IS_NULL(shape.native) ||
+                !b2Body_IsEnabled(b2Shape_GetBody(shape.native)))
+                return;
+            auto geometry = detail::shape_geometry(shape.definition.shape, units);
+            if (!geometry)
+                return;
+            auto transform = b2Body_GetTransform(b2Shape_GetBody(shape.native));
+            b2DistanceInput distance{};
+            distance.proxyA = geometry->proxy;
+            distance.proxyB = proxy;
+            distance.transformA = transform;
+            distance.transformB = b2Transform_identity;
+            distance.useRadii = true;
+            b2SimplexCache cache{};
+            if (b2ShapeDistance(&distance, &cache, nullptr, 0).distance <= 0.0005f)
+                ctx.accept(shape.native, b2Vec2_zero, b2Vec2_zero, 0, true);
+            if (!sweep || b2LengthSquared(translation) == 0)
+                return;
+            b2CastOutput hit{};
+            if (ray)
+            {
+                b2RayCastInput input{proxy.points[0], translation, 1};
+                hit = b2Shape_RayCast(shape.native, &input);
+            }
+            else
+            {
+                b2ShapeCastPairInput input{};
+                input.proxyA = geometry->proxy;
+                input.proxyB = proxy;
+                input.transformA = transform;
+                input.transformB = b2Transform_identity;
+                input.translationB = translation;
+                input.maxFraction = 1;
+                hit = b2ShapeCast(&input);
+            }
+            if (hit.hit)
+                ctx.accept(shape.native, hit.point, hit.normal, hit.fraction);
+        };
+        for (const auto &[id, shape] : shapes)
+            forced(shape);
+        for (const auto &[id, shape] : tile_shapes)
+            forced(shape);
+    }
     std::ranges::sort(out, [](auto &a, auto &b) {
-        return a.fraction != b.fraction ? a.fraction < b.fraction : a.target < b.target;
+        if (a.fraction != b.fraction)
+            return a.fraction < b.fraction;
+        if (a.target != b.target)
+            return a.target < b.target;
+        return a.initial_overlap && !b.initial_overlap;
     });
     std::set<CollisionTarget> seen;
     std::erase_if(out, [&](auto &h) { return !seen.insert(h.target).second; });
@@ -85,29 +145,26 @@ bool finite(elysia::core::Vector2 p)
 {
     return std::isfinite(p.x) && std::isfinite(p.y);
 }
-bool valid(const elysia::core::Rect &r)
+bool valid(PhysicsPose pose)
 {
-    return finite(r.position()) && finite(r.size()) && r.width() > 0 && r.height() > 0;
+    return finite(pose.position) && std::isfinite(pose.angle);
 }
-b2ShapeProxy box_proxy(const elysia::core::Rect &r, const detail::PhysicsUnits &u)
+b2ShapeProxy world_proxy(const detail::ShapeGeometry &geometry, PhysicsPose pose, const detail::PhysicsUnits &units)
 {
-    b2Vec2 points[] = {{u.to_length(r.x()), u.to_length(r.y())},
-                       {u.to_length(r.x() + r.width()), u.to_length(r.y())},
-                       {u.to_length(r.x() + r.width()), u.to_length(r.y() + r.height())},
-                       {u.to_length(r.x()), u.to_length(r.y() + r.height())}};
-    return b2MakeProxy(points, 4, 0);
+    auto p = units.to_length(pose.position);
+    return b2MakeOffsetProxy(geometry.proxy.points, geometry.proxy.count, geometry.proxy.radius, {p.x, p.y},
+                             b2MakeRot(pose.angle));
 }
 } // namespace
 void PhysicsWorld::raycast_all(const RayCastQuery &q, std::vector<CollisionQueryHit> &out) const
 {
     out.clear();
-    if (!finite(q.origin) || !finite(q.direction) || !std::isfinite(q.max_distance) ||
-        q.max_distance < 0 || q.direction.is_zero())
+    if (!finite(q.origin) || !finite(q.direction) || !std::isfinite(q.max_distance) || q.max_distance < 0 ||
+        q.direction.is_zero() || !std::isfinite(q.direction.length()))
         return;
     auto origin = _impl->to(q.origin);
     auto proxy = b2MakeProxy(&origin, 1, 0);
-    _impl->query(proxy, _impl->to(q.direction.normalized() * q.max_distance), q.filter, true, true,
-                 out);
+    _impl->query(proxy, _impl->to(q.direction.normalized() * q.max_distance), q.filter, true, true, q.origin, out);
     for (auto &h : out)
         if (h.fraction == 0)
             h.point = q.origin;
@@ -118,8 +175,7 @@ std::optional<CollisionQueryHit> PhysicsWorld::raycast(const RayCastQuery &q) co
     raycast_all(q, hits);
     return hits.empty() ? std::nullopt : std::optional(hits.front());
 }
-void PhysicsWorld::segment_cast_all(const SegmentCastQuery &q,
-                                    std::vector<CollisionQueryHit> &out) const
+void PhysicsWorld::segment_cast_all(const SegmentCastQuery &q, std::vector<CollisionQueryHit> &out) const
 {
     auto d = q.end - q.start;
     raycast_all({q.start, d, d.length(), q.filter}, out);
@@ -130,37 +186,35 @@ std::optional<CollisionQueryHit> PhysicsWorld::segment_cast(const SegmentCastQue
     segment_cast_all(q, hits);
     return hits.empty() ? std::nullopt : std::optional(hits.front());
 }
-void PhysicsWorld::overlap_aabb(const AabbOverlapQuery &q,
-                                std::vector<CollisionOverlapQueryHit> &out) const
+void PhysicsWorld::overlap_shape(const ShapeOverlapQuery &q, std::vector<CollisionOverlapQueryHit> &out) const
 {
     out.clear();
-    if (!valid(q.bounds))
+    if (std::holds_alternative<SegmentShape>(q.shape) || !valid(q.pose))
+        return;
+    auto geometry = detail::shape_geometry(q.shape, _impl->units);
+    if (!geometry)
         return;
     std::vector<CollisionQueryHit> hits;
-    _impl->query(box_proxy(q.bounds, _impl->units), b2Vec2_zero, q.filter, false, false, hits);
-    for (auto &h : hits)
+    _impl->query(world_proxy(*geometry, q.pose, _impl->units), b2Vec2_zero, q.filter, false, false, q.pose.position,
+                 hits);
+    for (const auto &h : hits)
         out.push_back({h.target, h.response});
 }
-void PhysicsWorld::overlap_circle(const CircleOverlapQuery &q,
-                                  std::vector<CollisionOverlapQueryHit> &out) const
+void PhysicsWorld::shape_cast_all(const ShapeCastQuery &q, std::vector<CollisionQueryHit> &out) const
 {
     out.clear();
-    if (!finite(q.center) || !std::isfinite(q.radius) || q.radius <= 0)
+    if (std::holds_alternative<SegmentShape>(q.shape) || !valid(q.pose) || !finite(q.displacement) || !std::isfinite(q.displacement.length()))
         return;
-    auto center = _impl->to(q.center);
-    auto proxy = b2MakeProxy(&center, 1, _impl->units.to_length(q.radius));
-    std::vector<CollisionQueryHit> hits;
-    _impl->query(proxy, b2Vec2_zero, q.filter, false, false, hits);
-    for (auto &h : hits)
-        out.push_back({h.target, h.response});
+    auto geometry = detail::shape_geometry(q.shape, _impl->units);
+    if (!geometry)
+        return;
+    _impl->query(world_proxy(*geometry, q.pose, _impl->units), _impl->to(q.displacement), q.filter, true, false,
+                 q.pose.position, out);
 }
-std::optional<CollisionQueryHit> PhysicsWorld::sweep_aabb(const AabbSweepQuery &q) const
+std::optional<CollisionQueryHit> PhysicsWorld::shape_cast(const ShapeCastQuery &q) const
 {
-    if (!valid(q.start_bounds) || !finite(q.displacement))
-        return {};
     std::vector<CollisionQueryHit> hits;
-    _impl->query(box_proxy(q.start_bounds, _impl->units), _impl->to(q.displacement), q.filter, true,
-                 false, hits);
+    shape_cast_all(q, hits);
     return hits.empty() ? std::nullopt : std::optional(hits.front());
 }
 } // namespace elysia::physics

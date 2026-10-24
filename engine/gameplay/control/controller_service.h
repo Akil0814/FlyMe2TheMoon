@@ -4,6 +4,9 @@
 #include "controller_types.h"
 #include <expected>
 #include <optional>
+
+#define ELYSIA_CONTROLLERS (::elysia::gameplay::ControllerService::instance())
+
 namespace elysia::core
 {
 class GameObject;
