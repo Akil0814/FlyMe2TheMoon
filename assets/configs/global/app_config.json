@@ -1,0 +1,23 @@
+{
+  "schema_version": 2,
+  "window": {
+    "title": "FlyMe2TheMoon",
+    "mode": "windowed",
+    "windowed_size": {
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "render": {
+    "fps": 60,
+    "vsync": true
+  },
+  "audio": {
+    "master_volume": 100,
+    "music_volume": 100,
+    "sound_volume": 100
+  },
+  "localization": {
+    "language": "en"
+  }
+}

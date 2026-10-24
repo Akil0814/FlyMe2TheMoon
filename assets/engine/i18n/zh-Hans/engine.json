@@ -1,0 +1,88 @@
+{
+  "engine": {
+    "common": {
+      "save": "保存",
+      "back": "返回",
+      "confirm": "确认",
+      "cancel": "取消",
+      "close": "关闭",
+      "close_x": "X"
+    },
+    "startup_loading": {
+      "press_any_button": "按任意键开始"
+    },
+    "application_failure": {
+      "startup": {
+        "title": "启动失败",
+        "message": "加载必需游戏资源失败,请查看日志了解详情。",
+        "exit": "退出"
+      },
+      "runtime": {
+        "title": "程序错误",
+        "message": "程序遇到致命问题，请查看日志了解详情。",
+        "exit": "退出",
+        "reopen": "显示错误"
+      },
+      "stage": {
+        "config": "无法加载游戏配置。",
+        "manifest": "无法加载内容清单。",
+        "plan": "无法生成内容加载计划。",
+        "missing_resource": "一个或多个必需的内容文件缺失。",
+        "texture": "无法加载必需的纹理。",
+        "atlas": "无法构建必需的纹理图集。",
+        "font": "无法加载必需的字体。",
+        "audio": "无法加载必需的音频资源。",
+        "animation": "无法注册必需的动画。",
+        "effect": "无法注册必需的视觉特效。"
+      },
+      "labels": { "error_code": "错误代码", "log": "日志文件", "details": "诊断详情" },
+      "log_unavailable": "不可用",
+      "details_in_log": "诊断详情请查看日志。",
+      "copy": "复制信息",
+      "copied": "已复制",
+      "copy_failed": "复制失败"
+    },
+    "settings": {
+      "title": "设置",
+      "sections": {
+        "display": "显示",
+        "audio": "音频",
+        "general": "通用"
+      },
+      "fields": {
+        "window_mode": "显示模式",
+        "window_size": "窗口大小",
+        "target_fps": "帧率上限",
+        "vsync": "垂直同步",
+        "master_volume": "主音量",
+        "music_volume": "音乐音量",
+        "sound_volume": "音效音量",
+        "language": "语言"
+      },
+      "actions": {
+        "save": "保存",
+        "back": "返回"
+      },
+      "window_modes": {
+        "windowed": "窗口",
+        "borderless_fullscreen": "无边框全屏"
+      },
+      "hints": {
+        "vsync_restart": "更改将在重启游戏后生效。"
+      },
+      "languages": {
+        "en": "English",
+        "zh_hans": "简体中文",
+        "zh_hant": "繁體中文",
+        "ja": "日本語",
+        "ko": "한국어"
+      },
+      "status": {
+        "save_failed": "设置保存失败",
+        "saved": "设置已保存。",
+        "saved_restart_required": "设置已保存。垂直同步将在重启游戏后生效。",
+        "restart_required": "请重启游戏以应用垂直同步更改。"
+      }
+    }
+  }
+}

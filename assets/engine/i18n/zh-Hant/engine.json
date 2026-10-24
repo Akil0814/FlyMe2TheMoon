@@ -1,0 +1,88 @@
+{
+  "engine": {
+    "common": {
+      "save": "儲存",
+      "back": "返回",
+      "confirm": "確認",
+      "cancel": "取消",
+      "close": "關閉",
+      "close_x": "X"
+    },
+    "startup_loading": {
+      "press_any_button": "按任意鍵開始"
+    },
+    "application_failure": {
+      "startup": {
+        "title": "啟動失敗",
+        "message": "無法載入必要的遊戲資源。請查看日誌以瞭解詳情。",
+        "exit": "離開"
+      },
+      "runtime": {
+        "title": "程式錯誤",
+        "message": "程式遇到嚴重問題，必須關閉。請查看日誌以瞭解詳情。",
+        "exit": "離開",
+        "reopen": "顯示錯誤"
+      },
+      "stage": {
+        "config": "無法載入遊戲設定。",
+        "manifest": "無法載入內容清單。",
+        "plan": "無法建立內容載入計畫。",
+        "missing_resource": "一個或多個必要的內容檔案遺失。",
+        "texture": "無法載入必要的紋理。",
+        "atlas": "無法建立必要的紋理圖集。",
+        "font": "無法載入必要的字型。",
+        "audio": "無法載入必要的音訊資源。",
+        "animation": "無法註冊必要的動畫。",
+        "effect": "無法註冊必要的視覺特效。"
+      },
+      "labels": { "error_code": "錯誤代碼", "log": "日誌檔案", "details": "診斷詳情" },
+      "log_unavailable": "不可用",
+      "details_in_log": "診斷詳情請查看日誌。",
+      "copy": "複製資訊",
+      "copied": "已複製",
+      "copy_failed": "複製失敗"
+    },
+    "settings": {
+      "title": "設定",
+      "sections": {
+        "display": "顯示",
+        "audio": "音訊",
+        "general": "一般"
+      },
+      "fields": {
+        "window_mode": "顯示模式",
+        "window_size": "視窗大小",
+        "target_fps": "幀率上限",
+        "vsync": "垂直同步",
+        "master_volume": "主音量",
+        "music_volume": "音樂音量",
+        "sound_volume": "音效音量",
+        "language": "語言"
+      },
+      "actions": {
+        "save": "儲存",
+        "back": "返回"
+      },
+      "window_modes": {
+        "windowed": "視窗",
+        "borderless_fullscreen": "無邊框全螢幕"
+      },
+      "hints": {
+        "vsync_restart": "變更將在重新啟動遊戲後生效。"
+      },
+      "languages": {
+        "en": "English",
+        "zh_hans": "简体中文",
+        "zh_hant": "繁體中文",
+        "ja": "日本語",
+        "ko": "한국어"
+      },
+      "status": {
+        "save_failed": "設定儲存失敗",
+        "saved": "設定已儲存。",
+        "saved_restart_required": "設定已儲存。垂直同步將在重新啟動遊戲後生效。",
+        "restart_required": "請重新啟動遊戲以套用垂直同步變更。"
+      }
+    }
+  }
+}

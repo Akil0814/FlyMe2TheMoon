@@ -1,0 +1,20 @@
+{
+  "bootstrap": {
+    "app_config": "configs/global/app_config.json",
+    "preload_manifest": "configs/manifests/preload_manifest.json"
+  },
+  "manifests": {
+    "required": {
+	  "configs": "configs/manifests/config_manifest.json",
+      "fonts": "configs/manifests/fonts_manifest.json",
+      "audio": "configs/manifests/audio_manifest.json",
+      "i18n": "configs/manifests/i18n_manifest.json",
+      "textures": "configs/manifests/textures_manifest.json",
+      "animations": "configs/manifests/animations_manifest.json",
+      "effects": "configs/manifests/effects_manifest.json"
+    },
+    "additional": {
+      "ryougi_sample": "configs/examples/ryougi/content_manifest.json"
+    }
+  }
+}

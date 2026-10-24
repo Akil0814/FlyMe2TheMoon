@@ -1,0 +1,502 @@
+{
+  "gameplay_ui_demo": {
+    "player": "プレイヤー",
+    "enemy": "敵",
+    "hit": "いたっ！やられた！"
+  },
+  "common": {
+    "save": "保存",
+    "back": "戻る",
+    "confirm": "確認",
+    "cancel": "キャンセル",
+    "close": "閉じる",
+    "coming_soon": "近日公開"
+  },
+  "menu_scene": {
+    "project_name": "Elysia Engine",
+    "demo_gallery": "デモギャラリー",
+    "settings": "設定",
+    "exit": "終了",
+    "exit_confirm": {
+      "title": "終了の確認",
+      "message": "Elysia Engineを終了しますか？",
+      "cancel": "キャンセル",
+      "close": "X"
+    }
+  },
+  "demo_gallery": {
+    "elysia_realm": "エリシアレルム",
+    "failure_test": "アプリケーション障害テスト",
+    "failure_confirm": {
+      "title": "障害テストの確認",
+      "message": "このテストはアプリケーションを終了します。続行しますか？",
+      "confirm": "障害テストを実行",
+      "cancel": "キャンセル",
+      "close": "閉じる"
+    }
+  },
+  "animation_preview": {
+    "animation_idle": "待機",
+    "animation_run": "走行",
+    "attack_segment": "攻撃段",
+    "attack_previous": "前の段",
+    "attack_replay": "攻撃を再生",
+    "attack_next": "次の段"
+  },
+  "ui_component_gallery": {
+    "hud": {
+      "description": "E：スキル（3秒） | 1 / 2：アイテム使用 | P：デモを一時停止 | マウス操作も可能",
+      "skill": "スキル",
+      "item_one": "ポーション",
+      "item_two": "爆弾",
+      "pause": "一時停止",
+      "resume": "再開",
+      "ready": "準備完了：スキルは使用回数、アイテムは残数を表示。",
+      "cooldown": "クールダウン中：終了に向けてマスクが縮小します。",
+      "paused": "デモ停止中：クールダウンとアイテム使用を停止。"
+    },
+    "typography": {
+      "tab": "タイポグラフィ",
+      "title": "フォントサイズ",
+      "description": "エンジン内蔵フォントで、事前読み込み済みの全サイズを表示します。",
+      "sample_10": "10 px — キャプションの例",
+      "sample_20": "20 px — コンパクトテキストの例",
+      "sample_30": "30 px — 標準テキストの例",
+      "sample_40": "40 px — 見出しの例",
+      "sample_50": "50 px — サブタイトルの例",
+      "sample_60": "60 px — ダイアログ見出しの例",
+      "sample_70": "70 px — タイトルの例"
+    },
+    "status": {
+      "ready": "UI ワークベンチの準備完了",
+      "interaction": "操作を受け取りました",
+      "submitted": "テキストを送信しました",
+      "overlay_opened": "オーバーレイを開きました",
+      "selection_changed": "選択を変更しました"
+    },
+    "pages": {
+      "overview": "概要",
+      "states": "状態とバリエーション",
+      "controls": "コントロール",
+      "media": "コンテンツとメディア",
+      "containers": "コンテナ",
+      "overlays": "オーバーレイとフォーカス",
+      "appearance": "外観とローカライズ"
+    },
+    "sections": {
+      "overview": "テーマ対応ダッシュボードと視覚ロールの例。",
+      "controls": "操作するとステータス行が更新されます。",
+      "media": "テキスト、数値、バー、エンジン画像、アニメーション。",
+      "containers": "合成、スロット、スクロール、ネストしたタブ。",
+      "overlays": "ウィンドウ管理のオーバーレイ、ダイアログ、フォーカス復元。",
+      "appearance": "組み込みテーマは登録済み UI ツリーを直ちに更新します。"
+    },
+    "actions": {
+      "replay": "再生",
+      "reset": "ワークベンチを再構築",
+      "replay_effects": "エフェクトを再生",
+      "play": "再生",
+      "pause": "一時停止",
+      "resume": "再開",
+      "reset_animation": "アニメーションをリセット"
+    },
+    "controls": {
+      "labeled_check": "ラベル付きチェックボックス",
+      "labeled_radio": "ラベル付きラジオ項目",
+      "labeled_radio_far": "端寄せラジオラベル",
+      "placeholder": "16 文字まで入力"
+    },
+    "states": {
+      "buttons_title": "ボタンの内容とロール",
+      "buttons_description": "内容で描画方式を、意味ロールでテーマ色を選びます。",
+      "text_button": "テキスト",
+      "role_button": "ロール",
+      "disabled": "無効",
+      "selection_title": "選択状態",
+      "selection_description": "論理状態、マーク形式、無効表示を並べて確認します。",
+      "presentation_title": "表示ロール",
+      "presentation_description": "文字フィット、文字ロール、パネル表面はレイアウトから独立しています。",
+      "fit_sample": "意図的に長いフィット用サンプル",
+      "text_block_sample": "テキストブロックは折り返したローカライズ内容を測定します。",
+      "panel_sample": "パネル",
+      "inputs_title": "テキスト入力状態",
+      "inputs_description": "プレースホルダー、入力済み、無効テキストを別々に描画します。"
+    },
+    "media": {
+      "long_text": "このローカライズ済みテキストブロックは、幅の異なる文字体系で折り返し、文字組み、テーマ対応描画を検証します。",
+      "text_title": "ローカライズ文字と生文字列",
+      "text_description": "TextKey は現在の言語を解決し、RawText は識別子をそのまま保持します。",
+      "number_title": "数値とバー",
+      "number_description": "境界値の数値書式と4方向のバー表示を確認します。",
+      "effects_title": "透明度エフェクト",
+      "effects_description": "フェード、点滅、パルスはこのタブが有効な間だけ更新され、再生できます。",
+      "fade_in": "フェードイン",
+      "fade_in_out": "フェードイン・アウト",
+      "blink_visible": "表示から点滅",
+      "pulse_min": "最小値からパルス",
+      "animation_title": "フレームアニメーション",
+      "animation_description": "UI アニメーションはキャッシュ済みフレームを参照し、独立した再生操作を持ちます。"
+    },
+    "containers": {
+      "chrome": "Chrome スロット",
+      "nested_tab": "ネストしたタブ",
+      "nested_tab_two": "2番目のタブ",
+      "list_title": "リニアリスト",
+      "list_description": "リスト順がレイアウト、描画、主軸のフォーカス移動を決めます。",
+      "layout_title": "グリッド、パネル、Chrome、タブ",
+      "layout_description": "構造化コンテナはレイアウトモデルからフォーカス関係を作ります。",
+      "scroll_title": "スクロール方針",
+      "scroll_description": "自動、常時表示、非表示のスクロールバーは同じクリップ動作を保ちます。"
+    },
+    "overlays": {
+      "open_overlay": "非モーダルオーバーレイを開く",
+      "open_dialog": "閲覧ダイアログを開く",
+      "open_confirm": "確認ダイアログを開く",
+      "tooltip": "ホバーでツールチップ",
+      "tooltip_text": "ツールチップはフォーカスとポインターの状態に従います。",
+      "placement_title": "オーバーレイ配置",
+      "placement_description": "同じパネルを全配置、遷移、モーダル方針で開き直します。",
+      "open_center": "中央（非モーダル）",
+      "open_left": "左ドロワー",
+      "open_right": "右ドロワー",
+      "open_top": "上部シート",
+      "open_bottom": "下部シート",
+      "dialog_title": "モーダルダイアログ",
+      "dialog_description": "ダイアログはフォーカスを取得し、閉じると以前のスコープへ戻します。",
+      "popup_title": "ポップアップとツールチップ",
+      "popup_description": "一時ポップアップを優先し、ツールチップは受動的に表示します。",
+      "option_four": "4番目",
+      "option_five": "5番目",
+      "option_six": "6番目",
+      "option_seven": "7番目",
+      "option_eight": "8番目"
+    },
+    "dialog": {
+      "title": "ワークベンチ閲覧ダイアログ",
+      "body": "このダイアログはモーダル配置、フォーカス復元、ローカライズ済み長文を検証します。"
+    },
+    "confirm": {
+      "title": "ワークベンチ操作の確認",
+      "message": "この確認ダイアログはオーバーレイ検証の一部です。"
+    },
+    "appearance": {
+      "note": "テーマ名は安定したエンジン識別子です。",
+      "localized_sample": "ローカライズ済み TextKey の例"
+    }
+  },
+  "physics_tests": {
+    "title": "物理テストセンター",
+    "physics": "基礎物理・回帰",
+    "combat": "戦闘統合",
+    "stress": "負荷テスト",
+    "run": "実行 / 再実行",
+    "pause": "停止 / 再開 (P)",
+    "single_step": "1ステップ (N)",
+    "reset": "リセット (R)",
+    "back": "戻る (Esc)",
+    "ready": "待機",
+    "running": "実行中",
+    "passed": "成功",
+    "failed": "失敗",
+    "paused": "停止中",
+    "steps": "ステップ",
+    "objects": "剛体 / 形状",
+    "contacts": "接触",
+    "awake": "起動中",
+    "dropped": "破棄ステップ",
+    "timing": "中央 / P95 / 最大 ms",
+    "samples": "サンプル",
+    "debug": "デバッグ形状 (F1)",
+    "mixed": "設定混在",
+    "on": "オン",
+    "off": "オフ",
+    "failure": "失敗理由",
+    "actual": "実測",
+    "expected_value": "期待",
+    "low": "低",
+    "medium": "中",
+    "high": "高",
+    "cases": {
+      "motion": {
+        "title": "剛体・力・質量",
+        "purpose": "3種類の剛体、重力、減衰、回転、質量応答を比較。",
+        "expected": "静的物体は停止し、力と力積は質量に応じて作用し、減衰で減速します。"
+      },
+      "materials": {
+        "title": "接触・材質・スリープ",
+        "purpose": "床・壁・天井、摩擦、反発、積み重ねの復帰を検証。",
+        "expected": "接触面を識別し、摩擦で滑走が変化し、休眠した積み重ねが力積で起きます。"
+      },
+      "ccd": {
+        "title": "連続衝突の回帰テスト",
+        "purpose": "8レーンで離散対照、実行時CCD、複数形状、bulletを比較。",
+        "expected": "連続衝突は目標で停止します。離散方式の対照は通過しても正常です。"
+      },
+      "filters": {
+        "title": "フィルターとセンサーイベント",
+        "purpose": "応答・マスク・グループと削除後の一度だけのEndを検証。",
+        "expected": "マスクとグループで接触を選別。Begin/Stay と無効化・削除後の一度の End を確認します。"
+      },
+      "queries": {
+        "title": "形状クエリとキャスト",
+        "purpose": "レイ、線分、重なり、スイープ、回転、移動直後の検索。",
+        "expected": "照会は距離順に絞り込んだ命中を返し、転送位置を直ちに反映します。"
+      },
+      "one_way": {
+        "title": "一方向の足場",
+        "purpose": "上下左右と複合ルールの通過・遮断を検証。",
+        "expected": "各方向の固体側を遮断し、反対側からの通過を許可します。"
+      },
+      "tiles": {
+        "title": "タイル境界と移動足場",
+        "purpose": "境界上の接地、両足場の通過、再着地、タイル削除、移動足場。",
+        "expected": "継ぎ目で安定して立ち、下へ通過し、移動床に運ばれます。"
+      },
+      "joints": {
+        "title": "拘束・ばね・モーター",
+        "purpose": "距離、ばねの収束、回転制限、破棄後の無効化。",
+        "expected": "拘束範囲を維持し、ばねが収束し、破棄したジョイントが無効になります。"
+      },
+      "lifecycle": {
+        "title": "ライフサイクルと命令順序",
+        "purpose": "コールバック内の登録・削除、XY更新、回転後の移動、リセット。",
+        "expected": "命令の順序と転送時の角度を保持し、リセットで古いハンドルを無効化します。"
+      },
+      "timing": {
+        "title": "固定ステップと補間",
+        "purpose": "フレームレート非依存、端数時間、追いつき上限、描画補間。",
+        "expected": "表示速度に依存せず固定ステップを保ち、補間と破棄ステップ数を確認します。"
+      },
+      "combat_collider": {
+        "title": "コライダー戦闘",
+        "purpose": "実際の入力で攻撃準備、命中期間、重複防止、味方、死亡、ジャンプ。",
+        "expected": "攻撃は各 25 ダメージ、味方は無傷。ジャンプと着地に成功します。"
+      },
+      "combat_platform": {
+        "title": "タイル足場の戦闘",
+        "purpose": "入力によるジャンプ、上向き通過、境界着地、降下、短い入力。",
+        "expected": "床を上へ通過し、継ぎ目へ着地して下へ抜け、短い入力を一度だけ消費します。"
+      },
+      "combat_topdown": {
+        "title": "見下ろしタイル戦闘",
+        "purpose": "壁の遮蔽、敵の追跡、危険区域の出入り、境界衝突。",
+        "expected": "壁が視線と移動を遮断。通路を開くと追跡し、危険区域を離れると被害が止まります。"
+      },
+      "stress_bodies": {
+        "title": "移動剛体の負荷",
+        "purpose": "100 / 500 / 2000剛体。120ステップ予熱、600計測。時間は参考値。",
+        "expected": "剛体の有限状態と有効性を維持。120 ステップ準備後に 600 ステップを計測します。"
+      },
+      "stress_contacts": {
+        "title": "密集接触の負荷",
+        "purpose": "100 / 500 / 1000形状。接触と有限状態を検証、速度の合否基準なし。",
+        "expected": "持続接触の有効性と 600 ステップの計測を確認。速度の合格基準は設けません。"
+      },
+      "stress_tiles": {
+        "title": "タイル世界の負荷",
+        "purpose": "64² / 128² / 256²セル、疎な障害物、部分更新、一括クエリ。",
+        "expected": "タイル更新と照会が成功し、有限状態を保ち、600 ステップを計測します。"
+      }
+    }
+  },
+  "showcase": {
+    "back": "戻る",
+    "auxiliary": "追加デモ",
+    "gallery": {
+      "title": "エンジン機能デモ",
+      "description": "モジュールを選び、操作と動作を確認します。"
+    },
+    "ui": {
+      "title": "UI",
+      "description": "コントロール、レイアウト、テーマ、書体、オーバーレイ、HUD。"
+    },
+    "input": {
+      "title": "入力と操作",
+      "description": "ローカルプレイヤー、デバイス、操作対象、入力ルーティング。",
+      "menu": "プレイヤー / メニュー",
+      "bind_one": "次のStart入力をプレイヤー1へ割当",
+      "bind_two": "プレイヤー2の再割当",
+      "release": "再割当のため解除",
+      "keyboard_one": "キーボード：WASD P1 / 矢印 P2",
+      "keyboard_two": "キーボード：矢印 P1 / WASD P2",
+      "mouse_one": "マウス：プレイヤー1",
+      "mouse_two": "マウス：プレイヤー2",
+      "pad_one": "UIパッド：プレイヤー1",
+      "pad_two": "UIパッド：プレイヤー2",
+      "resume": "再開",
+      "typing": "文字入力中は移動しません",
+      "mouse": "マウス",
+      "pad": "ゲームパッド",
+      "disconnected": "パッド未接続",
+      "ui_access": "UI：キーボード + マウス",
+      "assignment": "未割当パッドのStartを押す：プレイヤー"
+    },
+    "camera": {
+      "title": "カメラ",
+      "description": "追従・カメラ移動・演出。F1–F3: ページ、R: リセット、Esc: 戻る。",
+      "dead_zone": "デッドゾーン",
+      "swap": "主対象切替",
+      "auto_motion": "自動移動",
+      "teleport": "対象を転送",
+      "zoom": "ズーム1.5",
+      "bounds": "ワールド境界",
+      "primary": "主対象",
+      "zoom_label": "ズーム",
+      "primary_only": "主対象のみ",
+      "group": "グループ",
+      "blue": "青",
+      "orange": "橙",
+      "page_follow": "F1 追従と構図",
+      "page_motion": "F2 カメラ移動",
+      "page_cinematic": "F3 演出カメラ",
+      "strategy": "追従方式を変更",
+      "edge": "境界へ移動",
+      "move": "移動とズーム",
+      "path": "3 区間のパス",
+      "easing": "補間を変更",
+      "end": "終了動作を変更",
+      "pause": "一時停止",
+      "resume": "再開",
+      "cancel": "移動を解除",
+      "follow": "追従を復帰",
+      "shake": "振動",
+      "clear_shake": "振動を解除",
+      "cut": "直接切り替え",
+      "blend": "滑らかに切り替え",
+      "return_main": "Main に戻る",
+      "play": "演出を再生",
+      "skip": "スキップして戻る",
+      "replay": "演出を再生し直す",
+      "reset": "R ページをリセット",
+      "ready": "準備完了",
+      "playing": "再生中",
+      "finished": "完了",
+      "holding": "画面を保持",
+      "cancelled": "解除済み・追従中",
+      "hard": "直接追従",
+      "smooth": "滑らかな追従",
+      "single_dead_zone": "単一対象のデッドゾーン",
+      "multi": "複数対象の追従",
+      "entering": "演出へ移行中",
+      "touring": "演出パスを再生中",
+      "returning": "Main に復帰中",
+      "manual": "手動演出カメラ",
+      "linear": "線形",
+      "smoothstep": "SmoothStep",
+      "cubic": "立方イーズインアウト",
+      "end_hold": "終了: 保持",
+      "end_follow": "終了: 追従復帰",
+      "paused": "一時停止中",
+      "active": "動作中",
+      "center": "中心",
+      "help_follow": "WASD: 移動、Q/E: 分離",
+      "help_motion": "補間と終了動作を選んで再生",
+      "help_cinematic": "Main 復帰までキャラクター停止",
+      "legend": "青: 安全域・緑: デッドゾーン・赤: 境界・黄: パス・白: 主対象"
+    },
+    "animation": {
+      "title": "アニメーション",
+      "description": "待機、移動、攻撃セグメントを再生。"
+    },
+    "effects": {
+      "title": "エフェクト",
+      "description": "フローティング数値、色の重ね合わせと画面エフェクト。",
+      "damage": "ダメージ",
+      "critical": "クリティカル",
+      "heal": "回復",
+      "percent": "パーセント",
+      "fraction": "分数",
+      "decimal": "小数",
+      "screen": {
+        "instructions": "画面エフェクト：F1–F9 またはクリック。Esc / 戻るは実行中の効果を解除してから戻ります。",
+        "flash": "F1 フラッシュ",
+        "fade_black": "F2 暗転",
+        "hold_black": "F3 黒画面を保持",
+        "stop": "F4 フェードアウト",
+        "cancel": "F5 解除",
+        "stretch": "F6 引き伸ばし",
+        "cover": "F7 全面を覆う",
+        "contain": "F8 全体を表示",
+        "after_ui": "F9 UI の後",
+        "before_ui": "F9 UI の前",
+        "ready": "準備完了",
+        "stopping": "フェードアウト中",
+        "nothing_to_stop": "停止する効果なし",
+        "cancelled": "解除済み",
+        "layer_changed": "描画順を変更しました。効果を選択してください",
+        "image_unavailable": "画像を利用できません：demo.screen_effect",
+        "failed": "エフェクトの要求に失敗",
+        "playing": "再生中",
+        "finished": "完了",
+        "animation_play": "アニメを再生",
+        "loop_off": "ループ：オフ",
+        "loop_on": "ループ：オン",
+        "end_animation": "終了：再生完了",
+        "end_timed": "終了：時間指定",
+        "end_manual": "終了：手動",
+        "fit_natural": "サイズ：元のサイズ",
+        "fit_stretch": "サイズ：引き伸ばし",
+        "fit_cover": "サイズ：全体を覆う",
+        "fit_contain": "サイズ：全体を表示",
+        "anchor_tl": "位置：左上",
+        "anchor_tc": "位置：上",
+        "anchor_tr": "位置：右上",
+        "anchor_cl": "位置：左",
+        "anchor_center": "位置：中央",
+        "anchor_cr": "位置：右",
+        "anchor_bl": "位置：左下",
+        "anchor_bc": "位置：下",
+        "anchor_br": "位置：右下",
+        "offset_zero": "移動：0, 0",
+        "offset_inset": "移動：-24, -24",
+        "scale_one": "倍率：1x",
+        "scale_half": "倍率：0.5x",
+        "scale_large": "倍率：1.5x",
+        "layout_image": "同じ配置で画像を再生"
+      }
+    },
+    "physics": {
+      "title": "物理と衝突",
+      "description": "共有物理テストと負荷レベル。P：一時停止、N：ステップ、R：リセット、F1：デバッグ。"
+    },
+    "gameplay": {
+      "title": "ゲームプレイ",
+      "description": "操作、ゲーム衝突、戦闘、ワールドUIを体験。",
+      "capabilities": "シーンで遊ぶか、下の戦闘テストを実行。ワールドUIはキャラクターとダメージに追従。",
+      "collider": "コライダー戦闘",
+      "platform": "プラットフォーム戦闘",
+      "topdown": "トップダウン戦闘",
+      "health": "体力",
+      "enemies": "敵",
+      "bound": "コントローラー有効",
+      "attacking": "攻撃中",
+      "defeated": "敗北 — 再開中…",
+      "world_ui": "ワールドUI切替",
+      "speech": "吹き出しを表示",
+      "collider_controls": "A/D：移動 | Space：ジャンプ | J：攻撃 | K：クエリ | P：停止 | N：ステップ | R：リセット | F1：デバッグ",
+      "platform_controls": "A/D：移動 | Space：ジャンプ | S+Space：降下 | J：攻撃 | P：停止 | N：ステップ | R：リセット | F1：デバッグ",
+      "topdown_controls": "WASD：移動 | J：攻撃 | P：停止 | N：ステップ | R：リセット | F1：デバッグ"
+    },
+    "audio": {
+      "title": "オーディオ",
+      "description": "低音量の合成音源。終了時に設定を復元。",
+      "once": "効果音を再生",
+      "delay": "500 ms後に再生",
+      "loop": "フェードインでループ",
+      "stop": "デモ効果音を停止",
+      "limit": "グループ上限とクールダウン",
+      "music_a": "音楽Aをフェードイン",
+      "music_b": "音楽Bへフェード切替",
+      "music_stop": "音楽をフェードアウト",
+      "master": "全体音量",
+      "music_volume": "音楽音量",
+      "sound_volume": "効果音音量",
+      "group_volume": "ゲームプレイ音量",
+      "ready": "準備完了",
+      "unavailable": "オーディオを利用できません",
+      "accepted": "再生要求を受理",
+      "rejected": "再生要求を拒否",
+      "scheduled": "再生予約済み"
+    }
+  }
+}

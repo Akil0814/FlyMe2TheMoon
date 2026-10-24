@@ -1,0 +1,88 @@
+{
+  "engine": {
+    "common": {
+      "save": "Save",
+      "back": "Back",
+      "confirm": "Confirm",
+      "cancel": "Cancel",
+      "close": "Close",
+      "close_x": "X"
+    },
+    "startup_loading": {
+      "press_any_button": "PRESS ANY BUTTON TO START"
+    },
+    "application_failure": {
+      "startup": {
+        "title": "Startup failed",
+        "message": "Required game resources could not be loaded. See the log for details.",
+        "exit": "Exit"
+      },
+      "runtime": {
+        "title": "Application error",
+        "message": "The application encountered a fatal problem and must close. See the log for details.",
+        "exit": "Exit",
+        "reopen": "Show error"
+      },
+      "stage": {
+        "config": "The game configuration could not be loaded.",
+        "manifest": "A content manifest could not be loaded.",
+        "plan": "The content loading plan could not be prepared.",
+        "missing_resource": "One or more required content files are missing.",
+        "texture": "A required texture could not be loaded.",
+        "atlas": "A required texture atlas could not be built.",
+        "font": "A required font could not be loaded.",
+        "audio": "A required audio resource could not be loaded.",
+        "animation": "A required animation could not be registered.",
+        "effect": "A required visual effect could not be registered."
+      },
+      "labels": { "error_code": "Error code", "log": "Log file", "details": "Diagnostic details" },
+      "log_unavailable": "Unavailable",
+      "details_in_log": "See the log for diagnostic details.",
+      "copy": "Copy information",
+      "copied": "Copied",
+      "copy_failed": "Copy failed"
+    },
+    "settings": {
+      "title": "Settings",
+      "sections": {
+        "display": "Display",
+        "audio": "Audio",
+        "general": "General"
+      },
+      "fields": {
+        "window_mode": "Display mode",
+        "window_size": "Window size",
+        "target_fps": "Frame rate limit",
+        "vsync": "Vertical sync",
+        "master_volume": "Master volume",
+        "music_volume": "Music volume",
+        "sound_volume": "Sound volume",
+        "language": "Language"
+      },
+      "actions": {
+        "save": "Save",
+        "back": "Back"
+      },
+      "window_modes": {
+        "windowed": "Windowed",
+        "borderless_fullscreen": "Borderless fullscreen"
+      },
+      "hints": {
+        "vsync_restart": "Changes take effect after restarting the game."
+      },
+      "languages": {
+        "en": "English",
+        "zh_hans": "简体中文",
+        "zh_hant": "繁體中文",
+        "ja": "日本語",
+        "ko": "한국어"
+      },
+      "status": {
+        "save_failed": "Failed to save settings",
+        "saved": "Settings saved.",
+        "saved_restart_required": "Settings saved. Vertical sync takes effect after restarting the game.",
+        "restart_required": "Restart the game to apply vertical sync changes."
+      }
+    }
+  }
+}

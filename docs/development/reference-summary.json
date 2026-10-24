@@ -1,0 +1,4255 @@
+{
+  "files": 3337,
+  "bytes": 188528722,
+  "categories": {
+    "01_关卡": 94,
+    "02_图形资源": 213,
+    "03_音频": 75,
+    "04_本地化": 24,
+    "05_配置与数据": 9,
+    "06_字体": 2,
+    "07_iOS包与第三方": 16,
+    "08_PNG解析": 2869,
+    "99_重复文件": 33,
+    "README_整理说明.md": 1,
+    "整理清单.csv": 1
+  },
+  "extensions": {
+    "": 66,
+    ".lua": 60,
+    ".plist": 50,
+    ".pvr": 16,
+    ".ccz": 20,
+    ".png": 3013,
+    ".wav": 70,
+    ".caf": 6,
+    ".json": 12,
+    ".strings": 6,
+    ".dat": 1,
+    ".xml": 1,
+    ".ttf": 2,
+    ".nib": 8,
+    ".sql": 2,
+    ".csv": 2,
+    ".md": 2
+  },
+  "script_calls": {
+    "global.getBool": 32,
+    "game.isRestart": 15,
+    "dialog.setSkipEnabled": 65,
+    "game.setUserInputEnabled": 52,
+    "role.setIdleActionEnabled": 45,
+    "game.pauseLogic": 22,
+    "dialog.show": 165,
+    "game.resumeLogic": 18,
+    "script.delay": 21,
+    "role.lookLeftRight": 2,
+    "sound.play": 78,
+    "camera.setFollowRoleMode": 28,
+    "camera.gotoPosition": 11,
+    "camera.gotoRole": 19,
+    "game.showTutorialDiagram": 19,
+    "dialog.showMinTime": 10,
+    "game.setReplayMode": 1,
+    "game.loadTutorialRep": 1,
+    "replay.skipNonControlFrames": 1,
+    "dialog.showFixedTime": 3,
+    "game.restartTiming": 30,
+    "replay.pause": 1,
+    "game.setPlayMode": 1,
+    "role.loadState": 4,
+    "global.setBool": 32,
+    "game.success": 19,
+    "global.isLevelPassed": 14
+  },
+  "header_types": {
+    "BornPoint": 60,
+    "NoMana": 60,
+    "Suite": 59
+  },
+  "layer_objects": {
+    "Background": 2037,
+    "Farground": 656,
+    "StaticObject": 206,
+    "Texture": 8964,
+    "DynamicObject": 1351,
+    "Item": 3325,
+    "Foreground": 6130,
+    "Closeground": 0,
+    "Area": 46
+  },
+  "object_ids": {
+    "Background": {
+      "1": 60,
+      "6": 325,
+      "5": 331,
+      "4": 372,
+      "3": 353,
+      "2": 596
+    },
+    "Farground": {
+      "8": 42,
+      "2": 77,
+      "4": 89,
+      "12": 63,
+      "10": 38,
+      "9": 36,
+      "1": 51,
+      "5": 55,
+      "7": 57,
+      "6": 51,
+      "11": 50,
+      "3": 47
+    },
+    "StaticObject": {
+      "91010": 1,
+      "291020": 1,
+      "291030": 1,
+      "291040": 1,
+      "5": 61,
+      "6": 21,
+      "91060": 1,
+      "91061": 1,
+      "91090": 1,
+      "91070": 1,
+      "91071": 1,
+      "91072": 1,
+      "91073": 1,
+      "91074": 1,
+      "291080": 1,
+      "291081": 1,
+      "291110": 1,
+      "292160": 1,
+      "3": 8,
+      "293340": 1,
+      "92180": 1,
+      "93320": 1,
+      "93321": 1,
+      "93322": 1,
+      "93323": 1,
+      "291070": 1,
+      "291120": 1,
+      "91130": 1,
+      "91131": 1,
+      "292170": 1,
+      "292171": 1,
+      "291130": 1,
+      "91080": 1,
+      "292200": 1,
+      "92160": 1,
+      "13": 2,
+      "292220": 1,
+      "292230": 1,
+      "92170": 1,
+      "92171": 1,
+      "292250": 1,
+      "292251": 1,
+      "292260": 1,
+      "92210": 1,
+      "92211": 1,
+      "92212": 1,
+      "91140": 1,
+      "91100": 1,
+      "91150": 1,
+      "91151": 1,
+      "293310": 1,
+      "293320": 1,
+      "293321": 1,
+      "293330": 1,
+      "91110": 1,
+      "91111": 1,
+      "91112": 1,
+      "91113": 1,
+      "91114": 1,
+      "91115": 1,
+      "91116": 1,
+      "293350": 1,
+      "293360": 1,
+      "293370": 1,
+      "92230": 1,
+      "293390": 1,
+      "293400": 1,
+      "293401": 1,
+      "37": 2,
+      "92270": 1,
+      "293430": 1,
+      "92290": 1,
+      "293450": 1,
+      "293451": 1,
+      "293452": 1,
+      "293453": 1,
+      "293454": 1,
+      "291100": 1,
+      "291101": 1,
+      "293470": 1,
+      "93330": 1,
+      "93331": 1,
+      "93332": 1,
+      "93333": 1,
+      "293490": 1,
+      "294500": 1,
+      "93360": 1,
+      "93363": 1,
+      "93361": 1,
+      "93362": 1,
+      "294520": 1,
+      "294521": 1,
+      "91120": 1,
+      "91121": 3,
+      "294540": 1,
+      "294550": 1,
+      "294551": 1,
+      "294552": 1,
+      "93410": 5,
+      "294570": 1,
+      "294571": 1,
+      "294572": 1,
+      "294573": 1,
+      "294580": 1,
+      "93440": 1,
+      "294600": 1,
+      "294601": 1,
+      "294604": 1,
+      "294602": 1,
+      "294603": 1,
+      "294605": 1
+    },
+    "Texture": {
+      "64": 113,
+      "69": 274,
+      "28": 428,
+      "25": 48,
+      "59": 55,
+      "41": 304,
+      "74": 10,
+      "43": 316,
+      "84": 15,
+      "67": 230,
+      "40": 1236,
+      "88": 23,
+      "52": 349,
+      "49": 230,
+      "51": 195,
+      "73": 61,
+      "94": 38,
+      "93": 17,
+      "83": 7,
+      "82": 3,
+      "95": 12,
+      "96": 8,
+      "87": 6,
+      "66": 178,
+      "68": 218,
+      "62": 440,
+      "30": 290,
+      "60": 141,
+      "31": 47,
+      "27": 109,
+      "63": 208,
+      "42": 22,
+      "47": 400,
+      "50": 368,
+      "45": 365,
+      "48": 121,
+      "53": 172,
+      "44": 142,
+      "90": 9,
+      "97": 6,
+      "89": 29,
+      "79": 3,
+      "78": 8,
+      "91": 5,
+      "65": 103,
+      "22": 11,
+      "46": 353,
+      "61": 154,
+      "58": 83,
+      "36": 208,
+      "32": 11,
+      "71": 5,
+      "56": 22,
+      "35": 55,
+      "26": 63,
+      "77": 21,
+      "75": 7,
+      "55": 118,
+      "54": 9,
+      "37": 40,
+      "34": 201,
+      "29": 111,
+      "72": 17,
+      "76": 5,
+      "92": 11,
+      "81": 4,
+      "99": 1,
+      "98": 1,
+      "100": 1,
+      "80": 4,
+      "57": 11,
+      "23": 13,
+      "15": 8,
+      "19": 4,
+      "24": 9,
+      "70": 4,
+      "33": 10,
+      "39": 1,
+      "14": 4,
+      "2": 3,
+      "8": 2,
+      "3": 2,
+      "11": 4,
+      "18": 2,
+      "4": 4,
+      "20": 2,
+      "21": 1,
+      "10": 1,
+      "16": 1
+    },
+    "DynamicObject": {
+      "101": 60,
+      "111": 124,
+      "105": 166,
+      "106": 115,
+      "110": 20,
+      "109": 40,
+      "114": 181,
+      "25": 33,
+      "24": 40,
+      "107": 107,
+      "115": 71,
+      "112": 191,
+      "117": 1,
+      "113": 64,
+      "108": 4,
+      "116": 112,
+      "8": 22
+    },
+    "Item": {
+      "4": 2521,
+      "5": 624,
+      "3": 180
+    },
+    "Foreground": {
+      "3": 145,
+      "88": 118,
+      "94": 383,
+      "87": 123,
+      "95": 110,
+      "92": 156,
+      "97": 132,
+      "96": 64,
+      "84": 457,
+      "77": 266,
+      "80": 72,
+      "93": 213,
+      "19": 65,
+      "98": 17,
+      "72": 305,
+      "73": 584,
+      "4": 189,
+      "89": 361,
+      "76": 170,
+      "8": 86,
+      "2": 70,
+      "15": 249,
+      "14": 84,
+      "23": 104,
+      "20": 70,
+      "17": 10,
+      "100": 14,
+      "91": 129,
+      "11": 66,
+      "13": 44,
+      "78": 142,
+      "82": 135,
+      "83": 174,
+      "86": 10,
+      "74": 84,
+      "81": 94,
+      "9": 37,
+      "22": 81,
+      "79": 60,
+      "12": 28,
+      "18": 47,
+      "90": 123,
+      "16": 22,
+      "10": 51,
+      "1": 35,
+      "75": 68,
+      "51": 1,
+      "52": 3,
+      "46": 1,
+      "21": 25,
+      "49": 1,
+      "53": 1,
+      "47": 3,
+      "99": 14,
+      "85": 17,
+      "44": 2,
+      "42": 1,
+      "40": 3,
+      "43": 7,
+      "50": 1,
+      "41": 3
+    },
+    "Closeground": {},
+    "Area": {
+      "Obj": 46
+    }
+  },
+  "levels": [
+    {
+      "id": 1,
+      "width": "960",
+      "height": "1440",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "464",
+            "Y": "320"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "3"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 43
+        },
+        {
+          "name": "Farground",
+          "count": 4
+        },
+        {
+          "name": "StaticObject",
+          "count": 1
+        },
+        {
+          "name": "Texture",
+          "count": 60
+        },
+        {
+          "name": "DynamicObject",
+          "count": 1
+        },
+        {
+          "name": "Item",
+          "count": 13
+        },
+        {
+          "name": "Foreground",
+          "count": 34
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 0
+        }
+      ],
+      "dialog_keys": [
+        "Level1-1",
+        "Level1-10",
+        "Level1-11",
+        "Level1-12",
+        "Level1-13",
+        "Level1-2",
+        "Level1-3",
+        "Level1-4",
+        "Level1-5",
+        "Level1-6",
+        "Level1-7",
+        "Level1-8",
+        "Level1-9"
+      ],
+      "callbacks": [
+        "onRoleReachedMoon",
+        "onRoleDied"
+      ]
+    },
+    {
+      "id": 302,
+      "width": "1600",
+      "height": "2400",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "416",
+            "Y": "352"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "3"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 30
+        },
+        {
+          "name": "Farground",
+          "count": 6
+        },
+        {
+          "name": "StaticObject",
+          "count": 1
+        },
+        {
+          "name": "Texture",
+          "count": 125
+        },
+        {
+          "name": "DynamicObject",
+          "count": 5
+        },
+        {
+          "name": "Item",
+          "count": 53
+        },
+        {
+          "name": "Foreground",
+          "count": 105
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 0
+        }
+      ],
+      "dialog_keys": [
+        "Level1-12",
+        "Level1-13",
+        "Level2-1",
+        "Level2-2",
+        "Level2-3",
+        "Level2-4",
+        "Level2-5"
+      ],
+      "callbacks": [
+        "onRoleDied"
+      ]
+    },
+    {
+      "id": 303,
+      "width": "1280",
+      "height": "2400",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "400",
+            "Y": "1776"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "3"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 24
+        },
+        {
+          "name": "Farground",
+          "count": 7
+        },
+        {
+          "name": "StaticObject",
+          "count": 1
+        },
+        {
+          "name": "Texture",
+          "count": 122
+        },
+        {
+          "name": "DynamicObject",
+          "count": 5
+        },
+        {
+          "name": "Item",
+          "count": 37
+        },
+        {
+          "name": "Foreground",
+          "count": 75
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 0
+        }
+      ],
+      "dialog_keys": [
+        "Level1-12",
+        "Level1-13",
+        "Level2-8",
+        "Level3-1",
+        "Level3-2",
+        "Level3-3",
+        "Level3-4"
+      ],
+      "callbacks": [
+        "onRoleDied"
+      ]
+    },
+    {
+      "id": 304,
+      "width": "960",
+      "height": "2400",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "460",
+            "Y": "480"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "4"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 33
+        },
+        {
+          "name": "Farground",
+          "count": 5
+        },
+        {
+          "name": "StaticObject",
+          "count": 5
+        },
+        {
+          "name": "Texture",
+          "count": 128
+        },
+        {
+          "name": "DynamicObject",
+          "count": 10
+        },
+        {
+          "name": "Item",
+          "count": 32
+        },
+        {
+          "name": "Foreground",
+          "count": 62
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 0
+        }
+      ],
+      "dialog_keys": [
+        "Level4-1",
+        "Level4-2",
+        "Level4-3",
+        "Level4-4",
+        "Level4-5"
+      ],
+      "callbacks": []
+    },
+    {
+      "id": 6,
+      "width": "1600",
+      "height": "2400",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "1232",
+            "Y": "672"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "4"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 47
+        },
+        {
+          "name": "Farground",
+          "count": 7
+        },
+        {
+          "name": "StaticObject",
+          "count": 2
+        },
+        {
+          "name": "Texture",
+          "count": 123
+        },
+        {
+          "name": "DynamicObject",
+          "count": 13
+        },
+        {
+          "name": "Item",
+          "count": 48
+        },
+        {
+          "name": "Foreground",
+          "count": 68
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 0
+        }
+      ],
+      "dialog_keys": [],
+      "callbacks": []
+    },
+    {
+      "id": 9,
+      "width": "1600",
+      "height": "1920",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "269",
+            "Y": "320"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "4"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 50
+        },
+        {
+          "name": "Farground",
+          "count": 4
+        },
+        {
+          "name": "StaticObject",
+          "count": 3
+        },
+        {
+          "name": "Texture",
+          "count": 137
+        },
+        {
+          "name": "DynamicObject",
+          "count": 25
+        },
+        {
+          "name": "Item",
+          "count": 41
+        },
+        {
+          "name": "Foreground",
+          "count": 55
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 0
+        }
+      ],
+      "dialog_keys": [],
+      "callbacks": []
+    },
+    {
+      "id": 7,
+      "width": "1920",
+      "height": "2400",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "1552",
+            "Y": "928"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "2"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 54
+        },
+        {
+          "name": "Farground",
+          "count": 13
+        },
+        {
+          "name": "StaticObject",
+          "count": 5
+        },
+        {
+          "name": "Texture",
+          "count": 213
+        },
+        {
+          "name": "DynamicObject",
+          "count": 8
+        },
+        {
+          "name": "Item",
+          "count": 58
+        },
+        {
+          "name": "Foreground",
+          "count": 149
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 0
+        }
+      ],
+      "dialog_keys": [
+        "Level8-1",
+        "Level8-2",
+        "Level8-3",
+        "Level8-4",
+        "Level8-5"
+      ],
+      "callbacks": [
+        "onRoleReachedMoon"
+      ]
+    },
+    {
+      "id": 8,
+      "width": "1600",
+      "height": "1920",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "256",
+            "Y": "308"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "2"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 46
+        },
+        {
+          "name": "Farground",
+          "count": 10
+        },
+        {
+          "name": "StaticObject",
+          "count": 2
+        },
+        {
+          "name": "Texture",
+          "count": 128
+        },
+        {
+          "name": "DynamicObject",
+          "count": 14
+        },
+        {
+          "name": "Item",
+          "count": 41
+        },
+        {
+          "name": "Foreground",
+          "count": 93
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 0
+        }
+      ],
+      "dialog_keys": [],
+      "callbacks": []
+    },
+    {
+      "id": 11,
+      "width": "1280",
+      "height": "2400",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "441",
+            "Y": "496"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "2"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 24
+        },
+        {
+          "name": "Farground",
+          "count": 7
+        },
+        {
+          "name": "StaticObject",
+          "count": 3
+        },
+        {
+          "name": "Texture",
+          "count": 123
+        },
+        {
+          "name": "DynamicObject",
+          "count": 14
+        },
+        {
+          "name": "Item",
+          "count": 38
+        },
+        {
+          "name": "Foreground",
+          "count": 87
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 0
+        }
+      ],
+      "dialog_keys": [
+        "Level10-1",
+        "Level10-2"
+      ],
+      "callbacks": []
+    },
+    {
+      "id": 16,
+      "width": "2560",
+      "height": "2880",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "1152",
+            "Y": "310"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "4"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 27
+        },
+        {
+          "name": "Farground",
+          "count": 9
+        },
+        {
+          "name": "StaticObject",
+          "count": 2
+        },
+        {
+          "name": "Texture",
+          "count": 179
+        },
+        {
+          "name": "DynamicObject",
+          "count": 19
+        },
+        {
+          "name": "Item",
+          "count": 50
+        },
+        {
+          "name": "Foreground",
+          "count": 268
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 0
+        }
+      ],
+      "dialog_keys": [
+        "Level16-1",
+        "Level16-2"
+      ],
+      "callbacks": []
+    },
+    {
+      "id": 25,
+      "width": "2560",
+      "height": "3840",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "432",
+            "Y": "256"
+          }
+        },
+        {
+          "NoMana": {}
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 26
+        },
+        {
+          "name": "Farground",
+          "count": 11
+        },
+        {
+          "name": "StaticObject",
+          "count": 1
+        },
+        {
+          "name": "Texture",
+          "count": 274
+        },
+        {
+          "name": "DynamicObject",
+          "count": 27
+        },
+        {
+          "name": "Item",
+          "count": 56
+        },
+        {
+          "name": "Foreground",
+          "count": 132
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 9
+        }
+      ],
+      "dialog_keys": [
+        "Level11-1",
+        "Level11-2",
+        "Level11-3",
+        "Level11-4"
+      ],
+      "callbacks": [
+        "onRoleReachedMoon"
+      ]
+    },
+    {
+      "id": 18,
+      "width": "2240",
+      "height": "2400",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "272",
+            "Y": "704"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "4"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 29
+        },
+        {
+          "name": "Farground",
+          "count": 10
+        },
+        {
+          "name": "StaticObject",
+          "count": 1
+        },
+        {
+          "name": "Texture",
+          "count": 168
+        },
+        {
+          "name": "DynamicObject",
+          "count": 25
+        },
+        {
+          "name": "Item",
+          "count": 39
+        },
+        {
+          "name": "Foreground",
+          "count": 191
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 0
+        }
+      ],
+      "dialog_keys": [],
+      "callbacks": []
+    },
+    {
+      "id": 32,
+      "width": "2240",
+      "height": "2880",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "400",
+            "Y": "208"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "4"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 33
+        },
+        {
+          "name": "Farground",
+          "count": 11
+        },
+        {
+          "name": "StaticObject",
+          "count": 4
+        },
+        {
+          "name": "Texture",
+          "count": 218
+        },
+        {
+          "name": "DynamicObject",
+          "count": 21
+        },
+        {
+          "name": "Item",
+          "count": 95
+        },
+        {
+          "name": "Foreground",
+          "count": 225
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 1
+        }
+      ],
+      "dialog_keys": [
+        "Level46-1",
+        "Level46-2",
+        "Level46-3",
+        "Level46-4",
+        "Level46-5",
+        "Level46-6"
+      ],
+      "callbacks": []
+    },
+    {
+      "id": 307,
+      "width": "1280",
+      "height": "2880",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "352",
+            "Y": "336"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "1"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 48
+        },
+        {
+          "name": "Farground",
+          "count": 7
+        },
+        {
+          "name": "StaticObject",
+          "count": 2
+        },
+        {
+          "name": "Texture",
+          "count": 157
+        },
+        {
+          "name": "DynamicObject",
+          "count": 23
+        },
+        {
+          "name": "Item",
+          "count": 30
+        },
+        {
+          "name": "Foreground",
+          "count": 94
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 3
+        }
+      ],
+      "dialog_keys": [
+        "Level7-1",
+        "Level7-2",
+        "Level7-3",
+        "Level7-4",
+        "Level7-5",
+        "Level7-6"
+      ],
+      "callbacks": [
+        "onRoleReachedMoon"
+      ]
+    },
+    {
+      "id": 12,
+      "width": "1600",
+      "height": "2400",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "384",
+            "Y": "1900"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "1"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 26
+        },
+        {
+          "name": "Farground",
+          "count": 7
+        },
+        {
+          "name": "StaticObject",
+          "count": 8
+        },
+        {
+          "name": "Texture",
+          "count": 207
+        },
+        {
+          "name": "DynamicObject",
+          "count": 26
+        },
+        {
+          "name": "Item",
+          "count": 39
+        },
+        {
+          "name": "Foreground",
+          "count": 67
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 5
+        }
+      ],
+      "dialog_keys": [
+        "Level12-1",
+        "Level12-2",
+        "Level12-3"
+      ],
+      "callbacks": [
+        "onRoleReachedMoon"
+      ]
+    },
+    {
+      "id": 13,
+      "width": "1600",
+      "height": "2400",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "928",
+            "Y": "496"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "4"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 48
+        },
+        {
+          "name": "Farground",
+          "count": 12
+        },
+        {
+          "name": "StaticObject",
+          "count": 3
+        },
+        {
+          "name": "Texture",
+          "count": 129
+        },
+        {
+          "name": "DynamicObject",
+          "count": 35
+        },
+        {
+          "name": "Item",
+          "count": 49
+        },
+        {
+          "name": "Foreground",
+          "count": 152
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 1
+        }
+      ],
+      "dialog_keys": [],
+      "callbacks": []
+    },
+    {
+      "id": 17,
+      "width": "2240",
+      "height": "2400",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "624",
+            "Y": "288"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "2"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 33
+        },
+        {
+          "name": "Farground",
+          "count": 8
+        },
+        {
+          "name": "StaticObject",
+          "count": 4
+        },
+        {
+          "name": "Texture",
+          "count": 154
+        },
+        {
+          "name": "DynamicObject",
+          "count": 18
+        },
+        {
+          "name": "Item",
+          "count": 63
+        },
+        {
+          "name": "Foreground",
+          "count": 137
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 0
+        }
+      ],
+      "dialog_keys": [
+        "Level17-1",
+        "Level17-2"
+      ],
+      "callbacks": []
+    },
+    {
+      "id": 13,
+      "width": "1600",
+      "height": "2400",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "352",
+            "Y": "272"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "1"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 36
+        },
+        {
+          "name": "Farground",
+          "count": 8
+        },
+        {
+          "name": "StaticObject",
+          "count": 4
+        },
+        {
+          "name": "Texture",
+          "count": 187
+        },
+        {
+          "name": "DynamicObject",
+          "count": 21
+        },
+        {
+          "name": "Item",
+          "count": 36
+        },
+        {
+          "name": "Foreground",
+          "count": 65
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 3
+        }
+      ],
+      "dialog_keys": [],
+      "callbacks": []
+    },
+    {
+      "id": 8,
+      "width": "2240",
+      "height": "2400",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "448",
+            "Y": "400"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "1"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 69
+        },
+        {
+          "name": "Farground",
+          "count": 8
+        },
+        {
+          "name": "StaticObject",
+          "count": 1
+        },
+        {
+          "name": "Texture",
+          "count": 84
+        },
+        {
+          "name": "DynamicObject",
+          "count": 11
+        },
+        {
+          "name": "Item",
+          "count": 29
+        },
+        {
+          "name": "Foreground",
+          "count": 95
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 0
+        }
+      ],
+      "dialog_keys": [],
+      "callbacks": []
+    },
+    {
+      "id": 20,
+      "width": "1280",
+      "height": "2880",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "912",
+            "Y": "368"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "3"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 25
+        },
+        {
+          "name": "Farground",
+          "count": 7
+        },
+        {
+          "name": "StaticObject",
+          "count": 2
+        },
+        {
+          "name": "Texture",
+          "count": 154
+        },
+        {
+          "name": "DynamicObject",
+          "count": 15
+        },
+        {
+          "name": "Item",
+          "count": 46
+        },
+        {
+          "name": "Foreground",
+          "count": 88
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 2
+        }
+      ],
+      "dialog_keys": [
+        "Level20-1",
+        "Level20-2",
+        "Level20-3",
+        "Level20-4",
+        "Level20-5",
+        "Level20-6",
+        "Level20-7",
+        "Level20-8"
+      ],
+      "callbacks": []
+    },
+    {
+      "id": 16,
+      "width": "2240",
+      "height": "2400",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "672",
+            "Y": "288"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "4"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 65
+        },
+        {
+          "name": "Farground",
+          "count": 9
+        },
+        {
+          "name": "StaticObject",
+          "count": 2
+        },
+        {
+          "name": "Texture",
+          "count": 131
+        },
+        {
+          "name": "DynamicObject",
+          "count": 12
+        },
+        {
+          "name": "Item",
+          "count": 57
+        },
+        {
+          "name": "Foreground",
+          "count": 115
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 0
+        }
+      ],
+      "dialog_keys": [],
+      "callbacks": []
+    },
+    {
+      "id": 22,
+      "width": "1280",
+      "height": "2400",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "614",
+            "Y": "336"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "3"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 23
+        },
+        {
+          "name": "Farground",
+          "count": 7
+        },
+        {
+          "name": "StaticObject",
+          "count": 1
+        },
+        {
+          "name": "Texture",
+          "count": 227
+        },
+        {
+          "name": "DynamicObject",
+          "count": 15
+        },
+        {
+          "name": "Item",
+          "count": 55
+        },
+        {
+          "name": "Foreground",
+          "count": 140
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 3
+        }
+      ],
+      "dialog_keys": [
+        "Level22-1",
+        "Level22-2",
+        "Level22-3",
+        "Level22-4",
+        "Level22-5",
+        "Level22-6"
+      ],
+      "callbacks": [
+        "onRoleReachedMoon"
+      ]
+    },
+    {
+      "id": 23,
+      "width": "2240",
+      "height": "2880",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "448",
+            "Y": "624"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "4"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 32
+        },
+        {
+          "name": "Farground",
+          "count": 9
+        },
+        {
+          "name": "StaticObject",
+          "count": 1
+        },
+        {
+          "name": "Texture",
+          "count": 134
+        },
+        {
+          "name": "DynamicObject",
+          "count": 28
+        },
+        {
+          "name": "Item",
+          "count": 35
+        },
+        {
+          "name": "Foreground",
+          "count": 70
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 2
+        }
+      ],
+      "dialog_keys": [],
+      "callbacks": []
+    },
+    {
+      "id": 17,
+      "width": "2240",
+      "height": "2400",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "416",
+            "Y": "608"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "4"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 73
+        },
+        {
+          "name": "Farground",
+          "count": 10
+        },
+        {
+          "name": "StaticObject",
+          "count": 2
+        },
+        {
+          "name": "Texture",
+          "count": 170
+        },
+        {
+          "name": "DynamicObject",
+          "count": 16
+        },
+        {
+          "name": "Item",
+          "count": 81
+        },
+        {
+          "name": "Foreground",
+          "count": 110
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 2
+        }
+      ],
+      "dialog_keys": [
+        "Level24-1",
+        "Level24-2",
+        "Level24-3"
+      ],
+      "callbacks": []
+    },
+    {
+      "id": 25,
+      "width": "2240",
+      "height": "2400",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "352",
+            "Y": "544"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "2"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 29
+        },
+        {
+          "name": "Farground",
+          "count": 7
+        },
+        {
+          "name": "StaticObject",
+          "count": 2
+        },
+        {
+          "name": "Texture",
+          "count": 174
+        },
+        {
+          "name": "DynamicObject",
+          "count": 11
+        },
+        {
+          "name": "Item",
+          "count": 44
+        },
+        {
+          "name": "Foreground",
+          "count": 100
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 0
+        }
+      ],
+      "dialog_keys": [],
+      "callbacks": []
+    },
+    {
+      "id": 26,
+      "width": "960",
+      "height": "3840",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "373",
+            "Y": "344"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "1"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 30
+        },
+        {
+          "name": "Farground",
+          "count": 6
+        },
+        {
+          "name": "StaticObject",
+          "count": 4
+        },
+        {
+          "name": "Texture",
+          "count": 125
+        },
+        {
+          "name": "DynamicObject",
+          "count": 24
+        },
+        {
+          "name": "Item",
+          "count": 44
+        },
+        {
+          "name": "Foreground",
+          "count": 150
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 2
+        }
+      ],
+      "dialog_keys": [],
+      "callbacks": []
+    },
+    {
+      "id": 21,
+      "width": "1600",
+      "height": "1920",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "678",
+            "Y": "464"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "3"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 23
+        },
+        {
+          "name": "Farground",
+          "count": 7
+        },
+        {
+          "name": "StaticObject",
+          "count": 3
+        },
+        {
+          "name": "Texture",
+          "count": 130
+        },
+        {
+          "name": "DynamicObject",
+          "count": 25
+        },
+        {
+          "name": "Item",
+          "count": 63
+        },
+        {
+          "name": "Foreground",
+          "count": 80
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 0
+        }
+      ],
+      "dialog_keys": [
+        "Level27-1",
+        "Level27-2",
+        "Level27-3",
+        "Level27-4",
+        "Level27-5",
+        "Level27-6",
+        "Level27-7",
+        "Level27-8"
+      ],
+      "callbacks": [
+        "onRoleReachedMoon"
+      ]
+    },
+    {
+      "id": 14,
+      "width": "1280",
+      "height": "2400",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "368",
+            "Y": "448"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "1"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 61
+        },
+        {
+          "name": "Farground",
+          "count": 7
+        },
+        {
+          "name": "StaticObject",
+          "count": 2
+        },
+        {
+          "name": "Texture",
+          "count": 127
+        },
+        {
+          "name": "DynamicObject",
+          "count": 8
+        },
+        {
+          "name": "Item",
+          "count": 35
+        },
+        {
+          "name": "Foreground",
+          "count": 62
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 0
+        }
+      ],
+      "dialog_keys": [],
+      "callbacks": [
+        "onRoleReachedMoon"
+      ]
+    },
+    {
+      "id": 10,
+      "width": "1280",
+      "height": "2400",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "208",
+            "Y": "320"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "4"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 53
+        },
+        {
+          "name": "Farground",
+          "count": 8
+        },
+        {
+          "name": "StaticObject",
+          "count": 1
+        },
+        {
+          "name": "Texture",
+          "count": 95
+        },
+        {
+          "name": "DynamicObject",
+          "count": 10
+        },
+        {
+          "name": "Item",
+          "count": 47
+        },
+        {
+          "name": "Foreground",
+          "count": 116
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 0
+        }
+      ],
+      "dialog_keys": [],
+      "callbacks": [
+        "onRoleReachedMoon"
+      ]
+    },
+    {
+      "id": 15,
+      "width": "1600",
+      "height": "2880",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "624",
+            "Y": "372"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "2"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 59
+        },
+        {
+          "name": "Farground",
+          "count": 7
+        },
+        {
+          "name": "StaticObject",
+          "count": 3
+        },
+        {
+          "name": "Texture",
+          "count": 254
+        },
+        {
+          "name": "DynamicObject",
+          "count": 11
+        },
+        {
+          "name": "Item",
+          "count": 46
+        },
+        {
+          "name": "Foreground",
+          "count": 97
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 0
+        }
+      ],
+      "dialog_keys": [],
+      "callbacks": [
+        "onRoleReachedMoon"
+      ]
+    },
+    {
+      "id": 31,
+      "width": "1920",
+      "height": "2880",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "312",
+            "Y": "285"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "4"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 21
+        },
+        {
+          "name": "Farground",
+          "count": 9
+        },
+        {
+          "name": "StaticObject",
+          "count": 4
+        },
+        {
+          "name": "Texture",
+          "count": 257
+        },
+        {
+          "name": "DynamicObject",
+          "count": 36
+        },
+        {
+          "name": "Item",
+          "count": 77
+        },
+        {
+          "name": "Foreground",
+          "count": 192
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 1
+        }
+      ],
+      "dialog_keys": [
+        "Level31-1",
+        "Level31-2",
+        "Level31-3"
+      ],
+      "callbacks": []
+    },
+    {
+      "id": 32,
+      "width": "1600",
+      "height": "1920",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "784",
+            "Y": "1024"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "4"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 21
+        },
+        {
+          "name": "Farground",
+          "count": 7
+        },
+        {
+          "name": "StaticObject",
+          "count": 2
+        },
+        {
+          "name": "Texture",
+          "count": 105
+        },
+        {
+          "name": "DynamicObject",
+          "count": 46
+        },
+        {
+          "name": "Item",
+          "count": 79
+        },
+        {
+          "name": "Foreground",
+          "count": 50
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 0
+        }
+      ],
+      "dialog_keys": [],
+      "callbacks": []
+    },
+    {
+      "id": 20,
+      "width": "1280",
+      "height": "3840",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "708",
+            "Y": "480"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "1"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 22
+        },
+        {
+          "name": "Farground",
+          "count": 12
+        },
+        {
+          "name": "StaticObject",
+          "count": 1
+        },
+        {
+          "name": "Texture",
+          "count": 91
+        },
+        {
+          "name": "DynamicObject",
+          "count": 33
+        },
+        {
+          "name": "Item",
+          "count": 41
+        },
+        {
+          "name": "Foreground",
+          "count": 68
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 0
+        }
+      ],
+      "dialog_keys": [],
+      "callbacks": []
+    },
+    {
+      "id": 11,
+      "width": "1280",
+      "height": "2400",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "516",
+            "Y": "608"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "4"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 61
+        },
+        {
+          "name": "Farground",
+          "count": 10
+        },
+        {
+          "name": "StaticObject",
+          "count": 7
+        },
+        {
+          "name": "Texture",
+          "count": 236
+        },
+        {
+          "name": "DynamicObject",
+          "count": 20
+        },
+        {
+          "name": "Item",
+          "count": 62
+        },
+        {
+          "name": "Foreground",
+          "count": 54
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 0
+        }
+      ],
+      "dialog_keys": [],
+      "callbacks": []
+    },
+    {
+      "id": 26,
+      "width": "2240",
+      "height": "2400",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "304",
+            "Y": "688"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "1"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 19
+        },
+        {
+          "name": "Farground",
+          "count": 9
+        },
+        {
+          "name": "StaticObject",
+          "count": 1
+        },
+        {
+          "name": "Texture",
+          "count": 102
+        },
+        {
+          "name": "DynamicObject",
+          "count": 19
+        },
+        {
+          "name": "Item",
+          "count": 68
+        },
+        {
+          "name": "Foreground",
+          "count": 64
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 2
+        }
+      ],
+      "dialog_keys": [],
+      "callbacks": []
+    },
+    {
+      "id": 36,
+      "width": "1920",
+      "height": "1920",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "907",
+            "Y": "821"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "3"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 21
+        },
+        {
+          "name": "Farground",
+          "count": 7
+        },
+        {
+          "name": "StaticObject",
+          "count": 1
+        },
+        {
+          "name": "Texture",
+          "count": 113
+        },
+        {
+          "name": "DynamicObject",
+          "count": 21
+        },
+        {
+          "name": "Item",
+          "count": 61
+        },
+        {
+          "name": "Foreground",
+          "count": 75
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 0
+        }
+      ],
+      "dialog_keys": [
+        "Level36-1",
+        "Level36-2",
+        "Level36-3",
+        "Level36-4"
+      ],
+      "callbacks": [
+        "onRoleReachedMoon"
+      ]
+    },
+    {
+      "id": 22,
+      "width": "2240",
+      "height": "2880",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "672",
+            "Y": "640"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "4"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 28
+        },
+        {
+          "name": "Farground",
+          "count": 10
+        },
+        {
+          "name": "StaticObject",
+          "count": 3
+        },
+        {
+          "name": "Texture",
+          "count": 151
+        },
+        {
+          "name": "DynamicObject",
+          "count": 11
+        },
+        {
+          "name": "Item",
+          "count": 67
+        },
+        {
+          "name": "Foreground",
+          "count": 174
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 0
+        }
+      ],
+      "dialog_keys": [],
+      "callbacks": []
+    },
+    {
+      "id": 23,
+      "width": "960",
+      "height": "3360",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "656",
+            "Y": "272"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "1"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 28
+        },
+        {
+          "name": "Farground",
+          "count": 33
+        },
+        {
+          "name": "StaticObject",
+          "count": 6
+        },
+        {
+          "name": "Texture",
+          "count": 108
+        },
+        {
+          "name": "DynamicObject",
+          "count": 12
+        },
+        {
+          "name": "Item",
+          "count": 28
+        },
+        {
+          "name": "Foreground",
+          "count": 43
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 0
+        }
+      ],
+      "dialog_keys": [],
+      "callbacks": []
+    },
+    {
+      "id": 24,
+      "width": "1920",
+      "height": "2400",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "958",
+            "Y": "848"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "2"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 23
+        },
+        {
+          "name": "Farground",
+          "count": 7
+        },
+        {
+          "name": "StaticObject",
+          "count": 2
+        },
+        {
+          "name": "Texture",
+          "count": 126
+        },
+        {
+          "name": "DynamicObject",
+          "count": 8
+        },
+        {
+          "name": "Item",
+          "count": 64
+        },
+        {
+          "name": "Foreground",
+          "count": 82
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 0
+        }
+      ],
+      "dialog_keys": [
+        "Level39-1",
+        "Level39-2",
+        "Level39-3"
+      ],
+      "callbacks": []
+    },
+    {
+      "id": 19,
+      "width": "2240",
+      "height": "2400",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "800",
+            "Y": "400"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "3"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 25
+        },
+        {
+          "name": "Farground",
+          "count": 11
+        },
+        {
+          "name": "StaticObject",
+          "count": 2
+        },
+        {
+          "name": "Texture",
+          "count": 167
+        },
+        {
+          "name": "DynamicObject",
+          "count": 26
+        },
+        {
+          "name": "Item",
+          "count": 59
+        },
+        {
+          "name": "Foreground",
+          "count": 145
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 3
+        }
+      ],
+      "dialog_keys": [],
+      "callbacks": []
+    },
+    {
+      "id": 221,
+      "width": "640",
+      "height": "4800",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "296",
+            "Y": "112"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "1"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 23
+        },
+        {
+          "name": "Farground",
+          "count": 32
+        },
+        {
+          "name": "StaticObject",
+          "count": 5
+        },
+        {
+          "name": "Texture",
+          "count": 26
+        },
+        {
+          "name": "DynamicObject",
+          "count": 3
+        },
+        {
+          "name": "Item",
+          "count": 31
+        },
+        {
+          "name": "Foreground",
+          "count": 6
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 0
+        }
+      ],
+      "dialog_keys": [],
+      "callbacks": []
+    },
+    {
+      "id": 27,
+      "width": "1280",
+      "height": "1920",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "617",
+            "Y": "224"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "2"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 17
+        },
+        {
+          "name": "Farground",
+          "count": 7
+        },
+        {
+          "name": "StaticObject",
+          "count": 2
+        },
+        {
+          "name": "Texture",
+          "count": 109
+        },
+        {
+          "name": "DynamicObject",
+          "count": 16
+        },
+        {
+          "name": "Item",
+          "count": 78
+        },
+        {
+          "name": "Foreground",
+          "count": 69
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 0
+        }
+      ],
+      "dialog_keys": [
+        "Level42-1",
+        "Level42-2",
+        "Level42-3",
+        "Level42-4",
+        "Level42-5"
+      ],
+      "callbacks": [
+        "onRoleReachedMoon"
+      ]
+    },
+    {
+      "id": 28,
+      "width": "960",
+      "height": "1440",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "480",
+            "Y": "782"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "3"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 20
+        },
+        {
+          "name": "Farground",
+          "count": 6
+        },
+        {
+          "name": "StaticObject",
+          "count": 2
+        },
+        {
+          "name": "Texture",
+          "count": 93
+        },
+        {
+          "name": "DynamicObject",
+          "count": 15
+        },
+        {
+          "name": "Item",
+          "count": 56
+        },
+        {
+          "name": "Foreground",
+          "count": 48
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 0
+        }
+      ],
+      "dialog_keys": [],
+      "callbacks": [
+        "onRoleReachedMoon"
+      ]
+    },
+    {
+      "id": 29,
+      "width": "1600",
+      "height": "2400",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "608",
+            "Y": "1792"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "4"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 24
+        },
+        {
+          "name": "Farground",
+          "count": 6
+        },
+        {
+          "name": "StaticObject",
+          "count": 1
+        },
+        {
+          "name": "Texture",
+          "count": 98
+        },
+        {
+          "name": "DynamicObject",
+          "count": 14
+        },
+        {
+          "name": "Item",
+          "count": 62
+        },
+        {
+          "name": "Foreground",
+          "count": 90
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 0
+        }
+      ],
+      "dialog_keys": [],
+      "callbacks": [
+        "onRoleReachedMoon"
+      ]
+    },
+    {
+      "id": 45,
+      "width": "2240",
+      "height": "2400",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "640",
+            "Y": "480"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "2"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 24
+        },
+        {
+          "name": "Farground",
+          "count": 11
+        },
+        {
+          "name": "StaticObject",
+          "count": 8
+        },
+        {
+          "name": "Texture",
+          "count": 219
+        },
+        {
+          "name": "DynamicObject",
+          "count": 16
+        },
+        {
+          "name": "Item",
+          "count": 98
+        },
+        {
+          "name": "Foreground",
+          "count": 149
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 0
+        }
+      ],
+      "dialog_keys": [],
+      "callbacks": [
+        "onRoleReachedMoon"
+      ]
+    },
+    {
+      "id": 10,
+      "width": "1600",
+      "height": "2400",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "1216",
+            "Y": "352"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "2"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 37
+        },
+        {
+          "name": "Farground",
+          "count": 7
+        },
+        {
+          "name": "StaticObject",
+          "count": 3
+        },
+        {
+          "name": "Texture",
+          "count": 153
+        },
+        {
+          "name": "DynamicObject",
+          "count": 17
+        },
+        {
+          "name": "Item",
+          "count": 61
+        },
+        {
+          "name": "Foreground",
+          "count": 85
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 0
+        }
+      ],
+      "dialog_keys": [],
+      "callbacks": []
+    },
+    {
+      "id": 47,
+      "width": "960",
+      "height": "2880",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "438",
+            "Y": "688"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "1"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 21
+        },
+        {
+          "name": "Farground",
+          "count": 5
+        },
+        {
+          "name": "StaticObject",
+          "count": 3
+        },
+        {
+          "name": "Texture",
+          "count": 68
+        },
+        {
+          "name": "DynamicObject",
+          "count": 19
+        },
+        {
+          "name": "Item",
+          "count": 26
+        },
+        {
+          "name": "Foreground",
+          "count": 59
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 4
+        }
+      ],
+      "dialog_keys": [],
+      "callbacks": []
+    },
+    {
+      "id": 33,
+      "width": "1600",
+      "height": "2400",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "576",
+            "Y": "384"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "2"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 26
+        },
+        {
+          "name": "Farground",
+          "count": 9
+        },
+        {
+          "name": "StaticObject",
+          "count": 5
+        },
+        {
+          "name": "Texture",
+          "count": 257
+        },
+        {
+          "name": "DynamicObject",
+          "count": 29
+        },
+        {
+          "name": "Item",
+          "count": 85
+        },
+        {
+          "name": "Foreground",
+          "count": 128
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 0
+        }
+      ],
+      "dialog_keys": [
+        "Level48-1",
+        "Level48-2",
+        "Level48-3",
+        "Level48-4",
+        "Level48-5",
+        "Level48-6",
+        "Level48-7",
+        "Level48-8"
+      ],
+      "callbacks": [
+        "onRoleReachedMoon"
+      ]
+    },
+    {
+      "id": 34,
+      "width": "1600",
+      "height": "1920",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "400",
+            "Y": "656"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "4"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 24
+        },
+        {
+          "name": "Farground",
+          "count": 8
+        },
+        {
+          "name": "StaticObject",
+          "count": 3
+        },
+        {
+          "name": "Texture",
+          "count": 136
+        },
+        {
+          "name": "DynamicObject",
+          "count": 21
+        },
+        {
+          "name": "Item",
+          "count": 67
+        },
+        {
+          "name": "Foreground",
+          "count": 117
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 0
+        }
+      ],
+      "dialog_keys": [],
+      "callbacks": []
+    },
+    {
+      "id": 35,
+      "width": "2880",
+      "height": "2880",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "453",
+            "Y": "370"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "1"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 29
+        },
+        {
+          "name": "Farground",
+          "count": 18
+        },
+        {
+          "name": "StaticObject",
+          "count": 1
+        },
+        {
+          "name": "Texture",
+          "count": 153
+        },
+        {
+          "name": "DynamicObject",
+          "count": 33
+        },
+        {
+          "name": "Item",
+          "count": 49
+        },
+        {
+          "name": "Foreground",
+          "count": 116
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 0
+        }
+      ],
+      "dialog_keys": [],
+      "callbacks": []
+    },
+    {
+      "id": 36,
+      "width": "2240",
+      "height": "2400",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "932",
+            "Y": "468"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "2"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 33
+        },
+        {
+          "name": "Farground",
+          "count": 11
+        },
+        {
+          "name": "StaticObject",
+          "count": 19
+        },
+        {
+          "name": "Texture",
+          "count": 255
+        },
+        {
+          "name": "DynamicObject",
+          "count": 10
+        },
+        {
+          "name": "Item",
+          "count": 96
+        },
+        {
+          "name": "Foreground",
+          "count": 125
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 0
+        }
+      ],
+      "dialog_keys": [],
+      "callbacks": []
+    },
+    {
+      "id": 37,
+      "width": "1280",
+      "height": "1920",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "582",
+            "Y": "400"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "3"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 23
+        },
+        {
+          "name": "Farground",
+          "count": 12
+        },
+        {
+          "name": "StaticObject",
+          "count": 4
+        },
+        {
+          "name": "Texture",
+          "count": 121
+        },
+        {
+          "name": "DynamicObject",
+          "count": 22
+        },
+        {
+          "name": "Item",
+          "count": 69
+        },
+        {
+          "name": "Foreground",
+          "count": 99
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 0
+        }
+      ],
+      "dialog_keys": [
+        "Level52-1",
+        "Level52-2",
+        "Level52-3",
+        "Level52-4",
+        "Level52-5",
+        "Level52-6",
+        "Level52-7",
+        "Level52-8"
+      ],
+      "callbacks": [
+        "onRoleReachedMoon"
+      ]
+    },
+    {
+      "id": 12,
+      "width": "1600",
+      "height": "2880",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "624",
+            "Y": "465"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "1"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 51
+        },
+        {
+          "name": "Farground",
+          "count": 17
+        },
+        {
+          "name": "StaticObject",
+          "count": 5
+        },
+        {
+          "name": "Texture",
+          "count": 68
+        },
+        {
+          "name": "DynamicObject",
+          "count": 23
+        },
+        {
+          "name": "Item",
+          "count": 35
+        },
+        {
+          "name": "Foreground",
+          "count": 31
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 0
+        }
+      ],
+      "dialog_keys": [],
+      "callbacks": []
+    },
+    {
+      "id": 39,
+      "width": "1600",
+      "height": "3360",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "480",
+            "Y": "464"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "4"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 29
+        },
+        {
+          "name": "Farground",
+          "count": 10
+        },
+        {
+          "name": "StaticObject",
+          "count": 1
+        },
+        {
+          "name": "Texture",
+          "count": 94
+        },
+        {
+          "name": "DynamicObject",
+          "count": 73
+        },
+        {
+          "name": "Item",
+          "count": 52
+        },
+        {
+          "name": "Foreground",
+          "count": 85
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 0
+        }
+      ],
+      "dialog_keys": [],
+      "callbacks": []
+    },
+    {
+      "id": 40,
+      "width": "1600",
+      "height": "1920",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "400",
+            "Y": "304"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "4"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 25
+        },
+        {
+          "name": "Farground",
+          "count": 10
+        },
+        {
+          "name": "StaticObject",
+          "count": 3
+        },
+        {
+          "name": "Texture",
+          "count": 109
+        },
+        {
+          "name": "DynamicObject",
+          "count": 75
+        },
+        {
+          "name": "Item",
+          "count": 52
+        },
+        {
+          "name": "Foreground",
+          "count": 97
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 0
+        }
+      ],
+      "dialog_keys": [
+        "Level55-1",
+        "Level55-2",
+        "Level55-3",
+        "Level55-4",
+        "Level55-5",
+        "Level55-6",
+        "Level55-7"
+      ],
+      "callbacks": [
+        "onRoleReachedMoon"
+      ]
+    },
+    {
+      "id": 41,
+      "width": "960",
+      "height": "4800",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "452",
+            "Y": "890"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "1"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 37
+        },
+        {
+          "name": "Farground",
+          "count": 49
+        },
+        {
+          "name": "StaticObject",
+          "count": 5
+        },
+        {
+          "name": "Texture",
+          "count": 4
+        },
+        {
+          "name": "DynamicObject",
+          "count": 39
+        },
+        {
+          "name": "Item",
+          "count": 41
+        },
+        {
+          "name": "Foreground",
+          "count": 27
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 0
+        }
+      ],
+      "dialog_keys": [],
+      "callbacks": []
+    },
+    {
+      "id": 57,
+      "width": "2240",
+      "height": "2880",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "320",
+            "Y": "731"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "4"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 33
+        },
+        {
+          "name": "Farground",
+          "count": 14
+        },
+        {
+          "name": "StaticObject",
+          "count": 4
+        },
+        {
+          "name": "Texture",
+          "count": 257
+        },
+        {
+          "name": "DynamicObject",
+          "count": 68
+        },
+        {
+          "name": "Item",
+          "count": 104
+        },
+        {
+          "name": "Foreground",
+          "count": 178
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 0
+        }
+      ],
+      "dialog_keys": [],
+      "callbacks": []
+    },
+    {
+      "id": 53,
+      "width": "1280",
+      "height": "3840",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "619",
+            "Y": "384"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "1"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 21
+        },
+        {
+          "name": "Farground",
+          "count": 28
+        },
+        {
+          "name": "StaticObject",
+          "count": 15
+        },
+        {
+          "name": "Texture",
+          "count": 142
+        },
+        {
+          "name": "DynamicObject",
+          "count": 36
+        },
+        {
+          "name": "Item",
+          "count": 71
+        },
+        {
+          "name": "Foreground",
+          "count": 67
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 0
+        }
+      ],
+      "dialog_keys": [],
+      "callbacks": []
+    },
+    {
+      "id": 44,
+      "width": "1280",
+      "height": "3840",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "544",
+            "Y": "576"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "3"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 29
+        },
+        {
+          "name": "Farground",
+          "count": 9
+        },
+        {
+          "name": "StaticObject",
+          "count": 1
+        },
+        {
+          "name": "Texture",
+          "count": 116
+        },
+        {
+          "name": "DynamicObject",
+          "count": 23
+        },
+        {
+          "name": "Item",
+          "count": 83
+        },
+        {
+          "name": "Foreground",
+          "count": 88
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 0
+        }
+      ],
+      "dialog_keys": [],
+      "callbacks": []
+    },
+    {
+      "id": 60,
+      "width": "3200",
+      "height": "7200",
+      "header": [
+        {
+          "BornPoint": {
+            "X": "1120",
+            "Y": "336"
+          }
+        },
+        {
+          "NoMana": {}
+        },
+        {
+          "Suite": {
+            "ID": "2"
+          }
+        }
+      ],
+      "layers": [
+        {
+          "name": "Background",
+          "count": 43
+        },
+        {
+          "name": "Farground",
+          "count": 34
+        },
+        {
+          "name": "StaticObject",
+          "count": 11
+        },
+        {
+          "name": "Texture",
+          "count": 393
+        },
+        {
+          "name": "DynamicObject",
+          "count": 71
+        },
+        {
+          "name": "Item",
+          "count": 103
+        },
+        {
+          "name": "Foreground",
+          "count": 237
+        },
+        {
+          "name": "Closeground",
+          "count": 0
+        },
+        {
+          "name": "Area",
+          "count": 3
+        }
+      ],
+      "dialog_keys": [
+        "Level60-1",
+        "Level60-2",
+        "Level60-3",
+        "Level60-4",
+        "Level60-5",
+        "Level60-6"
+      ],
+      "callbacks": [
+        "onRoleReachedMoon"
+      ]
+    }
+  ]
+}

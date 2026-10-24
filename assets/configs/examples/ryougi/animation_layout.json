@@ -1,0 +1,13 @@
+{
+  "animations": {
+    "idle": {
+      "path": "animation/base/idle"
+    },
+    "run_loop": {
+      "path": "animation/movement/run/loop"
+    },
+    "attack_normal": {
+      "segment_path": "animation/attack/normal/{segment}"
+    }
+  }
+}

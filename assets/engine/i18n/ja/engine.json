@@ -1,0 +1,88 @@
+{
+  "engine": {
+    "common": {
+      "save": "保存",
+      "back": "戻る",
+      "confirm": "確認",
+      "cancel": "キャンセル",
+      "close": "閉じる",
+      "close_x": "X"
+    },
+    "startup_loading": {
+      "press_any_button": "いずれかのボタンを押して開始"
+    },
+    "application_failure": {
+      "startup": {
+        "title": "起動に失敗しました",
+        "message": "必要なゲームリソースを読み込めませんでした。詳細はログを確認してください。",
+        "exit": "終了"
+      },
+      "runtime": {
+        "title": "アプリケーションエラー",
+        "message": "致命的な問題が発生したため、アプリケーションを終了する必要があります。詳細はログを確認してください。",
+        "exit": "終了",
+        "reopen": "エラーを表示"
+      },
+      "stage": {
+        "config": "ゲーム設定を読み込めませんでした。",
+        "manifest": "コンテンツマニフェストを読み込めませんでした。",
+        "plan": "コンテンツ読み込み計画を作成できませんでした。",
+        "missing_resource": "必要なコンテンツファイルが見つかりません。",
+        "texture": "必要なテクスチャを読み込めませんでした。",
+        "atlas": "必要なテクスチャアトラスを構築できませんでした。",
+        "font": "必要なフォントを読み込めませんでした。",
+        "audio": "必要なオーディオを読み込めませんでした。",
+        "animation": "必要なアニメーションを登録できませんでした。",
+        "effect": "必要なエフェクトを登録できませんでした。"
+      },
+      "labels": { "error_code": "エラーコード", "log": "ログファイル", "details": "診断詳細" },
+      "log_unavailable": "利用できません",
+      "details_in_log": "診断の詳細はログを確認してください。",
+      "copy": "情報をコピー",
+      "copied": "コピーしました",
+      "copy_failed": "コピーに失敗しました"
+    },
+    "settings": {
+      "title": "設定",
+      "sections": {
+        "display": "表示",
+        "audio": "オーディオ",
+        "general": "一般"
+      },
+      "fields": {
+        "window_mode": "表示モード",
+        "window_size": "ウィンドウサイズ",
+        "target_fps": "フレームレート上限",
+        "vsync": "垂直同期",
+        "master_volume": "マスター音量",
+        "music_volume": "音楽音量",
+        "sound_volume": "効果音音量",
+        "language": "言語"
+      },
+      "actions": {
+        "save": "保存",
+        "back": "戻る"
+      },
+      "window_modes": {
+        "windowed": "ウィンドウ",
+        "borderless_fullscreen": "ボーダーレスフルスクリーン"
+      },
+      "hints": {
+        "vsync_restart": "変更はゲームの再起動後に反映されます。"
+      },
+      "languages": {
+        "en": "English",
+        "zh_hans": "简体中文",
+        "zh_hant": "繁體中文",
+        "ja": "日本語",
+        "ko": "한국어"
+      },
+      "status": {
+        "save_failed": "設定の保存に失敗しました",
+        "saved": "設定を保存しました。",
+        "saved_restart_required": "設定を保存しました。垂直同期はゲームの再起動後に反映されます。",
+        "restart_required": "垂直同期の変更を反映するにはゲームを再起動してください。"
+      }
+    }
+  }
+}

@@ -1,0 +1,502 @@
+{
+  "gameplay_ui_demo": {
+    "player": "玩家",
+    "enemy": "敵人",
+    "hit": "哎呀！被打中了！"
+  },
+  "common": {
+    "save": "儲存",
+    "back": "返回",
+    "confirm": "確認",
+    "cancel": "取消",
+    "close": "關閉",
+    "coming_soon": "即將推出"
+  },
+  "menu_scene": {
+    "project_name": "Elysia Engine",
+    "demo_gallery": "展示庫",
+    "settings": "設定",
+    "exit": "結束",
+    "exit_confirm": {
+      "title": "確認結束",
+      "message": "要結束 Elysia Engine 嗎？",
+      "cancel": "取消",
+      "close": "X"
+    }
+  },
+  "demo_gallery": {
+    "elysia_realm": "愛莉希雅領域",
+    "failure_test": "應用程式故障測試",
+    "failure_confirm": {
+      "title": "確認故障測試",
+      "message": "此測試會終止應用程式。是否繼續？",
+      "confirm": "執行故障測試",
+      "cancel": "取消",
+      "close": "關閉"
+    }
+  },
+  "animation_preview": {
+    "animation_idle": "待機",
+    "animation_run": "奔跑",
+    "attack_segment": "攻擊段",
+    "attack_previous": "上一段",
+    "attack_replay": "重播攻擊",
+    "attack_next": "下一段"
+  },
+  "ui_component_gallery": {
+    "hud": {
+      "description": "E：技能（冷卻3秒） | 1 / 2：使用物品 | P：暫停此範例 | 也可滑鼠操作",
+      "skill": "技能",
+      "item_one": "藥水",
+      "item_two": "炸彈",
+      "pause": "暫停",
+      "resume": "繼續",
+      "ready": "就緒：技能角標顯示使用次數，物品角標顯示剩餘數量。",
+      "cooldown": "技能冷卻中：遮罩隨冷卻結束逐漸縮小。",
+      "paused": "範例已暫停：冷卻計時和物品使用暫停。"
+    },
+    "typography": {
+      "tab": "字體排版",
+      "title": "字體字號",
+      "description": "使用引擎內建字體展示所有預載字號。",
+      "sample_10": "10 px — 說明文字範例",
+      "sample_20": "20 px — 精簡文字範例",
+      "sample_30": "30 px — 標準文字範例",
+      "sample_40": "40 px — 標題文字範例",
+      "sample_50": "50 px — 副標題文字範例",
+      "sample_60": "60 px — 對話框標題範例",
+      "sample_70": "70 px — 主標題文字範例"
+    },
+    "status": {
+      "ready": "UI 工作台已就緒",
+      "interaction": "已收到互動",
+      "submitted": "文字已提交",
+      "overlay_opened": "覆蓋層已開啟",
+      "selection_changed": "選項已變更"
+    },
+    "pages": {
+      "overview": "總覽",
+      "states": "狀態與變體",
+      "controls": "控制項",
+      "media": "內容與媒體",
+      "containers": "容器",
+      "overlays": "覆蓋層與焦點",
+      "appearance": "外觀與本地化"
+    },
+    "sections": {
+      "overview": "主題感知儀表板與視覺角色範例。",
+      "controls": "互動控制項會更新狀態列。",
+      "media": "文字、數字、進度列、引擎圖片與動畫。",
+      "containers": "組合、插槽、捲動與巢狀標籤頁。",
+      "overlays": "視窗管理的覆蓋層、對話框與焦點恢復。",
+      "appearance": "內建主題會立即更新已註冊的 UI 樹。"
+    },
+    "actions": {
+      "replay": "重播",
+      "reset": "重建工作台",
+      "replay_effects": "重播效果",
+      "play": "播放",
+      "pause": "暫停",
+      "resume": "繼續",
+      "reset_animation": "重設動畫"
+    },
+    "controls": {
+      "labeled_check": "標籤核取方塊",
+      "labeled_radio": "標籤單選項",
+      "labeled_radio_far": "遠端單選標籤",
+      "placeholder": "最多輸入十六個字元"
+    },
+    "states": {
+      "buttons_title": "按鈕內容與角色",
+      "buttons_description": "內容變體選擇繪製路徑，語意角色選擇主題顏色。",
+      "text_button": "文字",
+      "role_button": "角色",
+      "disabled": "已停用",
+      "selection_title": "選取狀態",
+      "selection_description": "並排展示邏輯狀態、標記樣式與停用效果。",
+      "presentation_title": "展示角色",
+      "presentation_description": "文字適配、文字角色與面板表面獨立於版面配置。",
+      "fit_sample": "刻意設定的長文字適配範例",
+      "text_block_sample": "文字區塊會為父版面測量換行後的本地化內容。",
+      "panel_sample": "面板",
+      "inputs_title": "文字輸入狀態",
+      "inputs_description": "提示文字、已輸入文字與停用文字使用不同的展示路徑。"
+    },
+    "media": {
+      "long_text": "此本地化文字區塊用於驗證不同文字寬度下的換行、字體排版與主題化內容繪製。",
+      "text_title": "本地化文字與原始文字",
+      "text_description": "TextKey 解析目前語言，RawText 原樣保留穩定識別碼。",
+      "number_title": "數字與進度列",
+      "number_description": "展示邊界數值格式與全部四種填滿方向。",
+      "effects_title": "透明度效果",
+      "effects_description": "淡入淡出、閃爍與脈衝只在目前頁面啟用時更新，並可重新播放。",
+      "fade_in": "淡入",
+      "fade_in_out": "淡入淡出",
+      "blink_visible": "從可見狀態閃爍",
+      "pulse_min": "從最低值脈衝",
+      "animation_title": "影格動畫",
+      "animation_description": "UI 動畫借用快取影格，並提供獨立的播放控制。"
+    },
+    "containers": {
+      "chrome": "Chrome 插槽",
+      "nested_tab": "巢狀標籤頁",
+      "nested_tab_two": "第二個標籤頁",
+      "list_title": "線性清單",
+      "list_description": "清單順序同時決定版面、繪製與主軸焦點導覽。",
+      "layout_title": "網格、面板、Chrome 與標籤頁",
+      "layout_description": "結構化容器依各自的版面模型推導焦點關係。",
+      "scroll_title": "捲動策略",
+      "scroll_description": "自動、永遠顯示與隱藏捲軸都保留一致的內容裁切行為。"
+    },
+    "overlays": {
+      "open_overlay": "開啟非強制回應覆蓋層",
+      "open_dialog": "開啟閱讀對話框",
+      "open_confirm": "開啟確認對話框",
+      "tooltip": "停留以檢視提示",
+      "tooltip_text": "提示內容會跟隨焦點和指標狀態。",
+      "placement_title": "覆蓋層位置",
+      "placement_description": "使用同一個面板展示全部位置、轉場與強制回應策略。",
+      "open_center": "置中（非強制）",
+      "open_left": "左側抽屜",
+      "open_right": "右側抽屜",
+      "open_top": "頂部面板",
+      "open_bottom": "底部面板",
+      "dialog_title": "強制回應對話框",
+      "dialog_description": "對話框取得焦點，關閉後恢復先前的焦點範圍。",
+      "popup_title": "彈出選單與提示",
+      "popup_description": "暫時彈出選單具有輸入優先權，提示維持被動顯示。",
+      "option_four": "第四項",
+      "option_five": "第五項",
+      "option_six": "第六項",
+      "option_seven": "第七項",
+      "option_eight": "第八項"
+    },
+    "dialog": {
+      "title": "工作台閱讀對話框",
+      "body": "此對話框用於驗證強制回應位置、焦點恢復與本地化長文案。"
+    },
+    "confirm": {
+      "title": "確認工作台操作",
+      "message": "此確認對話框是覆蓋層測試的一部分。"
+    },
+    "appearance": {
+      "note": "主題名稱是穩定的引擎識別碼。",
+      "localized_sample": "本地化 TextKey 範例"
+    }
+  },
+  "physics_tests": {
+    "title": "物理測試中心",
+    "physics": "基礎物理與回歸",
+    "combat": "戰鬥整合",
+    "stress": "壓力測試",
+    "run": "執行 / 重跑",
+    "pause": "暫停 / 繼續 (P)",
+    "single_step": "單步 (N)",
+    "reset": "重設 (R)",
+    "back": "返回 (Esc)",
+    "ready": "待執行",
+    "running": "執行中",
+    "passed": "通過",
+    "failed": "失敗",
+    "paused": "已暫停",
+    "steps": "步數",
+    "objects": "剛體 / 碰撞體",
+    "contacts": "接觸",
+    "awake": "清醒",
+    "dropped": "捨棄步數",
+    "timing": "中位 / P95 / 最大 ms",
+    "samples": "取樣數",
+    "debug": "偵錯幾何 (F1)",
+    "mixed": "混合設定",
+    "on": "開啟",
+    "off": "關閉",
+    "failure": "失敗原因",
+    "actual": "實際",
+    "expected_value": "期望",
+    "low": "低檔",
+    "medium": "中檔",
+    "high": "高檔",
+    "cases": {
+      "motion": {
+        "title": "剛體、力與質量",
+        "purpose": "比較三種剛體，驗證重力、阻尼、旋轉及質量響應。",
+        "expected": "靜態物體不動；力和衝量隨質量響應；阻尼減速。"
+      },
+      "materials": {
+        "title": "接觸、材質與休眠",
+        "purpose": "觀察地面、牆面、天花板接觸，摩擦、反彈和堆疊喚醒。",
+        "expected": "正確識別接觸面；摩擦改變滑行；堆疊休眠後可由衝量喚醒。"
+      },
+      "ccd": {
+        "title": "連續碰撞回歸",
+        "purpose": "八條獨立通道對比離散對照、動態切換、多碰撞體和 bullet 配置。",
+        "expected": "連續碰撞通道停在目標前；離散對照允許穿透。"
+      },
+      "filters": {
+        "title": "過濾與感測器事件",
+        "purpose": "驗證阻擋、重疊、忽略、遮罩、分組與移除後的唯一 End。",
+        "expected": "遮罩與分組選擇碰撞對；感測器產生 Begin/Stay，停用或移除後僅一次 End。"
+      },
+      "queries": {
+        "title": "形狀查詢與投射",
+        "purpose": "驗證射線、線段、重疊、掃掠、旋轉、過濾及傳送後立即查詢。",
+        "expected": "查詢傳回排序與篩選後的命中，並立即反映傳送位置。"
+      },
+      "one_way": {
+        "title": "方向性平台",
+        "purpose": "驗證四個方向與組合規則下允許和阻擋的接近方式。",
+        "expected": "每個方向阻擋實體側，允許從另一側穿越。"
+      },
+      "tiles": {
+        "title": "瓦片接縫與移動支撐",
+        "purpose": "跨接縫站立、同時下穿兩塊支撐、重新落地、刪除瓦片及移動承載。",
+        "expected": "跨接縫穩定站立與下穿；移動平台承載物體。"
+      },
+      "joints": {
+        "title": "約束、彈簧與馬達",
+        "purpose": "驗證距離、彈簧收斂、馬達限位及銷毀後的控制代碼失效。",
+        "expected": "約束保持範圍，彈簧收斂，銷毀後的關節失效。"
+      },
+      "lifecycle": {
+        "title": "生命週期與命令順序",
+        "purpose": "回呼內註冊移除、XY 寫入、旋轉後傳送、重設及角度穩定性。",
+        "expected": "佇列命令保持順序，傳送保留角度，重設使舊控制代碼失效。"
+      },
+      "timing": {
+        "title": "固定步進與插值",
+        "purpose": "驗證幀率無關運動、分數步、追趕上限與渲染插值。",
+        "expected": "不同幀率保持固定步運動；插值與丟步統計正確。"
+      },
+      "combat_collider": {
+        "title": "碰撞體戰鬥",
+        "purpose": "真實攻擊輸入：前搖、命中視窗、去重、友軍過濾、死亡和跳躍。",
+        "expected": "兩次攻擊各造成 25 點傷害；友方無傷；跳躍與落地成功。"
+      },
+      "combat_platform": {
+        "title": "平台瓦片戰鬥",
+        "purpose": "腳本驅動跳躍、向上穿越、接縫落地、下穿與短按輸入。",
+        "expected": "向上穿越平台、跨接縫落地、下穿，短按輸入僅消耗一次。"
+      },
+      "combat_topdown": {
+        "title": "俯視瓦片戰鬥",
+        "purpose": "驗證牆體遮擋、敵人追蹤、危險區域進出和世界邊界碰撞。",
+        "expected": "牆阻擋視線與移動；通路開啟後追蹤；離開危險區後停止傷害。"
+      },
+      "stress_bodies": {
+        "title": "運動剛體壓力",
+        "purpose": "100 / 500 / 2000 個剛體。預熱 120 步、取樣 600 步；耗時僅供參考。",
+        "expected": "所有剛體狀態有限、控制代碼有效；預熱 120 步後取樣 600 步。"
+      },
+      "stress_contacts": {
+        "title": "密集接觸壓力",
+        "purpose": "100 / 500 / 1000 個形狀。驗證持續接觸和有限狀態，不設速度門檻。",
+        "expected": "持續接觸有效；報告 600 步取樣，不設速度門檻。"
+      },
+      "stress_tiles": {
+        "title": "瓦片世界壓力",
+        "purpose": "64² / 128² / 256² 格，稀疏障礙、局部更新與批次查詢。",
+        "expected": "瓦片更新與查詢成功；狀態有限；報告 600 步取樣。"
+      }
+    }
+  },
+  "showcase": {
+    "back": "返回",
+    "auxiliary": "輔助展示",
+    "gallery": {
+      "title": "引擎模組展示",
+      "description": "選擇一個模組，體驗它的操作與執行行為。"
+    },
+    "ui": {
+      "title": "UI",
+      "description": "控制項、佈局、主題、字型、彈窗與 HUD。"
+    },
+    "input": {
+      "title": "輸入與控制",
+      "description": "本機玩家、裝置分配、控制目標與輸入路由。",
+      "menu": "玩家 / 選單",
+      "bind_one": "按未分配控制器 Start 綁定玩家 1",
+      "bind_two": "重新綁定玩家 2 控制器",
+      "release": "解除控制器分配",
+      "keyboard_one": "鍵盤：WASD 玩家 1 / 方向鍵玩家 2",
+      "keyboard_two": "鍵盤：方向鍵玩家 1 / WASD 玩家 2",
+      "mouse_one": "滑鼠：玩家 1",
+      "mouse_two": "滑鼠：玩家 2",
+      "pad_one": "UI 控制器：玩家 1",
+      "pad_two": "UI 控制器：玩家 2",
+      "resume": "繼續",
+      "typing": "輸入文字時不應移動角色",
+      "mouse": "滑鼠",
+      "pad": "控制器",
+      "disconnected": "控制器未連接",
+      "ui_access": "UI：鍵盤 + 滑鼠",
+      "assignment": "按未分配控制器 Start，綁定玩家"
+    },
+    "camera": {
+      "title": "相機",
+      "description": "跟隨、鏡頭運動與演出。F1–F3 切頁，R 重設，Esc 返回。",
+      "dead_zone": "死區",
+      "swap": "切換主目標",
+      "auto_motion": "自動移動",
+      "teleport": "傳送目標",
+      "zoom": "縮放至 1.5",
+      "bounds": "世界邊界",
+      "primary": "主目標",
+      "zoom_label": "縮放",
+      "primary_only": "僅主目標",
+      "group": "目標組",
+      "blue": "藍色",
+      "orange": "橙色",
+      "page_follow": "F1 跟隨與取景",
+      "page_motion": "F2 鏡頭運動",
+      "page_cinematic": "F3 演出相機",
+      "strategy": "切換跟隨策略",
+      "edge": "前往邊界附近",
+      "move": "移動並拉近",
+      "path": "播放三段路徑",
+      "easing": "切換緩動",
+      "end": "切換結束行為",
+      "pause": "暫停",
+      "resume": "繼續",
+      "cancel": "取消運動",
+      "follow": "恢復跟隨",
+      "shake": "震動",
+      "clear_shake": "清除震動",
+      "cut": "直接切入",
+      "blend": "平滑切入",
+      "return_main": "返回 Main",
+      "play": "播放演出",
+      "skip": "跳過並返回",
+      "replay": "重播演出",
+      "reset": "R 重設目前頁面",
+      "ready": "就緒",
+      "playing": "播放中",
+      "finished": "已完成",
+      "holding": "保持畫面",
+      "cancelled": "已取消／恢復跟隨",
+      "hard": "硬跟隨",
+      "smooth": "平滑跟隨",
+      "single_dead_zone": "單目標死區",
+      "multi": "多目標跟隨",
+      "entering": "切入演出",
+      "touring": "演出路徑播放",
+      "returning": "返回 Main 中",
+      "manual": "手動演出鏡頭",
+      "linear": "線性",
+      "smoothstep": "平滑步進",
+      "cubic": "立方緩入緩出",
+      "end_hold": "結束：保持",
+      "end_follow": "結束：恢復跟隨",
+      "paused": "已暫停",
+      "active": "執行中",
+      "center": "中心",
+      "help_follow": "WASD 移動；Q/E 分離",
+      "help_motion": "選擇緩動和結束行為，再播放",
+      "help_cinematic": "角色凍結，返回 Main 後恢復",
+      "legend": "藍：安全區 · 綠：死區 · 紅：邊界 · 黃：路徑 · 白：主目標"
+    },
+    "animation": {
+      "title": "動畫",
+      "description": "播放待機、移動與攻擊段。"
+    },
+    "effects": {
+      "title": "特效",
+      "description": "飄字、顏色覆蓋與螢幕特效。",
+      "damage": "傷害",
+      "critical": "暴擊",
+      "heal": "治療",
+      "percent": "百分比",
+      "fraction": "分數",
+      "decimal": "小數",
+      "screen": {
+        "instructions": "螢幕特效：F1–F9 或點擊。Esc / 返回先取消活動特效，再返回。",
+        "flash": "F1 閃屏",
+        "fade_black": "F2 黑屏漸變",
+        "hold_black": "F3 保持黑屏",
+        "stop": "F4 淡出",
+        "cancel": "F5 取消",
+        "stretch": "F6 拉伸",
+        "cover": "F7 覆蓋",
+        "contain": "F8 包含",
+        "after_ui": "F9 UI 之後",
+        "before_ui": "F9 UI 之前",
+        "ready": "就緒",
+        "stopping": "正在淡出",
+        "nothing_to_stop": "沒有可停止的特效",
+        "cancelled": "已取消",
+        "layer_changed": "層級已切換，請選擇特效",
+        "image_unavailable": "圖片不可用：demo.screen_effect",
+        "failed": "特效請求失敗",
+        "playing": "播放中",
+        "finished": "已完成",
+        "animation_play": "播放動畫",
+        "loop_off": "循環：關",
+        "loop_on": "循環：開",
+        "end_animation": "結束：動畫完成",
+        "end_timed": "結束：定時",
+        "end_manual": "結束：手動",
+        "fit_natural": "適配：原始尺寸",
+        "fit_stretch": "適配：拉伸",
+        "fit_cover": "適配：覆蓋",
+        "fit_contain": "適配：完整顯示",
+        "anchor_tl": "錨點：左上",
+        "anchor_tc": "錨點：上",
+        "anchor_tr": "錨點：右上",
+        "anchor_cl": "錨點：左",
+        "anchor_center": "錨點：置中",
+        "anchor_cr": "錨點：右",
+        "anchor_bl": "錨點：左下",
+        "anchor_bc": "錨點：下",
+        "anchor_br": "錨點：右下",
+        "offset_zero": "偏移：0, 0",
+        "offset_inset": "偏移：-24, -24",
+        "scale_one": "縮放：1 倍",
+        "scale_half": "縮放：0.5 倍",
+        "scale_large": "縮放：1.5 倍",
+        "layout_image": "按目前佈局播放圖片"
+      }
+    },
+    "physics": {
+      "title": "物理與碰撞",
+      "description": "基礎模擬驗證與壓力檔位。P 暫停，N 單步，R 重啟，F1 除錯。"
+    },
+    "gameplay": {
+      "title": "Gameplay",
+      "description": "體驗控制、玩法碰撞、戰鬥與世界 UI。",
+      "capabilities": "進入玩法場景，或執行下方戰鬥驗證；世界 UI 跟隨角色並同步受擊狀態。",
+      "collider": "碰撞戰鬥",
+      "platform": "平台戰鬥",
+      "topdown": "俯視戰鬥",
+      "health": "生命",
+      "enemies": "敵人",
+      "bound": "控制器可用",
+      "attacking": "攻擊中",
+      "defeated": "已死亡，正在重啟…",
+      "world_ui": "顯示/隱藏世界 UI",
+      "speech": "觸發氣泡",
+      "collider_controls": "A/D 移動 | 空白鍵跳躍 | J 攻擊 | K 查詢 | P 暫停 | N 單步 | R 重啟 | F1 除錯",
+      "platform_controls": "A/D 移動 | 空白鍵跳躍 | S+空白鍵下落 | J 攻擊 | P 暫停 | N 單步 | R 重啟 | F1 除錯",
+      "topdown_controls": "WASD 移動 | J 攻擊 | P 暫停 | N 單步 | R 重啟 | F1 除錯"
+    },
+    "audio": {
+      "title": "音訊",
+      "description": "低音量合成素材；離開時恢復音量與分組設定。",
+      "once": "播放音效",
+      "delay": "延遲 500 ms 播放",
+      "loop": "淡入並循環音效",
+      "stop": "停止本場景音效",
+      "limit": "展示分組限制與冷卻",
+      "music_a": "淡入播放音樂 A",
+      "music_b": "淡出切換至音樂 B",
+      "music_stop": "淡出停止音樂",
+      "master": "主音量",
+      "music_volume": "音樂音量",
+      "sound_volume": "音效音量",
+      "group_volume": "Gameplay 分組音量",
+      "ready": "就緒",
+      "unavailable": "音訊未初始化",
+      "accepted": "播放請求已接受",
+      "rejected": "播放請求被拒絕",
+      "scheduled": "已安排延遲播放"
+    }
+  }
+}

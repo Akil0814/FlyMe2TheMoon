@@ -1,0 +1,14 @@
+{
+  "entities": "configs/examples/ryougi/entities_manifest.json",
+  "key_namespace": "",
+  "capabilities": {
+    "animations": {
+      "texture_root": "textures/examples/ryougi/{id}",
+      "config_template": "configs/examples/ryougi/{id}/animation_info.json",
+      "frame_prefix_template": "{id}_{animation}{segment_suffix}",
+      "layouts": {
+        "fighter": "configs/examples/ryougi/animation_layout.json"
+      }
+    }
+  }
+}

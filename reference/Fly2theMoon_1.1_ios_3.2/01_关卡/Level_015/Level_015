@@ -1,0 +1,465 @@
+<Map ID="12" Width="1600" Height="2400">
+  <Header>
+    <BornPoint X="384" Y="1900"/>
+    <NoMana/>
+    <Suite ID="1"/>
+  </Header>
+  <Layer Name="Background" Type="0" Width="448" Height="672">
+    <Obj X="-145.50" Y="-69.00" SeqID="1" Depth="0" ID="0"/>
+    <Obj X="225.50" Y="229.00" SeqID="6" Depth="1" ID="1"/>
+    <Obj X="238.50" Y="510.00" SeqID="6" Depth="2" ID="2"/>
+    <Obj X="321.50" Y="357.00" SeqID="6" Depth="3" ID="3"/>
+    <Obj X="198.50" Y="457.00" SeqID="5" Depth="4" ID="4"/>
+    <Obj X="35.50" Y="356.00" SeqID="5" Depth="5" ID="5"/>
+    <Obj X="228.50" Y="331.00" SeqID="5" Depth="6" ID="6"/>
+    <Obj X="172.50" Y="414.00" SeqID="4" Depth="7" ID="7"/>
+    <Obj X="268.50" Y="275.00" SeqID="4" Depth="8" ID="8"/>
+    <Obj X="338.50" Y="199.00" SeqID="3" Depth="9" ID="9"/>
+    <Obj X="272.50" Y="402.00" SeqID="3" Depth="10" ID="10"/>
+    <Obj X="169.50" Y="489.00" SeqID="2" Depth="11" ID="11"/>
+    <Obj X="113.50" Y="386.00" SeqID="2" Depth="12" ID="12"/>
+    <Obj X="343.50" Y="447.00" SeqID="5" Depth="13" ID="13"/>
+    <Obj X="461.50" Y="461.00" SeqID="5" Depth="14" ID="14"/>
+    <Obj X="381.50" Y="393.00" SeqID="4" Depth="15" ID="15"/>
+    <Obj X="384.50" Y="509.00" SeqID="4" Depth="16" ID="16"/>
+    <Obj X="130.50" Y="318.00" SeqID="4" Depth="17" ID="17"/>
+    <Obj X="119.50" Y="456.00" SeqID="2" Depth="18" ID="18"/>
+    <Obj X="217.50" Y="550.00" SeqID="2" Depth="19" ID="19"/>
+    <Obj X="169.50" Y="238.00" SeqID="2" Depth="20" ID="20"/>
+    <Obj X="388.50" Y="181.00" SeqID="2" Depth="21" ID="21"/>
+    <Obj X="198.50" Y="505.00" SeqID="3" Depth="22" ID="22"/>
+    <Obj X="101.50" Y="409.00" SeqID="3" Depth="23" ID="23"/>
+    <Obj X="248.50" Y="428.00" SeqID="2" Depth="24" ID="24"/>
+    <Obj X="160.50" Y="350.00" SeqID="2" Depth="25" ID="25"/>
+  </Layer>
+  <Layer Name="Farground" Type="1" Width="704" Height="1056">
+    <Obj X="82.00" Y="802.50" SeqID="11" Depth="0" ID="0"/>
+    <Obj X="259.50" Y="638.00" SeqID="10" Depth="1" ID="1"/>
+    <Obj X="179.50" Y="569.00" SeqID="1" Depth="2" ID="2"/>
+    <Obj X="438.50" Y="548.00" SeqID="6" Depth="3" ID="3"/>
+    <Obj X="231.50" Y="144.50" SeqID="12" Depth="4" ID="4"/>
+    <Obj X="259.50" Y="384.00" SeqID="5" Depth="5" ID="5"/>
+    <Obj X="444.50" Y="314.00" SeqID="6" Depth="6" ID="6"/>
+  </Layer>
+  <Layer Name="StaticObject" Type="2" Width="1600" Height="2400">
+    <Obj X="208.00" Y="224.00" SeqID="291120" Depth="0" ID="0"/>
+    <Obj X="704.00" Y="448.00" SeqID="3" Depth="1" ID="1"/>
+    <Obj X="768.00" Y="1088.00" SeqID="5" Depth="2" ID="2"/>
+    <Obj X="816.00" Y="800.00" SeqID="5" Depth="3" ID="3"/>
+    <Obj X="864.00" Y="928.00" SeqID="5" Depth="4" ID="4"/>
+    <Obj X="912.00" Y="1040.00" SeqID="5" Depth="5" ID="5"/>
+    <Obj X="1120.00" Y="1392.00" SeqID="5" Depth="6" ID="6"/>
+    <Obj X="1200.00" Y="1280.00" SeqID="5" Depth="7" ID="7"/>
+  </Layer>
+  <Layer Name="Texture" Type="3" Width="1600" Height="2400">
+    <Obj X="743.50" Y="1056.50" SeqID="28" Depth="0" ID="173"/>
+    <Obj X="745.50" Y="858.50" SeqID="28" Depth="1" ID="162"/>
+    <Obj X="897.50" Y="900.00" SeqID="28" Rotation="180" Depth="2" ID="167"/>
+    <Obj X="892.00" Y="963.00" SeqID="30" IsYFlipped="true" Depth="3" ID="161"/>
+    <Obj X="810.00" Y="884.00" SeqID="28" Depth="4" ID="160"/>
+    <Obj X="888.75" Y="1038.55" SeqID="30" Depth="5" ID="154"/>
+    <Obj X="931.75" Y="1070.85" SeqID="37" Depth="6" ID="158"/>
+    <Obj X="925.75" Y="1102.55" SeqID="37" Depth="7" ID="159"/>
+    <Obj X="888.00" Y="943.50" SeqID="36" Depth="8" ID="153"/>
+    <Obj X="755.50" Y="992.50" SeqID="33" Depth="9" ID="179"/>
+    <Obj X="869.75" Y="961.55" SeqID="28" Depth="10" ID="150"/>
+    <Obj X="855.00" Y="941.50" SeqID="30" Depth="11" ID="151"/>
+    <Obj X="793.50" Y="780.00" SeqID="30" Depth="12" ID="169"/>
+    <Obj X="1221.50" Y="1297.50" SeqID="68" Depth="13" ID="148"/>
+    <Obj X="739.50" Y="1175.50" SeqID="34" Depth="14" ID="145"/>
+    <Obj X="607.80" Y="346.20" SeqID="58" Depth="15" ID="185"/>
+    <Obj X="753.00" Y="1191.00" SeqID="30" Depth="16" ID="144"/>
+    <Obj X="726.50" Y="1238.50" SeqID="28" Depth="17" ID="139"/>
+    <Obj X="733.50" Y="1223.50" SeqID="34" Depth="18" ID="140"/>
+    <Obj X="758.50" Y="1015.50" SeqID="30" Depth="19" ID="177"/>
+    <Obj X="650.50" Y="1226.50" SeqID="30" Depth="20" ID="137"/>
+    <Obj X="691.50" Y="1303.50" SeqID="27" Depth="21" ID="134"/>
+    <Obj X="807.50" Y="994.50" SeqID="29" Rotation="90" Depth="22" ID="181"/>
+    <Obj X="936.00" Y="1463.00" SeqID="34" Depth="23" ID="143"/>
+    <Obj X="856.50" Y="1415.50" SeqID="28" Depth="24" ID="135"/>
+    <Obj X="740.50" Y="1363.50" SeqID="26" Depth="25" ID="133"/>
+    <Obj X="637.10" Y="583.00" SeqID="30" Depth="26" ID="195"/>
+    <Obj X="319.00" Y="1482.00" SeqID="28" IsXFlipped="true" Depth="27" ID="126"/>
+    <Obj X="203.00" Y="1489.00" SeqID="30" Depth="28" ID="127"/>
+    <Obj X="293.50" Y="1299.50" SeqID="62" Depth="29" ID="132"/>
+    <Obj X="227.65" Y="1704.65" SeqID="28" Rotation="12" IsYFlipped="true" Depth="30" ID="124"/>
+    <Obj X="909.75" Y="1072.55" SeqID="36" Depth="31" ID="157"/>
+    <Obj X="215.15" Y="1729.70" SeqID="28" Depth="32" ID="122"/>
+    <Obj X="201.00" Y="1737.00" SeqID="30" Depth="33" ID="123"/>
+    <Obj X="513.00" Y="1485.00" SeqID="30" Depth="34" ID="118"/>
+    <Obj X="624.10" Y="621.55" SeqID="28" Depth="35" ID="194"/>
+    <Obj X="603.15" Y="1493.70" SeqID="33" Depth="36" ID="121"/>
+    <Obj X="202.55" Y="1616.80" SeqID="30" Depth="37" ID="125"/>
+    <Obj X="521.15" Y="1475.70" SeqID="28" Depth="38" ID="119"/>
+    <Obj X="872.00" Y="959.50" SeqID="34" Depth="39" ID="152"/>
+    <Obj X="827.50" Y="790.00" SeqID="35" Depth="40" ID="171"/>
+    <Obj X="753.50" Y="1133.50" SeqID="30" Depth="41" ID="174"/>
+    <Obj X="600.15" Y="1619.70" SeqID="33" Depth="42" ID="120"/>
+    <Obj X="524.15" Y="1609.70" SeqID="28" Depth="43" ID="117"/>
+    <Obj X="511.00" Y="1619.00" SeqID="30" Depth="44" ID="116"/>
+    <Obj X="527.15" Y="1728.70" SeqID="28" Depth="45" ID="115"/>
+    <Obj X="928.75" Y="1041.85" SeqID="34" Depth="46" ID="183"/>
+    <Obj X="510.00" Y="1738.00" SeqID="30" Depth="47" ID="114"/>
+    <Obj X="731.25" Y="355.80" SeqID="62" Depth="48" ID="186"/>
+    <Obj X="285.00" Y="2131.00" SeqID="40" Depth="49" ID="0"/>
+    <Obj X="955.00" Y="676.50" SeqID="34" Depth="50" ID="200"/>
+    <Obj X="-5.00" Y="2117.00" SeqID="40" Depth="51" ID="1"/>
+    <Obj X="-15.00" Y="1890.00" SeqID="40" Depth="52" ID="2"/>
+    <Obj X="837.50" Y="203.00" SeqID="62" Depth="53" ID="189"/>
+    <Obj X="818.00" Y="239.00" SeqID="63" Depth="54" ID="190"/>
+    <Obj X="511.00" Y="1899.00" SeqID="40" Depth="55" ID="3"/>
+    <Obj X="1198.50" Y="1329.50" SeqID="65" Depth="56" ID="147"/>
+    <Obj X="811.50" Y="779.00" SeqID="36" Depth="57" ID="172"/>
+    <Obj X="583.00" Y="2119.00" SeqID="40" Depth="58" ID="4"/>
+    <Obj X="982.00" Y="613.50" SeqID="28" Depth="59" ID="198"/>
+    <Obj X="508.00" Y="1849.00" SeqID="43" Depth="60" ID="5"/>
+    <Obj X="509.00" Y="1789.50" SeqID="43" Depth="61" ID="6"/>
+    <Obj X="204.00" Y="1787.50" SeqID="43" Depth="62" ID="7"/>
+    <Obj X="274.00" Y="1873.50" SeqID="47" Depth="63" ID="8"/>
+    <Obj X="248.00" Y="1876.50" SeqID="51" Depth="64" ID="9"/>
+    <Obj X="191.00" Y="1902.50" SeqID="45" Rotation="90" Depth="65" ID="10"/>
+    <Obj X="611.50" Y="1668.50" SeqID="40" Depth="66" ID="11"/>
+    <Obj X="600.00" Y="1847.50" SeqID="45" Depth="67" ID="12"/>
+    <Obj X="599.00" Y="1792.50" SeqID="46" Depth="68" ID="13"/>
+    <Obj X="-113.00" Y="1664.00" SeqID="40" Depth="69" ID="14"/>
+    <Obj X="188.00" Y="1786.00" SeqID="45" Depth="70" ID="15"/>
+    <Obj X="277.50" Y="1686.50" SeqID="45" Depth="71" ID="16"/>
+    <Obj X="274.50" Y="1671.50" SeqID="47" Depth="72" ID="17"/>
+    <Obj X="252.50" Y="1686.50" SeqID="45" Depth="73" ID="18"/>
+    <Obj X="225.50" Y="1710.50" SeqID="47" Depth="74" ID="19"/>
+    <Obj X="203.15" Y="1686.69" SeqID="45" Depth="75" ID="20"/>
+    <Obj X="193.96" Y="1670.54" SeqID="50" Depth="76" ID="21"/>
+    <Obj X="227.58" Y="1706.00" SeqID="45" Rotation="90" Depth="77" ID="22"/>
+    <Obj X="206.27" Y="1671.35" SeqID="47" Depth="78" ID="23"/>
+    <Obj X="227.73" Y="1692.12" SeqID="52" Depth="79" ID="24"/>
+    <Obj X="700.10" Y="681.55" SeqID="36" Depth="80" ID="197"/>
+    <Obj X="540.73" Y="1692.12" SeqID="52" Depth="81" ID="25"/>
+    <Obj X="519.27" Y="1671.35" SeqID="47" Depth="82" ID="26"/>
+    <Obj X="929.14" Y="1061.32" SeqID="37" Depth="83" ID="184"/>
+    <Obj X="540.58" Y="1706.00" SeqID="45" Rotation="90" Depth="84" ID="27"/>
+    <Obj X="511.96" Y="1670.54" SeqID="50" Depth="85" ID="28"/>
+    <Obj X="516.15" Y="1686.69" SeqID="45" Depth="86" ID="29"/>
+    <Obj X="538.50" Y="1710.50" SeqID="47" Depth="87" ID="30"/>
+    <Obj X="565.50" Y="1686.50" SeqID="45" Depth="88" ID="31"/>
+    <Obj X="655.10" Y="601.00" SeqID="36" Depth="89" ID="196"/>
+    <Obj X="977.00" Y="647.50" SeqID="30" Depth="90" ID="199"/>
+    <Obj X="1030.00" Y="594.50" SeqID="36" Depth="91" ID="201"/>
+    <Obj X="587.50" Y="1671.50" SeqID="47" Depth="92" ID="32"/>
+    <Obj X="590.50" Y="1686.50" SeqID="45" Depth="93" ID="33"/>
+    <Obj X="511.96" Y="1682.85" SeqID="49" Depth="94" ID="34"/>
+    <Obj X="612.12" Y="1482.65" SeqID="40" Depth="95" ID="35"/>
+    <Obj X="612.81" Y="1665.35" SeqID="53" Depth="96" ID="36"/>
+    <Obj X="575.23" Y="1538.81" SeqID="44" Depth="97" ID="37"/>
+    <Obj X="510.65" Y="1539.62" SeqID="44" Depth="98" ID="38"/>
+    <Obj X="582.19" Y="1542.12" SeqID="52" Depth="99" ID="39"/>
+    <Obj X="585.27" Y="1613.65" SeqID="55" Depth="100" ID="40"/>
+    <Obj X="512.96" Y="1542.85" SeqID="50" Depth="101" ID="41"/>
+    <Obj X="512.19" Y="1588.27" SeqID="47" Depth="102" ID="42"/>
+    <Obj X="612.88" Y="1489.23" SeqID="49" Depth="103" ID="43"/>
+    <Obj X="195.19" Y="1588.27" SeqID="47" Depth="104" ID="44"/>
+    <Obj X="195.96" Y="1542.85" SeqID="50" Depth="105" ID="45"/>
+    <Obj X="268.27" Y="1613.65" SeqID="55" Depth="106" ID="46"/>
+    <Obj X="265.19" Y="1542.12" SeqID="52" Depth="107" ID="47"/>
+    <Obj X="193.65" Y="1539.62" SeqID="44" Depth="108" ID="48"/>
+    <Obj X="277.46" Y="1542.15" SeqID="46" Depth="109" ID="49"/>
+    <Obj X="278.27" Y="1589.81" SeqID="50" Depth="110" ID="50"/>
+    <Obj X="280.54" Y="1606.81" SeqID="48" Depth="111" ID="51"/>
+    <Obj X="267.46" Y="1606.77" SeqID="53" Depth="112" ID="52"/>
+    <Obj X="513.46" Y="1467.69" SeqID="50" Rotation="-3" Depth="113" ID="58"/>
+    <Obj X="272.12" Y="1601.35" SeqID="55" Depth="114" ID="53"/>
+    <Obj X="-113.46" Y="1435.77" SeqID="40" Depth="115" ID="54"/>
+    <Obj X="-13.00" Y="1256.00" SeqID="40" Depth="116" ID="55"/>
+    <Obj X="659.00" Y="1396.00" SeqID="43" Depth="117" ID="56"/>
+    <Obj X="511.00" Y="1398.00" SeqID="43" Depth="118" ID="57"/>
+    <Obj X="593.35" Y="1417.15" SeqID="44" Depth="119" ID="59"/>
+    <Obj X="636.35" Y="1396.38" SeqID="47" Depth="120" ID="60"/>
+    <Obj X="604.85" Y="1404.04" SeqID="50" Depth="121" ID="61"/>
+    <Obj X="611.00" Y="1399.46" SeqID="53" Depth="122" ID="62"/>
+    <Obj X="1235.50" Y="1728.50" SeqID="40" Rotation="180" Depth="123" ID="63"/>
+    <Obj X="942.50" Y="999.50" SeqID="40" Depth="124" ID="64"/>
+    <Obj X="945.50" Y="795.50" SeqID="40" Depth="125" ID="65"/>
+    <Obj X="439.50" Y="998.50" SeqID="40" Depth="126" ID="66"/>
+    <Obj X="439.50" Y="777.50" SeqID="40" Depth="127" ID="67"/>
+    <Obj X="658.50" Y="698.50" SeqID="43" Depth="128" ID="68"/>
+    <Obj X="942.50" Y="698.50" SeqID="43" Depth="129" ID="69"/>
+    <Obj X="948.50" Y="772.50" SeqID="45" Depth="130" ID="70"/>
+    <Obj X="979.50" Y="785.50" SeqID="51" Depth="131" ID="71"/>
+    <Obj X="1006.50" Y="785.50" SeqID="48" Depth="132" ID="72"/>
+    <Obj X="1026.50" Y="778.50" SeqID="50" Depth="133" ID="73"/>
+    <Obj X="1036.50" Y="699.50" SeqID="46" Depth="134" ID="74"/>
+    <Obj X="1034.50" Y="742.50" SeqID="45" Depth="135" ID="75"/>
+    <Obj X="639.00" Y="733.50" SeqID="45" Depth="136" ID="76"/>
+    <Obj X="639.00" Y="699.50" SeqID="46" Depth="137" ID="77"/>
+    <Obj X="1049.62" Y="568.63" SeqID="40" Depth="138" ID="78"/>
+    <Obj X="325.62" Y="572.50" SeqID="40" Depth="139" ID="79"/>
+    <Obj X="1048.00" Y="370.50" SeqID="40" Depth="140" ID="80"/>
+    <Obj X="1203.50" Y="227.50" SeqID="41" Depth="141" ID="81"/>
+    <Obj X="705.00" Y="215.50" SeqID="41" Depth="142" ID="82"/>
+    <Obj X="1492.50" Y="1265.50" SeqID="40" Depth="143" ID="83"/>
+    <Obj X="1487.50" Y="1490.50" SeqID="40" Depth="144" ID="84"/>
+    <Obj X="1211.50" Y="1568.50" SeqID="40" Depth="145" ID="85"/>
+    <Obj X="1495.50" Y="1039.50" SeqID="40" Depth="146" ID="86"/>
+    <Obj X="1249.50" Y="911.50" SeqID="40" Depth="147" ID="87"/>
+    <Obj X="907.80" Y="1039.83" SeqID="47" Depth="148" ID="88"/>
+    <Obj X="861.13" Y="966.50" SeqID="47" IsYFlipped="true" Depth="149" ID="89"/>
+    <Obj X="857.80" Y="944.50" SeqID="48" Depth="150" ID="90"/>
+    <Obj X="812.47" Y="800.50" SeqID="52" Depth="151" ID="91"/>
+    <Obj X="818.47" Y="808.87" SeqID="50" Depth="152" ID="92"/>
+    <Obj X="812.47" Y="818.50" SeqID="53" Depth="153" ID="93"/>
+    <Obj X="822.47" Y="800.50" SeqID="48" Depth="154" ID="94"/>
+    <Obj X="764.13" Y="1125.83" SeqID="47" Rotation="90" Depth="155" ID="95"/>
+    <Obj X="765.13" Y="1108.83" SeqID="49" Rotation="90" IsXFlipped="true" Depth="156" ID="96"/>
+    <Obj X="805.36" Y="478.96" SeqID="51" Depth="157" ID="97"/>
+    <Obj X="767.80" Y="449.50" SeqID="52" Depth="158" ID="98"/>
+    <Obj X="784.40" Y="472.53" SeqID="50" Depth="159" ID="99"/>
+    <Obj X="745.80" Y="464.17" SeqID="47" Depth="160" ID="100"/>
+    <Obj X="750.80" Y="482.50" SeqID="51" Rotation="-12" IsXFlipped="true" Depth="161" ID="101"/>
+    <Obj X="770.00" Y="480.67" SeqID="48" Depth="162" ID="102"/>
+    <Obj X="799.40" Y="461.87" SeqID="51" Rotation="-18" Depth="163" ID="103"/>
+    <Obj X="777.03" Y="455.87" SeqID="52" Depth="164" ID="104"/>
+    <Obj X="739.13" Y="482.00" SeqID="53" Depth="165" ID="105"/>
+    <Obj X="1196.50" Y="1279.50" SeqID="47" Depth="166" ID="106"/>
+    <Obj X="1195.80" Y="1281.20" SeqID="55" Depth="167" ID="107"/>
+    <Obj X="1116.00" Y="1414.00" SeqID="49" Rotation="90" IsXFlipped="true" Depth="168" ID="108"/>
+    <Obj X="914.00" Y="924.00" SeqID="37" Depth="169" ID="166"/>
+    <Obj X="1116.00" Y="1430.00" SeqID="47" Rotation="90" Depth="170" ID="109"/>
+    <Obj X="1261.00" Y="1339.00" SeqID="58" Depth="171" ID="110"/>
+    <Obj X="1270.00" Y="1203.00" SeqID="58" Depth="172" ID="111"/>
+    <Obj X="1233.50" Y="1212.50" SeqID="65" Depth="173" ID="112"/>
+    <Obj X="1216.00" Y="1504.00" SeqID="64" Rotation="180" IsXFlipped="true" Depth="174" ID="113"/>
+    <Obj X="257.50" Y="1209.00" SeqID="60" Depth="175" ID="128"/>
+    <Obj X="395.50" Y="1255.00" SeqID="69" Depth="176" ID="129"/>
+    <Obj X="340.50" Y="1262.00" SeqID="65" Depth="177" ID="130"/>
+    <Obj X="303.50" Y="1255.00" SeqID="67" Depth="178" ID="131"/>
+    <Obj X="665.50" Y="1235.50" SeqID="28" Depth="179" ID="136"/>
+    <Obj X="672.50" Y="1228.50" SeqID="36" Depth="180" ID="138"/>
+    <Obj X="781.50" Y="1308.50" SeqID="30" Depth="181" ID="141"/>
+    <Obj X="799.50" Y="1347.50" SeqID="34" Depth="182" ID="142"/>
+    <Obj X="1250.50" Y="1314.50" SeqID="61" Depth="183" ID="146"/>
+    <Obj X="1247.50" Y="1277.50" SeqID="68" Depth="184" ID="149"/>
+    <Obj X="896.75" Y="1088.55" SeqID="35" Depth="185" ID="155"/>
+    <Obj X="921.75" Y="1082.55" SeqID="34" Depth="186" ID="156"/>
+    <Obj X="797.50" Y="936.50" SeqID="35" Depth="187" ID="163"/>
+    <Obj X="926.00" Y="917.00" SeqID="30" Depth="188" ID="164"/>
+    <Obj X="915.00" Y="972.00" SeqID="33" IsYFlipped="true" Depth="189" ID="165"/>
+    <Obj X="868.50" Y="841.00" SeqID="30" Depth="190" ID="168"/>
+    <Obj X="777.50" Y="839.00" SeqID="34" Depth="191" ID="170"/>
+    <Obj X="769.50" Y="1178.50" SeqID="34" Depth="192" ID="175"/>
+    <Obj X="778.50" Y="1126.50" SeqID="29" Depth="193" ID="176"/>
+    <Obj X="772.50" Y="1035.50" SeqID="34" Depth="194" ID="178"/>
+    <Obj X="776.50" Y="980.50" SeqID="28" Depth="195" ID="180"/>
+    <Obj X="859.50" Y="985.50" SeqID="29" Depth="196" ID="182"/>
+    <Obj X="614.10" Y="475.00" SeqID="63" Depth="197" ID="187"/>
+    <Obj X="658.10" Y="486.00" SeqID="68" Depth="198" ID="188"/>
+    <Obj X="993.50" Y="204.00" SeqID="63" Depth="199" ID="191"/>
+    <Obj X="1025.50" Y="256.00" SeqID="68" Depth="200" ID="192"/>
+    <Obj X="966.50" Y="199.00" SeqID="68" Depth="201" ID="193"/>
+    <Obj X="456.50" Y="-4.00" SeqID="40" Depth="202" ID="202"/>
+    <Obj X="756.00" Y="-125.00" SeqID="41" Depth="203" ID="203"/>
+    <Obj X="1120.00" Y="-144.00" SeqID="40" Depth="204" ID="204"/>
+    <Obj X="-33.00" Y="1105.00" SeqID="41" Depth="205" ID="205"/>
+    <Obj X="296.00" Y="488.00" SeqID="43" Depth="206" ID="206"/>
+  </Layer>
+  <Layer Name="DynamicObject" Type="4" Width="1600" Height="2400">
+    <Obj X="315.00" Y="2094.00" SeqID="107" Depth="0" ID="0">
+      <Info X="0" Y="-750" Spikes="0001" Cycle="8" Lag="1" PauseHalf="9999" Lock="1"/>
+    </Obj>
+    <Obj X="411.00" Y="2094.00" SeqID="107" Depth="1" ID="1">
+      <Info X="0" Y="-750" Spikes="0001" Cycle="8" Lag="1" PauseHalf="9999" Lock="1"/>
+    </Obj>
+    <Obj X="411.00" Y="1750.00" SeqID="107" Depth="2" ID="2">
+      <Info X="99" Y="0" Cycle="1" Rate="1.5" PauseHalf="9999" Lag="9999" Spikes="0100"/>
+    </Obj>
+    <Obj X="315.00" Y="1750.00" SeqID="107" Depth="3" ID="3">
+      <Info X="-99" Y="0" Cycle="1" Rate="1.5" PauseHalf="9999" Lag="9999" Spikes="0100"/>
+    </Obj>
+    <Obj X="315.00" Y="1632.00" SeqID="107" Depth="4" ID="4">
+      <Info X="-99" Y="0" Cycle="1" Rate="1.5" PauseHalf="9999" Lag="9999" Spikes="0100"/>
+    </Obj>
+    <Obj X="411.00" Y="1632.00" SeqID="107" Depth="5" ID="5">
+      <Info X="99" Y="0" Cycle="1" Rate="1.5" PauseHalf="9999" Lag="9999" Spikes="0100"/>
+    </Obj>
+    <Obj X="410.00" Y="1504.00" SeqID="107" Depth="6" ID="6">
+      <Info X="99" Y="0" Cycle="1" Rate="1.5" PauseHalf="9999" Lag="9999" Spikes="0100"/>
+    </Obj>
+    <Obj X="314.00" Y="1504.00" SeqID="107" Depth="7" ID="7">
+      <Info X="-99" Y="0" Cycle="1" Rate="1.5" PauseHalf="9999" Lag="9999" Spikes="0100"/>
+    </Obj>
+    <Obj X="768.00" Y="1440.00" SeqID="105" Depth="8" ID="8">
+      <Info X="0" Y="-880" Cycle="9" Rate="2.5" Lag="9999" PauseHalf="9999" Spikes="0001" Lock="1"/>
+    </Obj>
+    <Obj X="816.00" Y="1440.00" SeqID="105" Depth="9" ID="9">
+      <Info X="0" Y="-880" Cycle="9" Rate="2.5" Lag="9999" PauseHalf="9999" Spikes="0001" Lock="1"/>
+    </Obj>
+    <Obj X="864.00" Y="1440.00" SeqID="105" Depth="10" ID="10">
+      <Info X="0" Y="-880" Cycle="9" Rate="2.5" Lag="9999" PauseHalf="9999" Spikes="0001" Lock="1"/>
+    </Obj>
+    <Obj X="912.00" Y="1440.00" SeqID="105" Depth="11" ID="11">
+      <Info X="0" Y="-880" Cycle="9" Rate="2.5" Lag="9999" PauseHalf="9999" Spikes="0001" Lock="1"/>
+    </Obj>
+    <Obj X="1070.00" Y="1493.00" SeqID="111" Rotation="180" Depth="12" ID="12"/>
+    <Obj X="1102.00" Y="1493.00" SeqID="111" Rotation="180" Depth="13" ID="13"/>
+    <Obj X="1134.00" Y="1493.00" SeqID="111" Rotation="180" Depth="14" ID="14"/>
+    <Obj X="1166.00" Y="1493.00" SeqID="111" Rotation="180" Depth="15" ID="15"/>
+    <Obj X="1168.00" Y="1232.00" SeqID="111" Depth="16" ID="16"/>
+    <Obj X="1136.00" Y="1232.00" SeqID="111" Depth="17" ID="17"/>
+    <Obj X="1104.00" Y="1232.00" SeqID="111" Depth="18" ID="18"/>
+    <Obj X="1072.00" Y="1232.00" SeqID="111" Depth="19" ID="19"/>
+    <Obj X="718.00" Y="655.00" SeqID="107" Depth="20" ID="22">
+      <Info X="0" Y="-128" Cycle="5" PauseEnd="1" Spikes="0000"/>
+    </Obj>
+    <Obj X="698.00" Y="495.00" SeqID="111" Depth="21" ID="23"/>
+    <Obj X="730.00" Y="495.00" SeqID="111" Depth="22" ID="24"/>
+    <Obj X="873.00" Y="228.00" SeqID="101" Depth="23" ID="27"/>
+    <Obj X="1360.00" Y="1447.00" SeqID="105" Depth="24" ID="28">
+      <Info X="-368" Y="0" Cycle="10" PauseEnd="1" Spikes="1111" Lag="9999"/>
+    </Obj>
+    <Obj X="1397.00" Y="1472.00" SeqID="114" Rotation="180" Depth="25" ID="30">
+      <Info FixedAngle="90" CarrierID="28"/>
+    </Obj>
+  </Layer>
+  <Layer Name="Item" Type="5" Width="1600" Height="2400">
+    <Obj X="1232.00" Y="1328.00" SeqID="3" Depth="0" ID="0"/>
+    <Obj X="800.00" Y="880.00" SeqID="3" Depth="1" ID="1"/>
+    <Obj X="752.00" Y="512.00" SeqID="3" Depth="2" ID="2"/>
+    <Obj X="397.00" Y="1856.00" SeqID="4" Depth="3" ID="3"/>
+    <Obj X="397.00" Y="1824.00" SeqID="4" Depth="4" ID="4"/>
+    <Obj X="397.00" Y="1792.00" SeqID="4" Depth="5" ID="5"/>
+    <Obj X="397.00" Y="1712.00" SeqID="4" Depth="6" ID="6"/>
+    <Obj X="397.00" Y="1680.00" SeqID="4" Depth="7" ID="7"/>
+    <Obj X="397.00" Y="1584.00" SeqID="4" Depth="8" ID="8"/>
+    <Obj X="397.00" Y="1552.00" SeqID="4" Depth="9" ID="9"/>
+    <Obj X="397.00" Y="1472.00" SeqID="4" Depth="10" ID="10"/>
+    <Obj X="397.00" Y="1440.00" SeqID="4" Depth="11" ID="11"/>
+    <Obj X="397.00" Y="1376.00" SeqID="4" Depth="12" ID="12"/>
+    <Obj X="397.00" Y="1408.00" SeqID="4" Depth="13" ID="13"/>
+    <Obj X="1243.50" Y="1404.50" SeqID="4" Depth="14" ID="14"/>
+    <Obj X="1201.50" Y="1364.50" SeqID="4" Depth="15" ID="15"/>
+    <Obj X="1160.00" Y="1335.00" SeqID="4" Depth="16" ID="16"/>
+    <Obj X="1107.00" Y="1321.00" SeqID="4" Depth="17" ID="17"/>
+    <Obj X="1049.00" Y="1316.00" SeqID="4" Depth="18" ID="18"/>
+    <Obj X="736.00" Y="1343.00" SeqID="4" Depth="19" ID="19"/>
+    <Obj X="720.00" Y="1327.00" SeqID="4" Depth="20" ID="20"/>
+    <Obj X="752.00" Y="1327.00" SeqID="4" Depth="21" ID="21"/>
+    <Obj X="704.00" Y="1311.00" SeqID="4" Depth="22" ID="22"/>
+    <Obj X="768.00" Y="1311.00" SeqID="4" Depth="23" ID="24"/>
+    <Obj X="720.00" Y="1295.00" SeqID="4" Depth="24" ID="25"/>
+    <Obj X="752.00" Y="1295.00" SeqID="4" Depth="25" ID="26"/>
+    <Obj X="736.00" Y="1279.00" SeqID="4" Depth="26" ID="27"/>
+    <Obj X="813.00" Y="932.00" SeqID="4" Depth="27" ID="28"/>
+    <Obj X="813.00" Y="1024.00" SeqID="4" Depth="28" ID="29"/>
+    <Obj X="813.00" Y="996.00" SeqID="4" Depth="29" ID="30"/>
+    <Obj X="672.00" Y="416.00" SeqID="5" Depth="30" ID="31"/>
+    <Obj X="676.00" Y="448.00" SeqID="4" Depth="31" ID="32"/>
+    <Obj X="394.00" Y="1888.00" SeqID="5" Depth="32" ID="33"/>
+    <Obj X="394.00" Y="1341.00" SeqID="5" Depth="33" ID="34"/>
+    <Obj X="733.00" Y="1308.00" SeqID="5" Depth="34" ID="23"/>
+    <Obj X="1008.00" Y="1312.00" SeqID="5" Depth="35" ID="35"/>
+    <Obj X="809.00" Y="960.00" SeqID="5" Depth="36" ID="36"/>
+    <Obj X="720.00" Y="528.00" SeqID="5" Depth="37" ID="37"/>
+    <Obj X="800.00" Y="528.00" SeqID="5" Depth="38" ID="38"/>
+  </Layer>
+  <Layer Name="Foreground" Type="6" Width="1600" Height="2400">
+    <Obj X="301.50" Y="1233.00" SeqID="8" Depth="0" ID="66"/>
+    <Obj X="617.15" Y="1363.31" SeqID="19" Depth="1" ID="0"/>
+    <Obj X="39.50" Y="1214.50" SeqID="89" Depth="2" ID="1"/>
+    <Obj X="240.50" Y="1276.50" SeqID="94" Rotation="-6" Depth="3" ID="2"/>
+    <Obj X="242.50" Y="1254.50" SeqID="87" Depth="4" ID="3"/>
+    <Obj X="193.50" Y="1255.50" SeqID="91" Depth="5" ID="4"/>
+    <Obj X="436.50" Y="1256.00" SeqID="88" Rotation="108" Depth="6" ID="5"/>
+    <Obj X="507.10" Y="1265.15" SeqID="92" Rotation="117" Depth="7" ID="6"/>
+    <Obj X="471.15" Y="1222.15" SeqID="10" Depth="8" ID="7"/>
+    <Obj X="266.50" Y="1058.00" SeqID="73" Depth="9" ID="8"/>
+    <Obj X="103.50" Y="1042.00" SeqID="73" Depth="10" ID="9"/>
+    <Obj X="271.50" Y="901.00" SeqID="73" Depth="11" ID="10"/>
+    <Obj X="114.50" Y="880.00" SeqID="73" Depth="12" ID="11"/>
+    <Obj X="983.50" Y="1071.50" SeqID="23" Depth="13" ID="12"/>
+    <Obj X="746.50" Y="951.50" SeqID="22" IsXFlipped="true" Depth="14" ID="13"/>
+    <Obj X="718.50" Y="1232.50" SeqID="15" Depth="15" ID="14"/>
+    <Obj X="687.50" Y="1222.50" SeqID="3" Depth="16" ID="15"/>
+    <Obj X="666.50" Y="1226.50" SeqID="2" Depth="17" ID="16"/>
+    <Obj X="647.50" Y="1229.50" SeqID="15" Depth="18" ID="17"/>
+    <Obj X="976.00" Y="1222.00" SeqID="3" Depth="19" ID="18"/>
+    <Obj X="1223.50" Y="1522.50" SeqID="89" Depth="20" ID="19"/>
+    <Obj X="1460.50" Y="1501.50" SeqID="94" Depth="21" ID="20"/>
+    <Obj X="1257.50" Y="1506.50" SeqID="91" IsXFlipped="true" Depth="22" ID="21"/>
+    <Obj X="1494.50" Y="1475.50" SeqID="76" IsXFlipped="true" Depth="23" ID="22"/>
+    <Obj X="1429.50" Y="1537.50" SeqID="88" Rotation="90" Depth="24" ID="23"/>
+    <Obj X="1387.50" Y="1504.50" SeqID="76" Rotation="90" Depth="25" ID="24"/>
+    <Obj X="1495.50" Y="1492.50" SeqID="98" Depth="26" ID="25"/>
+    <Obj X="1531.50" Y="1243.50" SeqID="100" Depth="27" ID="26"/>
+    <Obj X="1500.50" Y="1272.50" SeqID="99" Depth="28" ID="27"/>
+    <Obj X="1322.50" Y="1057.50" SeqID="73" Depth="29" ID="28"/>
+    <Obj X="1441.50" Y="1302.50" SeqID="79" Rotation="90" Depth="30" ID="29"/>
+    <Obj X="1420.00" Y="987.00" SeqID="88" Rotation="255" Depth="31" ID="30"/>
+    <Obj X="1223.50" Y="1177.50" SeqID="82" Depth="32" ID="31"/>
+    <Obj X="1368.35" Y="1020.65" SeqID="78" Depth="33" ID="32"/>
+    <Obj X="732.47" Y="398.83" SeqID="18" Depth="34" ID="33"/>
+    <Obj X="695.80" Y="487.50" SeqID="1" Depth="35" ID="34"/>
+    <Obj X="376.00" Y="535.00" SeqID="89" Depth="36" ID="35"/>
+    <Obj X="558.35" Y="613.00" SeqID="94" Depth="37" ID="36"/>
+    <Obj X="579.12" Y="584.54" SeqID="90" Depth="38" ID="37"/>
+    <Obj X="526.81" Y="577.65" SeqID="91" Depth="39" ID="38"/>
+    <Obj X="464.12" Y="369.96" SeqID="73" Depth="40" ID="39"/>
+    <Obj X="461.81" Y="219.19" SeqID="72" Depth="41" ID="40"/>
+    <Obj X="296.38" Y="376.92" SeqID="72" Depth="42" ID="41"/>
+    <Obj X="313.35" Y="206.92" SeqID="73" Depth="43" ID="42"/>
+    <Obj X="689.62" Y="393.19" SeqID="89" Rotation="105" Depth="44" ID="43"/>
+    <Obj X="631.04" Y="404.04" SeqID="82" Rotation="90" Depth="45" ID="44"/>
+    <Obj X="644.12" Y="299.08" SeqID="84" Depth="46" ID="45"/>
+    <Obj X="633.35" Y="262.19" SeqID="84" Depth="47" ID="46"/>
+    <Obj X="1151.50" Y="399.00" SeqID="89" Rotation="84" Depth="48" ID="47"/>
+    <Obj X="1131.50" Y="356.00" SeqID="94" Depth="49" ID="48"/>
+    <Obj X="1033.50" Y="191.00" SeqID="73" Depth="50" ID="49"/>
+    <Obj X="1087.50" Y="352.00" SeqID="96" Depth="51" ID="50"/>
+    <Obj X="1210.50" Y="52.00" SeqID="73" Depth="52" ID="51"/>
+    <Obj X="1044.50" Y="27.00" SeqID="73" Depth="53" ID="52"/>
+    <Obj X="877.50" Y="51.00" SeqID="72" Depth="54" ID="53"/>
+    <Obj X="601.00" Y="152.00" SeqID="89" Depth="55" ID="54"/>
+    <Obj X="788.00" Y="173.00" SeqID="92" Depth="56" ID="55"/>
+    <Obj X="859.00" Y="182.00" SeqID="84" Depth="57" ID="56"/>
+    <Obj X="719.50" Y="13.00" SeqID="72" Depth="58" ID="57"/>
+    <Obj X="672.50" Y="100.00" SeqID="77" Depth="59" ID="58"/>
+    <Obj X="887.50" Y="-41.00" SeqID="75" Depth="60" ID="59"/>
+    <Obj X="822.00" Y="363.50" SeqID="15" Depth="61" ID="60"/>
+    <Obj X="757.25" Y="357.85" SeqID="4" Depth="62" ID="61"/>
+    <Obj X="908.75" Y="1066.85" SeqID="2" Depth="63" ID="62"/>
+    <Obj X="863.75" Y="955.55" SeqID="15" Depth="64" ID="63"/>
+    <Obj X="818.45" Y="828.55" SeqID="14" Depth="65" ID="64"/>
+    <Obj X="767.10" Y="1111.85" SeqID="2" Depth="66" ID="65"/>
+  </Layer>
+  <Layer Name="Closeground" Type="7" Width="2240" Height="3360"/>
+  <Layer Name="Area" Type="8" Width="1600" Height="2400">
+    <Obj X="272.00" Y="1824.00" Width="288" Height="48" ID="0">
+      <Trigger ID="0" Type="Once" Enabled="1" Event="RoleEnter">
+        <Action Target="4:2" Action="Start" Delay="0"/>
+        <Action Target="4:3" Action="Start" Delay="0"/>
+      </Trigger>
+    </Obj>
+    <Obj X="272.00" Y="1728.00" Width="288" Height="48" ID="1">
+      <Trigger ID="1" Type="Once" Enabled="1" Event="RoleEnter">
+        <Action Target="4:4" Action="Start" Delay="0"/>
+        <Action Target="4:5" Action="Start" Delay="0"/>
+      </Trigger>
+    </Obj>
+    <Obj X="272.00" Y="1628.00" Width="288" Height="48" ID="2">
+      <Trigger ID="2" Type="Once" Enabled="1" Event="RoleEnter">
+        <Action Target="4:6" Action="Start" Delay="0"/>
+        <Action Target="4:7" Action="Start" Delay="0"/>
+      </Trigger>
+    </Obj>
+    <Obj X="1248.00" Y="1120.00" Width="47" Height="479" ID="3">
+      <Trigger ID="3" Type="Once" Enabled="1" Event="RoleEnter">
+        <Action Target="4:28" Action="Start" Delay="0"/>
+      </Trigger>
+    </Obj>
+    <Obj X="736.00" Y="1167.00" Width="255" Height="63" ID="4">
+      <Trigger ID="4" Type="Once" Enabled="1" Event="RoleEnter">
+        <Action Target="4:8" Action="Start" Delay="0"/>
+        <Action Target="4:9" Action="Start" Delay="0"/>
+        <Action Target="4:10" Action="Start" Delay="0"/>
+        <Action Target="4:11" Action="Start" Delay="0"/>
+      </Trigger>
+    </Obj>
+  </Layer>
+</Map>

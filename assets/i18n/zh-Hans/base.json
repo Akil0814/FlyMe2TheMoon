@@ -1,0 +1,502 @@
+{
+  "gameplay_ui_demo": {
+    "player": "玩家",
+    "enemy": "敌人",
+    "hit": "哎呀！被打中了！"
+  },
+  "common": {
+    "save": "保存",
+    "back": "返回",
+    "confirm": "确认",
+    "cancel": "取消",
+    "close": "关闭",
+    "coming_soon": "即将推出"
+  },
+  "menu_scene": {
+    "project_name": "Elysia Engine",
+    "demo_gallery": "演示库",
+    "settings": "设置",
+    "exit": "退出",
+    "exit_confirm": {
+      "title": "确认退出",
+      "message": "要退出 Elysia Engine 吗？",
+      "cancel": "取消",
+      "close": "X"
+    }
+  },
+  "demo_gallery": {
+    "elysia_realm": "爱莉希雅领域",
+    "failure_test": "应用故障测试",
+    "failure_confirm": {
+      "title": "确认故障测试",
+      "message": "该测试会终止应用程序。是否继续？",
+      "confirm": "运行故障测试",
+      "cancel": "取消",
+      "close": "关闭"
+    }
+  },
+  "animation_preview": {
+    "animation_idle": "待机",
+    "animation_run": "奔跑",
+    "attack_segment": "攻击段",
+    "attack_previous": "上一段",
+    "attack_replay": "重播攻击",
+    "attack_next": "下一段"
+  },
+  "ui_component_gallery": {
+    "hud": {
+      "description": "E：技能（冷却3秒） | 1 / 2：使用物品 | P：暂停此示例 | 也可鼠标操作",
+      "skill": "技能",
+      "item_one": "药水",
+      "item_two": "炸弹",
+      "pause": "暂停",
+      "resume": "继续",
+      "ready": "就绪：技能角标显示使用次数，物品角标显示剩余数量。",
+      "cooldown": "技能冷却中：遮罩随冷却结束逐渐缩小。",
+      "paused": "示例已暂停：冷却计时和物品使用暂停。"
+    },
+    "typography": {
+      "tab": "字体排版",
+      "title": "字体字号",
+      "description": "使用引擎内置字体展示所有预加载字号。",
+      "sample_10": "10 px — 说明文字示例",
+      "sample_20": "20 px — 紧凑文字示例",
+      "sample_30": "30 px — 标准文字示例",
+      "sample_40": "40 px — 标题文字示例",
+      "sample_50": "50 px — 副标题文字示例",
+      "sample_60": "60 px — 对话框标题示例",
+      "sample_70": "70 px — 主标题文字示例"
+    },
+    "status": {
+      "ready": "UI 工作台已就绪",
+      "interaction": "已收到交互",
+      "submitted": "文本已提交",
+      "overlay_opened": "弹层已打开",
+      "selection_changed": "选项已更改"
+    },
+    "pages": {
+      "overview": "概览",
+      "states": "状态与变体",
+      "controls": "控件",
+      "media": "内容与媒体",
+      "containers": "容器",
+      "overlays": "弹层与焦点",
+      "appearance": "外观与本地化"
+    },
+    "sections": {
+      "overview": "主题感知仪表板与视觉角色示例。",
+      "controls": "交互控件会更新状态栏。",
+      "media": "文本、数字、进度条、引擎图片与动画。",
+      "containers": "组合、插槽、滚动与嵌套标签页。",
+      "overlays": "窗口管理的弹层、对话框与焦点恢复。",
+      "appearance": "内建主题会立即更新已注册的 UI 树。"
+    },
+    "actions": {
+      "replay": "重播",
+      "reset": "重建工作台",
+      "replay_effects": "重播效果",
+      "play": "播放",
+      "pause": "暂停",
+      "resume": "继续",
+      "reset_animation": "重置动画"
+    },
+    "controls": {
+      "labeled_check": "带标签复选框",
+      "labeled_radio": "带标签单选项",
+      "labeled_radio_far": "远端单选标签",
+      "placeholder": "最多输入十六个字符"
+    },
+    "states": {
+      "buttons_title": "按钮内容与角色",
+      "buttons_description": "内容变体选择绘制路径，语义角色选择主题颜色。",
+      "text_button": "文本",
+      "role_button": "角色",
+      "disabled": "已禁用",
+      "selection_title": "选择状态",
+      "selection_description": "并排展示逻辑状态、标记样式和禁用效果。",
+      "presentation_title": "展示角色",
+      "presentation_description": "文本适配、文本角色和面板表面与布局相互独立。",
+      "fit_sample": "特意设置的长文本适配示例",
+      "text_block_sample": "文本块会为父布局测量换行后的本地化内容。",
+      "panel_sample": "面板",
+      "inputs_title": "文本输入状态",
+      "inputs_description": "占位文本、已输入文本和禁用文本使用不同的展示路径。"
+    },
+    "media": {
+      "long_text": "此本地化文本块用于验证不同文字宽度下的换行、字体排版和主题化内容渲染。",
+      "text_title": "本地化文本与原始文本",
+      "text_description": "TextKey 解析当前语言，RawText 原样保留稳定标识符。",
+      "number_title": "数字与进度条",
+      "number_description": "展示边界数值格式和全部四种填充方向。",
+      "effects_title": "透明度效果",
+      "effects_description": "淡入淡出、闪烁和脉冲仅在当前页激活时更新，并可重新播放。",
+      "fade_in": "淡入",
+      "fade_in_out": "淡入淡出",
+      "blink_visible": "从可见状态闪烁",
+      "pulse_min": "从最低值脉冲",
+      "animation_title": "帧动画",
+      "animation_description": "UI 动画借用缓存帧，并提供独立的播放控制。"
+    },
+    "containers": {
+      "chrome": "Chrome 插槽",
+      "nested_tab": "嵌套标签页",
+      "nested_tab_two": "第二个标签页",
+      "list_title": "线性列表",
+      "list_description": "列表顺序同时决定布局、绘制和主轴焦点导航。",
+      "layout_title": "网格、面板、Chrome 与标签页",
+      "layout_description": "结构化容器根据各自的布局模型推导焦点关系。",
+      "scroll_title": "滚动策略",
+      "scroll_description": "自动、始终显示和隐藏滚动条都保持一致的内容裁剪行为。"
+    },
+    "overlays": {
+      "open_overlay": "打开非模态弹层",
+      "open_dialog": "打开阅读对话框",
+      "open_confirm": "打开确认对话框",
+      "tooltip": "悬停查看提示",
+      "tooltip_text": "提示内容会跟随焦点和指针状态。",
+      "placement_title": "弹层位置",
+      "placement_description": "使用同一个面板演示全部位置、过渡和模态策略。",
+      "open_center": "居中（非模态）",
+      "open_left": "左侧抽屉",
+      "open_right": "右侧抽屉",
+      "open_top": "顶部面板",
+      "open_bottom": "底部面板",
+      "dialog_title": "模态对话框",
+      "dialog_description": "对话框获取焦点，并在关闭后恢复此前的焦点范围。",
+      "popup_title": "弹出菜单与提示",
+      "popup_description": "临时弹出菜单具有输入优先级，提示保持被动显示。",
+      "option_four": "第四项",
+      "option_five": "第五项",
+      "option_six": "第六项",
+      "option_seven": "第七项",
+      "option_eight": "第八项"
+    },
+    "dialog": {
+      "title": "工作台阅读对话框",
+      "body": "此对话框用于验证模态位置、焦点恢复和本地化长文案。"
+    },
+    "confirm": {
+      "title": "确认工作台操作",
+      "message": "此确认对话框属于弹层覆盖的一部分。"
+    },
+    "appearance": {
+      "note": "主题名称是稳定的引擎标识。",
+      "localized_sample": "本地化 TextKey 示例"
+    }
+  },
+  "physics_tests": {
+    "title": "物理测试中心",
+    "physics": "基础物理与回归",
+    "combat": "战斗集成",
+    "stress": "压力测试",
+    "run": "运行 / 重跑",
+    "pause": "暂停 / 继续 (P)",
+    "single_step": "单步 (N)",
+    "reset": "重置 (R)",
+    "back": "返回 (Esc)",
+    "ready": "待运行",
+    "running": "运行中",
+    "passed": "通过",
+    "failed": "失败",
+    "paused": "已暂停",
+    "steps": "步数",
+    "objects": "刚体 / 碰撞体",
+    "contacts": "接触",
+    "awake": "清醒",
+    "dropped": "丢弃步数",
+    "timing": "中位 / P95 / 最大 ms",
+    "samples": "采样数",
+    "debug": "调试几何 (F1)",
+    "mixed": "混合配置",
+    "on": "开启",
+    "off": "关闭",
+    "failure": "失败原因",
+    "actual": "实际",
+    "expected_value": "期望",
+    "low": "低档",
+    "medium": "中档",
+    "high": "高档",
+    "cases": {
+      "motion": {
+        "title": "刚体、力与质量",
+        "purpose": "比较三种刚体，验证重力、阻尼、旋转及质量响应。",
+        "expected": "静态物体不动；力和冲量随质量响应；阻尼减速。"
+      },
+      "materials": {
+        "title": "接触、材质与休眠",
+        "purpose": "观察地面、墙面、天花板接触，摩擦、反弹和堆叠唤醒。",
+        "expected": "正确识别各接触面；摩擦改变滑行；堆叠休眠后可被冲量唤醒。"
+      },
+      "ccd": {
+        "title": "连续碰撞回归",
+        "purpose": "八条独立通道对比离散对照、动态切换、多碰撞体和 bullet 配置。",
+        "expected": "连续碰撞通道停在目标前；离散对照允许穿透。"
+      },
+      "filters": {
+        "title": "过滤与传感器事件",
+        "purpose": "验证阻挡、重叠、忽略、掩码、分组与移除后的唯一 End。",
+        "expected": "掩码和分组选择碰撞对；传感器产生 Begin/Stay，禁用或移除后仅一次 End。"
+      },
+      "queries": {
+        "title": "形状查询与投射",
+        "purpose": "验证射线、线段、重叠、扫掠、旋转、过滤及传送后立即查询。",
+        "expected": "查询返回有序、过滤后的命中，并立即反映传送位置。"
+      },
+      "one_way": {
+        "title": "方向性平台",
+        "purpose": "验证四个方向与组合规则下允许和阻挡的接近方式。",
+        "expected": "每个方向阻挡实体侧，允许从另一侧穿越。"
+      },
+      "tiles": {
+        "title": "瓦片接缝与移动支撑",
+        "purpose": "跨接缝站立、同时下穿两块支撑、重新落地、删除瓦片及移动承载。",
+        "expected": "跨接缝稳定站立和下穿；移动平台承载物体。"
+      },
+      "joints": {
+        "title": "约束、弹簧与马达",
+        "purpose": "验证距离、弹簧收敛、马达限位及销毁后的句柄失效。",
+        "expected": "约束保持范围，弹簧收敛，销毁后的关节失效。"
+      },
+      "lifecycle": {
+        "title": "生命周期与命令顺序",
+        "purpose": "回调内注册移除、XY 写入、旋转后传送、重置及角度稳定性。",
+        "expected": "排队命令保持顺序，传送保留角度，重置使旧句柄失效。"
+      },
+      "timing": {
+        "title": "固定步进与插值",
+        "purpose": "验证帧率无关运动、分数步、追赶上限与渲染插值。",
+        "expected": "不同帧率保持固定步运动；插值和丢步统计正确。"
+      },
+      "combat_collider": {
+        "title": "碰撞体战斗",
+        "purpose": "真实攻击输入：前摇、命中窗口、去重、友军过滤、死亡和跳跃。",
+        "expected": "两次攻击各造成 25 点伤害；友方无伤；跳跃和落地成功。"
+      },
+      "combat_platform": {
+        "title": "平台瓦片战斗",
+        "purpose": "脚本驱动跳跃、向上穿越、接缝落地、下穿与短按输入。",
+        "expected": "向上穿越平台、跨接缝落地、下穿，短按输入仅消费一次。"
+      },
+      "combat_topdown": {
+        "title": "俯视瓦片战斗",
+        "purpose": "验证墙体遮挡、敌人追踪、危险区域进出和世界边界碰撞。",
+        "expected": "墙阻挡视线与移动；通路打开后追踪；离开危险区后停止伤害。"
+      },
+      "stress_bodies": {
+        "title": "运动刚体压力",
+        "purpose": "100 / 500 / 2000 个刚体。预热 120 步、采样 600 步；耗时仅供参考。",
+        "expected": "所有刚体状态有限、句柄有效；预热 120 步后采样 600 步。"
+      },
+      "stress_contacts": {
+        "title": "密集接触压力",
+        "purpose": "100 / 500 / 1000 个形状。验证持续接触和有限状态，不设速度阈值。",
+        "expected": "持续接触有效；报告 600 步采样，不设速度阈值。"
+      },
+      "stress_tiles": {
+        "title": "瓦片世界压力",
+        "purpose": "64² / 128² / 256² 格，稀疏障碍、局部更新与批量查询。",
+        "expected": "瓦片更新和查询成功；状态有限；报告 600 步采样。"
+      }
+    }
+  },
+  "showcase": {
+    "back": "返回",
+    "auxiliary": "辅助展示",
+    "gallery": {
+      "title": "引擎模块展示",
+      "description": "选择一个模块，体验它的操作与运行行为。"
+    },
+    "ui": {
+      "title": "UI",
+      "description": "控件、布局、主题、字体、弹窗与 HUD。"
+    },
+    "input": {
+      "title": "输入与控制",
+      "description": "本地玩家、设备分配、控制目标与输入路由。",
+      "menu": "玩家 / 菜单",
+      "bind_one": "按未分配手柄 Start 绑定玩家 1",
+      "bind_two": "重新绑定玩家 2 手柄",
+      "release": "解除手柄分配",
+      "keyboard_one": "键盘：WASD 玩家 1 / 方向键玩家 2",
+      "keyboard_two": "键盘：方向键玩家 1 / WASD 玩家 2",
+      "mouse_one": "鼠标：玩家 1",
+      "mouse_two": "鼠标：玩家 2",
+      "pad_one": "UI 手柄：玩家 1",
+      "pad_two": "UI 手柄：玩家 2",
+      "resume": "继续",
+      "typing": "输入文字时不应移动角色",
+      "mouse": "鼠标",
+      "pad": "手柄",
+      "disconnected": "手柄未连接",
+      "ui_access": "UI：键盘 + 鼠标",
+      "assignment": "按未分配手柄 Start，绑定玩家"
+    },
+    "camera": {
+      "title": "相机",
+      "description": "跟随、镜头运动与演出。F1–F3 切页，R 重置，Esc 返回。",
+      "dead_zone": "死区",
+      "swap": "切换主目标",
+      "auto_motion": "自动移动",
+      "teleport": "传送目标",
+      "zoom": "缩放至 1.5",
+      "bounds": "世界边界",
+      "primary": "主目标",
+      "zoom_label": "缩放",
+      "primary_only": "仅主目标",
+      "group": "目标组",
+      "blue": "蓝色",
+      "orange": "橙色",
+      "page_follow": "F1 跟随与取景",
+      "page_motion": "F2 镜头运动",
+      "page_cinematic": "F3 演出相机",
+      "strategy": "切换跟随策略",
+      "edge": "到边界附近",
+      "move": "移动并拉近",
+      "path": "播放三段路径",
+      "easing": "切换缓动",
+      "end": "切换结束行为",
+      "pause": "暂停",
+      "resume": "继续",
+      "cancel": "取消运动",
+      "follow": "恢复跟随",
+      "shake": "震动",
+      "clear_shake": "清除震动",
+      "cut": "直接切入",
+      "blend": "平滑切入",
+      "return_main": "返回 Main",
+      "play": "播放演出",
+      "skip": "跳过并返回",
+      "replay": "重播演出",
+      "reset": "R 重置当前页",
+      "ready": "就绪",
+      "playing": "播放中",
+      "finished": "已完成",
+      "holding": "保持画面",
+      "cancelled": "已取消／恢复跟随",
+      "hard": "硬跟随",
+      "smooth": "平滑跟随",
+      "single_dead_zone": "单目标死区",
+      "multi": "多目标跟随",
+      "entering": "切入演出",
+      "touring": "演出路径播放",
+      "returning": "返回 Main 中",
+      "manual": "手动演出镜头",
+      "linear": "线性",
+      "smoothstep": "平滑步进",
+      "cubic": "立方缓入缓出",
+      "end_hold": "结束：保持",
+      "end_follow": "结束：恢复跟随",
+      "paused": "已暂停",
+      "active": "运行中",
+      "center": "中心",
+      "help_follow": "WASD 移动；Q/E 分离",
+      "help_motion": "选择缓动和结束行为，再播放",
+      "help_cinematic": "角色冻结，返回 Main 后恢复",
+      "legend": "蓝：安全区 · 绿：死区 · 红：边界 · 黄：路径 · 白：主目标"
+    },
+    "animation": {
+      "title": "动画",
+      "description": "播放待机、移动和攻击段。"
+    },
+    "effects": {
+      "title": "特效",
+      "description": "飘字、颜色覆盖与屏幕特效。",
+      "damage": "伤害",
+      "critical": "暴击",
+      "heal": "治疗",
+      "percent": "百分比",
+      "fraction": "分数",
+      "decimal": "小数",
+      "screen": {
+        "instructions": "屏幕特效：F1–F9 或点击。Esc / 返回先取消活动特效，再返回。",
+        "flash": "F1 闪屏",
+        "fade_black": "F2 黑屏渐变",
+        "hold_black": "F3 保持黑屏",
+        "stop": "F4 淡出",
+        "cancel": "F5 取消",
+        "stretch": "F6 拉伸",
+        "cover": "F7 覆盖",
+        "contain": "F8 包含",
+        "after_ui": "F9 UI 之后",
+        "before_ui": "F9 UI 之前",
+        "ready": "就绪",
+        "stopping": "正在淡出",
+        "nothing_to_stop": "没有可停止的特效",
+        "cancelled": "已取消",
+        "layer_changed": "层级已切换，请选择特效",
+        "image_unavailable": "图片不可用：demo.screen_effect",
+        "failed": "特效请求失败",
+        "playing": "播放中",
+        "finished": "已完成",
+        "animation_play": "播放动画",
+        "loop_off": "循环：关",
+        "loop_on": "循环：开",
+        "end_animation": "结束：动画完成",
+        "end_timed": "结束：定时",
+        "end_manual": "结束：手动",
+        "fit_natural": "适配：原始尺寸",
+        "fit_stretch": "适配：拉伸",
+        "fit_cover": "适配：覆盖",
+        "fit_contain": "适配：完整显示",
+        "anchor_tl": "锚点：左上",
+        "anchor_tc": "锚点：上",
+        "anchor_tr": "锚点：右上",
+        "anchor_cl": "锚点：左",
+        "anchor_center": "锚点：居中",
+        "anchor_cr": "锚点：右",
+        "anchor_bl": "锚点：左下",
+        "anchor_bc": "锚点：下",
+        "anchor_br": "锚点：右下",
+        "offset_zero": "偏移：0, 0",
+        "offset_inset": "偏移：-24, -24",
+        "scale_one": "缩放：1 倍",
+        "scale_half": "缩放：0.5 倍",
+        "scale_large": "缩放：1.5 倍",
+        "layout_image": "按当前布局播放图片"
+      }
+    },
+    "physics": {
+      "title": "物理与碰撞",
+      "description": "基础模拟验证与压力档位。P 暂停，N 单步，R 重启，F1 调试。"
+    },
+    "gameplay": {
+      "title": "Gameplay",
+      "description": "体验控制、玩法碰撞、战斗与世界 UI。",
+      "capabilities": "进入玩法场景，或运行下方战斗验证；世界 UI 跟随角色并同步受击状态。",
+      "collider": "碰撞战斗",
+      "platform": "平台战斗",
+      "topdown": "俯视战斗",
+      "health": "生命",
+      "enemies": "敌人",
+      "bound": "控制器可用",
+      "attacking": "攻击中",
+      "defeated": "已死亡，正在重启…",
+      "world_ui": "显示/隐藏世界 UI",
+      "speech": "触发气泡",
+      "collider_controls": "A/D 移动 | 空格跳跃 | J 攻击 | K 查询 | P 暂停 | N 单步 | R 重启 | F1 调试",
+      "platform_controls": "A/D 移动 | 空格跳跃 | S+空格下落 | J 攻击 | P 暂停 | N 单步 | R 重启 | F1 调试",
+      "topdown_controls": "WASD 移动 | J 攻击 | P 暂停 | N 单步 | R 重启 | F1 调试"
+    },
+    "audio": {
+      "title": "音频",
+      "description": "低音量合成素材；离开时恢复音量与分组设置。",
+      "once": "播放音效",
+      "delay": "延迟 500 ms 播放",
+      "loop": "淡入并循环音效",
+      "stop": "停止本场景音效",
+      "limit": "演示分组限制与冷却",
+      "music_a": "淡入播放音乐 A",
+      "music_b": "淡出切换至音乐 B",
+      "music_stop": "淡出停止音乐",
+      "master": "主音量",
+      "music_volume": "音乐音量",
+      "sound_volume": "音效音量",
+      "group_volume": "Gameplay 分组音量",
+      "ready": "就绪",
+      "unavailable": "音频未初始化",
+      "accepted": "播放请求已接受",
+      "rejected": "播放请求被拒绝",
+      "scheduled": "已安排延迟播放"
+    }
+  }
+}

@@ -1,0 +1,502 @@
+{
+  "gameplay_ui_demo": {
+    "player": "Player",
+    "enemy": "Enemy",
+    "hit": "Ouch! That hurt!"
+  },
+  "common": {
+    "save": "Save",
+    "back": "Back",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "close": "Close",
+    "coming_soon": "Coming soon"
+  },
+  "menu_scene": {
+    "project_name": "Elysia Engine",
+    "demo_gallery": "Demo Gallery",
+    "settings": "Settings",
+    "exit": "Exit",
+    "exit_confirm": {
+      "title": "Confirm Exit",
+      "message": "Exit Elysia Engine?",
+      "cancel": "Cancel",
+      "close": "X"
+    }
+  },
+  "demo_gallery": {
+    "elysia_realm": "Elysia Realm",
+    "failure_test": "Application Failure Test",
+    "failure_confirm": {
+      "title": "Confirm Failure Test",
+      "message": "This test terminates the application. Continue?",
+      "confirm": "Run Failure Test",
+      "cancel": "Cancel",
+      "close": "Close"
+    }
+  },
+  "animation_preview": {
+    "animation_idle": "Idle",
+    "animation_run": "Run",
+    "attack_segment": "Attack segment",
+    "attack_previous": "Previous segment",
+    "attack_replay": "Replay attack",
+    "attack_next": "Next segment"
+  },
+  "ui_component_gallery": {
+    "hud": {
+      "description": "E: skill (3s cooldown) | 1 / 2: use item | P: pause this demo | Mouse also works",
+      "skill": "Skill",
+      "item_one": "Potion",
+      "item_two": "Bomb",
+      "pause": "Pause",
+      "resume": "Resume",
+      "ready": "Ready — skill badge counts casts; item badges show remaining stock.",
+      "cooldown": "Skill cooling down — the mask shrinks as the cooldown expires.",
+      "paused": "Demo paused — cooldown and item use are suspended."
+    },
+    "typography": {
+      "tab": "Typography",
+      "title": "Typography Scale",
+      "description": "Engine font samples at every preloaded point size.",
+      "sample_10": "10 px — Caption sample",
+      "sample_20": "20 px — Compact text sample",
+      "sample_30": "30 px — Standard text sample",
+      "sample_40": "40 px — Heading sample",
+      "sample_50": "50 px — Subtitle sample",
+      "sample_60": "60 px — Dialog title sample",
+      "sample_70": "70 px — Title sample"
+    },
+    "status": {
+      "ready": "UI workbench ready",
+      "interaction": "Interaction received",
+      "submitted": "Text submitted",
+      "overlay_opened": "Overlay opened",
+      "selection_changed": "Selection changed"
+    },
+    "pages": {
+      "overview": "Overview",
+      "states": "States & Variants",
+      "controls": "Controls",
+      "media": "Content & Media",
+      "containers": "Containers",
+      "overlays": "Overlays & Focus",
+      "appearance": "Appearance & I18N"
+    },
+    "sections": {
+      "overview": "Theme-aware dashboard and representative visual roles.",
+      "controls": "Interactive controls update the status line.",
+      "media": "Text, numbers, bars, Engine images and animation.",
+      "containers": "Composition, slots, scrolling and nested tabs.",
+      "overlays": "Window-managed overlays, dialogs and focus recovery.",
+      "appearance": "Built-in themes update the registered UI tree immediately."
+    },
+    "actions": {
+      "replay": "Replay",
+      "reset": "Rebuild Workbench",
+      "replay_effects": "Replay Effects",
+      "play": "Play",
+      "pause": "Pause",
+      "resume": "Resume",
+      "reset_animation": "Reset Animation"
+    },
+    "controls": {
+      "labeled_check": "Labeled checkbox",
+      "labeled_radio": "Labeled radio option",
+      "labeled_radio_far": "Far-edge radio label",
+      "placeholder": "Type up to sixteen characters"
+    },
+    "states": {
+      "buttons_title": "Button Content and Roles",
+      "buttons_description": "Content variants choose a rendering path; semantic roles choose theme colors.",
+      "text_button": "Text",
+      "role_button": "Role",
+      "disabled": "Disabled",
+      "selection_title": "Selection States",
+      "selection_description": "Logical states, mark styles and disabled rendering are shown side by side.",
+      "presentation_title": "Presentation Roles",
+      "presentation_description": "Text fitting, text roles and panel surfaces remain independent from layout.",
+      "fit_sample": "A deliberately long fit sample",
+      "text_block_sample": "Text blocks measure wrapped localized content for their parent layout.",
+      "panel_sample": "Panel",
+      "inputs_title": "Text Input States",
+      "inputs_description": "Placeholder, committed and disabled text use distinct presentation paths."
+    },
+    "media": {
+      "long_text": "This localized text block verifies wrapping, typography and themed content rendering across narrow and wide scripts.",
+      "text_title": "Localized and Raw Text",
+      "text_description": "TextKey resolves the active locale; RawText preserves identifiers verbatim.",
+      "number_title": "Numbers and Bars",
+      "number_description": "Numeric formatting and all four bar fill directions are shown with boundary values.",
+      "effects_title": "Opacity Effects",
+      "effects_description": "Fade, blink and pulse modes update only while this tab is active and can be replayed.",
+      "fade_in": "Fade in",
+      "fade_in_out": "Fade in and out",
+      "blink_visible": "Blink visible first",
+      "pulse_min": "Pulse from minimum",
+      "animation_title": "Frame Animation",
+      "animation_description": "The UI animation borrows cached frames and exposes independent playback controls."
+    },
+    "containers": {
+      "chrome": "Chrome slots",
+      "nested_tab": "Nested tab",
+      "nested_tab_two": "Second tab",
+      "list_title": "Linear Lists",
+      "list_description": "List order drives layout, rendering and primary-axis focus navigation.",
+      "layout_title": "Grid, Panel, Chrome and Tabs",
+      "layout_description": "Structured containers derive focus relationships from their layout model.",
+      "scroll_title": "Scroll Policies",
+      "scroll_description": "Auto, always-visible and hidden scrollbars retain the same clipped content behavior."
+    },
+    "overlays": {
+      "open_overlay": "Open non-modal overlay",
+      "open_dialog": "Open reading dialog",
+      "open_confirm": "Open confirmation dialog",
+      "tooltip": "Hover for tooltip",
+      "tooltip_text": "Tooltip content follows focus and pointer state.",
+      "placement_title": "Overlay Placement",
+      "placement_description": "One owned panel is reopened with every placement, transition and modality policy.",
+      "open_center": "Center (non-modal)",
+      "open_left": "Left drawer",
+      "open_right": "Right drawer",
+      "open_top": "Top sheet",
+      "open_bottom": "Bottom sheet",
+      "dialog_title": "Modal Dialogs",
+      "dialog_description": "Dialogs capture focus and restore the previous scope when they close.",
+      "popup_title": "Popups and Tooltips",
+      "popup_description": "Transient popups take priority while tooltips remain passive.",
+      "option_four": "Fourth option",
+      "option_five": "Fifth option",
+      "option_six": "Sixth option",
+      "option_seven": "Seventh option",
+      "option_eight": "Eighth option"
+    },
+    "dialog": {
+      "title": "Workbench reading dialog",
+      "body": "This dialog verifies modal placement, focus restoration and localized long-form copy."
+    },
+    "confirm": {
+      "title": "Confirm workbench action",
+      "message": "This confirmation dialog is part of the overlay coverage."
+    },
+    "appearance": {
+      "note": "Theme names are stable engine identifiers.",
+      "localized_sample": "Localized TextKey sample"
+    }
+  },
+  "physics_tests": {
+    "title": "Physics test center",
+    "physics": "Physics & regression",
+    "combat": "Combat integration",
+    "stress": "Pressure tests",
+    "run": "Run / rerun",
+    "pause": "Pause / resume (P)",
+    "single_step": "Single step (N)",
+    "reset": "Reset (R)",
+    "back": "Back (Esc)",
+    "ready": "Ready",
+    "running": "Running",
+    "passed": "Passed",
+    "failed": "Failed",
+    "paused": "Paused",
+    "steps": "Steps",
+    "objects": "Bodies / colliders",
+    "contacts": "Contacts",
+    "awake": "Awake",
+    "dropped": "Dropped steps",
+    "timing": "Median / P95 / Max ms",
+    "samples": "Samples",
+    "debug": "Debug geometry (F1)",
+    "mixed": "Mixed settings",
+    "on": "On",
+    "off": "Off",
+    "failure": "Failure",
+    "actual": "Actual",
+    "expected_value": "Expected",
+    "low": "Low",
+    "medium": "Medium",
+    "high": "High",
+    "cases": {
+      "motion": {
+        "title": "Bodies, forces and mass",
+        "purpose": "Compare static, kinematic and dynamic bodies; gravity, damping and rotation.",
+        "expected": "Static bodies stay put; forces and impulses respond to mass; damping slows movement."
+      },
+      "materials": {
+        "title": "Contacts, materials and sleep",
+        "purpose": "Observe floor/wall/ceiling contacts, friction, bounce and stack wake-up.",
+        "expected": "Contacts identify each surface; friction changes sliding; a sleeping stack wakes after an impulse."
+      },
+      "ccd": {
+        "title": "Continuous collision regression",
+        "purpose": "Eight lanes compare discrete controls, runtime CCD, multiple colliders and bullet flags.",
+        "expected": "Continuous lanes stop at targets; discrete control lanes may tunnel."
+      },
+      "filters": {
+        "title": "Filters and sensor events",
+        "purpose": "Block / Overlap / Ignore, masks, groups and exactly one End after removal.",
+        "expected": "Masks and groups select pairs; sensors report Begin/Stay and one End on disable or removal."
+      },
+      "queries": {
+        "title": "Shape queries and casts",
+        "purpose": "Rays, segments, overlaps, sweeps, rotation, filtering and immediate teleport queries.",
+        "expected": "Queries return sorted, filtered hits and immediately observe teleports."
+      },
+      "one_way": {
+        "title": "Directional platforms",
+        "purpose": "Test allowed and blocked approaches for all four directions and combined rules.",
+        "expected": "Each direction blocks its solid side and permits passage from the opposite side."
+      },
+      "tiles": {
+        "title": "Tile seams and moving supports",
+        "purpose": "Stand across a seam, drop through both supports, reland, remove tiles and ride a platform.",
+        "expected": "Seam supports allow stable standing and drop-through; moving platforms carry riders."
+      },
+      "joints": {
+        "title": "Constraints, springs and motors",
+        "purpose": "Distance, spring settling, motor limits and invalidation after joint/body destruction.",
+        "expected": "Constraints remain bounded, springs settle, and destroyed joints become invalid."
+      },
+      "lifecycle": {
+        "title": "Lifecycle and ordered commands",
+        "purpose": "Callback registration/removal, XY writes, rotation + teleport, reset and angle stability.",
+        "expected": "Queued writes preserve order, teleports preserve angle, and reset invalidates old handles."
+      },
+      "timing": {
+        "title": "Fixed steps and interpolation",
+        "purpose": "Frame-rate independent movement, fractional steps, catch-up limits and render interpolation.",
+        "expected": "Fixed steps preserve motion across frame rates; interpolation and dropped-step counts match."
+      },
+      "combat_collider": {
+        "title": "Collider combat",
+        "purpose": "Real attack input: wind-up, hit window, deduplication, friendly filtering, death and jumping.",
+        "expected": "Two attacks deal 25 damage each; allies remain unharmed; jump and landing succeed."
+      },
+      "combat_platform": {
+        "title": "Platform tile combat",
+        "purpose": "Scripted jump, upward passage, seam landing, drop-through and short input taps.",
+        "expected": "Jump through the platform, land across the seam, drop through, and consume a short tap once."
+      },
+      "combat_topdown": {
+        "title": "Top-down tile combat",
+        "purpose": "Wall occlusion, enemy pursuit, hazard entry/exit and world boundary collisions.",
+        "expected": "Walls block sight and motion; opening a path enables pursuit; leaving the hazard stops damage."
+      },
+      "stress_bodies": {
+        "title": "Moving body load",
+        "purpose": "100 / 500 / 2000 bodies. Warm up 120 steps, sample 600; timing is informational.",
+        "expected": "All bodies remain finite and valid; collect 600 timing samples after 120 warm-up steps."
+      },
+      "stress_contacts": {
+        "title": "Dense contact load",
+        "purpose": "100 / 500 / 1000 shapes. Validate contact generation and finite state without speed thresholds.",
+        "expected": "Persistent contacts remain valid; report 600 timing samples without a speed threshold."
+      },
+      "stress_tiles": {
+        "title": "Tile world load",
+        "purpose": "64² / 128² / 256² cells, sparse obstacles, local updates and batched queries.",
+        "expected": "Tile updates and queries succeed; all states stay finite; report 600 timing samples."
+      }
+    }
+  },
+  "showcase": {
+    "back": "Back",
+    "auxiliary": "Additional demonstrations",
+    "gallery": {
+      "title": "Engine showcases",
+      "description": "Choose a module to explore its controls and behavior."
+    },
+    "ui": {
+      "title": "UI",
+      "description": "Controls, layout, themes, typography, overlays and HUD."
+    },
+    "input": {
+      "title": "Input and control",
+      "description": "Local players, devices, control targets and input routing.",
+      "menu": "Players / menu",
+      "bind_one": "Bind next Start controller to player 1",
+      "bind_two": "Rebind player 2 controller",
+      "release": "Release controllers for reassignment",
+      "keyboard_one": "Keyboard: WASD P1 / arrows P2",
+      "keyboard_two": "Keyboard: arrows P1 / WASD P2",
+      "mouse_one": "Mouse: player 1",
+      "mouse_two": "Mouse: player 2",
+      "pad_one": "UI gamepad: player 1",
+      "pad_two": "UI gamepad: player 2",
+      "resume": "Resume",
+      "typing": "Typing must not move players",
+      "mouse": "mouse",
+      "pad": "gamepad",
+      "disconnected": "gamepad disconnected",
+      "ui_access": "UI: keyboard + mouse",
+      "assignment": "Press Start on an unassigned gamepad for player"
+    },
+    "camera": {
+      "title": "Camera",
+      "description": "Follow, camera motion and cinematic direction. F1–F3: pages; R: reset; Esc: return.",
+      "dead_zone": "Dead zone",
+      "swap": "Swap primary",
+      "auto_motion": "Automatic motion",
+      "teleport": "Teleport target",
+      "zoom": "Zoom to 1.5",
+      "bounds": "World bounds",
+      "primary": "Primary",
+      "zoom_label": "Zoom",
+      "primary_only": "Primary only",
+      "group": "Group",
+      "blue": "Blue",
+      "orange": "Orange",
+      "page_follow": "F1 Follow & framing",
+      "page_motion": "F2 Camera motion",
+      "page_cinematic": "F3 Cinematic",
+      "strategy": "Change strategy",
+      "edge": "Go to boundary",
+      "move": "Move & zoom",
+      "path": "Play three-node path",
+      "easing": "Change easing",
+      "end": "Change end behavior",
+      "pause": "Pause",
+      "resume": "Resume",
+      "cancel": "Cancel motion",
+      "follow": "Restore follow",
+      "shake": "Shake",
+      "clear_shake": "Clear shake",
+      "cut": "Cut to Cinematic",
+      "blend": "Blend to Cinematic",
+      "return_main": "Return to Main",
+      "play": "Play cinematic",
+      "skip": "Skip & return",
+      "replay": "Replay cinematic",
+      "reset": "R Reset page",
+      "ready": "Ready",
+      "playing": "Playing",
+      "finished": "Finished",
+      "holding": "Holding",
+      "cancelled": "Cancelled / following",
+      "hard": "Hard follow",
+      "smooth": "Smooth follow",
+      "single_dead_zone": "Single-target dead zone",
+      "multi": "Multi-target follow",
+      "entering": "Entering cinematic",
+      "touring": "Touring path",
+      "returning": "Returning to Main",
+      "manual": "Manual Cinematic view",
+      "linear": "Linear",
+      "smoothstep": "SmoothStep",
+      "cubic": "EaseInOutCubic",
+      "end_hold": "End: hold",
+      "end_follow": "End: resume follow",
+      "paused": "Paused",
+      "active": "Active",
+      "center": "Center",
+      "help_follow": "WASD: move; Q/E: separate",
+      "help_motion": "Choose easing and end mode, then play",
+      "help_cinematic": "Characters freeze until Main resumes",
+      "legend": "Blue: safe area · Green: dead zone · Red: boundary · Yellow: path · White: primary"
+    },
+    "animation": {
+      "title": "Animation",
+      "description": "Play idle, movement and attack segments."
+    },
+    "effects": {
+      "title": "Effects",
+      "description": "Floating numbers, color overlays and screen effects.",
+      "damage": "Damage",
+      "critical": "Critical",
+      "heal": "Heal",
+      "percent": "Percent",
+      "fraction": "Fraction",
+      "decimal": "Decimal",
+      "screen": {
+        "instructions": "Screen effects: F1–F9 or click. Esc / Back clears an active effect, then returns.",
+        "flash": "F1 Flash",
+        "fade_black": "F2 Fade black",
+        "hold_black": "F3 Hold black",
+        "stop": "F4 Fade out",
+        "cancel": "F5 Cancel",
+        "stretch": "F6 Stretch",
+        "cover": "F7 Cover",
+        "contain": "F8 Contain",
+        "after_ui": "F9 After UI",
+        "before_ui": "F9 Before UI",
+        "ready": "Ready",
+        "stopping": "Fading out",
+        "nothing_to_stop": "Nothing to stop",
+        "cancelled": "Cancelled",
+        "layer_changed": "Layer changed; choose an effect",
+        "image_unavailable": "Image unavailable: demo.screen_effect",
+        "failed": "Effect request failed",
+        "playing": "Playing",
+        "finished": "Finished",
+        "animation_play": "Play animation",
+        "loop_off": "Loop: off",
+        "loop_on": "Loop: on",
+        "end_animation": "End: animation",
+        "end_timed": "End: timed",
+        "end_manual": "End: manual",
+        "fit_natural": "Fit: natural",
+        "fit_stretch": "Fit: stretch",
+        "fit_cover": "Fit: cover",
+        "fit_contain": "Fit: contain",
+        "anchor_tl": "Anchor: top left",
+        "anchor_tc": "Anchor: top",
+        "anchor_tr": "Anchor: top right",
+        "anchor_cl": "Anchor: left",
+        "anchor_center": "Anchor: center",
+        "anchor_cr": "Anchor: right",
+        "anchor_bl": "Anchor: bottom left",
+        "anchor_bc": "Anchor: bottom",
+        "anchor_br": "Anchor: bottom right",
+        "offset_zero": "Offset: 0, 0",
+        "offset_inset": "Offset: -24, -24",
+        "scale_one": "Scale: 1x",
+        "scale_half": "Scale: 0.5x",
+        "scale_large": "Scale: 1.5x",
+        "layout_image": "Play layout image"
+      }
+    },
+    "physics": {
+      "title": "Physics and collision",
+      "description": "Shared simulation checks and stress tiers. P: pause; N: step; R: reset; F1: debug."
+    },
+    "gameplay": {
+      "title": "Gameplay",
+      "description": "Explore control, gameplay collision, combat and world UI.",
+      "capabilities": "Play a scene, or run its combat checks below. World UI follows actors and reflects damage.",
+      "collider": "Collider combat",
+      "platform": "Platform combat",
+      "topdown": "Top-down combat",
+      "health": "Health",
+      "enemies": "Enemies",
+      "bound": "Controller available",
+      "attacking": "Attacking",
+      "defeated": "Defeated — restarting…",
+      "world_ui": "Toggle world UI",
+      "speech": "Show speech bubble",
+      "collider_controls": "A/D: move | Space: jump | J: attack | K: query | P: pause | N: step | R: reset | F1: debug",
+      "platform_controls": "A/D: move | Space: jump | S+Space: drop | J: attack | P: pause | N: step | R: reset | F1: debug",
+      "topdown_controls": "WASD: move | J: attack | P: pause | N: step | R: reset | F1: debug"
+    },
+    "audio": {
+      "title": "Audio",
+      "description": "Synthetic low-gain fixtures; changes are restored when leaving.",
+      "once": "Play sound",
+      "delay": "Play after 500 ms",
+      "loop": "Loop with fade-in",
+      "stop": "Stop owned sounds",
+      "limit": "Demonstrate group limit and cooldown",
+      "music_a": "Play music A with fade-in",
+      "music_b": "Fade to music B",
+      "music_stop": "Fade out music",
+      "master": "Master volume",
+      "music_volume": "Music volume",
+      "sound_volume": "Sound volume",
+      "group_volume": "Gameplay group volume",
+      "ready": "Ready",
+      "unavailable": "Audio is unavailable",
+      "accepted": "Playback request accepted",
+      "rejected": "Playback request rejected",
+      "scheduled": "Playback scheduled"
+    }
+  }
+}

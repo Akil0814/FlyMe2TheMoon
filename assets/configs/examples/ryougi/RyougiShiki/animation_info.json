@@ -1,0 +1,51 @@
+{
+  "defaults": {
+    "source_type": "frame_directory"
+  },
+  "animations": {
+    "idle": {
+      "frame_count": 7,
+      "fps": 10,
+      "loop": true
+    },
+    "run_loop": {
+      "frame_count": 8,
+      "fps": 10,
+      "loop": true
+    },
+    "attack_normal": {
+      "segments": [
+        {
+          "frame_count": 7,
+          "fps": 10,
+          "loop": false
+        },
+        {
+          "frame_count": 7,
+          "fps": 10,
+          "loop": false
+        },
+        {
+          "frame_count": 8,
+          "fps": 10,
+          "loop": false
+        },
+        {
+          "frame_count": 14,
+          "fps": 10,
+          "loop": false
+        },
+        {
+          "frame_count": 9,
+          "fps": 10,
+          "loop": false
+        },
+        {
+          "frame_count": 12,
+          "fps": 10,
+          "loop": false
+        }
+      ]
+    }
+  }
+}
