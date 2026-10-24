@@ -6,6 +6,8 @@
 
 [ControllerService](../../../../engine/gameplay/control/controller_service.h) 是游戏侧单例入口。Manager 是唯一所有者；Service 不另存实例或自行调度。
 
+包含 `engine/gameplay/control/controller_service.h` 后，可通过 `ELYSIA_CONTROLLERS->方法(...)` 调用服务。宏展开为 `(::elysia::gameplay::ControllerService::instance())`，不自动开始会话，也不改变接口的返回类型或结果处理要求。
+
 | 接口 | 用途 |
 | --- | --- |
 | begin_session / end_session / session_active | 显式本地游戏会话 |

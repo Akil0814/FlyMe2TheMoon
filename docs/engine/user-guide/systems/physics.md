@@ -24,8 +24,8 @@ public:
     {
         set_world_rect({100, 100, 32, 32});
         // 碰撞形状相对刚体放置；世界位置来自对象的 world_rect。
-        _colliders[0].shape = elysia::physics::AabbShape{
-            elysia::core::Rect{0, 0, 32, 32}};
+        _colliders[0].shape = elysia::physics::BoxShape::from_rect(
+            elysia::core::Rect{0, 0, 32, 32});
     }
 
     elysia::physics::BodyDefinition body_definition() const override
@@ -118,13 +118,23 @@ public:
 
 ## 碰撞体、过滤与响应
 
-`Collider` 支持两种形状：`AabbShape{ Rect local_rect }` 和 `CircleShape{ Vector2 local_center, float radius }`。一个刚体可带多个 `Collider`；调用 `collider_id(handle, index)` 或 `PhysicsParticipant::physics_collider(index)` 获取其稳定 ID。
+`Collider` 支持 `BoxShape`、`CircleShape`、`CapsuleShape`、`ConvexPolygonShape` 和 `SegmentShape`。形状均使用刚体局部坐标，一个刚体可带多个碰撞体；用 `collider_id(handle, index)` 或 `PhysicsParticipant::physics_collider(index)` 获取稳定 ID。
+
+| 形状 | 定义 |
+| --- | --- |
+| 矩形 | `BoxShape{local_center, half_extents, local_angle}`，半尺寸必须为正；`BoxShape::from_rect(rect)` 从局部矩形构造零角度盒子 |
+| 圆形 | `CircleShape{local_center, radius}`，半径必须为正 |
+| 胶囊 | `CapsuleShape{local_first, local_second, radius}`；两端重合时按圆形处理；原生精度范围内的极短胶囊会折叠为中点圆形 |
+| 凸多边形 | `ConvexPolygonShape` 的 `local_vertices` 最多 8 个，`vertex_count` 为 3–8；顶点沿边界排列，顺逆绕序均可 |
+| 线段 | `SegmentShape{local_first, local_second}`，零厚度双面，仅 Static／Kinematic |
+
+多边形拒绝凹形、自交、重复顶点、共线退化和非有限坐标；不会自动把凹形分解。注册和查询使用相同校验及单位转换；形状还须满足 Box2D 的几何精度及有限质量／惯量要求。`update_collider` 保留 `ColliderId`，非法替换保留原有形状。斜坡可用独立的静态凸多边形表达；Tile 格子仍是矩形。
 
 局部形状以对象 position 对应的刚体原点为基准。下例可放在包含 `engine/physics/physics_world.h` 的对象构造代码中，1、2、4 是示例游戏自行分配的过滤位，与 `DepthLayer` 无关。
 
 ```cpp
 elysia::physics::Collider body_collider{
-    .shape = elysia::physics::AabbShape{{-16.0f, -28.0f, 32.0f, 56.0f}},
+    .shape = elysia::physics::BoxShape::from_rect({-16.0f, -28.0f, 32.0f, 56.0f}),
     .filter = {.category = std::uint32_t{1}, .mask = std::uint32_t{2} | std::uint32_t{4}},
     .response = elysia::physics::CollisionResponse::Block,
     .material = {.friction = 0.4f, .restitution = 0.0f},
@@ -150,17 +160,20 @@ elysia::physics::Collider body_collider{
 
 ## 无状态空间查询
 
-查询全部经过 `CollisionFilter`，忽略禁用形状和 `CollisionResponse::Ignore`。`raycast`、`segment_cast` 与 `sweep_aabb` 返回最近命中（无命中为 `std::nullopt`）；`*_all` 把结果写入调用者提供的 `std::vector`，按距离排序并按目标去重。
+查询统一使用 `CollisionQueryFilter`：`collision` 保存类别、掩码和分组；`ignored_object` 排除一个对象的全部碰撞体；`include_sensors` 默认 `true`。禁用形状和 `Ignore` 始终被排除。查询不执行单向平台的运动响应规则，命中后由业务决定如何处理。
 
-| 需求 | 查询结构与接口 | 返回 |
+| 需求 | 接口 | 返回 |
 | --- | --- | --- |
-| 激光/视线 | `RayCastQuery` + `raycast` / `raycast_all` | `CollisionQueryHit` |
-| 起点到终点的直线 | `SegmentCastQuery` + `segment_cast` / `segment_cast_all` | `CollisionQueryHit` |
-| 范围内方形选取 | `AabbOverlapQuery` + `overlap_aabb` | `CollisionOverlapQueryHit` |
-| 范围内圆形选取 | `CircleOverlapQuery` + `overlap_circle` | `CollisionOverlapQueryHit` |
-| 高速子弹或角色盒子预判 | `AabbSweepQuery` + `sweep_aabb` | 最近 `CollisionQueryHit` |
+| 射线 | `RayCastQuery` + `raycast` / `raycast_all` | `CollisionQueryHit` |
+| 起点到终点 | `SegmentCastQuery` + `segment_cast` / `segment_cast_all` | `CollisionQueryHit` |
+| 任意支持形状的范围检测 | `ShapeOverlapQuery{shape, pose, filter}` + `overlap_shape` | 输出 `CollisionOverlapQueryHit` 数组 |
+| 形状平移扫掠 | `ShapeCastQuery{shape, pose, displacement, filter}` + `shape_cast` / `shape_cast_all` | 最近命中或全部 `CollisionQueryHit` |
 
-`CollisionQueryHit` 给出 `target`（`Collider` 或 Tile）、命中 `point`、`normal`、距离 `distance`、0–1 的 `fraction` 和对方的 `response`。查询不会产生碰撞事件、伤害或物理响应；它适合把高速攻击的“命中时刻”明确交给游戏规则层处理。
+`shape` 使用 `ColliderShape` 中四种有面积形状（不接受 Segment 查询源），`pose` 是世界姿态，`displacement` 是世界位移。扫掠保持角度不变，不做旋转扫掠。最近命中与全部结果首项一致；全部结果按 `fraction`、目标标识排序并按目标去重，不会合并同一对象的不同 Collider。
+
+命中包含 `target`（Collider 或 Tile）、`point`、`normal`、`distance`、`fraction`、`response` 和 `initial_overlap`。起点已在目标内时，`initial_overlap=true`，距离和比例为零，点为查询起点或姿态原点，法线为零；此时点和法线不能作为接触流形。零位移形状扫掠仅检测初始重叠。非法输入返回空结果并清空输出容器。
+
+查询不会产生碰撞事件、伤害或物理响应。高速 Sensor/HitBox 仍须由玩法显式扫掠并消费命中，刚体 CCD 不会自动提供连续攻击判定。
 
 ## TileMap 碰撞
 
@@ -170,12 +183,28 @@ elysia::physics::Collider body_collider{
 
 TileMap 是借用引用，`ITileCollisionWorld` 实例必须比绑定持续更久。`TileOutOfBoundsPolicy::Block` 会生成外围四面边界墙，`Empty` 则不生成。相邻、过滤规则相同的实体格会抑制内部共享面；暴露面仍可碰撞。当前不包含斜坡、半格、分块流式加载或合并轮廓。
 
-## 关节
+## 八种关节与运行时设置
 
-`create_distance_joint(const DistanceJointDefinition&)` 创建两刚体之间的固定距离或弹簧；`create_revolute_joint(const RevoluteJointDefinition&)` 创建转轴，可选角度限制和电机。创建成功返回 `JointHandle`；使用 `joint_state(handle)` 读取两端锚点、反作用力和扭矩，使用 `destroy_joint(handle)` 删除。
+所有创建函数返回 `JointHandle`。定义固定两端对象、局部锚点、参考角和局部轴；轴接受有限非零向量并规范化。机械关节至少一端 Dynamic；Mouse 要求第一端 Static、第二端 Dynamic；Filter 只要求两个不同的有效刚体。下表中的可变设置均由对应 `update_*_joint(handle, settings)` 完整替换，保持原关节并唤醒连接刚体。Filter 没有空设置接口。
 
-两个定义都用局部锚点，且 `collide_connected` 默认 `false`。距离关节可设置 `spring`、`frequency_hz`、`damping_ratio`；转轴关节可设置 `enable_limit`、`lower_angle`、`upper_angle`、`enable_motor`、`motor_speed`、`max_motor_torque`。
+| 类型／创建接口 | Settings 主要字段 | `JointState.details` |
+| --- | --- | --- |
+| `create_distance_joint` | `length`、弹簧、长度限位、线性电机 | `DistanceJointState`：当前长度、速度、电机力 |
+| `create_revolute_joint` | `target_angle`、弹簧、角限位、旋转电机 | `RevoluteJointState`：角度、角速度、电机扭矩 |
+| `create_weld_joint` | `linear_frequency_hz`、`angular_frequency_hz`、对应 `*_damping_ratio` | `WeldJointState`：`linear_error`、`angular_error` |
+| `create_prismatic_joint` | `enable_spring`、`target_translation`、频率／阻尼、`enable_limit`、`lower_translation`／`upper_translation`、`enable_motor`、`motor_speed`／`max_motor_force` | `PrismaticJointState`：`translation`、`speed`、`motor_force` |
+| `create_wheel_joint` | 悬挂 `enable_spring`、频率／阻尼、平移限位、旋转电机 `motor_speed`／`max_motor_torque` | `WheelJointState`：悬挂 `translation`／`speed`、`angular_velocity`、`motor_torque` |
+| `create_mouse_joint` | 世界 `target`、`frequency_hz`／`damping_ratio`、`max_force` | `MouseJointState`：`drag_point`、`error`；初始目标决定固定拖拽锚点 |
+| `create_motor_joint` | 第一端局部 `linear_offset`、相对 `angular_offset`、`max_force`／`max_torque`、`correction_factor` | `MotorJointState`：局部位移误差与角度误差 |
+| `create_filter_joint` | 无 | `FilterJointState`：配对碰撞已屏蔽 |
 
+Settings 均默认 `collide_connected=false`。长度／平移速度／力／扭矩遵循 EU 单位；角度用弧度。频率、阻尼和最大输出非负，限位有序，校正系数在 `[0,1]`。距离长度必须为正；关闭距离弹簧时限位与电机不生效。转轴角限位在 ±0.99π 内。
+
+Prismatic 默认关闭弹簧、限位和电机；Wheel 默认开启悬挂弹簧。通用弹簧为 2 Hz／阻尼比 0.7；Weld 两项频率为零、阻尼比 1。Mouse 默认最大力 1000、4 Hz、阻尼比 1；Motor 默认最大力 100、最大扭矩 10000、校正系数 0.3。其余电机默认关闭、速度和输出为零。
+
+`joint_state` 的公共字段包括 `first`／`second` 对象身份、世界锚点、`reaction_force` 与 `reaction_torque`。Filter 不施加机械约束，反作用力和扭矩为零，调试虚线只标记过滤关系；销毁后恢复通常碰撞规则。约束有限输出可能保留误差，状态用于观察实际结果。
+
+非法参数、错误类型和失效句柄返回 `false` 或空 `optional`，保留原设置。回调中的参数复制进 FIFO；创建后可立即更新，执行前再次检查对象和类型。创建尚未提交、销毁、移除两端或 Reset 后状态为空。物理测试中心的六个 `joint_*` 页提供设置切换、状态显示；Mouse 可用左键拖动目标，Filter 可切换配对碰撞。
 ## 玩法碰撞
 
 物理接触不自动扣血。角色、阵营、HitBox/HurtBox 与攻击去重的完整用法见[玩法碰撞](../gameplay/collision.md)。
@@ -212,7 +241,7 @@ std::optional<elysia::physics::CollisionQueryHit> find_obstacle(
 
 监听器派生 `ICollisionListener` 并实现 `on_collision_event`，在场景进入时 `add_listener(*listener)` 并检查结果，退出和析构前 `remove_listener(*listener)`。世界只借用监听器；回调中记录待办操作，返回后再销毁监听者或重组对象集合。事件中的句柄也可能在后续对象移除后失效。
 
-关节示例：在两个刚体注册成功后，创建 `DistanceJointDefinition{.first = a, .second = b, .length = 100.0f}` 并交给 create_distance_joint；检查返回句柄的 is_valid()。完成使用时 destroy_joint，后续读取 joint_state 仍要检查 optional。关节依赖两端刚体，不能跨不同 `PhysicsWorld` 连接。
+关节示例：在两个刚体注册成功后，创建 `DistanceJointDefinition{.first = a, .second = b, .settings = {.length = 100.0f}}` 并交给 create_distance_joint；检查返回句柄的 is_valid()。完成使用时 destroy_joint，后续读取 joint_state 仍要检查 optional。关节依赖两端刚体，不能跨不同 `PhysicsWorld` 连接。
 
 `TileCollisionCell` 的 tag 是 string_view，提供地图的对象和其标签存储都必须覆盖绑定期。物理世界 reset 会清空注册，不要在仍有场景对象依赖其绑定时单独重置世界；重置整个关卡可选择场景 Recreate。
 
@@ -226,3 +255,93 @@ std::optional<elysia::physics::CollisionQueryHit> find_obstacle(
 
 - [物理公开接口](../../../../engine/physics/physics_world.h)、[查询参数](../../../../engine/physics/collision/collision_query.h)
 - [玩法碰撞](../gameplay/collision.md)、[对象查询](object-query.md)、[返回使用指南](../README.md)
+
+## 形状扫掠示例
+
+```cpp
+#include "engine/physics/physics_world.h"
+
+std::optional<elysia::physics::CollisionQueryHit> cast_capsule(
+    const elysia::physics::PhysicsWorld& world,
+    elysia::physics::PhysicsObjectHandle actor,
+    elysia::core::Vector2 position, elysia::core::Vector2 displacement)
+{
+    return world.shape_cast({
+        .shape = elysia::physics::CapsuleShape{{0, -12}, {0, 12}, 8},
+        .pose = {position, 0},
+        .displacement = displacement,
+        .filter = {.ignored_object = actor}});
+}
+```
+
+## 运行中调整关节
+
+物理测试中心的关节页可调整长度和反转电机。点击控制按钮会进入持续手动模拟；重置后返回自动验证。
+
+```cpp
+#include "engine/physics/physics_world.h"
+
+bool reverse_joint_motor(elysia::physics::PhysicsWorld& world,
+                         elysia::physics::JointHandle handle)
+{
+    auto state = world.joint_state(handle);
+    if (!state)
+        return false;
+    const auto* hinge = std::get_if<elysia::physics::RevoluteJointState>(&state->details);
+    if (!hinge)
+        return false;
+    auto settings = hinge->settings;
+    settings.motor_speed = -settings.motor_speed;
+    return world.update_revolute_joint(handle, settings);
+}
+```
+
+## Segment 与 Chain 地形
+
+`SegmentShape{local_first, local_second}` 是双面、零厚度的局部线段，仅可挂在 Static 或 Kinematic 对象上。它沿用普通 Collider 的过滤、材质、响应、启停和稳定 ID；不贡献质量。更新非法时保留原形状。线段之间不承诺产生物理解算，重叠与扫掠的查询源仍只接受矩形、圆、胶囊和凸多边形。
+
+需要连续地形时，在已注册的 Static／Kinematic 对象上调用 `create_chain(owner, definition)`。`ChainDefinition` 复制并拥有 `local_vertices` 和 `tag`，统一使用 `filter` 和 `material`，始终是可被传感器检测的实体地形。开放链至少两个实际顶点，首尾 ghost 默认沿端边外推，也可通过 `ghost_before`／`ghost_after` 指定；ghost 不生成碰撞边。闭合链 `loop=true` 至少四个顶点，输入不重复首点。原生尺度下边长须至少 0.005 米；重复、退化、自交、非有限坐标和相邻折返会被拒绝。输入顺序保持不变。
+
+局部边 `a→b` 的正面法线为 `(dy, -dx)`，随后随刚体旋转。在 Y 向下的坐标中，水平边从左到右时阻挡上方。调试绘制显示线段与正面箭头。Chain 的实体接触和射线使用单面规则；`overlap_shape` 与 `shape_cast` 是几何检测，从背面也可能命中。使用扫掠结果移动角色时须由玩法明确决定如何处理这一差异。
+
+`chain_state(handle)` 返回 owner、开放／闭合模式和顶点／边段数量；`chain_collider(handle, index)` 取得每条实际边的 ColliderId；`chain_segment_info(id)` 反查 Chain、owner 与零起始边段索引。查询和事件仍返回 `CollisionTarget::Collider`，接触状态会合并所属对象的 Chain 子段；忽略 owner 会排除整组地形。普通 `collider_id(owner, index)` 只访问对象声明的 Collider。
+
+Chain 几何、过滤和材质在创建后固定，修改时销毁再创建。`update_collider` 与 `set_collider_enabled` 拒绝单独操作子段；用 `set_body_enabled` 启停整组。`destroy_chain`、移除 owner 和 Reset 回收所有子段及映射。回调中创建／销毁按 FIFO 提交，定义按值保存；提交前 `chain_state` 为空。创建失败返回无效句柄，分配异常向上传播并清理未完成资源；不保留可用的原生 ID。
+
+## 每固定步提交运动学目标
+
+`set_target_transform(handle, PhysicsPose target, double fixed_delta_seconds)` 根据命令执行时的原生姿态计算速度。`PhysicsParticipant` 提供同名快捷方法。仅接受 Kinematic、有限目标和有效正时间步；非法请求返回 `false`。固定旋转只追踪位置，角度采用最短路径；同位姿或低于原生休眠阈值的目标清除旧速度。
+
+在 `fixed_update(dt)` 中每步提交一个目标。它不瞬移，不保存持续追踪状态，也不保证单步精确到位；停止提交后仍沿用当前速度，需要停止时显式设速。回调参数按值复制，执行前检查对象仍有效且启用，与设速、角速度和传送命令遵循 FIFO；渲染继续读取 `render_pose`。平台示例见物理测试中心的 `target_pose` 页。
+
+下例在已经注册的对象上建立地形、提交平台目标及创建滑动关节；调用方检查无效句柄和 bool 返回值。
+
+```cpp
+#include "engine/physics/physics_world.h"
+
+elysia::physics::ChainHandle add_terrain(
+    elysia::physics::PhysicsWorld& world, elysia::physics::PhysicsObjectHandle owner)
+{
+    elysia::physics::ChainDefinition chain;
+    chain.local_vertices = {{0, 0}, {200, 0}, {300, -50}};
+    chain.tag = "terrain";
+    return world.create_chain(owner, chain); // owner must be Static or Kinematic
+}
+
+bool command_platform(elysia::physics::PhysicsWorld& world,
+    elysia::physics::PhysicsObjectHandle platform, double dt)
+{
+    return world.set_target_transform(platform, {{200, 100}, 0.15f}, dt);
+}
+
+elysia::physics::JointHandle add_slider(elysia::physics::PhysicsWorld& world,
+    elysia::physics::PhysicsObjectHandle anchor, elysia::physics::PhysicsObjectHandle body)
+{
+    elysia::physics::PrismaticJointDefinition joint{anchor, body};
+    joint.local_axis = {1, 0};
+    joint.settings.enable_motor = true;
+    joint.settings.motor_speed = 30;
+    joint.settings.max_motor_force = 1000;
+    return world.create_prismatic_joint(joint);
+}
+```

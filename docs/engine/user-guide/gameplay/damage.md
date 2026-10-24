@@ -47,10 +47,10 @@ public:
     {
         set_world_rect({position, {32.0f, 32.0f}});
         // 索引 0 是受击区，索引 1 是攻击区；过滤位必须双向匹配。
-        _colliders[0].shape = ph::AabbShape{{0, 0, 32, 32}};
+        _colliders[0].shape = ph::BoxShape::from_rect({0, 0, 32, 32});
         _colliders[0].filter = {.category = 2u, .mask = 1u};
         _colliders[0].response = ph::CollisionResponse::Overlap;
-        _colliders[1].shape = ph::AabbShape{{24, 0, 40, 32}};
+        _colliders[1].shape = ph::BoxShape::from_rect({24, 0, 40, 32});
         _colliders[1].filter = {.category = 1u, .mask = 2u};
         _colliders[1].response = ph::CollisionResponse::Overlap;
         // 攻击区先注册但不启用，等固定步中的攻击请求到达再开启。

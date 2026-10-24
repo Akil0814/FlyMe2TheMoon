@@ -50,3 +50,11 @@
 Inspector 的 `Native AABB (physics step)` 单独显示黄色轴对齐原生边界。它不是旋转碰撞体轮廓，也不是 CCD 扫掠路径。`Previous / current physics poses` 用灰色显示前一姿态、白色显示最新模拟姿态；两项默认关闭。
 
 接触点、法线和速度矢量表示最近完成的物理步，刻意不做插值。延迟修改提交后或调试模式变化时会刷新捕获，暂停时也一样。没有物理步的渲染帧仍更新碰撞体的插值系数。
+
+## 地形与目标命令
+
+Chain 顶点、ghost 与 Segment 端点也使用 EU，正面为局部 `(dy,-dx)` 随刚体旋转。Chain 子段不可通过 Collider 修改，身份由 `chain_collider` 与 `chain_segment_info` 查询。`set_target_transform(handle, pose, dt)` 仅针对运动学刚体，每步提交一次；不提交时保留当前速度，同目标或原生休眠阈值内目标清除旧速度。
+
+八类 `JointState.details` 提供类型化设置与测量，公共 `first`、`second` 标识两端；Filter 无设置，反作用力／扭矩为零。Motor 的位置目标在第一端局部坐标中，Mouse 的目标在世界坐标中，二者误差按各自坐标表达。
+
+Filter 与 `collide_connected` 遵循内置 Box2D 的实体接触规则；它们不屏蔽原生 Sensor 重叠，也不改变无状态查询。需要排除传感器或查询目标时，使用 Collider 过滤器或 `CollisionQueryFilter`。

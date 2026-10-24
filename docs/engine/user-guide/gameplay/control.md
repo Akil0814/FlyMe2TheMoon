@@ -2,7 +2,9 @@
 
 本文按会话、创建、绑定和命令消费的顺序介绍角色控制。读完后应能区分控制器句柄、绑定操作结果和目标对象的生命周期。
 
-控制器把本地输入或自定义意图转换为固定步消费的 `ControlCommand`。游戏层使用 `ControllerService::instance()`；`ControllerManager` 是调度实现，不是游戏侧操作入口。这里的会话是游戏会话，不代表网络连接。
+控制器把本地输入或自定义意图转换为固定步消费的 `ControlCommand`。游戏层通过 `ELYSIA_CONTROLLERS` 访问控制器服务，管理会话、创建控制器并绑定目标。这里的会话是游戏会话，不代表网络连接。
+
+包含 `engine/gameplay/control/controller_service.h` 后即可使用 `ELYSIA_CONTROLLERS->方法(...)`。这个便利宏等价于 `::elysia::gameplay::ControllerService::instance()`，只简化服务访问；会话仍需显式开始，创建错误和绑定操作结果仍需处理。`ControllerManager` 负责内部调度，游戏侧统一通过服务操作控制器。
 
 先用[输入指南](../systems/input.md)定义动作和设备映射，再按本页接入目标对象。仓库的游戏侧封装位于 `game/gameplay/control/` 和 `game/input/`，使用 `example` 命名空间；这些辅助函数与动作 ID 不是引擎内置游戏协议。
 
@@ -35,7 +37,7 @@ create_player_control(elysia::gameplay::GameplayScene& scene,
 {
     using namespace elysia::gameplay;
     // 作用域关联场景上下文，映射的所有权随创建参数移交给控制器。
-    return ControllerService::instance()->create<LocalPlayerController>(
+    return ELYSIA_CONTROLLERS->create<LocalPlayerController>(
         ControllerCreateInfo{ControllerScope::Scene,
                              scene.control_context().token()},
         player, std::move(map));
@@ -50,8 +52,7 @@ create_player_control(elysia::gameplay::GameplayScene& scene,
 
 ```cpp
 // 放在返回 void 的接入函数中；scene、target 均满足前述前提。
-elysia::gameplay::ControllerService* service =
-    elysia::gameplay::ControllerService::instance();
+elysia::gameplay::ControllerService* service = ELYSIA_CONTROLLERS;
 const std::expected<elysia::gameplay::ControllerHandle,
     elysia::gameplay::ControllerError> created =
     create_player_control(scene, player, std::move(map));
@@ -129,7 +130,7 @@ private:
 
 ## 自定义控制器
 
-下面是完整类型定义，演示不依赖设备的恒定轴输入。通过 `ControllerService::create<ConstantController>` 创建并绑定目标，传入目标认识的 Axis1D 动作 ID；本例没有 AI 决策或网络同步。
+下面是完整类型定义，演示不依赖设备的恒定轴输入。通过 `ELYSIA_CONTROLLERS->create<ConstantController>(...)` 创建，再绑定目标；创建时传入目标认识的 Axis1D 动作 ID。本例没有 AI 决策或网络同步。
 
 ```cpp
 #include "engine/gameplay/control/controller.h"

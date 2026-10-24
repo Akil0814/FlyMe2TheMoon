@@ -13,6 +13,8 @@
 | `ContactCache` | 引擎的 Begin/Stay/End 状态，包括逻辑失效 |
 | `GameplayCollisionRuntime` | 队伍与角色路由、攻击实例去重 |
 | `ITileCollisionWorld` | 借用的地图描述及显式脏区域刷新 |
-| `JointHandle` | 距离关节或旋转关节的引擎身份 |
+| `JointHandle` | 八种关节的引擎身份 |
+| `ChainDefinition` / `ChainHandle` | 复制地形顶点、ghost 与标签 / 管理整组边段生命周期 |
+| `PhysicsWorld::set_target_transform` | 按执行时姿态提交一次运动学目标速度 |
 
 例如，改变角色如何移动，应修改控制逻辑或提交物理命令；改变一次攻击如何判定目标，应检查玩法角色、过滤和显式查询。已移除的检测与求解策略不是扩展入口。

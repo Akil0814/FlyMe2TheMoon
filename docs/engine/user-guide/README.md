@@ -79,7 +79,7 @@ Elysia Engine 为部分常用服务提供便利宏，方便游戏开发者访问
 | `ELYSIA_RESOURCES` | 查询已加载资源 | [资源加载与使用](content/resources.md) | [resource_service.h](../../../engine/resources/resource_service.h) |
 | `ELYSIA_SAVE` | 存档管理 | [存档服务](content/save.md) | [save_service.h](../../../engine/save/save_service.h) |
 | `ELYSIA_DEBUG_DRAW` | 调试绘制 | [调试绘制](tools/debug-draw.md) | [debug_draw.h](../../../engine/tools/debug_draw.h) |
-| `elysia::gameplay::ControllerService::instance()` | 控制会话、控制器与目标绑定 | [控制器与控制命令](gameplay/control.md) | [controller_service.h](../../../engine/gameplay/control/controller_service.h) |
+| `ELYSIA_CONTROLLERS` | 控制会话、控制器与目标绑定 | [控制器与控制命令](gameplay/control.md) | [controller_service.h](../../../engine/gameplay/control/controller_service.h) |
 | `elysia::gameplay::collision::GameplayCollisionService::instance()` | 玩法碰撞绑定、事件监听与攻击实例清理 | [游戏玩法碰撞](gameplay/collision.md) | [gameplay_collision_service.h](../../../engine/gameplay/collision/gameplay_collision_service.h) |
 
 ### 日志宏
