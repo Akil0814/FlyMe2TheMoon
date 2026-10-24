@@ -1,0 +1,30 @@
+{
+  "name": "level1-mouse-pilot02",
+  "level": 1,
+  "duration": 42,
+  "events": [],
+  "pilot": [
+    [
+      489,
+      1050
+    ],
+    [
+      489,
+      850
+    ],
+    [
+      489,
+      650
+    ],
+    [
+      489,
+      385
+    ]
+  ],
+  "expect": {
+    "level": 1,
+    "success": true,
+    "stars": 3,
+    "demo": false
+  }
+}

@@ -11,7 +11,7 @@ Projectile::Projectile(Vec p,Vec velocity,bool homing,float power,float maximum)
     if(!_animation)throw std::runtime_error("Projectile animation unavailable");
 }
 BodyDefinition Projectile::body_definition()const {BodyDefinition b;b.type=BodyType::Kinematic;b.velocity=_initial_velocity;b.gravity_scale=0;return b;}
-bool Projectile::advance(double delta,Vec target,ColliderId player) {
+bool Projectile::advance(double delta,Vec target,const Player& player) {
     if(expired)return false;
     _age+=delta;_animation->update(delta);
     if(_age>12){expired=true;set_velocity({});return false;}
@@ -19,11 +19,11 @@ bool Projectile::advance(double delta,Vec target,ColliderId player) {
     if(_homing){const Vec toward=target-position();const float distance=toward.length();if(distance>.01f)speed+=toward/distance*(_power*32*static_cast<float>(delta));
         if(speed.length()>_maximum*32)speed=speed/speed.length()*(_maximum*32);set_velocity(speed);}
     std::vector<CollisionQueryHit> hits;
-    physics_world()->segment_cast_all({.start=position(),.end=position()+speed*static_cast<float>(delta),.filter={.category=1|8,.mask=1|2|8}},hits);
-    for(const auto& hit:hits)if(hit.target.collider!=physics_collider(0)&&hit.response==CollisionResponse::Block){expired=true;set_velocity({});return hit.target.collider==player;}
+    physics_world()->shape_cast_all({.shape=CircleShape{{0,0},7},.pose={position(),0},.displacement=speed*static_cast<float>(delta),.filter={.collision={.category=1|8,.mask=1|2|8},.ignored_object=physics_handle(),.include_sensors=false}},hits);
+    for(const auto& hit:hits)if(hit.response==CollisionResponse::Block){expired=true;set_velocity({});return player.owns_collider(hit.target.collider);}
     std::vector<CollisionOverlapQueryHit> overlaps;
-    physics_world()->overlap_circle({.center=position(),.radius=7,.filter={.category=8,.mask=1}},overlaps);
-    for(const auto& hit:overlaps)if(hit.target.collider==player){expired=true;set_velocity({});return true;}
+    physics_world()->overlap_shape({.shape=CircleShape{{0,0},7},.pose={position(),0},.filter={.collision={.category=8,.mask=1},.ignored_object=physics_handle()}},overlaps);
+    for(const auto& hit:overlaps)if(player.owns_collider(hit.target.collider)){expired=true;set_velocity({});return true;}
     return false;
 }
 void Projectile::submit_render_commands(std::vector<RenderCommand>& out)const {

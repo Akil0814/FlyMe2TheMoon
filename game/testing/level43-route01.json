@@ -1,0 +1,29 @@
+{
+  "name": "level43-route01",
+  "level": 43,
+  "duration": 75,
+  "stop_after_success": 2,
+  "events": [],
+  "pilot": [
+    [
+      504,
+      536
+    ],
+    [
+      504,
+      440
+    ],
+    [
+      504,
+      344
+    ],
+    [
+      472,
+      256
+    ]
+  ],
+  "expect": {
+    "level": 43,
+    "success": true
+  }
+}

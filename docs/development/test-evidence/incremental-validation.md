@@ -36,3 +36,18 @@
 - `level1-original-replay03.json` / stderr.log：修正回归脚本后所有原预期（第一关、三星、成功、输入恢复、演示结束）通过，进程退出 0。`tutorial-ctest01.log` 3 项通过，包括原始回放完整遍历和角度边界。
 
 - `wind-portal-ctest01.log`：3 项测试通过，新增风场旋转、强度、淡出与范围边界。`level10-wind.json`：风力最大 x=320，角色实际 x 位移约 124；`level13-portal.json`：正常输入飞行穿过 0→1 传送门，随后触发对象 2 的 Start，均退出 0，截图已查看。新增采样范围断言用于验证实际发生的过程，不仅检查最终状态。
+
+
+## 2026-10-24：机关、60 关入口与显示
+
+- `level20-projectiles`、`level24-homing`：实际生成发射弹/追踪弹；`level31-bomb04`：实际激活 3 个炸弹。后者只验证激活，不能证明最终失败一定由炸弹造成。
+- `level31-bomb`、`02`、`03` 的失败保留：初版出生/旋转锚点不准确，随后修复载体角度 270°/-90° 的整圈差；第三轮输入太晚触碰危险物，第四轮提前正常飞行。没有移除危险物或直接改变玩家位置。
+- `entry01-summary.json`：60/60 正常进入、资源加载、退出 0。未进行每关通关，不能以此代替验收。
+- `menu-artwork-en`、`dialogue-ja`、`dialogue-zh`：进程运行与断言通过，生成的 BMP 已转换 PNG 并人工检查；英文菜单和中日剧情未见缺字或裁切。
+- 原版射击时序、载体旋转边界、激光遮挡均纳入 mechanism_tests；详见对应 CTest 日志。
+
+## 用户引擎更新后的适配
+
+用户明确说明物理系统更新，更新后基线 641 文件另存，旧基线和差异保留。适配经过 `build-engine-update01.log`、4 项 `engine-update-ctest01.log`；旧 AabbShape、查询过滤和关节平铺参数按新文档迁移。游戏未修改引擎实现。
+
+原版飞行计算、复合碰撞体与首关实机回归见 ../original-flight-research.md。`original-flight-ctest02.log` 还包含真实 PhysicsWorld 中的复合形状注册、线段落地、15 秒持续飞行终端速度检查。

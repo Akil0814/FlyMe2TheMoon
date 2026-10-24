@@ -1,0 +1,25 @@
+{
+  "name": "level38-route01",
+  "level": 38,
+  "duration": 75,
+  "stop_after_success": 2,
+  "events": [],
+  "pilot": [
+    [
+      616,
+      3048
+    ],
+    [
+      544,
+      3112
+    ],
+    [
+      488,
+      3152
+    ]
+  ],
+  "expect": {
+    "level": 38,
+    "success": true
+  }
+}

@@ -24,6 +24,7 @@ bool ReplayProbe::update(SDL_Renderer* renderer,const content::Json& state) {
     if(!_enabled)return false;
     const double t=(SDL_GetTicks()-_start)/1000.0;
     const auto window_id=SDL_GetWindowID(SDL_GetRenderWindow(renderer));
+    if(_scenario.contains("pilot"))_pilot.update(window_id,t,_scenario.at("pilot"),state);
     while(_next<_scenario.at("events").size()&&_scenario["events"][_next]["time"].get<double>()<=t) {
         const auto& pending=_scenario["events"][_next];
         if(pending.contains("when")){
@@ -39,8 +40,10 @@ bool ReplayProbe::update(SDL_Renderer* renderer,const content::Json& state) {
         ELYSIA_LOG_INFO("fly.test.input",std::to_string(t)+" "+key+(down?" down":" up"));
         if(down)_pressed.insert(scancode);else _pressed.erase(scancode);
     }
-    if(t-_last_sample>=.1) {auto sample=state;sample["wall_time"]=t;_samples.push_back(sample);_last_sample=t;}
-    if(t<_scenario.at("duration").get<double>())return false;
+    if(t-_last_sample>=.1) {auto sample=state;sample["wall_time"]=t;if(_scenario.contains("pilot"))sample["waypoint"]=_pilot.waypoint;_samples.push_back(sample);_last_sample=t;}
+    if(state.value("success",false)&&state.value("finished",false)&&_success_at<0)_success_at=t;
+    const bool settled_success=_scenario.contains("stop_after_success")&&_success_at>=0&&t-_success_at>=_scenario.at("stop_after_success").get<double>();
+    if(t<_scenario.at("duration").get<double>()&&!settled_success)return false;
     bool passed=true;content::Json checks=content::Json::object();
     for(auto it=_scenario.at("expect").begin();it!=_scenario.at("expect").end();++it) {
         const bool ok=state.contains(it.key())&&state[it.key()]==it.value();checks[it.key()]={{"expected",it.value()},{"actual",state.value(it.key(),content::Json())},{"passed",ok}};passed&=ok;

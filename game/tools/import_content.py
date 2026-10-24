@@ -80,6 +80,9 @@ def main():
                             points.append([x+px,h-y-py])
                         level['edges'].append(points)
                 elif name in ['Texture','Foreground','Farground','Background']:
+                    # The original BackgroundLayer.load: explicitly skips SeqID 1
+                    # (0xa7644..0xa764c); the base sky is a procedural gradient.
+                    if name=='Background' and seq==1:continue
                     prefix=f'far{suite}.{name}' if name in ['Farground','Background'] else f'terrain{suite}.{name}'
                     key=f'{prefix}_{seq:03}'
                     if key not in sizes:

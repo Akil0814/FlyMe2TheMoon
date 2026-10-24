@@ -22,6 +22,7 @@ private:
     struct LayerImage {elysia::core::RenderCommand command;Vec extent;};
     std::vector<LayerImage> _images;
     Vec _world_size;
+    elysia::core::Color _sky_top{},_sky_bottom{};
     const elysia::camera::Camera* _camera;
 };
 class Decor final : public elysia::core::GameObject {
@@ -51,10 +52,13 @@ public:
     void submit_render_commands(std::vector<elysia::core::RenderCommand>& out) const override;
     Vec thrust{};
     void die();
+    Vec center()const noexcept{return position()+Vec{0,-13};}
+    Rect render_rect()const noexcept override;
+    bool owns_collider(elysia::physics::ColliderId id)const noexcept;
     bool idle_enabled=true,dead=false;
     double look_time=0;
 private:
-    std::array<elysia::physics::Collider,1> _colliders;
+    std::array<elysia::physics::Collider,3> _colliders;
     std::map<std::string,std::unique_ptr<elysia::animation::Animation>> _animations;
     std::string _action="charIdle";
 };
@@ -74,7 +78,7 @@ public:
     bool wind()const{return kind==8||kind==24||kind==25;}
     Vec wind_force_at(Vec point)const;
     void attach_carrier(Entity* carrier);
-    bool update_laser(Vec target,elysia::physics::ColliderId player);
+    bool update_laser(Vec target,const Player& player);
     bool laser_active()const{return _laser_active;}
     float laser_length()const{return (_laser_end-_laser_start).length();}
     int shots_due(double delta,Vec target);

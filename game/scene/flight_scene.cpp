@@ -11,6 +11,7 @@
 #include <stdexcept>
 #include <numbers>
 #include "game/gameplay/flight_input.h"
+#include "game/gameplay/role_geometry.h"
 
 namespace game::scene {
 using namespace elysia;
@@ -21,6 +22,7 @@ FlightScene::FlightScene():Scene(elysia::scene::SceneRuntimeFeatures{
     .camera=elysia::scene::CameraSceneConfig{.focus_mode=elysia::scene::CameraFocusMode::ResolveEachFrame,.advance_when_paused=true}}) {}
 void FlightScene::on_enter(const elysia::scene::ScenePayload& payload) {
     _probe.begin();
+    _deaths=0;_failure_reason.clear();_pending_failure.clear();_laser_hit=false;
     clear_scene_objects();_entities.clear();_projectiles.clear();_shots_fired=0;_homing_fired=0;_player=nullptr;_portal_lock=nullptr;_portal_transits=0;
     if(const auto* p=elysia::scene::try_scene_payload<FlightPayload>(payload)){_level=p->level;_restart=p->restart;}
     _data=content::level(_level);_stars=0;_crystals=0;_crystal_count=0;_elapsed=0;_finished=false;_success=false;
@@ -44,7 +46,7 @@ void FlightScene::on_enter(const elysia::scene::ScenePayload& payload) {
         const Vec anchor=entity->origin+Vec{local.x*std::cos(rad),local.x*std::sin(rad)};
         auto* pivot=create_and_add_object<Pivot>(anchor);
         const auto joint=physics_world().create_revolute_joint({.first=pivot->physics_handle(),.second=entity->physics_handle(),.local_anchor_first={},.local_anchor_second=local,
-            .enable_motor=entity->info.contains("Speed"),.motor_speed=static_cast<float>(parameter(entity->info,"Speed")*std::numbers::pi/180),.max_motor_torque=static_cast<float>(parameter(entity->info,"Torque",30)*1024)});
+            .settings={.enable_motor=entity->info.contains("Speed"),.motor_speed=static_cast<float>(parameter(entity->info,"Speed")*std::numbers::pi/180),.max_motor_torque=static_cast<float>(parameter(entity->info,"Torque",30)*1024)}});
         if(!joint.is_valid())throw std::runtime_error("Rotating bar joint creation failed");
     }
     for(auto* entity:_entities)if(entity->info.contains("CarrierID")){
@@ -107,13 +109,13 @@ void FlightScene::on_routed_input(const input::InputSnapshot& snapshot) {
         up|=s.is_pressed(C::KeyW)||s.is_pressed(C::KeyUp)||s.is_pressed(C::KeySpace);
         if(s.is_pressed(C::MouseLeft)){mouse=true;point={static_cast<float>(source.frame.mouse_x),static_cast<float>(source.frame.mouse_y)};}
     }
-    if(up||left||right)_player->thrust={right==left?0.f:right?.65f:-.65f,up?-1.f:-.5f};
+    if(up||left||right){const float angle=(right==left?0.f:right?1.f:-1.f)*50*std::numbers::pi_v<float>/180;_player->thrust={.8f*std::sin(angle),-.8f*std::cos(angle)};}
     if(mouse) {
         apply_pointer(camera().screen_to_world(point));
     }
 }
 void FlightScene::apply_pointer(Vec point) {
-    _player->thrust=pointer_thrust(_player->center(),point,content::catalog().at("role"));
+    _player->thrust=pointer_thrust(_player->position(),point,content::catalog().at("role"));
 }
 void FlightScene::finish(bool success) {
     if(_finished)return;_finished=true;_success=success;_player->thrust={};pause();
@@ -123,16 +125,16 @@ void FlightScene::finish(bool success) {
     if(!saved)_hint->set_text_content(ui::ui_raw_text(content::ui("save_failure")));
     ELYSIA_LOG_INFO("fly",std::format("Level {} {} time={:.3f} stars={} crystals={}",_level,success?"SUCCESS":"FAIL",_elapsed,_stars,_crystals));
 }
-void FlightScene::reached(bool success) {
+void FlightScene::reached(bool success,const char* reason) {
     if(_finished||_event_pending)return;_event_pending=true;_player->thrust={};
-    if(!success){_player->die();pause();}
+    if(!success){++_deaths;_failure_reason=reason;ELYSIA_LOG_INFO("fly.failure",_failure_reason);_player->die();pause();}
     if(!_story.event(success?"onRoleReachedMoon":"onRoleDied"))finish(success);
     else if(!success)progress::Store::instance().record_death(_level,_crystal_count);
 }
 void FlightScene::restore_player() {
     _portal_lock=nullptr;
     for(auto* projectile:_projectiles)projectile->destroy();_projectiles.clear();
-    physics_world().teleport_object(_player->physics_handle(),{_data.at("born")[0].get<float>(),_data.at("born")[1].get<float>()-64},physics::TeleportVelocityMode::Clear);
+    physics_world().teleport_object(_player->physics_handle(),role_spawn({_data.at("born")[0],_data.at("born")[1]}),physics::TeleportVelocityMode::Clear);
     _player->dead=false;_player->set_update_when_paused(false);_player->thrust={};_stars=0;_crystals=0;_crystal_count=0;_elapsed=0;_event_pending=false;_finished=false;
     for(auto* entity:_entities)if(entity->item){entity->collected=false;entity->set_visible(true);physics_world().set_body_enabled(entity->physics_handle(),true);}
     resume();camera_runtime().snap_to_focus(camera::CameraSlot::Main);
@@ -187,11 +189,11 @@ void FlightScene::on_fixed_update(std::uint64_t,double delta) {
     }
     _wind_force={};
     if(!_finished&&!_event_pending) {
-        for(auto* projectile:_projectiles)_laser_hit|=projectile->advance(delta,_player->position()+Vec{24,34},_player->physics_collider(0));
+        for(auto* projectile:_projectiles)if(projectile->advance(delta,_player->position(),*_player)){_laser_hit=true;_pending_failure="projectile";}
         for(auto* entity:_entities){
-            _wind_force+=entity->wind_force_at(_player->position()+Vec{24,34});
-            _laser_hit|=entity->update_laser(_player->center(),_player->physics_collider(0));
-            _laser_hit|=entity->update_bomb(delta,_player->center());
+            _wind_force+=entity->wind_force_at(_player->position());
+            if(entity->update_laser(_player->center(),*_player)){_laser_hit=true;_pending_failure="laser";}
+            if(entity->update_bomb(delta,_player->center())){_laser_hit=true;_pending_failure="bomb";}
             const int shots=entity->shots_due(delta,_player->center());
             for(int i=0;i<shots;++i){
                 const Vec direction=entity->fire_direction(_player->center());const bool homing=entity->kind==113;
@@ -214,12 +216,12 @@ void FlightScene::on_after_update(double delta) {
     if(!_player)return;
     std::erase_if(_projectiles,[](auto* p){if(p->expired){p->destroy();return true;}return false;});
     _story.update(delta);update_dialogue();
-    if(_laser_hit){_laser_hit=false;reached(false);}
+    if(_laser_hit){_laser_hit=false;reached(false,_pending_failure.c_str());}
     if(!is_paused()&&!_finished&&!_event_pending) {
         if(_portal_lock&&(_player->center()-_portal_lock->center()).length()>60)_portal_lock=nullptr;
         if(_input_enabled&&!_demo)_elapsed+=delta;
         for(size_t i=0;i<_triggered_areas.size();++i)if(!_triggered_areas[i]) {
-            const auto& area=_data.at("areas")[i];const Vec p=_player->position()+Vec{24,34};
+            const auto& area=_data.at("areas")[i];const Vec p=_player->position();
             if(p.x+14<area.at("x").get<float>()||p.x-14>area.at("x").get<float>()+area.at("w").get<float>()||p.y+14<area.at("y").get<float>()||p.y-14>area.at("y").get<float>()+area.at("h").get<float>())continue;
             _triggered_areas[i]=true;
             for(const auto& action:area.at("actions")) {
@@ -229,10 +231,10 @@ void FlightScene::on_after_update(double delta) {
             }
         }
         std::vector<physics::CollisionOverlapQueryHit> hits;
-        physics_world().overlap_circle({.center=_player->position()+Vec{24,34},.radius=14,.filter={.category=1,.mask=4|8}},hits);
+        physics_world().overlap_shape({.shape=role_sensor_shape(),.pose={_player->position(),0},.filter={.collision={.category=1,.mask=4|8}}},hits);
         for(const auto& hit:hits)for(auto* entity:_entities) {
             if(entity->collected)continue;
-            if(entity->lethal(hit.target.collider)){reached(false);continue;}
+            if(entity->lethal(hit.target.collider)){reached(false,"spike");continue;}
             if(hit.target.collider!=entity->physics_collider(0))continue;
             if(entity->item){entity->collected=true;entity->set_visible(false);physics_world().set_body_enabled(entity->physics_handle(),false);if(entity->kind==3)++_stars;else {_crystals+=entity->kind==5?5:1;++_crystal_count;}}
             else if(entity->kind==101)reached(true);
@@ -243,13 +245,13 @@ void FlightScene::on_after_update(double delta) {
                 for(auto* candidate:_entities)if(candidate->kind==115&&candidate->info.contains("PortalID")&&parameter(candidate->info,"PortalID")==target)destination=candidate;
                 if(!destination)for(auto* candidate:_entities)if(candidate->kind==115&&candidate->id==target)destination=candidate;
                 if(!destination)throw std::runtime_error("Portal destination absent");
-                if(!physics_world().teleport_object(_player->physics_handle(),destination->center()-Vec{24,34},physics::TeleportVelocityMode::Preserve))throw std::runtime_error("Portal transit rejected");
+                if(!physics_world().teleport_object(_player->physics_handle(),destination->center(),physics::TeleportVelocityMode::Preserve))throw std::runtime_error("Portal transit rejected");
                 _portal_lock=destination;++_portal_transits;camera_runtime().snap_to_focus(camera::CameraSlot::Main);
                 ELYSIA_LOG_INFO("fly.portal",std::format("Transit {} -> {}",entity->id,destination->id));
                 return;
             }
         }
-        if(_player->center().y>_data.at("height").get<float>()+100||_player->center().x< -100||_player->center().x>_data.at("width").get<float>()+100)reached(false);
+        if(_player->center().y>_data.at("height").get<float>()+100||_player->center().x< -100||_player->center().x>_data.at("width").get<float>()+100)reached(false,"out_of_bounds");
     }
     _hud->set_text_content(ui::ui_raw_text(content::format("hud",_level,_stars,_crystals,_elapsed,_finished?content::ui(_success?"done":"failed"):_demo?content::ui("demo"):is_paused()?content::ui("paused"):"")));
     if(_story.dialogue())_hint->set_text_content(ui::ui_raw_text(content::ui(_story.dialogue()->remaining>0?"wait":_story.skip_enabled()?"skip":"continue")));
@@ -257,7 +259,7 @@ void FlightScene::on_after_update(double delta) {
     if(_probe.enabled()) {
     content::Json mechanisms=content::Json::array();
     for(const auto* entity:_entities)if(!entity->item&&((entity->kind>=105&&entity->kind<=107)||entity->rotating()))mechanisms.push_back({{"id",entity->id},{"kind",entity->kind},{"x",entity->position().x},{"y",entity->position().y},{"angle",entity->physics_state()->angle}});
-    if(_probe.update(runtime_context().renderer(),{{"scene",2},{"level",_level},{"success",_success},{"finished",_finished},{"stars",_stars},{"crystals",_crystals},{"crystal_count",_crystal_count},{"elapsed",_elapsed},{"dialogue",_dialogue_key},{"input_enabled",_input_enabled},{"demo",_demo},{"demo_frame",_tutorial_replay.cursor()},{"portal_transits",_portal_transits},{"active_lasers",std::count_if(_entities.begin(),_entities.end(),[](const auto* e){return e->laser_active();})},{"wind_x",_wind_force.x},{"wind_y",_wind_force.y},{"shots_fired",_shots_fired},{"homing_fired",_homing_fired},{"projectiles",_projectiles.size()},{"armed_bombs",std::count_if(_entities.begin(),_entities.end(),[](const auto* e){return e->bomb_state()>0;})},{"mechanisms",mechanisms},{"triggered_count",std::count(_triggered_areas.begin(),_triggered_areas.end(),true)},{"x",_player->center().x},{"y",_player->center().y},{"vx",_player->velocity().x},{"vy",_player->velocity().y}}))request_quit();
+    if(_probe.update(runtime_context().renderer(),{{"deaths",_deaths},{"failure_reason",_failure_reason},{"detonated_bombs",std::count_if(_entities.begin(),_entities.end(),[](const auto* e){return e->bomb_state()>=2;})},{"pilot_view",{camera().view_rect().x(),camera().view_rect().y(),camera().zoom()}},{"scene",2},{"level",_level},{"success",_success},{"finished",_finished},{"stars",_stars},{"crystals",_crystals},{"crystal_count",_crystal_count},{"elapsed",_elapsed},{"dialogue",_dialogue_key},{"input_enabled",_input_enabled},{"demo",_demo},{"demo_frame",_tutorial_replay.cursor()},{"portal_transits",_portal_transits},{"active_lasers",std::count_if(_entities.begin(),_entities.end(),[](const auto* e){return e->laser_active();})},{"wind_x",_wind_force.x},{"wind_y",_wind_force.y},{"shots_fired",_shots_fired},{"homing_fired",_homing_fired},{"projectiles",_projectiles.size()},{"armed_bombs",std::count_if(_entities.begin(),_entities.end(),[](const auto* e){return e->bomb_state()>0;})},{"mechanisms",mechanisms},{"triggered_count",std::count(_triggered_areas.begin(),_triggered_areas.end(),true)},{"x",_player->center().x},{"y",_player->center().y},{"vx",_player->velocity().x},{"vy",_player->velocity().y}}))request_quit();
     }
 }
 std::optional<camera::CameraFocus> FlightScene::resolve_camera_focus(camera::CameraSlot)const {

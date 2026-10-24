@@ -1,0 +1,407 @@
+[
+  {
+    "Path": "docs\\engine\\architecture\\subsystems\\physics\\01-current-state-audit.md",
+    "SHA256": "47F9E015A4380045D68A427209262A57FE65F61D72566601094878F368B02491",
+    "SideIndicator": "=>"
+  },
+  {
+    "Path": "docs\\engine\\architecture\\subsystems\\physics\\02-target-architecture.md",
+    "SHA256": "B5463EE767FD2FF2E9E18B2A06CBD5BBFE393D4CA24BA25F66CFEDC973DCB5A8",
+    "SideIndicator": "=>"
+  },
+  {
+    "Path": "docs\\engine\\architecture\\subsystems\\physics\\03-class-responsibilities.md",
+    "SHA256": "780B74EB73636A213C3317093116CE20ADB150FB4BE6ED55E5ECB5758D3E7176",
+    "SideIndicator": "=>"
+  },
+  {
+    "Path": "docs\\engine\\architecture\\subsystems\\physics\\04-function-responsibilities.md",
+    "SHA256": "0A7EB989CDFA3D91C2099EFB281F045E352FEE9490D493C3AC1139C2E394828E",
+    "SideIndicator": "=>"
+  },
+  {
+    "Path": "docs\\engine\\architecture\\subsystems\\physics\\05-collision-algorithms.md",
+    "SHA256": "F11D023D7817518CD3EF7ACE7E3F8E5C0C14278C356DF187FE0BFB66380F5CCC",
+    "SideIndicator": "=>"
+  },
+  {
+    "Path": "docs\\engine\\architecture\\subsystems\\physics\\06-tile-map-collision.md",
+    "SHA256": "F9E66C5FE618A0EA4388D6F78EF40A7CF0AEA983DE80423E45DFAA9A2F28D2A0",
+    "SideIndicator": "=>"
+  },
+  {
+    "Path": "docs\\engine\\architecture\\subsystems\\physics\\08-implementation-roadmap-and-tests.md",
+    "SHA256": "B835088567733B8FA8E12F326A428CAB17B0D81A18F429BF9E76E350C10DE73B",
+    "SideIndicator": "=>"
+  },
+  {
+    "Path": "docs\\engine\\architecture\\subsystems\\physics\\README.md",
+    "SHA256": "84FF59B4B14FB72E2EBC53EF87191B71A62B9D5F27CE2DD06EB2CB801DBB0C6A",
+    "SideIndicator": "=>"
+  },
+  {
+    "Path": "docs\\engine\\reference\\input\\controllers.md",
+    "SHA256": "D1506E4608FA487128FFA28A58D53C491D04F975FF19F102F9BB0C57B7FBF898",
+    "SideIndicator": "=>"
+  },
+  {
+    "Path": "docs\\engine\\reference\\physics\\README.md",
+    "SHA256": "8F5727D01575969CF853B20DCC0C5E5B2DA12F5F612E43E746E3FB0E10C4390A",
+    "SideIndicator": "=>"
+  },
+  {
+    "Path": "docs\\engine\\reference\\physics\\units-and-state.md",
+    "SHA256": "AE49015E9CA12AE721FC1A73E9F554375099DF5EE8CB3889EFC222C3412E6B02",
+    "SideIndicator": "=>"
+  },
+  {
+    "Path": "docs\\engine\\user-guide\\gameplay\\control.md",
+    "SHA256": "3591FF7AAFC09BDEFAF1935DEAE1E0BFB658CAED9BB020738C1FECA468D8CE15",
+    "SideIndicator": "=>"
+  },
+  {
+    "Path": "docs\\engine\\user-guide\\gameplay\\damage.md",
+    "SHA256": "5D789546686F10FC368AB53D40678135A6FCB5FAA3CE2E295DFC3D628C378233",
+    "SideIndicator": "=>"
+  },
+  {
+    "Path": "docs\\engine\\user-guide\\README.md",
+    "SHA256": "FDBDE46104A6F01CE35E39531EBB7EA347899F557BD487BB709988EC76B7E4EB",
+    "SideIndicator": "=>"
+  },
+  {
+    "Path": "docs\\engine\\user-guide\\systems\\physics.md",
+    "SHA256": "59758F1EF9CD74441D2BC7B207F43B219C0F2290746C9BA2BEBB207722C2585B",
+    "SideIndicator": "=>"
+  },
+  {
+    "Path": "engine\\builtin\\object\\engine_character.cpp",
+    "SHA256": "4CA328AE4E6C106DAF899BD85C0F2376B01772B1255FE217DA2D745E20430906",
+    "SideIndicator": "=>"
+  },
+  {
+    "Path": "engine\\gameplay\\collision\\gameplay_collision_service.h",
+    "SHA256": "51707714850D2F14DD2068846AA8931DAE3405BF2AD0607EACDE30A6286634BE",
+    "SideIndicator": "=>"
+  },
+  {
+    "Path": "engine\\gameplay\\control\\controller_service.h",
+    "SHA256": "8F764D1C73DB05A9B16765EF41602DC1951C7EB10F31EF95067425C660AFDDFD",
+    "SideIndicator": "=>"
+  },
+  {
+    "Path": "engine\\physics\\chain_definition.h",
+    "SHA256": "20A9AC0348C88C536DA0EE5096C1DAD06B3E65582A7AE351ED2C8D9ECD20A1D8",
+    "SideIndicator": "=>"
+  },
+  {
+    "Path": "engine\\physics\\collision\\collider_shape.h",
+    "SHA256": "19FE771522E1B6C6B2DE2546B42231F6432EB00883838B462A71263FD9592AFB",
+    "SideIndicator": "=>"
+  },
+  {
+    "Path": "engine\\physics\\collision\\collider.h",
+    "SHA256": "26CE7444B2B5802D31FD5EC721B11D75EA92966F1B604576E642E7FAD6C7F301",
+    "SideIndicator": "=>"
+  },
+  {
+    "Path": "engine\\physics\\collision\\collision_query.h",
+    "SHA256": "1C7141ECEA9645AA5B632799C8F5AD41E906EE49E2B874F47A280619444A0A00",
+    "SideIndicator": "=>"
+  },
+  {
+    "Path": "engine\\physics\\collision\\contact_cache.cpp",
+    "SHA256": "81A39795AEBB6F388AD86524B349E8DC615F374632F55DD93BEEC7561D35D202",
+    "SideIndicator": "=>"
+  },
+  {
+    "Path": "engine\\physics\\collision\\contact_cache.h",
+    "SHA256": "6E90010DBD435730519386B85386C40B988457A190A619B22228BDFF3206D4A6",
+    "SideIndicator": "=>"
+  },
+  {
+    "Path": "engine\\physics\\collision\\world_shape.h",
+    "SHA256": "B1B46E57A2E4C5A347BF9910849768CCEF67F626F61DF2F3EA99C2C4F8DEC52A",
+    "SideIndicator": "=>"
+  },
+  {
+    "Path": "engine\\physics\\contracts\\collision_query_service.h",
+    "SHA256": "E5CF4122DC2843622064982DB5E3B1752235543F8D44E3E2877CD9AF1D8AE9A9",
+    "SideIndicator": "=>"
+  },
+  {
+    "Path": "engine\\physics\\contracts\\physics_participant.h",
+    "SHA256": "6AAB8E16A6A3078B8753B196261A0669C04E5137C3BA93AA6031E915B956835A",
+    "SideIndicator": "=>"
+  },
+  {
+    "Path": "engine\\physics\\detail\\physics_world_impl.h",
+    "SHA256": "028F03AB1AF647273D52F5D56BCFCCC205B2A06AA73E9A0193F6BD174D901E45",
+    "SideIndicator": "=>"
+  },
+  {
+    "Path": "engine\\physics\\detail\\shape_geometry.cpp",
+    "SHA256": "82C167A638AD22F0E304139BC0E8CD4428E9B7B659E1FC70F14D77BD8F8EE513",
+    "SideIndicator": "=>"
+  },
+  {
+    "Path": "engine\\physics\\detail\\shape_geometry.h",
+    "SHA256": "AB7111066F96384A0C247304592693E4CC949B28DFB9263B4137E6447D04C4BB",
+    "SideIndicator": "=>"
+  },
+  {
+    "Path": "engine\\physics\\joint_definition.h",
+    "SHA256": "5F72875596D691C9A2223361564DD82C7808D94BDFAB953447A59A11189FA6B7",
+    "SideIndicator": "=>"
+  },
+  {
+    "Path": "engine\\physics\\physics_capture.cpp",
+    "SHA256": "4217DA55E6DF1B8588F04FDA1D099DC4C47EC0C738D751ABD8CAFB00E6CD192F",
+    "SideIndicator": "=>"
+  },
+  {
+    "Path": "engine\\physics\\physics_chains.cpp",
+    "SHA256": "C2B24D32B2B57E5B1B783CA5F73E4DA84F2CBBE3A5678E766DFA4FC56482F04C",
+    "SideIndicator": "=>"
+  },
+  {
+    "Path": "engine\\physics\\physics_debug_draw.cpp",
+    "SHA256": "8C09755A583FF44B0482C5ADA8973695FB47CD77710F6DDDF45C2E73EC490DBF",
+    "SideIndicator": "=>"
+  },
+  {
+    "Path": "engine\\physics\\physics_joints.cpp",
+    "SHA256": "2AF891D43F6CF3D358833577A530CFBE01BC324755A1AD5D870BC846C5FC7205",
+    "SideIndicator": "=>"
+  },
+  {
+    "Path": "engine\\physics\\physics_queries.cpp",
+    "SHA256": "75F88103C54A428D139847961B308788BF02E1FC7270F8089EEB9B27EE8FF7BE",
+    "SideIndicator": "=>"
+  },
+  {
+    "Path": "engine\\physics\\physics_target_transform.cpp",
+    "SHA256": "0223F69E07A7B7C831B11AE5C3B530F0EF0D46B4D740397647B80AE922B2B648",
+    "SideIndicator": "=>"
+  },
+  {
+    "Path": "engine\\physics\\physics_tiles.cpp",
+    "SHA256": "75C8667DB389A9ACAC73A591EBAAE9C7E95E4E78093B343F8AABDB619C2E7AA0",
+    "SideIndicator": "=>"
+  },
+  {
+    "Path": "engine\\physics\\physics_world_stats.h",
+    "SHA256": "04CC0ED5B860B5471204895EC5B62A3C277358759ABA4F74B9BBA01B9DF753DD",
+    "SideIndicator": "=>"
+  },
+  {
+    "Path": "engine\\physics\\physics_world.cpp",
+    "SHA256": "03AD43A84A9929DB639DB992175359CCC92F2C9194D319BB8EB89C51C025B9F8",
+    "SideIndicator": "=>"
+  },
+  {
+    "Path": "engine\\physics\\physics_world.h",
+    "SHA256": "4DDEBDC5BCE58F06B801B889E0E9BE7B0078B22AB6D87A629E6F7033AC203DD3",
+    "SideIndicator": "=>"
+  },
+  {
+    "Path": "engine\\scene\\scene.cpp",
+    "SHA256": "FD5013DCBB84021EC831B1B4BAEF278AAE8B517E66AB45E5A3C36B3DB40E7A65",
+    "SideIndicator": "=>"
+  },
+  {
+    "Path": "engine\\scene\\scene.h",
+    "SHA256": "DA0F4FFE7D575BF704CCB19F5C9D8214E6DEB4EECE67675826627405ED0AA856",
+    "SideIndicator": "=>"
+  },
+  {
+    "Path": "engine\\builtin\\object\\engine_character.cpp",
+    "SHA256": "EEA5A4B3BC3785BE3F9CEA9BAB0B27E64F1096AAFA827B93363F3E7EE54AD1AA",
+    "SideIndicator": "<="
+  },
+  {
+    "Path": "engine\\gameplay\\collision\\gameplay_collision_service.h",
+    "SHA256": "E8A420DC1EC853FC4A99CBCFA2DE3823014E2295B4E871B637581FBF2A9BEDD4",
+    "SideIndicator": "<="
+  },
+  {
+    "Path": "engine\\gameplay\\control\\controller_service.h",
+    "SHA256": "80077D7BBA4C5B2708A2D115A2E39C0A78EFA9D04209B17D01EA1E4E9D1BA56F",
+    "SideIndicator": "<="
+  },
+  {
+    "Path": "engine\\physics\\joint_definition.h",
+    "SHA256": "A0440E68CCE11D135DFA5F785564E8B73837022B524B8040B99A354181D39F1C",
+    "SideIndicator": "<="
+  },
+  {
+    "Path": "engine\\physics\\physics_capture.cpp",
+    "SHA256": "D852EAE02D1D0A05985D3012AA075FF8865F55A8BAE2FD4C0D19097E0011CAEF",
+    "SideIndicator": "<="
+  },
+  {
+    "Path": "engine\\physics\\physics_debug_draw.cpp",
+    "SHA256": "F343081F3052134BC02D7DA770C49A9B8AF270341E096811726E8925E2580B2E",
+    "SideIndicator": "<="
+  },
+  {
+    "Path": "engine\\physics\\physics_joints.cpp",
+    "SHA256": "D5702179D1BA0035020C19E2D934863E739CEE7946AF3394FE1ABF721ADECFC9",
+    "SideIndicator": "<="
+  },
+  {
+    "Path": "engine\\physics\\physics_queries.cpp",
+    "SHA256": "46C1302CA8826B8C4166BDDBC58DA1429B970E07209C89A78765318D85093480",
+    "SideIndicator": "<="
+  },
+  {
+    "Path": "engine\\physics\\physics_tiles.cpp",
+    "SHA256": "9EB707805F0D6ACEF87575FF6AA4ADDC410994A3C04015A74C738C2F5BB01F27",
+    "SideIndicator": "<="
+  },
+  {
+    "Path": "engine\\physics\\physics_world_stats.h",
+    "SHA256": "9C2923F5F740B66A3DD483C8AF7F6AB00FC3B0180AD4B33E2D3D1A1BC94ECBD6",
+    "SideIndicator": "<="
+  },
+  {
+    "Path": "engine\\physics\\physics_world.cpp",
+    "SHA256": "082E48018A4F5B6E03B794A49BBA13B4738262083BD0009A57825B5D51EDEF68",
+    "SideIndicator": "<="
+  },
+  {
+    "Path": "engine\\physics\\physics_world.h",
+    "SHA256": "F12591B3D9444D58218CD58EFDD2A96EDD3568B45BD69EB6566A9637504B7732",
+    "SideIndicator": "<="
+  },
+  {
+    "Path": "engine\\physics\\collision\\collider_shape.h",
+    "SHA256": "232BDA0E0346CBB9B0885839B84DAABB8FB9A047DD51F4EFD11AF9C354DA40B0",
+    "SideIndicator": "<="
+  },
+  {
+    "Path": "engine\\physics\\collision\\collider.h",
+    "SHA256": "9B48EA6B758B1DC25E7D1199DE2B3BFCFC8E93C52BF98E627995FD996B8AF051",
+    "SideIndicator": "<="
+  },
+  {
+    "Path": "engine\\physics\\collision\\collision_query.h",
+    "SHA256": "723117C9C5EC969000B9A91E07944557B41FA46101C4DE302CBD49707ADD2E0F",
+    "SideIndicator": "<="
+  },
+  {
+    "Path": "engine\\physics\\collision\\contact_cache.cpp",
+    "SHA256": "714E48C102F3FF0B690D5AC3829EAC12968FFC52EFFAC90E1AA9934CC4E90193",
+    "SideIndicator": "<="
+  },
+  {
+    "Path": "engine\\physics\\collision\\contact_cache.h",
+    "SHA256": "CC42170EA5CF4CBCC74F6D333C1EFD225E7589313BEB7C05AE3B052B604FEAA6",
+    "SideIndicator": "<="
+  },
+  {
+    "Path": "engine\\physics\\collision\\world_shape.h",
+    "SHA256": "46FFAB056D5FB34DDECF108A9E7102F6093CE60B8CB06798D20C757C0515E4A3",
+    "SideIndicator": "<="
+  },
+  {
+    "Path": "engine\\physics\\contracts\\collision_query_service.h",
+    "SHA256": "6C2C441462E167943AAA698BA874CEC5E416F86447F88495A451BE7966C70855",
+    "SideIndicator": "<="
+  },
+  {
+    "Path": "engine\\physics\\contracts\\physics_participant.h",
+    "SHA256": "E0BDF318555BD36DF552DCAF458C7E8F275C13466AAF319B5674191748999777",
+    "SideIndicator": "<="
+  },
+  {
+    "Path": "engine\\physics\\detail\\physics_world_impl.h",
+    "SHA256": "DB936A92A53DFC838D76B4AC34C21984C43AAFD56CEF0DFCCD648BF7C4AA247F",
+    "SideIndicator": "<="
+  },
+  {
+    "Path": "engine\\scene\\scene.cpp",
+    "SHA256": "35ACA3A7FABF144CE3F918BE4BD413E67676484282D8A2E7D4F3B17D2C1A5959",
+    "SideIndicator": "<="
+  },
+  {
+    "Path": "engine\\scene\\scene.h",
+    "SHA256": "5B41CF2AC6E9BF456AD1E19E40C2A4FB8349A404FA4A167DF43E0B8152F74BD9",
+    "SideIndicator": "<="
+  },
+  {
+    "Path": "docs\\engine\\architecture\\subsystems\\physics\\01-current-state-audit.md",
+    "SHA256": "0DA6910906ABB490F629B69A930CB5B406E8295C55299CDEDC1242B85AF0377A",
+    "SideIndicator": "<="
+  },
+  {
+    "Path": "docs\\engine\\architecture\\subsystems\\physics\\02-target-architecture.md",
+    "SHA256": "5B138D1C269E8C049709D481FD3D010851A25B85DD057F14CC0620B1C8C8D03F",
+    "SideIndicator": "<="
+  },
+  {
+    "Path": "docs\\engine\\architecture\\subsystems\\physics\\03-class-responsibilities.md",
+    "SHA256": "A3A63F2F7D022148B4E8E070F2F383DE5B57A95C586C12AE6D5B2F67C329B7FA",
+    "SideIndicator": "<="
+  },
+  {
+    "Path": "docs\\engine\\architecture\\subsystems\\physics\\04-function-responsibilities.md",
+    "SHA256": "19BA0172E1C7B31B86902E5C940E79AB03CDC335F5AE9FE53D14E7B1CBDDBE1E",
+    "SideIndicator": "<="
+  },
+  {
+    "Path": "docs\\engine\\architecture\\subsystems\\physics\\05-collision-algorithms.md",
+    "SHA256": "85B23FFBE444D200F4562ADAF0DB484337D209FB167E5D46FBDC4BAF5469CFF2",
+    "SideIndicator": "<="
+  },
+  {
+    "Path": "docs\\engine\\architecture\\subsystems\\physics\\06-tile-map-collision.md",
+    "SHA256": "A52B8A52BB965B1176B568E15BE6EEDA636AE086C663DDE90545BA648CB20634",
+    "SideIndicator": "<="
+  },
+  {
+    "Path": "docs\\engine\\architecture\\subsystems\\physics\\08-implementation-roadmap-and-tests.md",
+    "SHA256": "0E96B1A570C9D6728A9F7255B240136A3213359320BF5B43BCA3C6B3E08B70FF",
+    "SideIndicator": "<="
+  },
+  {
+    "Path": "docs\\engine\\architecture\\subsystems\\physics\\README.md",
+    "SHA256": "22D70EA236762AA7F4DC4DD94B52E230AB6CD066AE6599C8CA9AE6DE9AD27C67",
+    "SideIndicator": "<="
+  },
+  {
+    "Path": "docs\\engine\\reference\\input\\controllers.md",
+    "SHA256": "BABC904608D624D9ECADC6064E58205E633CA85E002F60361D705E37C7E319D9",
+    "SideIndicator": "<="
+  },
+  {
+    "Path": "docs\\engine\\reference\\physics\\README.md",
+    "SHA256": "9BD3BD97D403A7499D82C1A0B804EE516C5A8139495DF7BD72AB3FBA3CFD0463",
+    "SideIndicator": "<="
+  },
+  {
+    "Path": "docs\\engine\\reference\\physics\\units-and-state.md",
+    "SHA256": "6F278E7EAF28DEEA8B620B4D48A6E94EEA1ACBD7C7C80AD50F5F3ED1061DCB14",
+    "SideIndicator": "<="
+  },
+  {
+    "Path": "docs\\engine\\user-guide\\README.md",
+    "SHA256": "B418199858B22C26947985A1588F27E76323BFD0B171044DB630D5E35F9318E4",
+    "SideIndicator": "<="
+  },
+  {
+    "Path": "docs\\engine\\user-guide\\gameplay\\control.md",
+    "SHA256": "53C45807BF5D3363F221D8F82D126DF71EE14115DFD836B58B75115B0F002674",
+    "SideIndicator": "<="
+  },
+  {
+    "Path": "docs\\engine\\user-guide\\gameplay\\damage.md",
+    "SHA256": "FBC14C71216D22CE227223BB137297215B3F421AD473ACD7D310FDA56DBCAE3C",
+    "SideIndicator": "<="
+  },
+  {
+    "Path": "docs\\engine\\user-guide\\systems\\physics.md",
+    "SHA256": "981FBA44113B0E7EF3F173210F46823ADB5D83CFFE8DA620C83768433710F2B0",
+    "SideIndicator": "<="
+  }
+]

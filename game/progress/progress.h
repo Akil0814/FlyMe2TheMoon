@@ -8,6 +8,8 @@ namespace game::progress {
 struct Progress {
     std::array<int,60> stars;
     std::array<int,60> scores{};
+    std::array<int,60> legacy_scores{};
+    std::array<bool,60> score_verified{};
     std::array<int,60> deaths{};
     std::array<double,60> best_time{};
     std::int64_t crystals=0;

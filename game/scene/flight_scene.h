@@ -27,7 +27,7 @@ protected:
     std::optional<elysia::camera::CameraFocus> resolve_camera_focus(elysia::camera::CameraSlot) const override;
 private:
     void finish(bool success);
-    void reached(bool success);
+    void reached(bool success,const char* reason="");
     void restore_player();
     void apply_pointer(play::Vec point);
     content::Json story_action(const std::string&,const content::Json&);
@@ -46,6 +46,8 @@ private:
     bool _laser_hit=false;
     std::vector<play::Projectile*> _projectiles;
     int _shots_fired=0,_homing_fired=0;
+    int _deaths=0;
+    std::string _failure_reason,_pending_failure;
     elysia::ui::UiLabel* _hud=nullptr;
     elysia::ui::UiLabel* _hint=nullptr;
     testing::ReplayProbe& _probe=testing::ReplayProbe::shared();

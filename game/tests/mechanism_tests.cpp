@@ -1,6 +1,7 @@
 #include "game/gameplay/motion_profile.h"
 #include "game/gameplay/tutorial_replay.h"
 #include "game/gameplay/flight_input.h"
+#include "game/gameplay/role_geometry.h"
 #include "game/gameplay/wind_field.h"
 #include "game/gameplay/shot_schedule.h"
 #include "engine/physics/physics_world.h"
@@ -13,8 +14,15 @@ void check(bool b,const char* message){if(!b)throw std::runtime_error(message);}
 int main(){try{
     using namespace game::play;using namespace elysia::physics;using game::content::Json;
     std::ifstream catalog_file("assets/configs/fly/catalog.json");const auto config=Json::parse(catalog_file).at("role");
-    const auto vertical=pointer_thrust({464,1182},{508,1370},config);
-    check(std::abs(vertical.x)<.001&&vertical.y<-.99,"Central touch cone must remain vertical");
+    const auto vertical=pointer_thrust({0,0},{0,100},config);
+    check(std::abs(vertical.x)<.001&&vertical.y<-.99,"Vertical input force incorrect");
+    const auto tilted=pointer_thrust({464,1182},{508,1370},config);
+    check(tilted.x<-.09&&tilted.x>-.12,"Original power curve must preserve small steering angles");
+    check(pointer_thrust({0,0},{0,51.2f},config).length_squared()==0,"Touch inside inner radius must not thrust");
+    check(std::abs(pointer_thrust({0,0},{0,57.6f},config).y+.5f)<.001,"Distance attenuation incorrect");
+    const auto capped=thrust_force({0,-1},{0,-320},config);
+    check(std::abs(capped.y+163.2f)<.01&&thrust_force({0,-1},{0,320},config).y==-896,"Power cap must limit positive work only");
+    check(std::abs(damp_velocity({100,700},false,.1f,config).x-81)<.01&&damp_velocity({100,700},false,.1f,config).y==700,"Horizontal damping or vertical freedom changed");
     const auto left=pointer_thrust({0,0},{80,70},config),right=pointer_thrust({0,0},{-80,70},config),above=pointer_thrust({0,0},{0,-100},config);
     check(left.x<0&&right.x>0&&std::abs(left.x+right.x)<.001&&above.length_squared()==0,"Touch steering symmetry / upper rejection failed");
     std::ifstream recording("assets/configs/fly/tutorial.json");const auto tutorial=Json::parse(recording);
@@ -56,25 +64,43 @@ int main(){try{
     check(moving==388&&rotating==65&&actions==102,"Original mechanism inventory changed");
     check(carriers==71,"Carrier inventory changed");
     {
+        PhysicsWorld flight({.units_per_meter=32,.gravity={0,320}});
+        elysia::core::GameObject role(elysia::core::DepthLayer::Character),floor(elysia::core::DepthLayer::Terrain);
+        role.set_world_rect({0,-80,48,64});floor.set_world_rect({0,0,1,1});
+        std::array<Collider,3> shapes;
+        shapes[0].shape=CircleShape{{0,0},17.92f};shapes[1].shape=role_upper_shape();shapes[2].shape=role_sensor_shape();
+        shapes[1].density={0};shapes[2].response=CollisionResponse::Overlap;
+        const auto r=flight.register_object(role,BodyDefinition{.type=BodyType::Dynamic,.mass_policy=MassPolicy::ExplicitMass,.mass=1,.linear_damping=.1f},shapes);
+        Collider ground;ground.shape=SegmentShape{{-1000,0},{1000,0}};
+        const auto f=flight.register_object(floor,BodyDefinition{.type=BodyType::Static},std::span(&ground,1));
+        check(r.is_valid()&&f.is_valid()&&flight.registered_collider_count()==4,"Original composite role or segment terrain rejected");
+        for(int i=0;i<180;++i)flight.step(1./60);
+        check(flight.contact_state(r).grounded&&std::abs(flight.body_state(r)->position.y+17.92f)<1,"Role foot did not settle on segment terrain");
+        for(int i=0;i<900;++i){const auto v=flight.body_state(r)->velocity;flight.apply_force(r,thrust_force({0,-1},v,config));flight.step(1./60);}
+        const auto speed=flight.body_state(r)->velocity.y;
+        check(speed< -150&&speed> -165,"Power-limited flight did not reach original-model terminal speed");
+        std::cout<<"PASS: original composite collider / segment contact; terminal upward velocity "<<speed<<" EU/s\n";
+    }
+    {
         PhysicsWorld beam_world({.units_per_meter=32,.gravity={0,0}});
         elysia::core::GameObject wall(elysia::core::DepthLayer::Terrain),role(elysia::core::DepthLayer::Character);
         wall.set_world_rect({100,-100,10,200});role.set_world_rect({200,0,1,1});
-        Collider obstacle;obstacle.shape=AabbShape{{0,0,10,200}};obstacle.filter={.category=2,.mask=1};
+        Collider obstacle;obstacle.shape=BoxShape::from_rect({0,0,10,200});obstacle.filter={.category=2,.mask=1};
         Collider player;player.shape=CircleShape{{0,0},14};player.filter={.category=1,.mask=2|4|8};
         const auto w=beam_world.register_object(wall,BodyDefinition{},std::span(&obstacle,1));
         const auto p=beam_world.register_object(role,BodyDefinition{},std::span(&player,1));
-        const RayCastQuery ray{.origin={0,0},.direction={1,0},.max_distance=1000,.filter={.category=1|8,.mask=1|2|8}};
+        const RayCastQuery ray{.origin={0,0},.direction={1,0},.max_distance=1000,.filter={.collision={.category=1|8,.mask=1|2|8}}};
         auto hit=beam_world.raycast(ray);check(hit&&hit->target.collider==beam_world.collider_id(w,0)&&std::abs(hit->distance-100)<.01,"Terrain must occlude lethal laser");
         beam_world.unregister_object(w);hit=beam_world.raycast(ray);check(hit&&hit->target.collider==beam_world.collider_id(p,0),"Laser filter failed to see unoccluded player");
     }
     elysia::core::GameObject anchor(elysia::core::DepthLayer::Terrain),bar(elysia::core::DepthLayer::Terrain);anchor.set_world_rect({0,0,1,1});bar.set_world_rect({60,0,120,12});
     PhysicsWorld world({.units_per_meter=32,.gravity={0,0}});
     Collider pin;pin.shape=CircleShape{{0,0},1};pin.filter={.category=0,.mask=0};pin.response=CollisionResponse::Ignore;
-    Collider plank;plank.shape=AabbShape{{-60,-6,120,12}};
+    Collider plank;plank.shape=BoxShape::from_rect({-60,-6,120,12});
     const auto a=world.register_object(anchor,BodyDefinition{.type=BodyType::Static},std::span(&pin,1));
     const auto b=world.register_object(bar,BodyDefinition{.type=BodyType::Dynamic,.mass_policy=MassPolicy::ExplicitMass,.mass=1,.fixed_rotation=false},std::span(&plank,1));
     check(a.is_valid()&&b.is_valid(),"Joint test bodies failed registration");
-    const auto joint=world.create_revolute_joint({.first=a,.second=b,.local_anchor_second={-60,0},.enable_motor=true,.motor_speed=1.5f,.max_motor_torque=100000});
+    const auto joint=world.create_revolute_joint({.first=a,.second=b,.local_anchor_second={-60,0},.settings={.enable_motor=true,.motor_speed=1.5f,.max_motor_torque=100000}});
     check(joint.is_valid(),"Public revolute joint rejected");
     for(int i=0;i<120;++i)world.step(1./60);
     const auto state=world.body_state(b);const auto constraint=world.joint_state(joint);check(state&&constraint,"Joint state disappeared");

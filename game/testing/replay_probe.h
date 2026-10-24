@@ -3,6 +3,7 @@
 #include <SDL3/SDL.h>
 #include <filesystem>
 #include <set>
+#include "flight_pilot.h"
 
 namespace game::testing {
 // Explicit opt-in QA: injects input events only. Never changes simulation positions or success rules.
@@ -19,7 +20,9 @@ private:
     Uint64 _start=0;
     size_t _next=0;
     double _last_sample=-1;
+    double _success_at=-1;
     bool _enabled=false;
     std::set<SDL_Scancode> _pressed;
+    FlightPilot _pilot;
 };
 }
