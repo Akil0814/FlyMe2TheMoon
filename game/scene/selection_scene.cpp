@@ -30,7 +30,7 @@ void SelectionScene::on_enter(const elysia::scene::ScenePayload& payload) {
     title(*list,content::format("chapter_title",chapter+1));
     auto chapters=std::make_unique<ui::UiGridContainer>(core::Rect{0,0,1120,48});chapters->set_column_count(4);chapters->set_cell_spacing({16,0});
     for(int c=0;c<4;++c)chapters->add_child(button(content::format("chapter_range",c+1,c*15+1,c*15+15),265,48,[this,c]{request_scene_switch(scene_keys::Selection,SelectionPayload{c},elysia::scene::SceneReloadMode::Recreate);}));
-    auto* chapters_scope=chapters.get();list->add_back(std::move(chapters));
+    list->add_back(std::move(chapters));
     auto levels=std::make_unique<ui::UiGridContainer>(core::Rect{0,0,1120,330});levels->set_column_count(5);levels->set_cell_spacing({16,18});
     for(int id=chapter*15+1;id<=chapter*15+15;++id) {
         const bool open=store.data.unlocked(id,content::catalog().at("dependencies"));const int stars=store.data.stars[id-1];
@@ -44,7 +44,10 @@ void SelectionScene::on_enter(const elysia::scene::ScenePayload& payload) {
     list->add_back(std::make_unique<ui::UiLabel>(core::Rect{0,0,1120,40},0,ui::ui_raw_text(summary)));
     list->add_back(button(content::ui("back"),1120,50,[this]{request_scene_switch(scene_keys::MainMenu);}));
     auto* list_scope=list.get();window->add_child(std::move(list),ui::UiLayoutChildOptions{._anchor=ui::UiLayoutAnchor::Center});
-    window->register_focus_scope(*chapters_scope);window->register_focus_scope(*levels_scope);window->register_focus_scope(*list_scope);window->set_focused_scope(levels_scope);
+    // The list delegates focus to its grids. Registering those grids again on
+    // the window lets the parent and window clear each other's pressed state.
+    if(levels_scope->focus_first_available())list_scope->set_focused_target(levels_scope->focused_target());
+    window->register_focus_scope(*list_scope);window->focus_first_available_scope();
 }
 void AchievementsScene::on_enter(const elysia::scene::ScenePayload&) {
     clear_scene_objects();auto& store=progress::Store::instance();(void)store.load();

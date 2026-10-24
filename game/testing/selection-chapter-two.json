@@ -1,0 +1,16 @@
+{
+  "name": "selection-chapter-two",
+  "level": -1,
+  "duration": 3,
+  "events": [
+    {"time": 0.6, "key": "Return", "down": true},
+    {"time": 0.7, "key": "Return", "down": false},
+    {"time": 1.0, "key": "Up", "down": true, "when": {"scene": 3}},
+    {"time": 1.1, "key": "Up", "down": false},
+    {"time": 1.3, "key": "Right", "down": true},
+    {"time": 1.4, "key": "Right", "down": false},
+    {"time": 1.6, "key": "Return", "down": true},
+    {"time": 1.7, "key": "Return", "down": false}
+  ],
+  "expect": {"scene": 3}
+}

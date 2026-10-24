@@ -1,0 +1,12 @@
+{
+  "name": "selection-level-one",
+  "level": -1,
+  "duration": 3,
+  "events": [
+    {"time": 0.6, "key": "Return", "down": true},
+    {"time": 0.7, "key": "Return", "down": false},
+    {"time": 1.1, "key": "Return", "down": true, "when": {"scene": 3}},
+    {"time": 1.2, "key": "Return", "down": false}
+  ],
+  "expect": {"scene": 2, "level": 1}
+}
