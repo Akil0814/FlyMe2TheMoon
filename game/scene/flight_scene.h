@@ -9,6 +9,7 @@
 #include "engine/audio/sound_playback_types.h"
 #include "game/gameplay/tutorial_replay.h"
 #include "game/gameplay/projectile.h"
+#include "game/gameplay/camera_move.h"
 #include "engine/ui/window/ui_window.h"
 #include "engine/ui/widgets/ui_button.h"
 
@@ -24,6 +25,7 @@ protected:
     void on_reset() override;
     void on_shortcuts(const elysia::input::RawInputFrame&,const std::vector<elysia::input::RawInputEvent>&) override;
     void on_routed_input(const elysia::input::InputSnapshot&) override;
+    void on_before_update(double delta) override;
     void on_after_update(double delta) override;
     void on_fixed_update(std::uint64_t tick,double delta)override;
     std::optional<elysia::camera::CameraFocus> resolve_camera_focus(elysia::camera::CameraSlot) const override;
@@ -37,6 +39,7 @@ private:
     void begin_moon(play::Vec center);
     void begin_portal(play::Entity& source,play::Entity& destination);
     void update_transition(double delta);
+    double move_camera(play::Vec destination);
     void apply_pointer(play::Vec point);
     content::Json story_action(const std::string&,const content::Json&);
     void update_dialogue();
@@ -45,6 +48,12 @@ private:
     bool _finished=false,_success=false;
     bool _restart=false,_input_enabled=true,_demo=false,_demo_paused=false,_event_pending=false,_follow_role=true;
     play::Vec _story_camera{};
+    play::CameraMove _camera_move;
+    enum class OpeningPhase { Ready, Pan, Spawn };
+    OpeningPhase _opening_phase=OpeningPhase::Ready;
+    bool opening()const{return _opening_phase!=OpeningPhase::Ready;}
+    bool _story_started=false;
+    int _camera_moves=0;
     content::Json _data;
     play::Player* _player=nullptr;
     std::vector<play::Entity*> _entities;

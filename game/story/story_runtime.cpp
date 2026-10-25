@@ -40,7 +40,10 @@ int Runtime::dispatch(lua_State* l) {
             self->_dialogue=Dialogue{args.at(0).get<std::string>(),args.at(1).get<std::string>(),args.size()>2?std::max(0.,args[2].get<double>()):0,op=="dialog.showFixedTime"};yield=true;
         }else{
             const auto result=self->_host(op,args);
-            if(result.is_boolean()){lua_pushboolean(l,result.get<bool>());count=1;}
+            if((op=="camera.gotoPosition"||op=="camera.gotoRole")&&result.is_number()){
+                self->_delay=std::max(0.,result.get<double>());yield=self->_delay>0;
+            }
+            else if(result.is_boolean()){lua_pushboolean(l,result.get<bool>());count=1;}
             else if(result.is_number()){lua_pushnumber(l,result.get<double>());count=1;}
         }
     }

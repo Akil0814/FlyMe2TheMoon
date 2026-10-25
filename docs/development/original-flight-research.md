@@ -190,3 +190,13 @@ Direct3D12 实跑 `transition-moon01` 通过：原首关教程演示到达月亮
 新增视觉回归检查六种底座角度、真实 S01 绑定、连接点、发射峰值/恢复/重复触发、瞄准平滑，以及实际运动学物理体的显示插值。`out/qa/thrower-head-preview.bmp` 上排常态、下排开火回弹，展示向左、向上、向右三种朝向。
 
 主程序及五个测试目标构建成功，五项 CTest 全部通过（103.99 秒），已查看上述软件绘制预览；本次未增加原生窗口逐关回放。
+
+## 开场与剧情镜头移动（2026-10-25）
+
+核对原 `ScriptController.onGameLoaded/onGameStart/onGameStart2/onGameStart3` 与 `GameController.cameraGotoPosition:todo:`、`moveGameCameraAndContinue:time:callBack:`，恢复月亮处停留 1 秒、移回角色并启动剧情的流程，以及按距离 `(distance/1000)^0.6` 和 SineOut 曲线移动、到达后才继续 Lua 的语义。此前游戏把 goto 命令实现为即时修改坐标，遗漏了移动和等待。方法地址及游戏层职责见 [camera-motion.md](camera-motion.md)。
+
+用户进一步要求角色出场等镜头返回后再播放。现以 Pan → Spawn → Ready 三阶段衔接首次入场：运镜期间角色隐藏，返回起点后从第 0 帧播放展开，全部 16 帧结束后恢复操作、物理与剧情；全程不计入飞行时间。该出场顺序按用户要求实现，原角色效果帧序保持不变。
+
+最终主程序及五项 CTest 通过（102.03 秒）。原 60 关 Lua 分支在摄像机调用返回异步等待时长的条件下通过；额外覆盖零距离、移动中继续/跳过对白、返回角色后才开启跟随，以及延迟出场完整播放。全部 60 关均有可用的月亮目标。
+
+Direct3D12 第 3 关 `camera-intro-story02` 输入回放通过：运镜阶段所有采样角色均隐藏且出场计数为 0；出场阶段镜头已停在角色高度、播放计数为 1、能观测到光球与角色显现；两个阶段物理暂停、输入关闭、计时为 0。随后完成两次剧情镜头移动，移动期间下一句对白未提前显示，结束后操作恢复。首轮 `camera-intro-story` 在用户要求延后出场前已通过，最终以 02 为准。证据保存在 `out/qa/camera-motion-audit/`，可复用输入为 `game/testing/camera-intro-story.json`。

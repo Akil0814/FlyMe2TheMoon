@@ -9,6 +9,7 @@
 #include "game/gameplay/laser_geometry.h"
 #include "game/gameplay/platform_parameters.h"
 #include "game/gameplay/role_effect.h"
+#include "game/gameplay/camera_move.h"
 #include "engine/physics/physics_world.h"
 #include "engine/core/game_object.h"
 #include <fstream>
@@ -18,6 +19,16 @@
 void check(bool b,const char* message){if(!b)throw std::runtime_error(message);}
 int main(){try{
     using namespace game::play;using namespace elysia::physics;using game::content::Json;
+    CameraMove camera_move;
+    check(camera_move.begin({0,0},{1000,0})==1&&camera_move.position()==elysia::core::Vector2{0,0},"Camera move must begin at the current focus");
+    camera_move.advance(.5);check(std::abs(camera_move.position().x-707.10678f)<.001&&camera_move.active(),"Camera must use original CCEaseSineOut");
+    const auto midway=camera_move.position();camera_move.begin(midway,{0,1000});check(camera_move.position()==midway,"Retargeting camera caused a jump");
+    camera_move.advance(100);check(!camera_move.active()&&camera_move.position()==elysia::core::Vector2{0,1000},"Camera did not settle at the destination");
+    check(camera_move.begin({0,1000},{0,1000})==0&&!camera_move.active(),"Zero-distance camera move must finish immediately");
+    check(camera_move.begin({0,0},{0,1000},1)==2,"Opening hold plus distance duration incorrect");
+    camera_move.advance(.75);check(camera_move.holding()&&camera_move.position()==elysia::core::Vector2{0,0},"Opening must hold on the moon for one second");
+    camera_move.advance(.75);check(!camera_move.holding()&&std::abs(camera_move.position().y-707.10678f)<.001,"Opening pan lost time crossing the hold boundary");
+    camera_move.advance(.5);check(!camera_move.active()&&camera_move.position()==elysia::core::Vector2{0,1000},"Opening pan did not finish at the role");
     RoleTransition transition;transition.begin_moon({0,0},{100,200});
     transition.advance(.6);check(transition.phase()==RoleTransitionPhase::MoonApproach&&std::abs(transition.position().x-100*std::sqrt(.5f))<.001,"Moon approach must use native CCEaseOut rate 2");
     transition.advance(.6);check(transition.phase()==RoleTransitionPhase::MoonWait&&transition.position()==elysia::core::Vector2{100,200},"Moon approach must finish at 1.2 seconds");

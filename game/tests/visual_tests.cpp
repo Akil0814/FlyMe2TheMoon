@@ -71,6 +71,13 @@ void check_role_effects(SDL_Renderer* renderer) {
     player.update(1);require(commands(player).size()==1,"Respawn did not restore normal body");
     player.present_at(core::Vector2{500,500},.5f,true);require(commands(player).empty(),"Role must be hidden during portal camera travel");
     player.present_at(std::nullopt);
+    // Opening pan hides the role without consuming its later entrance animation.
+    player.play_effect(RoleEffect::None);player.present_at(std::nullopt,1,true);player.update(3);
+    require(!player.body_visible()&&commands(player).empty(),"Role appeared before the opening camera returned");
+    player.present_at(std::nullopt);player.play_effect(RoleEffect::Enter);
+    require(!player.entry_effect_finished()&&commands(player).empty(),"Deferred entrance did not restart at frame zero");
+    player.update(15./30.);require(player.body_visible()&&!player.entry_effect_finished(),"Controls must wait for the whole entrance effect");
+    player.update(1./30.);require(player.entry_effect_finished()&&commands(player).size()==1,"Deferred entrance did not finish cleanly");
 
     // Exercise the public body disable/teleport/enable path with an actual role.
     physics::PhysicsWorld world({.units_per_meter=32,.gravity={0,320}});

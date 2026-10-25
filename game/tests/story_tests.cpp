@@ -1,4 +1,5 @@
 #include "game/story/story_runtime.h"
+#include "game/gameplay/camera_move.h"
 #include <fstream>
 #include <format>
 #include <iostream>
@@ -23,6 +24,7 @@ int main(){try {
             if(op=="game.isRestart")return false;
             if(op=="game.success")++success;
             if(op=="role.loadState")++restores;
+            if(op=="camera.gotoPosition"||op=="camera.gotoRole")return .2;
             return nullptr;
         });
         auto observe=[&]{if(runtime.dialogue()){const auto key=runtime.dialogue()->key;check(texts.contains(key)||key=="~~~~~~","Dialogue localization missing");lines.insert(key);}};
@@ -40,5 +42,23 @@ int main(){try {
     bool queued=false;game::story::Runtime pending;
     pending.start("script.delay(2); onRoleReachedMoon=function() game.success() end",[&](const std::string&,const Json&)->Json{queued=true;return nullptr;});
     check(pending.event("onRoleReachedMoon"),"Event during initial script was lost");check(!queued,"Event ran before callback declaration");pending.update(2);check(queued,"Deferred callback did not run");
+    game::story::Runtime camera_story;game::play::CameraMove move;elysia::core::Vector2 focus{};bool followed=false;
+    camera_story.start("camera.gotoPosition(1000,0); dialog.show('arrival',facePutong); camera.gotoRole(); camera.setFollowRoleMode(true)",
+        [&](const std::string& op,const Json& args)->Json {
+            if(op=="camera.gotoPosition")return move.begin(focus,{args[0],args[1]});
+            if(op=="camera.gotoRole")return move.begin(focus,{0,0});
+            if(op=="camera.setFollowRoleMode")followed=true;
+            return nullptr;
+        });
+    check(camera_story.busy()&&!camera_story.dialogue(),"Camera command must suspend Lua before its arrival dialogue");
+    move.advance(.5);focus=move.position();camera_story.update(.5);camera_story.advance(true);
+    check(!camera_story.dialogue()&&!followed&&focus.x>0&&focus.x<1000,"Dialogue skip bypassed an unfinished camera move");
+    move.advance(.5);focus=move.position();camera_story.update(.5);
+    check(camera_story.dialogue()&&camera_story.dialogue()->key=="arrival"&&focus.x==1000,"Arrival dialogue did not wait for the camera destination");
+    camera_story.advance();check(!followed&&!camera_story.dialogue(),"Camera return did not suspend the next follow-mode change");
+    move.advance(1);focus=move.position();camera_story.update(1);
+    check(followed&&!camera_story.busy()&&focus.x==0,"Camera return did not restore follow mode after arriving");
+    camera_story.start("camera.gotoRole(); game.success()",[&](const std::string& op,const Json&)->Json{if(op=="camera.gotoRole")return 0.;followed=false;return nullptr;});
+    check(!camera_story.busy()&&!followed,"Zero-distance camera command stalled Lua");
     std::cout<<"PASS: 60 original scripts, "<<lines.size()<<" dialogue keys, "<<flags.size()<<" persistent flags, "<<operations.size()<<" host operations; minimum duration and skip semantics\n";return 0;
 }catch(const std::exception& e){std::cerr<<"FAIL: "<<e.what()<<'\n';return 1;}}

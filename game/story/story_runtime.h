@@ -8,6 +8,7 @@ namespace game::story {
 struct Dialogue {std::string key,face;double remaining=0;bool fixed=false;};
 class Runtime {
 public:
+    // Camera goto operations return their travel seconds; Lua waits before continuing.
     using Host=std::function<content::Json(const std::string&,const content::Json&)>;
     Runtime();~Runtime();
     Runtime(const Runtime&)=delete;Runtime& operator=(const Runtime&)=delete;

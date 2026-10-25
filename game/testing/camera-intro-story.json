@@ -1,0 +1,43 @@
+{
+  "name": "camera-intro-story",
+  "level": 3,
+  "duration": 32,
+  "events": [],
+  "pilot": [
+    [
+      425.0,
+      564.0
+    ]
+  ],
+  "expect": {
+    "level": 3,
+    "opening_camera": false,
+    "input_enabled": true,
+    "dialogue": "",
+    "finished": false
+  },
+  "observe": [
+    {
+      "field": "camera_y",
+      "span_at_least": 300
+    },
+    {
+      "field": "camera_moves",
+      "max_at_least": 2
+    },
+    {
+      "field": "camera_moving",
+      "max_at_least": 1,
+      "min_at_most": 0
+    },
+    {
+      "field": "opening_phase",
+      "max_at_least": 2,
+      "min_at_most": 0
+    },
+    {
+      "field": "spawn_effects",
+      "max_at_least": 1
+    }
+  ]
+}
