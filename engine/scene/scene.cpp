@@ -27,40 +27,7 @@ void erase_object_entries(std::vector<Entry>& entries, const elysia::core::Scene
     std::erase_if(entries, [object](const Entry& entry) { return entry.object == object; });
 }
 
-[[nodiscard]] elysia::physics::PhysicsDebugCapture physics_debug_capture(
-    const elysia::tools::DebugDraw& debug_draw) noexcept
-{
-    using elysia::physics::PhysicsDebugCapture;
-    using elysia::tools::DebugDrawCategory;
-
-    PhysicsDebugCapture capture = PhysicsDebugCapture::None;
-    if (debug_draw.is_enabled(DebugDrawCategory::PhysicsCollider) ||
-        debug_draw.is_enabled(DebugDrawCategory::PhysicsPoseHistory))
-    {
-        capture |= PhysicsDebugCapture::Shapes;
-    }
-    if (debug_draw.is_enabled(DebugDrawCategory::PhysicsBroadPhase))
-        capture |= PhysicsDebugCapture::BroadPhase;
-    if (debug_draw.is_enabled(DebugDrawCategory::PhysicsContact) ||
-        debug_draw.is_enabled(DebugDrawCategory::PhysicsContactNormal))
-    {
-        capture |= PhysicsDebugCapture::Contacts;
-    }
-    if (debug_draw.is_enabled(DebugDrawCategory::PhysicsVelocity))
-        capture |= PhysicsDebugCapture::Velocities;
-    if (debug_draw.is_enabled(DebugDrawCategory::PhysicsJoint))
-        capture |= PhysicsDebugCapture::Joints;
-    return capture;
-}
-
-constexpr auto physics_debug_categories =
-    elysia::tools::DebugDrawCategory::PhysicsCollider |
-    elysia::tools::DebugDrawCategory::PhysicsContact |
-    elysia::tools::DebugDrawCategory::PhysicsContactNormal |
-    elysia::tools::DebugDrawCategory::PhysicsBroadPhase |
-    elysia::tools::DebugDrawCategory::PhysicsPoseHistory |
-    elysia::tools::DebugDrawCategory::PhysicsVelocity |
-    elysia::tools::DebugDrawCategory::PhysicsJoint;
+constexpr auto physics_debug_categories=elysia::physics::kPhysicsDebugCategories;
 } // namespace
 
 Scene::Scene() : Scene(SceneRuntimeFeatures{}) {}
@@ -311,7 +278,7 @@ void Scene::lifecycle_update(double delta)
             }
         }
 
-        const auto debug_capture = physics_debug_capture(*debug_draw);
+        const auto debug_capture = elysia::physics::physics_debug_capture_for(*debug_draw);
         if (_physics_world)
             _physics_world->set_debug_capture(debug_capture);
 

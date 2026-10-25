@@ -44,6 +44,8 @@ class PhysicsWorld final : public ICollisionQueryService
         const elysia::core::GameObject &) const noexcept;
     ColliderId collider_id(PhysicsObjectHandle, std::size_t index) const noexcept;
     std::optional<BodyState> body_state(PhysicsObjectHandle) const noexcept;
+    std::optional<MassProperties> mass_properties(PhysicsObjectHandle) const noexcept;
+    bool set_mass_properties(PhysicsObjectHandle, const MassProperties &);
     std::optional<PhysicsPose> render_pose(PhysicsObjectHandle) const noexcept;
     bool set_velocity(PhysicsObjectHandle, elysia::core::Vector2);
     bool set_velocity_x(PhysicsObjectHandle, float);

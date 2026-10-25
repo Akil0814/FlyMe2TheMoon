@@ -38,6 +38,11 @@ struct PhysicsWorld::Impl
         Collider definition{};
         ChainHandle chain{};
     };
+    struct DebugTargetCommand
+    {
+        PhysicsPose pose_at_command{},requested_pose{},effective_pose{};
+        double fixed_delta_seconds=0;
+    };
     struct Object
     {
         b2BodyId native{};
@@ -48,6 +53,8 @@ struct PhysicsWorld::Impl
         PhysicsPose previous{}, current{};
         bool removed = false;
         bool pending_creation = false;
+        std::optional<DebugTargetCommand> pending_debug_target{},completed_debug_target{};
+        void clear_debug_target() noexcept {pending_debug_target.reset();completed_debug_target.reset();}
     };
     struct Mapping
     {
@@ -142,6 +149,10 @@ struct PhysicsWorld::Impl
     }
     template<class Definition> JointHandle create_joint(const Definition&);
     template<class Settings> bool update_joint(JointHandle,const Settings&);
+    std::optional<JointState> read_joint_state(JointHandle) const noexcept;
+    std::optional<BodyState> read_body_state(PhysicsObjectHandle) const noexcept;
+    bool debug_visible(const Object* o) const noexcept;
+    WorldColliderShape debug_geometry(b2ShapeId,b2Transform) const;
     void refresh_joint_targets();
     void flush();
     void rollback_registration(std::uint64_t) noexcept;
@@ -150,6 +161,8 @@ struct PhysicsWorld::Impl
     void create_shape(Shape &, b2BodyId);
     void retire(Shape &);
     void mass(Object &);
+    std::optional<b2MassData> resolve_mass(const Object &, const MassProperties &,
+        ColliderId replacing = InvalidColliderId, const Collider *replacement = nullptr) const;
     bool bullet(const Object &) const;
     void transform(Object &, PhysicsPose, TeleportVelocityMode);
     void destroy_object(std::uint64_t);

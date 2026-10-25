@@ -429,9 +429,9 @@ void PhysicsWorld::Impl::refresh_joint_targets()
                 b2MotorJoint_SetLinearOffset(
                     joint.native, b2Body_GetWorldVector(b2Joint_GetBodyA(joint.native), to(settings->linear_offset)));
 }
-std::optional<JointState> PhysicsWorld::joint_state(JointHandle h) const noexcept
+std::optional<JointState> PhysicsWorld::Impl::read_joint_state(JointHandle h) const noexcept
 {
-    auto &p = *_impl;
+    const auto &p = *this;
     auto i = p.joints.find(h.value);
     if (i == p.joints.end() || i->second.removed || B2_IS_NULL(i->second.native) || !p.get(i->second.first) ||
         !p.get(i->second.second))
@@ -507,5 +507,9 @@ std::optional<JointState> PhysicsWorld::joint_state(JointHandle h) const noexcep
         },
         i->second.settings);
     return result;
+}
+std::optional<JointState> PhysicsWorld::joint_state(JointHandle h) const noexcept
+{
+    return _impl->read_joint_state(h);
 }
 } // namespace elysia::physics

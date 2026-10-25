@@ -1,5 +1,6 @@
 #include "contracts/physics_step_participant.h"
 #include "detail/physics_world_impl.h"
+#include "detail/mass_properties.h"
 #include "../tools/logger.h"
 #include <algorithm>
 #include <chrono>
@@ -24,6 +25,14 @@ bool finite(elysia::core::Vector2 v)
 bool nonnegative(float v)
 {
     return std::isfinite(v) && v >= 0;
+}
+bool valid_mass_motion(const b2MassData &data, b2Transform transform, b2Vec2 old_center,
+    b2Vec2 velocity, float angular_velocity, const detail::PhysicsUnits &units)
+{
+    const auto center = b2TransformPoint(transform, data.center);
+    const auto adjusted = b2Add(velocity, b2CrossSV(angular_velocity, b2Sub(center, old_center)));
+    return finite({center.x, center.y}) && finite(units.from_length({center.x, center.y})) &&
+        finite({adjusted.x, adjusted.y}) && finite(units.from_length({adjusted.x, adjusted.y}));
 }
 
 } // namespace
@@ -180,18 +189,33 @@ bool PhysicsWorld::Impl::bullet(const Object &o) const
 }
 void PhysicsWorld::Impl::mass(Object &o)
 {
-    // Kinematic extents are also required by native target-transform sleeping.
-    b2Body_ApplyMassFromShapes(o.native);
     if (o.definition.type != BodyType::Dynamic)
-        return;
-    if (o.definition.mass_policy == MassPolicy::ExplicitMass)
     {
-        auto m = b2Body_GetMassData(o.native);
-        if (m.mass > 0)
-            m.rotationalInertia *= o.definition.mass / m.mass;
-        m.mass = o.definition.mass;
-        b2Body_SetMassData(o.native, m);
+        // Kinematic extents are also required by native target-transform sleeping.
+        b2Body_ApplyMassFromShapes(o.native);
+        return;
     }
+    const auto data = resolve_mass(o, o.definition.mass_properties);
+    if (!data) return; // All mutating entry points validate their candidate first.
+    const auto old_center = b2Body_GetWorldCenterOfMass(o.native);
+    const auto velocity = b2Body_GetLinearVelocity(o.native);
+    const float angular_velocity = b2Body_GetAngularVelocity(o.native);
+    b2Body_SetMassData(o.native, *data);
+    const auto delta = b2Sub(b2Body_GetWorldCenterOfMass(o.native), old_center);
+    if (angular_velocity != 0 && (delta.x != 0 || delta.y != 0))
+        b2Body_SetLinearVelocity(o.native, b2Add(velocity, b2CrossSV(angular_velocity, delta)));
+}
+std::optional<b2MassData> PhysicsWorld::Impl::resolve_mass(const Object &o, const MassProperties &properties,
+    ColliderId replacing, const Collider *replacement) const
+{
+    detail::MassBuilder builder(units);
+    for (auto id : o.shapes)
+        builder.add(id == replacing && replacement ? *replacement : shapes.at(id).definition);
+    auto data = builder.finish(o.definition.type, properties, o.definition.fixed_rotation);
+    if (data && o.definition.type == BodyType::Dynamic && B2_IS_NON_NULL(o.native) &&
+        !valid_mass_motion(*data, b2Body_GetTransform(o.native), b2Body_GetWorldCenterOfMass(o.native),
+            b2Body_GetLinearVelocity(o.native), b2Body_GetAngularVelocity(o.native), units)) return {};
+    return data;
 }
 void PhysicsWorld::Impl::destroy_object(std::uint64_t h)
 {
@@ -372,7 +396,7 @@ PhysicsObjectHandle PhysicsWorld::register_object(elysia::core::GameObject &owne
     if (owner.is_destroyed() || !finite(owner.position()) || !finite(d.velocity) ||
         !std::isfinite(d.angle) || !std::isfinite(d.angular_velocity) ||
         !std::isfinite(d.gravity_scale) || !nonnegative(d.linear_damping) ||
-        !nonnegative(d.angular_damping) || !std::isfinite(d.mass) || d.mass <= 0)
+        !nonnegative(d.angular_damping))
         return {};
     if (d.type==BodyType::Dynamic && std::ranges::any_of(cs,[](const Collider& c){
         return std::holds_alternative<SegmentShape>(c.shape);})) return {};
@@ -384,6 +408,13 @@ PhysicsObjectHandle PhysicsWorld::register_object(elysia::core::GameObject &owne
             return {};
         }
     }
+    detail::MassBuilder mass_builder(p.units);
+    for (const auto &collider : cs) mass_builder.add(collider);
+    const auto initial_mass = mass_builder.finish(d.type, d.mass_properties, d.fixed_rotation);
+    if (!initial_mass) return {};
+    const auto initial_position = p.to(owner.position());
+    if (d.type == BodyType::Dynamic && !valid_mass_motion(*initial_mass,
+        {initial_position, b2MakeRot(d.angle)}, initial_position, p.to(d.velocity), d.angular_velocity, p.units)) return {};
     for (auto &[id, o] : p.objects)
         if (o.owner == &owner)
             return o.removed ? PhysicsObjectHandle{} : PhysicsObjectHandle{id};
@@ -516,8 +547,12 @@ ColliderId PhysicsWorld::collider_id(PhysicsObjectHandle h, std::size_t index) c
 }
 std::optional<BodyState> PhysicsWorld::body_state(PhysicsObjectHandle h) const noexcept
 {
-    auto &p = *_impl;
-    auto *o = p.get(h);
+    return _impl->read_body_state(h);
+}
+std::optional<BodyState> PhysicsWorld::Impl::read_body_state(PhysicsObjectHandle h) const noexcept
+{
+    const auto &p = *this;
+    const auto *o = p.get(h);
     if (!o || B2_IS_NULL(o->native))
         return {};
     auto id = o->native;
@@ -528,7 +563,28 @@ std::optional<BodyState> PhysicsWorld::body_state(PhysicsObjectHandle h) const n
                      b2Body_GetMass(id),
                      p.units.from_squared(b2Body_GetRotationalInertia(id)),
                      b2Body_IsAwake(id),
-                     b2Body_IsEnabled(id)};
+                     b2Body_IsEnabled(id),
+                     p.from(b2Body_GetLocalCenterOfMass(id)),
+                     p.from(b2Body_GetWorldCenterOfMass(id))};
+}
+std::optional<MassProperties> PhysicsWorld::mass_properties(PhysicsObjectHandle h) const noexcept
+{
+    const auto *o = _impl->get(h);
+    return o && B2_IS_NON_NULL(o->native) ? std::optional{o->definition.mass_properties} : std::nullopt;
+}
+bool PhysicsWorld::set_mass_properties(PhysicsObjectHandle h, const MassProperties &properties)
+{
+    auto &p = *_impl;
+    const auto *o = p.get(h);
+    if (!o || !p.resolve_mass(*o, properties)) return false;
+    p.enqueue([&p, h, properties] {
+        auto *object = p.get(h);
+        if (!object || B2_IS_NULL(object->native) || !p.resolve_mass(*object, properties)) return;
+        object->definition.mass_properties = properties;
+        if (b2Body_IsEnabled(object->native)) b2Body_SetAwake(object->native, true);
+        p.mass(*object);
+    });
+    return true;
 }
 std::optional<PhysicsPose> PhysicsWorld::render_pose(PhysicsObjectHandle h) const noexcept
 {
@@ -548,7 +604,7 @@ bool PhysicsWorld::set_velocity(PhysicsObjectHandle h, elysia::core::Vector2 v)
     p.enqueue([&p, h, v] {
         auto *o = p.raw(h);
         if (o)
-            b2Body_SetLinearVelocity(o->native, p.to(v));
+            {o->clear_debug_target();b2Body_SetLinearVelocity(o->native, p.to(v));}
     });
     return true;
 }
@@ -560,6 +616,7 @@ bool PhysicsWorld::set_velocity_x(PhysicsObjectHandle h, float v)
     p.enqueue([&p, h, v] {
         if (auto *o = p.raw(h))
         {
+            o->clear_debug_target();
             auto velocity = b2Body_GetLinearVelocity(o->native);
             velocity.x = p.units.to_length(v);
             b2Body_SetLinearVelocity(o->native, velocity);
@@ -575,6 +632,7 @@ bool PhysicsWorld::set_velocity_y(PhysicsObjectHandle h, float v)
     p.enqueue([&p, h, v] {
         if (auto *o = p.raw(h))
         {
+            o->clear_debug_target();
             auto velocity = b2Body_GetLinearVelocity(o->native);
             velocity.y = p.units.to_length(v);
             b2Body_SetLinearVelocity(o->native, velocity);
@@ -589,7 +647,7 @@ bool PhysicsWorld::set_angular_velocity(PhysicsObjectHandle h, float v)
         return false;
     p.enqueue([&p, h, v] {
         if (auto *o = p.raw(h))
-            b2Body_SetAngularVelocity(o->native, v);
+            {o->clear_debug_target();b2Body_SetAngularVelocity(o->native, v);}
     });
     return true;
 }
@@ -627,6 +685,7 @@ bool PhysicsWorld::set_body_enabled(PhysicsObjectHandle h, bool v)
         if (auto *o = p.raw(h))
         {
             o->definition.enabled = v;
+            if(!v)o->clear_debug_target();
             if (v && o->owner->is_active())
                 b2Body_Enable(o->native);
             else
@@ -705,6 +764,7 @@ bool PhysicsWorld::teleport_object(PhysicsObjectHandle h, elysia::core::Vector2 
 }
 void PhysicsWorld::Impl::transform(Object &o, PhysicsPose pose, TeleportVelocityMode mode)
 {
+    o.clear_debug_target();
     for (auto id : o.shapes)
         cache.invalidate_target(CollisionTarget::from_collider(id));
     for (const auto& [id, chain] : chains)
@@ -748,6 +808,8 @@ bool PhysicsWorld::update_collider(ColliderId id, const Collider &c)
             log_invalid_collider_update(id, *failure, c);
         return false;
     }
+    const auto *mass_owner = p.get(p.shapes.at(id).owner);
+    if (!p.resolve_mass(*mass_owner, mass_owner->definition.mass_properties, id, &c)) return false;
     p.enqueue([&p, id, c] {
         auto it = p.shapes.find(id);
         if (it == p.shapes.end())
@@ -757,6 +819,7 @@ bool PhysicsWorld::update_collider(ColliderId id, const Collider &c)
             return;
         auto *o = p.get(s.owner);
         if (!o || B2_IS_NULL(o->native)) return;
+        if (!p.resolve_mass(*o, o->definition.mass_properties, id, &c)) return;
         Impl::Shape replacement{{},s.owner,s.target,c};
         p.create_shape(replacement,o->native);
         try { p.retire(s); }
@@ -780,6 +843,11 @@ bool PhysicsWorld::set_collider_enabled(ColliderId id, bool enabled)
     auto &p = *_impl;
     if (!contains_collider(id) || p.shapes.at(id).chain.is_valid())
         return false;
+    const auto &shape = p.shapes.at(id);
+    auto candidate = shape.definition;
+    candidate.enabled = enabled;
+    const auto *owner = p.get(shape.owner);
+    if (!owner || !p.resolve_mass(*owner, owner->definition.mass_properties, id, &candidate)) return false;
     p.enqueue([&p, id, enabled] {
         auto it = p.shapes.find(id);
         if (it == p.shapes.end())
@@ -787,6 +855,10 @@ bool PhysicsWorld::set_collider_enabled(ColliderId id, bool enabled)
         auto &s = it->second;
         if (s.definition.enabled == enabled)
             return;
+        auto candidate = s.definition;
+        candidate.enabled = enabled;
+        auto *owner = p.get(s.owner);
+        if (!owner || !p.resolve_mass(*owner, owner->definition.mass_properties, id, &candidate)) return;
         p.retire(s);
         s.definition.enabled = enabled;
         if (auto *o = p.raw(s.owner))
@@ -1142,6 +1214,7 @@ void PhysicsWorld::step(double fixed_delta_seconds)
                         continue;
                     }
                     const bool enabled = o.definition.enabled && o.owner->is_active();
+                    if(!enabled)o.clear_debug_target();
                     if (enabled != b2Body_IsEnabled(o.native))
                     {
                         if (enabled)
@@ -1155,7 +1228,10 @@ void PhysicsWorld::step(double fixed_delta_seconds)
                 p.refresh_joint_targets();
                 p.prepare_snapshot();
                 for (auto &[id, o] : p.objects)
+                {
                     o.previous = o.current;
+                    o.completed_debug_target=std::exchange(o.pending_debug_target,std::nullopt);
+                }
                 b2World_Step(p.world, static_cast<float>(fixed_delta_seconds),
                              static_cast<int>(p.config.sub_steps));
                 ++p.epoch;

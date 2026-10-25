@@ -29,6 +29,12 @@ bool PhysicsWorld::set_target_transform(PhysicsObjectHandle h, PhysicsPose targe
         b2Body_SetLinearVelocity(native, b2Vec2_zero);
         b2Body_SetAngularVelocity(native, 0);
         b2Body_SetTargetTransform(native, pose, dt);
+        const auto rotation = b2Body_GetRotation(native);
+        auto effective = target;
+        if (object->definition.fixed_rotation)
+            effective.angle = b2Rot_GetAngle(rotation);
+        object->pending_debug_target = Impl::DebugTargetCommand{
+            {p.from(b2Body_GetPosition(native)), b2Rot_GetAngle(rotation)}, target, effective, dt};
     });
     return true;
 }

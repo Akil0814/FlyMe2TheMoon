@@ -27,7 +27,11 @@ enum class DebugDrawCategory : std::uint32_t
     Camera = 1u << 6,
     Gameplay = 1u << 7,
     PhysicsJoint = 1u << 8,
-    All = (1u << 9) - 1u
+    PhysicsJointDetails = 1u << 9,
+    PhysicsChainDetails = 1u << 10,
+    PhysicsTarget = 1u << 11,
+    Default = (1u << 9) - 1u,
+    All = (1u << 12) - 1u
 };
 
 [[nodiscard]] constexpr DebugDrawCategory operator|(DebugDrawCategory first,DebugDrawCategory second) noexcept
@@ -121,7 +125,7 @@ private:
     DebugDraw() = default;
 
     bool _enabled = false;
-    DebugDrawCategory _enabled_categories = DebugDrawCategory::All;
+    DebugDrawCategory _enabled_categories = DebugDrawCategory::Default;
     std::vector<DebugDrawCommand> _commands;
 };
 }
