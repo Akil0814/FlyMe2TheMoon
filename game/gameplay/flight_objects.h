@@ -9,6 +9,7 @@
 #include "shot_schedule.h"
 #include "laser_aim.h"
 #include "wind_visual.h"
+#include "engine/physics/joint_definition.h"
 #include "engine/camera/camera.h"
 #include <array>
 #include <map>
@@ -75,7 +76,9 @@ public:
     void submit_render_commands(std::vector<elysia::core::RenderCommand>& out) const override;
     Rect render_rect()const noexcept override;
     Vec center()const noexcept{return position();}
-    void trigger_start(){_time=_motion.lag;}
+    void trigger_start(){_time=std::max(_time,_motion.lag);}
+    bool moving()const{return kind>=105&&kind<=107;}
+    void attach_platform_joint(elysia::physics::PhysicsObjectHandle anchor);
     bool rotating()const{return kind==108||kind==109||kind==110||kind==117;}
     bool wind()const{return kind==8||kind==24||kind==25;}
     Vec wind_force_at(Vec point)const;
@@ -106,6 +109,8 @@ private:
     double _portal_visual_time=0;
     double _shot_visual_time=1;
     MotionProfile _motion;
+    elysia::physics::JointHandle _platform_joint;
+    elysia::physics::PrismaticJointSettings _platform_settings;
     LaserAim _laser_aim;
     double _time=0;
     std::vector<Vec> _spike_positions;

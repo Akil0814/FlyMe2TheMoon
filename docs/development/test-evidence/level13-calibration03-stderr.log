@@ -1,19 +1,19 @@
-2026-10-24 22:58:06 [INFO] [application] (application.cpp:460) SDL3 GPU backend: direct3d12
-2026-10-24 22:58:06 [INFO] [scene] (scene_manager.cpp:216) Switching to SceneKey 4294901761 with reload mode 0
-2026-10-24 22:58:07 [INFO] [resource] (game_content_loader.cpp:143) Total requests built: 1205, total work units: 1479
-2026-10-24 22:58:14 [INFO] [scene] (scene_manager.cpp:216) Switching to SceneKey 2 with reload mode 2
-2026-10-24 22:58:14 [INFO] [fly.test] (replay_probe.cpp:27) Input replay started; no simulation overrides
-2026-10-24 22:58:14 [INFO] [fly] (flight_scene.cpp:83) Entered level 13: 116 entities, 4 contours
-2026-10-24 22:58:15 [INFO] [fly.story] (flight_scene.cpp:182) Dialogue: Level46-1
-2026-10-24 22:58:15 [INFO] [fly.story] (flight_scene.cpp:182) Dialogue: Level46-2
-2026-10-24 22:58:16 [INFO] [fly.story] (flight_scene.cpp:182) Dialogue: Level46-3
-2026-10-24 22:58:16 [INFO] [fly.story] (flight_scene.cpp:182) Dialogue: Level46-4
-2026-10-24 22:58:17 [INFO] [fly.story] (flight_scene.cpp:182) Dialogue: Level46-5
-2026-10-24 22:58:18 [INFO] [fly.story] (flight_scene.cpp:182) Dialogue: Level46-6
-2026-10-24 22:58:21 [INFO] [fly.portal] (flight_scene.cpp:251) Transit 0 -> 1
-2026-10-24 22:58:27 [INFO] [fly.trigger] (flight_scene.cpp:212) Start entity 2 at 13.133
-2026-10-24 22:58:30 [INFO] [fly.portal] (flight_scene.cpp:251) Transit 7 -> 8
-2026-10-24 22:58:41 [INFO] [fly.portal] (flight_scene.cpp:251) Transit 12 -> 11
-2026-10-24 22:58:49 [INFO] [fly] (flight_scene.cpp:126) Level 13 SUCCESS time=30.337 stars=0 crystals=30
-2026-10-24 22:58:51 [INFO] [fly.test] (replay_probe.cpp:73) Replay assertions PASS
-2026-10-24 22:58:52 [INFO] [application] (application.cpp:722) Application shutdown complete
+2026-10-25 02:04:09 [INFO] [application] (application.cpp:460) SDL3 GPU backend: direct3d12
+2026-10-25 02:04:09 [INFO] [scene] (scene_manager.cpp:216) Switching to SceneKey 4294901761 with reload mode 0
+2026-10-25 02:04:09 [INFO] [resource] (game_content_loader.cpp:143) Total requests built: 1205, total work units: 1479
+2026-10-25 02:04:14 [INFO] [scene] (scene_manager.cpp:216) Switching to SceneKey 2 with reload mode 2
+2026-10-25 02:04:14 [INFO] [fly.test] (replay_probe.cpp:27) Input replay started; no simulation overrides
+2026-10-25 02:04:14 [INFO] [fly] (flight_scene.cpp:83) Entered level 13: 116 entities, 4 contours
+2026-10-25 02:04:15 [INFO] [fly.story] (flight_scene.cpp:182) Dialogue: Level46-1
+2026-10-25 02:04:15 [INFO] [fly.story] (flight_scene.cpp:182) Dialogue: Level46-2
+2026-10-25 02:04:16 [INFO] [fly.story] (flight_scene.cpp:182) Dialogue: Level46-3
+2026-10-25 02:04:17 [INFO] [fly.story] (flight_scene.cpp:182) Dialogue: Level46-4
+2026-10-25 02:04:17 [INFO] [fly.story] (flight_scene.cpp:182) Dialogue: Level46-5
+2026-10-25 02:04:18 [INFO] [fly.story] (flight_scene.cpp:182) Dialogue: Level46-6
+2026-10-25 02:04:21 [INFO] [fly.portal] (flight_scene.cpp:251) Transit 0 -> 1
+2026-10-25 02:04:27 [INFO] [fly.trigger] (flight_scene.cpp:212) Start entity 2 at 13.133
+2026-10-25 02:04:30 [INFO] [fly.portal] (flight_scene.cpp:251) Transit 7 -> 8
+2026-10-25 02:04:42 [INFO] [fly.portal] (flight_scene.cpp:251) Transit 12 -> 11
+2026-10-25 02:04:49 [INFO] [fly] (flight_scene.cpp:126) Level 13 SUCCESS time=30.378 stars=0 crystals=30
+2026-10-25 02:04:51 [INFO] [fly.test] (replay_probe.cpp:73) Replay assertions PASS
+2026-10-25 02:04:52 [INFO] [application] (application.cpp:722) Application shutdown complete

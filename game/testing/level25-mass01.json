@@ -1,0 +1,26 @@
+{
+  "name": "level25-mass01",
+  "level": 25,
+  "duration": 12,
+  "events": [],
+  "expect": {
+    "level": 25,
+    "finished": false
+  },
+  "observe": [
+    {
+      "field": "y",
+      "span_at_least": 25
+    }
+  ],
+  "pilot": [
+    [
+      377,
+      1700
+    ],
+    [
+      377,
+      1600
+    ]
+  ]
+}

@@ -61,3 +61,44 @@
 - `build-result-credits01.log` 编译失败：UiWindow 没有 set_enabled，列表方向枚举应是 UiListDirection。仅修正 Game Layer；`build-result-credits02.log` Release 通过。
 - `credits-scroll01`：从主菜单用方向键进入制作人员，自动滚动 191.75 单位，正常退出，断言通过。截图已目视检查。
 - `result-clear01`：首关真实鼠标通关，3 星、22 水晶分值；显示时间 6.81 秒、得分 57144，结算面板断言通过并检查截图。结算快捷按钮、最终关到片尾尚待运行验证。
+
+## 2026-10-25 质量回执接入前的回归结果
+
+- `progress-restart01`、`achievement-page01`：重新启动读取首关三星、已核实评分与成就 101，通过；成就页读取一致，存档无报错。
+- `result-next01`、`result-retry01`：首关真实输入通关后分别正常进入第 2 关和重建第 1 关，通过。
+- `build-calibration03.log` 与 `calibration03-ctest.log`：激光跟踪、默认范围、尖刺 E/N/W/S 顺序修正后 Release 构建及 4 项 CTest 通过（后续视觉提交已扩展为 5 项）。
+- `level13-calibration03`：真实鼠标通关通过，30.337 秒、0 星、30 水晶分值、3 次传送。不能替代新质量 API 下回归。
+- `level7-seesaw03`、`level8-calibration03`、`level9-failure03`、`level10-calibration03`、`level11-calibration03`、`level12-calibration03` 均未满足原断言，保留失败；第 9 关预期激光死亡未发生，不能把它改称通过。
+- `level13-wind02` 出现 `Argument not found` 并进入引擎故障场景，随后超时。原因是测试运行期间修改共享文案为四个参数，而旧 EXE 仍只提供三个；匹配构建的 calibration03 已通过。后续不在运行中修改共享资源。
+- 回放 runner 现记录 EXE / 场景 SHA256、起止时间、退出码与结果；重复同名运行先保留旧证据到 history，避免读取旧结果误报。
+
+## 2026-10-25 用户引擎质量更新
+
+已完整阅读 `docs/engine-receipt/006-explicit-inertia-receipt.md`，核对 Git 提交 `df28f9e` 与新公开头文件。新只读基线记录到 `protected-files-mass-update-baseline.csv`，对应提交单独保存；此前 641 文件基线保留，不把用户的引擎提交当作游戏越界修改。正在迁移并检验游戏实例的独立质量与惯量。
+
+
+### 质量接口与激光几何的实际运行结果
+
+- `build-mass-receipt01.log` / `mass-receipt-ctest01.log`：Release 成功，5/5 测试通过。七个显式质量对象验证实际质量、惯量、局部质心和线性/角冲量响应。
+- 同一质量版本的 `level1-mouse-pilot02` 三星通关、`level13-calibration03` 通关通过；后者 30.378 秒、0 星、30 水晶分值、3 次传送。
+- `level25-mass01`：12 秒正常输入飞行，Y 从约 1827 到 1597，未失败；这不是整关通关证据。
+- `level30-mass01` 与 `level42-mass01` 首次均出生遭激光命中，未满足原始未失败/位移断言。七根对象仍采样到正确质量和惯量。
+- 静态分析原 LaserBeam 后导入 61 个炮口位置和五边形炮座；附属实体以负碰撞组排除本载体和兄弟实体的自碰撞。`build-laser-geometry01.log` 构建成功，`laser-geometry-ctest01.log` 5/5 通过，包括自碰撞排除且仍与玩家接触的检查。
+- 同名重跑保留旧结果于 history。第 42 关此版本 12 秒短程飞行通过，Y 位移约 51，未死亡。第 30 关仍失败（elapsed=0，laser）；但两个电动转杆角速度已恢复为 ±0.349066 rad/s，修正前近乎停转。未通过修改断言或加入出生无敌掩盖剩余问题。
+
+
+### 第 14—18 关首次整关输入尝试
+
+`level14-route01` 至 `level18-route01` 均实际启动并结束，全部未满足 success=true，不能称为通关。第 14 关角色长时间被移动平台挡在下方；第 15 关原剧情期间自动下落后，测试控制器追赶出生处的旧路线而撞刺；第 16/18 关撞刺；第 17 关观察到持续按住指针却长期零推力。
+
+测试控制器随后增加恢复控制时选取最近剩余航点、在持续零推力时经正常 SDL 事件松开重按；不操作位置、物理、剧情或存档。`build-pilot-recovery01.log` 构建成功，游戏采样增加 paused 字段。第 15 关重跑仍撞刺，旧失败留存；新的平台下方绕行路线和第 14 关绕行路线待运行。
+
+
+### 输入恢复后的复测（build-pilot-recovery01）
+
+- `level1-mouse-pilot02`：首关三星通关再次通过，EXE 哈希见 run.json。
+- `level17-route01`：松开重按后不再长期零推力，894 个采样中 877 个有有效向上推力；仍在强下吹风附近未通关，末位置约 (464,1995)。输入恢复有效不等于关卡通过。
+- `level7-seesaw03`：推力恢复，已上升到约 (1552,1374)，但仍未到达当前航点或月亮，保留失败。
+- `level14-route02`：绕行仍受阻，末位置约 (380,1615)，75 秒时限内未通关。
+- `level15-route02`：越过开场旧航点后推进到约 (831,1308)，7.038 秒关内计时撞刺，未通关。
+- 引擎及文档只读哈希基线共 644 项，`protected-files-mass-update-check.json` 记录 changed=0；Game Layer 工作继续，独立交付与全部关卡验收未完成。

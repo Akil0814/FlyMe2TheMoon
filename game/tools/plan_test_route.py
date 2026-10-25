@@ -10,7 +10,7 @@ from PIL import Image, ImageDraw
 ROOT=Path(__file__).resolve().parents[2]
 STEP=8
 
-def plan(level):
+def plan(level,destination=None):
     data=json.loads((ROOT/f'assets/configs/fly/levels/{level:03}.json').read_text(encoding='utf8'))
     width,height=math.ceil(data['width']/STEP),math.ceil(data['height']/STEP)
     mask=Image.new('L',(width,height));draw=ImageDraw.Draw(mask)
@@ -24,7 +24,7 @@ def plan(level):
     cells=mask.load()
     start=(round((data['born'][0]+25)/STEP),round((data['born'][1]-29)/STEP))
     moon=next(e for e in data['entities'] if e['kind']==101)
-    goal=(round(moon['x']/STEP),round((moon['y']-13)/STEP))
+    goal=(round(moon['x']/STEP),round((moon['y']-13)/STEP)) if destination is None else tuple(round(value/STEP) for value in destination)
     def nearest(p):
         for radius in range(15):
             options=[(dx*dx+dy*dy,(p[0]+dx,p[1]+dy)) for dx in range(-radius,radius+1) for dy in range(-radius,radius+1) if 0<=p[0]+dx<width and 0<=p[1]+dy<height and cells[p[0]+dx,p[1]+dy]==0]

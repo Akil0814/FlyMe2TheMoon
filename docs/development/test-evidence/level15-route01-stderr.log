@@ -1,0 +1,19 @@
+2026-10-25 10:58:45 [INFO] [application] (application.cpp:460) SDL3 GPU backend: direct3d12
+2026-10-25 10:58:46 [INFO] [scene] (scene_manager.cpp:216) Switching to SceneKey 4294901761 with reload mode 0
+2026-10-25 10:58:46 [INFO] [resource] (game_content_loader.cpp:143) Total requests built: 1205, total work units: 1479
+2026-10-25 10:58:52 [INFO] [scene] (scene_manager.cpp:216) Switching to SceneKey 2 with reload mode 2
+2026-10-25 10:58:52 [INFO] [fly.test] (replay_probe.cpp:27) Input replay started; no simulation overrides
+2026-10-25 10:58:52 [INFO] [fly] (flight_scene.cpp:83) Entered level 15: 65 entities, 8 contours
+2026-10-25 10:58:52 [INFO] [fly.trigger] (flight_scene.cpp:212) Start entity 2 at 0.467
+2026-10-25 10:58:52 [INFO] [fly.trigger] (flight_scene.cpp:212) Start entity 3 at 0.467
+2026-10-25 10:58:53 [INFO] [fly.trigger] (flight_scene.cpp:212) Start entity 4 at 0.917
+2026-10-25 10:58:53 [INFO] [fly.trigger] (flight_scene.cpp:212) Start entity 5 at 0.917
+2026-10-25 10:58:53 [INFO] [fly.story] (flight_scene.cpp:182) Dialogue: Level12-1
+2026-10-25 10:58:53 [INFO] [fly.trigger] (flight_scene.cpp:212) Start entity 6 at 1.233
+2026-10-25 10:58:53 [INFO] [fly.trigger] (flight_scene.cpp:212) Start entity 7 at 1.233
+2026-10-25 10:58:56 [INFO] [fly.story] (flight_scene.cpp:182) Dialogue: Level12-2
+2026-10-25 10:58:56 [INFO] [fly.story] (flight_scene.cpp:182) Dialogue: Level12-3
+2026-10-25 10:58:58 [INFO] [fly.failure] (flight_scene.cpp:130) spike
+2026-10-25 10:58:58 [INFO] [fly] (flight_scene.cpp:126) Level 15 FAIL time=0.604 stars=0 crystals=21
+2026-10-25 10:59:00 [INFO] [fly.test] (replay_probe.cpp:73) Replay assertions FAIL
+2026-10-25 10:59:00 [INFO] [application] (application.cpp:722) Application shutdown complete

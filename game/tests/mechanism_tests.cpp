@@ -6,6 +6,8 @@
 #include "game/gameplay/shot_schedule.h"
 #include "game/gameplay/seesaw_parameters.h"
 #include "game/gameplay/laser_aim.h"
+#include "game/gameplay/laser_geometry.h"
+#include "game/gameplay/platform_parameters.h"
 #include "engine/physics/physics_world.h"
 #include "engine/core/game_object.h"
 #include <fstream>
@@ -17,6 +19,8 @@ int main(){try{
     using namespace game::play;using namespace elysia::physics;using game::content::Json;
     check(LaserAim::in_range(Json{},1000)&&!LaserAim::in_range(Json{},1001)&&LaserAim::in_range(Json{{"ActiveRange","-1"}},50000),"Laser default range / unlimited sentinel incorrect");
     LaserAim tracking(Json{});
+    const auto muzzle=laser_muzzle_offset(std::numbers::pi_v<float>/2,{41.5f,45});
+    check(std::abs(muzzle.x)<.5f&&std::abs(muzzle.y+17.05f)<.1f,"Original vertical muzzle table / image coordinate conversion incorrect");
     check(std::abs(tracking.update(Json{},1,.1,0,{0,-100})+std::numbers::pi_v<float>/4)<.001,"Laser must track an overhead target with original 5*dt smoothing");
     LaserAim rear(Json{});
     check(rear.update(Json{},1,.1,0,{100,100})==0,"Laser tracking must clamp to its forward semicircle");
@@ -65,6 +69,39 @@ int main(){try{
     check(shots==8,"Burst repetition failed");
     MotionProfile gate(Json{{"Cycle","4"},{"Lag","99"},{"PauseHalf","2"},{"PauseEnd","3"},{"Rate","1"}});
     check(gate.fraction(98)==0&&gate.fraction(100)==.5&&gate.fraction(102)==1&&gate.fraction(104)==.5&&gate.fraction(106)==0&&gate.fraction(108)==0,"Gate travel, endpoint dwell, or cycle timing failed");
+    check(gate.speed_ratio(98)==0&&gate.speed_ratio(100)==.5&&gate.speed_ratio(102)==0&&gate.speed_ratio(104)==-.5&&gate.speed_ratio(106)==0,"Platform velocity lag / direction / dwell incorrect");
+    MotionProfile eased(Json{{"Cycle","4"},{"Rate","2"}});
+    check(eased.speed_ratio(.5)==.5&&eased.speed_ratio(1)==1&&eased.speed_ratio(1.5)==.5&&eased.speed_ratio(2.5)==-.5,"Original platform quarter-cycle acceleration incorrect");
+    for(int kind:{105,106,107}) {
+        PhysicsWorld platform_world({.units_per_meter=32,.gravity={0,320}});
+        elysia::core::GameObject pin(elysia::core::DepthLayer::Terrain),platform(elysia::core::DepthLayer::Terrain),obstacle(elysia::core::DepthLayer::Terrain);
+        pin.set_world_rect({0,0,1,1});platform.set_world_rect({0,0,1,1});obstacle.set_world_rect({80+platform_width(kind)/2,0,1,1});
+        Collider anchor_shape;anchor_shape.shape=CircleShape{{},1};anchor_shape.response=CollisionResponse::Ignore;
+        const auto anchor_handle=platform_world.register_object(pin,BodyDefinition{},std::span(&anchor_shape,1));
+        auto shape=platform_collider(kind);
+        const auto body=platform_world.register_object(platform,BodyDefinition{.type=BodyType::Dynamic,.fixed_rotation=false},std::span(&shape,1));
+        check(std::abs(platform_world.body_state(body)->mass-(kind-104))<.001f,"Platform density / original full dimensions incorrect");
+        auto definition=platform_joint(kind,Json{{"X","200"}},0);definition.first=anchor_handle;definition.second=body;
+        definition.settings.motor_speed=40;
+        const auto handle=platform_world.create_prismatic_joint(definition);
+        check(handle.is_valid(),"Platform prismatic joint rejected");
+        Collider wall;wall.shape=BoxShape::from_rect({0,-100,16,200});wall.filter={.category=2,.mask=8};
+        const auto wall_handle=platform_world.register_object(obstacle,BodyDefinition{},std::span(&wall,1));
+        for(int tick=0;tick<240;++tick)platform_world.step(1./60);
+        const auto stopped=platform_world.body_state(body);
+        const auto joint=std::get<PrismaticJointState>(platform_world.joint_state(handle)->details);
+        std::cout<<"Platform "<<kind<<" stalled at "<<stopped->position.x<<","<<stopped->position.y<<" force "<<joint.motor_force<<"\n";
+        check(stopped->position.x>75&&stopped->position.x<81&&std::abs(stopped->position.y)<.1f,"Dynamic platform penetrated obstacle or escaped its rail");
+        check(std::abs(joint.motor_force)<=definition.settings.max_motor_force+1&&std::abs(joint.motor_force)>100,"Platform stalled motor must exert bounded force");
+        platform_world.unregister_object(wall_handle);
+        for(int tick=0;tick<60;++tick)platform_world.step(1./60);
+        const auto resumed=platform_world.body_state(body);
+        check(resumed->position.x-stopped->position.x>38&&resumed->position.x-stopped->position.x<41,"Platform must resume at motor speed without catching up to a target pose");
+        definition.settings.motor_speed=-40;check(platform_world.update_prismatic_joint(handle,definition.settings),"Platform motor reversal rejected");
+        for(int tick=0;tick<240;++tick)platform_world.step(1./60);
+        check(std::abs(platform_world.body_state(body)->position.x)<1,"Platform did not reverse and stop at lower rail limit");
+    }
+    std::cout<<"PASS: all 3 platform widths, density mass, rail constraints, bounded stall force, release and reversal\n";
     int moving=0,rotating=0,actions=0,carriers=0;
     for(int i=1;i<=60;++i){std::ifstream input(std::format("assets/configs/fly/levels/{:03}.json",i));auto data=Json::parse(input);std::set<int> targets;
         for(const auto& e:data.at("entities"))if(!e.at("item").get<bool>()){
@@ -80,13 +117,43 @@ int main(){try{
     check(moving==388&&rotating==65&&actions==102,"Original mechanism inventory changed");
     check(carriers==71,"Carrier inventory changed");
     {
+        int overrides=0;
+        for(int level:{25,30,42}) {
+            std::ifstream file(std::format("assets/configs/fly/levels/{:03}.json",level));
+            for(const auto& entity:Json::parse(file).at("entities")) {
+                if(!entity.at("info").contains("Mass"))continue;
+                ++overrides;
+                PhysicsWorld mass_world({.units_per_meter=32,.gravity={0,0}});
+                elysia::core::GameObject body(elysia::core::DepthLayer::Terrain);
+                body.set_world_rect({0,0,256,8});
+                Collider shape;shape.shape=BoxShape::from_rect({-128,-4,256,8});shape.density={.5f};
+                const float mass=static_cast<float>(parameter(entity.at("info"),"Mass"));
+                const auto handle=mass_world.register_object(body,BodyDefinition{.type=BodyType::Dynamic,
+                    .mass_properties=seesaw_mass_properties(entity.at("kind"),entity.at("info")),.fixed_rotation=false},std::span(&shape,1));
+                check(handle.is_valid(),"Original mass override rejected");
+                auto state=mass_world.body_state(handle);
+                check(state&&std::abs(state->mass-mass)<.0001f&&state->local_center.length_squared()==0,
+                    "Seesaw mass or center differs from original; joint anchor must not offset center of mass");
+                constexpr float inertia=5466.666667f;
+                check(std::abs(state->rotational_inertia-inertia)<.1f,"Seesaw explicit mass must retain density-derived inertia");
+                check(mass_world.apply_angular_impulse(handle,inertia)&&mass_world.apply_impulse(handle,{mass*10,0}),"Impulse rejected");
+                state=mass_world.body_state(handle);
+                check(std::abs(state->angular_velocity-1)<.001f&&std::abs(state->velocity.x-10)<.001f,
+                    "Seesaw independent linear / angular impulse response incorrect");
+            }
+        }
+        check(overrides==7,"Original explicit-mass seesaw coverage changed");
+        check(std::holds_alternative<DensityMass>(seesaw_mass_properties(109,Json{})),"Default seesaw should retain density mass");
+        std::cout<<"PASS: all 7 original mass overrides retain 5466.67 kg*EU^2 inertia and independent impulse responses\n";
+    }
+    {
         PhysicsWorld flight({.units_per_meter=32,.gravity={0,320}});
         elysia::core::GameObject role(elysia::core::DepthLayer::Character),floor(elysia::core::DepthLayer::Terrain);
         role.set_world_rect({0,-80,48,64});floor.set_world_rect({0,0,1,1});
         std::array<Collider,3> shapes;
         shapes[0].shape=CircleShape{{0,0},17.92f};shapes[1].shape=role_upper_shape();shapes[2].shape=role_sensor_shape();
         shapes[1].density={0};shapes[2].response=CollisionResponse::Overlap;
-        const auto r=flight.register_object(role,BodyDefinition{.type=BodyType::Dynamic,.mass_policy=MassPolicy::ExplicitMass,.mass=1,.linear_damping=.1f},shapes);
+        const auto r=flight.register_object(role,BodyDefinition{.type=BodyType::Dynamic,.mass_properties=ExplicitMass{1},.linear_damping=.1f},shapes);
         Collider ground;ground.shape=SegmentShape{{-1000,0},{1000,0}};
         const auto f=flight.register_object(floor,BodyDefinition{.type=BodyType::Static},std::span(&ground,1));
         check(r.is_valid()&&f.is_valid()&&flight.registered_collider_count()==4,"Original composite role or segment terrain rejected");
@@ -109,12 +176,34 @@ int main(){try{
         auto hit=beam_world.raycast(ray);check(hit&&hit->target.collider==beam_world.collider_id(w,0)&&std::abs(hit->distance-100)<.01,"Terrain must occlude lethal laser");
         beam_world.unregister_object(w);hit=beam_world.raycast(ray);check(hit&&hit->target.collider==beam_world.collider_id(p,0),"Laser filter failed to see unoccluded player");
     }
+    {
+        PhysicsWorld family({.units_per_meter=32,.gravity={0,0}});
+        elysia::core::GameObject carrier(elysia::core::DepthLayer::Terrain),attachment(elysia::core::DepthLayer::Terrain),role(elysia::core::DepthLayer::Character);
+        carrier.set_world_rect({0,0,64,8});attachment.set_world_rect({0,0,16,16});role.set_world_rect({24,0,1,1});
+        Collider bar_shape;bar_shape.shape=BoxShape::from_rect({-32,-4,64,8});bar_shape.filter={.category=8,.mask=1|2|8,.group=-3};
+        Collider carried;carried.shape=BoxShape::from_rect({-8,-8,16,16});carried.filter=bar_shape.filter;
+        Collider player_shape;player_shape.shape=CircleShape{{},8};player_shape.filter={.category=1,.mask=8};
+        const auto bar=family.register_object(carrier,BodyDefinition{.type=BodyType::Dynamic,.fixed_rotation=false},std::span(&bar_shape,1));
+        const auto child=family.register_object(attachment,BodyDefinition{.type=BodyType::Kinematic},std::span(&carried,1));
+        const auto player=family.register_object(role,BodyDefinition{.type=BodyType::Dynamic},std::span(&player_shape,1));
+        check(bar.is_valid()&&child.is_valid()&&player.is_valid(),"Carrier family test registration failed");
+        family.step(1./60);
+        bool external_contact=false;
+        std::vector<CollisionContact> contacts;
+        family.collect_contacts(CollisionTarget::from_collider(family.collider_id(bar,0)),contacts);
+        for(const auto& contact:contacts) {
+            const auto a=contact.pair.first.collider,b=contact.pair.second.collider;
+            check(!((a==family.collider_id(bar,0)&&b==family.collider_id(child,0))||(b==family.collider_id(bar,0)&&a==family.collider_id(child,0))),"Attached object collided with its own carrier");
+            external_contact|=a==family.collider_id(player,0)||b==family.collider_id(player,0);
+        }
+        check(external_contact,"Carrier family exclusion incorrectly disabled player contact");
+    }
     elysia::core::GameObject anchor(elysia::core::DepthLayer::Terrain),bar(elysia::core::DepthLayer::Terrain);anchor.set_world_rect({0,0,1,1});bar.set_world_rect({60,0,120,12});
     PhysicsWorld world({.units_per_meter=32,.gravity={0,0}});
     Collider pin;pin.shape=CircleShape{{0,0},1};pin.filter={.category=0,.mask=0};pin.response=CollisionResponse::Ignore;
     Collider plank;plank.shape=BoxShape::from_rect({-60,-6,120,12});
     const auto a=world.register_object(anchor,BodyDefinition{.type=BodyType::Static},std::span(&pin,1));
-    const auto b=world.register_object(bar,BodyDefinition{.type=BodyType::Dynamic,.mass_policy=MassPolicy::ExplicitMass,.mass=1,.fixed_rotation=false},std::span(&plank,1));
+    const auto b=world.register_object(bar,BodyDefinition{.type=BodyType::Dynamic,.mass_properties=ExplicitMass{1},.fixed_rotation=false},std::span(&plank,1));
     check(a.is_valid()&&b.is_valid(),"Joint test bodies failed registration");
     const auto joint=world.create_revolute_joint({.first=a,.second=b,.local_anchor_second={-60,0},.settings={.enable_motor=true,.motor_speed=1.5f,.max_motor_torque=100000}});
     check(joint.is_valid(),"Public revolute joint rejected");

@@ -1,4 +1,5 @@
 #include "flight_objects.h"
+#include "laser_geometry.h"
 #include "engine/resources/resource_service.h"
 #include "engine/animation/animation_service.h"
 #include <cmath>
@@ -8,6 +9,7 @@
 #include "flight_input.h"
 #include "role_geometry.h"
 #include "seesaw_parameters.h"
+#include "platform_parameters.h"
 #include "launcher_visual.h"
 #include "portal_visual.h"
 #include "bomb_visual.h"
@@ -105,7 +107,7 @@ Player::Player(Vec born):GameObject(DepthLayer::Character) {
         _animations.emplace(name,std::move(anim));
     }
 }
-BodyDefinition Player::body_definition()const {BodyDefinition b;b.type=BodyType::Dynamic;b.mass_policy=MassPolicy::ExplicitMass;b.mass=1;b.linear_damping=0.1f;b.bullet=true;return b;}
+BodyDefinition Player::body_definition()const {BodyDefinition b;b.type=BodyType::Dynamic;b.mass_properties=ExplicitMass{1};b.linear_damping=0.1f;b.bullet=true;return b;}
 void Player::fixed_update(double delta) {
     auto* world=physics_world();if(!world)return;
     const auto& config=content::catalog().at("role");
@@ -171,23 +173,27 @@ Entity::Entity(const content::Json& d):GameObject(d.at("item").get<bool>()?Depth
     if(item||kind==101)c.shape=CircleShape{{0,0},kind==101?26.f:kind==3?18.f:10.f};
     else c.shape=BoxShape::from_rect({-w/2+2,-h/2+2,std::max(1.f,w-4),std::max(1.f,h-4)});
     if(c.response==CollisionResponse::Block)c.filter.mask=1|2|8;
+    if(platform)c=platform_collider(kind);
     if(rotating()){
         const float width=seesaw_width(kind);c.shape=BoxShape::from_rect({-width/2,-4,width,8});
         c.density={.5f};c.material={.friction=.8f,.restitution=0};
     }
+    if(kind==114)c.shape=laser_base_shape({w,h});
     if(wind())c.shape=BoxShape::from_rect({-w/2,-h/2,w,h});
     c.tag=item?"pickup":kind==101?"moon":"hazard";_colliders.push_back(c);
     if(kind>=105&&kind<=107){
+        w=platform_width(kind);h=32;
         const auto spikes=info.value("Spikes",std::string("0000"));
         // DynamicBox's original string order is East, North, West, South.
         constexpr int sides[]{1,0,3,2};
         for(int index=0;index<4&&index<spikes.size();++index)if(spikes[index]=='1'){
             const int side=sides[index];
             Collider spike;spike.filter={.category=8,.mask=1};spike.response=CollisionResponse::Overlap;spike.tag="spike";
-            if(side==0)spike.shape=BoxShape::from_rect({-w/2,-h/2-8,w,8});
-            if(side==1)spike.shape=BoxShape::from_rect({w/2,-h/2,8,h});
-            if(side==2)spike.shape=BoxShape::from_rect({-w/2,h/2,w,8});
-            if(side==3)spike.shape=BoxShape::from_rect({-w/2-8,-h/2,8,h});
+            spike.density={0};
+            if(side==0)spike.shape=BoxShape::from_rect({-w/2,-22,w,8});
+            if(side==1)spike.shape=BoxShape::from_rect({w/2-2,-16,8,32});
+            if(side==2)spike.shape=BoxShape::from_rect({-w/2,14,w,8});
+            if(side==3)spike.shape=BoxShape::from_rect({-w/2-6,-16,8,32});
             _colliders.push_back(spike);
             const float length=(side%2==0)?w:h;
             for(float at=8;at<length;at+=16)_spike_positions.push_back(side==0?Vec{-w/2+at,-h/2-4}:side==1?Vec{w/2+4,-h/2+at}:side==2?Vec{-w/2+at,h/2+4}:Vec{-w/2-4,-h/2+at});
@@ -196,13 +202,13 @@ Entity::Entity(const content::Json& d):GameObject(d.at("item").get<bool>()?Depth
     }
 }
 BodyDefinition Entity::body_definition()const {
-    BodyDefinition b;b.type=(kind>=105&&kind<=107)||info.contains("CarrierID")?BodyType::Kinematic:rotating()?BodyType::Dynamic:BodyType::Static;
+    BodyDefinition b;b.type=info.contains("CarrierID")?BodyType::Kinematic:moving()||rotating()?BodyType::Dynamic:BodyType::Static;
+    if(moving())b.fixed_rotation=false;
     if(info.contains("CarrierID"))b.fixed_rotation=false;
     b.angle=angle*std::numbers::pi_v<float>/180;
     if(rotating()){
         b.fixed_rotation=false;b.angular_damping=static_cast<float>(parameter(info,"AngularDamping",1.6));
-        const float mass=static_cast<float>(parameter(info,"Mass",-1));
-        if(mass>0){b.mass_policy=MassPolicy::ExplicitMass;b.mass=mass;}
+        b.mass_properties=seesaw_mass_properties(kind,info);
     }
     return b;
 }
@@ -215,13 +221,27 @@ void Entity::fixed_update(double delta) {
         if(!set_target_transform({target,carrier_angle+_carrier_angle},delta))throw std::runtime_error("Carrier target rejected");
         return;
     }
-    if(kind>=105&&kind<=107){
-        const double part=_motion.fraction(_time);const Vec target=origin+Vec{static_cast<float>(parameter(info,"X")*part),static_cast<float>(-parameter(info,"Y")*part)};
-        if(!set_target_transform({target,physics_state()->angle},delta))throw std::runtime_error("Platform target rejected");
+    if(_platform_joint.is_valid()){
+        _platform_settings.motor_speed=static_cast<float>(_motion.speed_ratio(_time))*_platform_settings.upper_translation;
+        if(!physics_world()->update_prismatic_joint(_platform_joint,_platform_settings))throw std::runtime_error("Platform motor update rejected");
     }
+}
+void Entity::attach_platform_joint(PhysicsObjectHandle anchor) {
+    auto definition=platform_joint(kind,info,angle);
+    definition.first=anchor;definition.second=physics_handle();
+    _platform_settings=definition.settings;
+    _platform_joint=physics_world()->create_prismatic_joint(definition);
+    if(!_platform_joint.is_valid())throw std::runtime_error("Platform joint creation failed");
 }
 void Entity::attach_carrier(Entity* carrier) {
     _carrier=carrier;const float rad=carrier->physics_state()->angle;
+    // Original carried fixtures belong to the carrier's body and cannot collide
+    // with it or their siblings. Keep that exclusion for these attached poses.
+    const int group=-(carrier->id+1);
+    for(auto* member:{carrier,this})for(std::size_t i=0;i<member->_colliders.size();++i){
+        member->_colliders[i].filter.group=group;
+        member->update_physics_collider(i,member->_colliders[i]);
+    }
     _carrier_offset=rotate_vector(origin-carrier->origin,-rad);
     _carrier_angle=angle*std::numbers::pi_v<float>/180-rad;
 }
@@ -230,7 +250,9 @@ bool Entity::update_laser(double delta,Vec target,const Player& player) {
     const float rad=_laser_aim.update(info,_time,delta,physics_state()->angle,player.position()-position());
     if(!LaserAim::in_range(info,(target-position()).length()))return false;
     const Vec direction{std::cos(rad),std::sin(rad)};
-    _laser_start=position()+direction*24;_laser_end=_laser_start+direction*32000;
+    const float body_angle=physics_state()->angle;
+    _laser_start=position()+rotate_vector(laser_muzzle_offset(body_angle-rad,size()),body_angle);
+    _laser_end=_laser_start+direction*32000;
     std::vector<CollisionQueryHit> hits;
     physics_world()->raycast_all({.origin=_laser_start,.direction=direction,.max_distance=32000,.filter={.collision={.category=1|8,.mask=1|2|8}}},hits);
     _laser_active=true;

@@ -18,7 +18,7 @@ BodyDefinition Projectile::body_definition()const {
     b.velocity=_initial_velocity;b.gravity_scale=_homing?0.f:1.f;b.bullet=!_homing;
     // The sensor contributes no density-derived mass. Box2D skips gravity on
     // zero-mass bodies; the original projectile explicitly sets 0.1875 kg.
-    if(!_homing){b.mass_policy=MassPolicy::ExplicitMass;b.mass=.1875f;}
+    if(!_homing)b.mass_properties=ExplicitMass{.1875f};
     return b;
 }
 bool Projectile::advance(double delta,Vec target,const Player& player) {

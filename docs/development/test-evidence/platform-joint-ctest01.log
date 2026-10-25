@@ -1,0 +1,21 @@
+Test project C:/Code/FlyMe2TheMoon/out/build/release
+    Start 1: fly_idle_visuals
+1/5 Test #1: fly_idle_visuals .................   Passed   16.70 sec
+    Start 2: fly_selection_input
+2/5 Test #2: fly_selection_input ..............   Passed    0.16 sec
+    Start 3: fly_game_rules_and_save
+3/5 Test #3: fly_game_rules_and_save ..........   Passed    0.14 sec
+    Start 4: fly_original_story
+4/5 Test #4: fly_original_story ...............   Passed    0.37 sec
+    Start 5: fly_mechanisms
+5/5 Test #5: fly_mechanisms ...................***Failed    0.09 sec
+FAIL: Dynamic platform penetrated obstacle or escaped its rail
+
+
+80% tests passed, 1 tests failed out of 5
+
+Total Test time (real) =  18.02 sec
+
+The following tests FAILED:
+	  5 - fly_mechanisms (Failed)
+Errors while running CTest
