@@ -23,4 +23,4 @@
 - Capstone 官方 Python 文档：https://www.capstone-engine.org/lang_python.html ；发行记录：https://pypi.org/project/capstone/ 。分析依赖 5.0.9 放在 out/analysis/python，未引入最终游戏运行时。
 - 具体推力、出生坐标和碰撞形状结论见 original-flight-research.md，可信依据为本地原程序指令与 JSON 的交叉核对。
 - 原 XML 的 60 个 Header 全部含 NoMana；原程序对应 disableMana。因此这批原关卡不需要显示或消耗魔力，不能仅凭存在 RoleManaComponent 就新增耗能规则。
-- Background_001、语音 44-1 的外部搜索尚未得到可核实的补充资源。社区模拟器帖不构成行为证据，也未下载或执行其中程序。
+- Background_001 曾未找到图片，现已由本地 BackgroundLayer.load: 确认是被跳过的渐变背景标记，并非缺失图。语音 44-1 的外部搜索仍未得到可核实补充资源。社区模拟器帖不构成行为证据，也未下载或执行其中程序。

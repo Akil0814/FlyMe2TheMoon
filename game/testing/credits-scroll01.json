@@ -1,0 +1,57 @@
+{
+  "name": "credits-scroll01",
+  "level": -1,
+  "duration": 10,
+  "events": [
+    {
+      "time": 0.5,
+      "key": "Down",
+      "down": true
+    },
+    {
+      "time": 0.6,
+      "key": "Down",
+      "down": false
+    },
+    {
+      "time": 0.8,
+      "key": "Down",
+      "down": true
+    },
+    {
+      "time": 0.9,
+      "key": "Down",
+      "down": false
+    },
+    {
+      "time": 1.1,
+      "key": "Down",
+      "down": true
+    },
+    {
+      "time": 1.2000000000000002,
+      "key": "Down",
+      "down": false
+    },
+    {
+      "time": 1.5,
+      "key": "Return",
+      "down": true
+    },
+    {
+      "time": 1.6,
+      "key": "Return",
+      "down": false
+    }
+  ],
+  "expect": {
+    "scene": 5
+  },
+  "observe": [
+    {
+      "field": "scroll_y",
+      "max_at_least": 100
+    }
+  ],
+  "language": "zh-Hans"
+}

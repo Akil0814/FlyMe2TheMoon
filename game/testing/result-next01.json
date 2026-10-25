@@ -1,0 +1,44 @@
+{
+  "name": "result-next01",
+  "level": 1,
+  "duration": 42,
+  "events": [
+    {
+      "time": 0,
+      "key": "Return",
+      "down": true,
+      "when": {
+        "finished": true,
+        "success": true
+      }
+    },
+    {
+      "time": 0.1,
+      "key": "Return",
+      "down": false
+    }
+  ],
+  "pilot": [
+    [
+      489,
+      1050
+    ],
+    [
+      489,
+      850
+    ],
+    [
+      489,
+      650
+    ],
+    [
+      489,
+      385
+    ]
+  ],
+  "expect": {
+    "level": 2,
+    "finished": false
+  },
+  "stop_after_success": 2
+}

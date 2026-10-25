@@ -4,6 +4,8 @@
 #include "game/gameplay/role_geometry.h"
 #include "game/gameplay/wind_field.h"
 #include "game/gameplay/shot_schedule.h"
+#include "game/gameplay/seesaw_parameters.h"
+#include "game/gameplay/laser_aim.h"
 #include "engine/physics/physics_world.h"
 #include "engine/core/game_object.h"
 #include <fstream>
@@ -13,6 +15,17 @@
 void check(bool b,const char* message){if(!b)throw std::runtime_error(message);}
 int main(){try{
     using namespace game::play;using namespace elysia::physics;using game::content::Json;
+    check(LaserAim::in_range(Json{},1000)&&!LaserAim::in_range(Json{},1001)&&LaserAim::in_range(Json{{"ActiveRange","-1"}},50000),"Laser default range / unlimited sentinel incorrect");
+    LaserAim tracking(Json{});
+    check(std::abs(tracking.update(Json{},1,.1,0,{0,-100})+std::numbers::pi_v<float>/4)<.001,"Laser must track an overhead target with original 5*dt smoothing");
+    LaserAim rear(Json{});
+    check(rear.update(Json{},1,.1,0,{100,100})==0,"Laser tracking must clamp to its forward semicircle");
+    const Json sweep{{"Cycle","4"},{"MinAngle","30"},{"MaxAngle","150"},{"Lag","2"}};
+    LaserAim scanning(sweep);
+    check(scanning.update(sweep,1,.1,0,{})==0&&std::abs(scanning.update(sweep,2.5,.1,0,{})+std::numbers::pi_v<float>/3)<.001,"Laser lag / default linear sweep incorrect");
+    check(seesaw_width(108)==64&&seesaw_width(109)==128&&seesaw_width(110)==256&&seesaw_width(117)==512,"Original plank dimensions changed");
+    check(seesaw_anchor(109,Json{{"Anchor","1"}})==60&&seesaw_anchor(108,Json{{"Anchor","0"}})==-28,"Plank pivot must stay four units inside its end cap");
+    check(std::abs(seesaw_speed(Json{{"Speed","-90"}})-std::numbers::pi_v<float>/2)<.001,"Original Y-up motor speed was not converted to Y-down");
     std::ifstream catalog_file("assets/configs/fly/catalog.json");const auto config=Json::parse(catalog_file).at("role");
     const auto vertical=pointer_thrust({0,0},{0,100},config);
     check(std::abs(vertical.x)<.001&&vertical.y<-.99,"Vertical input force incorrect");
@@ -38,8 +51,11 @@ int main(){try{
     check(std::abs(angle_difference(1.5f*std::numbers::pi_v<float>,-.5f*std::numbers::pi_v<float>))<.0001f,"Carrier pose must treat 270 and -90 degrees as identical");
     const auto force=wind_force({0,0},{0,0},{256,128},0,wind_info);
     const auto rotated=wind_force({0,0},{0,0},{256,128},std::numbers::pi_v<float>/2,wind_info);
-    check(force.y==-320&&std::abs(rotated.x-320)<.001&&std::abs(rotated.y)<.001,"Wind direction or original strength scale failed");
-    check(wind_force({0,64},{0,0},{256,128},0,wind_info).length_squared()==0&&wind_force({129,0},{0,0},{256,128},0,wind_info).length_squared()==0,"Wind leaked outside field / faded endpoint");
+    check(force.x==-320&&std::abs(rotated.y+320)<.001&&std::abs(rotated.x)<.001,"Original wind must point left at zero degrees and upward at 90");
+    check(wind_force({0,100},{0,0},{256,128},0,wind_info).length_squared()==0&&wind_force({140,0},{0,0},{256,128},0,wind_info).length_squared()==0,"Wind leaked beyond all six envelope sample points");
+    check(std::abs(wind_force({128,0},{0,0},{256,128},0,wind_info).x+160)<.001,"Half of the six wind samples should produce half force");
+    check(wind_force({0,0},{0,0},{256,128},0,Json{}).x==-640,"Original default wind Strength must be 20");
+    check(wind_force({0,0},{0,0},{256,128},0,wind_info)==wind_force({0,0},{0,0},{256,128},0,Json{{"Strength","10"},{"Fade","00"}}),"Visual Fade flags must not change wind force");
     ShotSchedule volley(Json{{"Seq","0,0.05,0.1,0.15,2"},{"Lag","1"}});
     int shots=0;for(int tick=0;tick<60;++tick)shots+=volley.advance(1./60);
     check(shots<=1,"Firing occurred before configured lag");

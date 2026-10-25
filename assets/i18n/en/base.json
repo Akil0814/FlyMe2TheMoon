@@ -528,6 +528,14 @@
     "controls": "Hold Space / W: rise · A / D: steer · Hold mouse below Kiana: cast magic    P pause    R retry    Esc levels",
     "success_hint": "Moon reached! Enter: next level    R: retry for stars    Esc: levels",
     "failure_hint": "Kiana fell! Enter / R: retry    Esc: levels",
-    "save_failure": "Progress could not be saved. Existing save retained. R: retry    Esc: levels"
+    "save_failure": "Progress could not be saved. Existing save retained. R: retry    Esc: levels",
+    "credits": "Credits",
+    "next_level": "Continue",
+    "retry": "Retry",
+    "select_level": "Select level",
+    "result_success": "Level {:02} · Moon reached!",
+    "result_failure": "Level {:02} · Try again",
+    "result_stats": "Stars {3}/3   {0:.2f} s   Crystals {1}   Score {2}",
+    "credits_controls": "↑ / ↓ or wheel: scroll     Space: pause / resume     Esc: menu"
   }
 }

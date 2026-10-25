@@ -6,6 +6,12 @@
 #include "engine/localization/localization_service.h"
 
 namespace game::testing {
+ReplayProbe::~ReplayProbe() {
+    if(!_enabled||_output.empty())return;
+    // Preserve observations if the application closes before the scenario ends.
+    // Do not suppress quit requests or manufacture a passing result.
+    try {std::ofstream out(_output.string()+".json");out<<content::Json{{"passed",false},{"interrupted",true},{"reason","Application exited before scenario completion"},{"scenario",_scenario},{"samples",_samples}}.dump(2);}catch(...){}
+}
 int ReplayProbe::requested_level() {
     const char* value=std::getenv("FLY_REPLAY_SCENARIO");if(!value)return 0;
     std::ifstream in(value);if(!in)throw std::runtime_error("QA scenario does not exist");
@@ -42,8 +48,10 @@ bool ReplayProbe::update(SDL_Renderer* renderer,const content::Json& state) {
     }
     if(t-_last_sample>=.1) {auto sample=state;sample["wall_time"]=t;if(_scenario.contains("pilot"))sample["waypoint"]=_pilot.waypoint;_samples.push_back(sample);_last_sample=t;}
     if(state.value("success",false)&&state.value("finished",false)&&_success_at<0)_success_at=t;
+    if(!state.value("success",false)&&state.value("finished",false)&&_failure_at<0)_failure_at=t;
     const bool settled_success=_scenario.contains("stop_after_success")&&_success_at>=0&&t-_success_at>=_scenario.at("stop_after_success").get<double>();
-    if(t<_scenario.at("duration").get<double>()&&!settled_success)return false;
+    const bool settled_failure=_scenario.contains("stop_after_failure")&&_failure_at>=0&&t-_failure_at>=_scenario.at("stop_after_failure").get<double>();
+    if(t<_scenario.at("duration").get<double>()&&!settled_success&&!settled_failure)return false;
     bool passed=true;content::Json checks=content::Json::object();
     for(auto it=_scenario.at("expect").begin();it!=_scenario.at("expect").end();++it) {
         const bool ok=state.contains(it.key())&&state[it.key()]==it.value();checks[it.key()]={{"expected",it.value()},{"actual",state.value(it.key(),content::Json())},{"passed",ok}};passed&=ok;

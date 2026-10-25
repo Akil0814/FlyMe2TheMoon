@@ -9,6 +9,7 @@ namespace game::testing {
 // Explicit opt-in QA: injects input events only. Never changes simulation positions or success rules.
 class ReplayProbe {
 public:
+    ~ReplayProbe();
     static ReplayProbe& shared(){static ReplayProbe probe;return probe;}
     bool enabled()const{return _enabled;}
     void begin();
@@ -21,6 +22,7 @@ private:
     size_t _next=0;
     double _last_sample=-1;
     double _success_at=-1;
+    double _failure_at=-1;
     bool _enabled=false;
     std::set<SDL_Scancode> _pressed;
     FlightPilot _pilot;

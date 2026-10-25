@@ -1,0 +1,44 @@
+{
+  "name": "result-retry01",
+  "level": 1,
+  "duration": 42,
+  "events": [
+    {
+      "time": 0,
+      "key": "R",
+      "down": true,
+      "when": {
+        "finished": true,
+        "success": true
+      }
+    },
+    {
+      "time": 0.1,
+      "key": "R",
+      "down": false
+    }
+  ],
+  "pilot": [
+    [
+      489,
+      1050
+    ],
+    [
+      489,
+      850
+    ],
+    [
+      489,
+      650
+    ],
+    [
+      489,
+      385
+    ]
+  ],
+  "expect": {
+    "level": 1,
+    "finished": false
+  },
+  "stop_after_success": 2
+}

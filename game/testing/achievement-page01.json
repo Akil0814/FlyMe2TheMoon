@@ -1,0 +1,32 @@
+{
+  "name": "achievement-page01",
+  "level": -1,
+  "duration": 4,
+  "events": [
+    {
+      "time": 0.4,
+      "key": "Down",
+      "down": true
+    },
+    {
+      "time": 0.5,
+      "key": "Down",
+      "down": false
+    },
+    {
+      "time": 0.8,
+      "key": "Return",
+      "down": true
+    },
+    {
+      "time": 0.9,
+      "key": "Return",
+      "down": false
+    }
+  ],
+  "expect": {
+    "scene": 4,
+    "achievement101": true,
+    "save_error": ""
+  }
+}

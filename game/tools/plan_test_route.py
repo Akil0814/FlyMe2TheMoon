@@ -31,17 +31,30 @@ def plan(level):
             if options:return min(options)[1]
         raise ValueError('No free start/goal cell')
     start,goal=nearest(start),nearest(goal)
+    portals=[e for e in data['entities'] if e['kind']==115]
+    portal_links={}
+    for portal in portals:
+        if 'TargetPortalID' not in portal['info']:continue
+        identifier=int(portal['info']['TargetPortalID'])
+        target=next((e for e in portals if int(e['info'].get('PortalID',-1))==identifier),None)
+        if target is None:target=next(e for e in portals if e['id']==identifier)
+        origin=nearest((round(portal['x']/STEP),round((portal['y']-13)/STEP)))
+        destination=nearest((round(target['x']/STEP),round((target['y']-13)/STEP)))
+        portal_links[origin]=destination
     cost={start:0};parent={};queue=[(math.dist(start,goal),start)];closed=set()
     while queue:
         _,p=heapq.heappop(queue)
         if p in closed:continue
         if p==goal:break
         closed.add(p)
+        if p in portal_links:
+            q=portal_links[p];value=cost[p]+1
+            if value<cost.get(q,float('inf')):cost[q]=value;parent[q]=p;heapq.heappush(queue,(value,q))
         for dx,dy in [(1,0),(-1,0),(0,1),(0,-1),(1,1),(-1,1),(1,-1),(-1,-1)]:
             q=p[0]+dx,p[1]+dy
             if not (0<=q[0]<width and 0<=q[1]<height) or cells[q] or cells[p[0]+dx,p[1]] or cells[p[0],p[1]+dy]:continue
             value=cost[p]+math.hypot(dx,dy)
-            if value<cost.get(q,float('inf')):cost[q]=value;parent[q]=p;heapq.heappush(queue,(value+math.dist(q,goal),q))
+            if value<cost.get(q,float('inf')):cost[q]=value;parent[q]=p;heapq.heappush(queue,(value+(0 if portals else math.dist(q,goal)),q))
     if goal not in cost:raise ValueError('No conservative static route; inspect terrain / portal mechanics')
     path=[goal]
     while path[-1]!=start:path.append(parent[path[-1]])

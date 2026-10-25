@@ -11,8 +11,14 @@
 #include <numeric>
 namespace game::scene {
 using namespace elysia;
-void SelectionScene::on_after_update(double){if(testing::ReplayProbe::shared().update(runtime_context().renderer(),{{"scene",3}}))request_quit();}
-void AchievementsScene::on_after_update(double){if(testing::ReplayProbe::shared().update(runtime_context().renderer(),{{"scene",4}}))request_quit();}
+void SelectionScene::on_after_update(double){
+    const auto& store=progress::Store::instance();
+    if(testing::ReplayProbe::shared().update(runtime_context().renderer(),{{"scene",3},{"cleared",std::count_if(store.data.stars.begin(),store.data.stars.end(),[](int s){return s>=0;})},{"stars_level1",store.data.stars[0]},{"score_level1",store.data.scores[0]},{"score_verified_level1",store.data.score_verified[0]},{"achievement101",store.data.achievements.contains(101)},{"save_error",store.error}}))request_quit();
+}
+void AchievementsScene::on_after_update(double){
+    const auto& store=progress::Store::instance();
+    if(testing::ReplayProbe::shared().update(runtime_context().renderer(),{{"scene",4},{"achievement_count",store.data.achievements.size()},{"achievement101",store.data.achievements.contains(101)},{"save_error",store.error}}))request_quit();
+}
 namespace {
 std::unique_ptr<ui::UiButton> button(std::string text,float width,float height,std::function<void()> action) {
     auto b=std::make_unique<ui::UiButton>(core::Rect{0,0,width,height});b->set_text_content(ui::ui_raw_text(std::move(text)));b->set_on_click(std::move(action));return b;

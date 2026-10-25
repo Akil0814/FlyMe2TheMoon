@@ -1,0 +1,32 @@
+{
+  "name": "result-clear01",
+  "level": 1,
+  "duration": 42,
+  "events": [],
+  "pilot": [
+    [
+      489,
+      1050
+    ],
+    [
+      489,
+      850
+    ],
+    [
+      489,
+      650
+    ],
+    [
+      489,
+      385
+    ]
+  ],
+  "expect": {
+    "level": 1,
+    "success": true,
+    "stars": 3,
+    "demo": false,
+    "result_visible": true
+  },
+  "stop_after_success": 2
+}

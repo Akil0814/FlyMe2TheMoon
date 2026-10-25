@@ -1,5 +1,6 @@
 #include "main_menu_scene.h"
 #include "flight_scene.h"
+#include "credits_scene.h"
 #include "selection_scene.h"
 #include "engine/builtin/builtin_scene_keys.h"
 #include "engine/builtin/scenes/settings_scene_payload.h"
@@ -33,9 +34,9 @@ void MainMenuScene::on_enter(const elysia::scene::ScenePayload&)
     ELYSIA_AUDIO->play_music("fly.MoonTrip");
 
     auto content = std::make_unique<elysia::ui::UiListContainer>(
-        elysia::core::Rect{0, 0, 600, 600});
+        elysia::core::Rect{0, 0, 600, 650});
     content->set_cross_align(elysia::ui::UiLayoutAlign::Center);
-    content->set_item_spacing(22);
+    content->set_item_spacing(16);
 
     auto title = std::make_unique<elysia::ui::UiImage>(
         ELYSIA_RESOURCES->find_texture("fly.ui.mainTitle2"),elysia::core::Rect{0,0,480,207});
@@ -49,6 +50,9 @@ void MainMenuScene::on_enter(const elysia::scene::ScenePayload&)
     achievements->set_text_content(elysia::ui::ui_raw_text(game::content::ui("achievements")));achievements->set_on_click([this]{request_scene_switch(game::scene_keys::Achievements);});content->add_back(std::move(achievements));
     auto settings=std::make_unique<elysia::ui::UiButton>(elysia::core::Rect{0,0,360,56});
     settings->set_text_content(elysia::ui::ui_raw_text(game::content::ui("settings")));settings->set_on_click([this]{request_scene_switch(elysia::builtin::SceneKeys::Settings,elysia::builtin::SettingsScenePayload{.return_route={.target=game::scene_keys::MainMenu}});});content->add_back(std::move(settings));
+
+    auto credits=std::make_unique<elysia::ui::UiButton>(elysia::core::Rect{0,0,360,56});
+    credits->set_text_content(elysia::ui::ui_raw_text(game::content::ui("credits")));credits->set_on_click([this]{request_scene_switch(game::scene_keys::Credits);});content->add_back(std::move(credits));
 
     auto exit = std::make_unique<elysia::ui::UiButton>(
         elysia::core::Rect{0, 0, 360, 56});

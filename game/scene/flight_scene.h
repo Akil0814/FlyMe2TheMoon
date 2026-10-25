@@ -9,6 +9,8 @@
 #include "engine/audio/sound_playback_types.h"
 #include "game/gameplay/tutorial_replay.h"
 #include "game/gameplay/projectile.h"
+#include "engine/ui/window/ui_window.h"
+#include "engine/ui/widgets/ui_button.h"
 
 namespace game::scene_keys {inline constexpr elysia::scene::SceneKey Flight=2;}
 namespace game::scene {
@@ -27,6 +29,9 @@ protected:
     std::optional<elysia::camera::CameraFocus> resolve_camera_focus(elysia::camera::CameraSlot) const override;
 private:
     void finish(bool success);
+    void build_result_panel();
+    void show_result(bool saved);
+    void continue_from_result();
     void reached(bool success,const char* reason="");
     void restore_player();
     void apply_pointer(play::Vec point);
@@ -50,6 +55,12 @@ private:
     std::string _failure_reason,_pending_failure;
     elysia::ui::UiLabel* _hud=nullptr;
     elysia::ui::UiLabel* _hint=nullptr;
+    elysia::ui::UiWindow* _result=nullptr;
+    elysia::ui::UiLabel* _result_title=nullptr;
+    elysia::ui::UiLabel* _result_stats=nullptr;
+    elysia::ui::UiLabel* _result_save=nullptr;
+    elysia::ui::UiButton* _result_continue=nullptr;
+    std::array<elysia::ui::UiImage*,3> _result_stars{};
     testing::ReplayProbe& _probe=testing::ReplayProbe::shared();
     story::Runtime _story;
     play::TutorialReplay _tutorial_replay;

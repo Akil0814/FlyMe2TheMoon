@@ -7,6 +7,7 @@
 #include "wind_field.h"
 #include "flight_input.h"
 #include "role_geometry.h"
+#include "seesaw_parameters.h"
 
 namespace game::play {
 using namespace elysia::core;
@@ -65,7 +66,7 @@ Edge::Edge(Vec a,Vec b):GameObject(DepthLayer::Terrain) {
     const float dx=b.x-a.x,dy=b.y-a.y,length=std::hypot(dx,dy);
     set_world_rect({a.x,a.y,1,1});_angle=std::atan2(dy,dx);
     _colliders[0].shape=SegmentShape{{0,0},{length,0}};
-    _colliders[0].filter={.category=2,.mask=1};
+    _colliders[0].filter={.category=2,.mask=1|8};
     _colliders[0].material={.friction=0.05f,.restitution=0};
     _colliders[0].tag="terrain";
 }
@@ -106,12 +107,14 @@ void Player::submit_render_commands(std::vector<RenderCommand>& out) const {
     RenderCommand cmd;if(_animations.at(_action)->build_render_command(render_rect(),0,SpriteFlip::None,cmd))out.push_back(cmd);
 }
 Entity::Entity(const content::Json& d):GameObject(d.at("item").get<bool>()?DepthLayer::Item:DepthLayer::EffectBack),
-    kind(d.at("kind")),id(d.at("id")),item(d.at("item")),info(d.at("info")),origin{d.at("x"),d.at("y")},angle(d.at("rotation")),_motion(d.at("info")) {
+    kind(d.at("kind")),id(d.at("id")),item(d.at("item")),info(d.at("info")),origin{d.at("x"),d.at("y")},angle(d.at("rotation")),_motion(d.at("info")),_laser_aim(d.at("info")) {
     float w=d.at("w"),h=d.at("h");
     if(wind()) {
         const Vec anchor=origin+Vec{-w/2,h/2};
-        w*=static_cast<float>(parameter(info,"NumBlocks",1));
-        origin=anchor+rotate_vector({w/2,-h/2},angle*std::numbers::pi_v<float>/180);
+        const float blocks=static_cast<float>(parameter(info,"NumBlocks",1));
+        w=64*blocks;
+        // Original extra blocks extend to the left of the first 64-unit cell.
+        origin=anchor+rotate_vector({64-w/2,-h/2},angle*std::numbers::pi_v<float>/180);
     }
     set_world_rect({origin.x,origin.y,w,h});
     std::string key=d.at("key");
@@ -126,10 +129,19 @@ Entity::Entity(const content::Json& d):GameObject(d.at("item").get<bool>()?Depth
     c.response=item||kind==101||kind==111||kind==115||kind==116||kind==8||kind==24||kind==25?CollisionResponse::Overlap:CollisionResponse::Block;
     if(item||kind==101)c.shape=CircleShape{{0,0},kind==101?26.f:kind==3?18.f:10.f};
     else c.shape=BoxShape::from_rect({-w/2+2,-h/2+2,std::max(1.f,w-4),std::max(1.f,h-4)});
+    if(c.response==CollisionResponse::Block)c.filter.mask=1|2|8;
+    if(rotating()){
+        const float width=seesaw_width(kind);c.shape=BoxShape::from_rect({-width/2,-4,width,8});
+        c.density={.5f};c.material={.friction=.8f,.restitution=0};
+    }
+    if(wind())c.shape=BoxShape::from_rect({-w/2,-h/2,w,h});
     c.tag=item?"pickup":kind==101?"moon":"hazard";_colliders.push_back(c);
     if(kind>=105&&kind<=107){
         const auto spikes=info.value("Spikes",std::string("0000"));
-        for(int side=0;side<4&&side<spikes.size();++side)if(spikes[side]=='1'){
+        // DynamicBox's original string order is East, North, West, South.
+        constexpr int sides[]{1,0,3,2};
+        for(int index=0;index<4&&index<spikes.size();++index)if(spikes[index]=='1'){
+            const int side=sides[index];
             Collider spike;spike.filter={.category=8,.mask=1};spike.response=CollisionResponse::Overlap;spike.tag="spike";
             if(side==0)spike.shape=BoxShape::from_rect({-w/2,-h/2-8,w,8});
             if(side==1)spike.shape=BoxShape::from_rect({w/2,-h/2,8,h});
@@ -146,7 +158,11 @@ BodyDefinition Entity::body_definition()const {
     BodyDefinition b;b.type=(kind>=105&&kind<=107)||info.contains("CarrierID")?BodyType::Kinematic:rotating()?BodyType::Dynamic:BodyType::Static;
     if(info.contains("CarrierID"))b.fixed_rotation=false;
     b.angle=angle*std::numbers::pi_v<float>/180;
-    if(rotating()){b.fixed_rotation=false;b.mass_policy=MassPolicy::ExplicitMass;b.mass=static_cast<float>(parameter(info,"Mass",1));b.angular_damping=static_cast<float>(parameter(info,"AngularDamping",3));}
+    if(rotating()){
+        b.fixed_rotation=false;b.angular_damping=static_cast<float>(parameter(info,"AngularDamping",1.6));
+        const float mass=static_cast<float>(parameter(info,"Mass",-1));
+        if(mass>0){b.mass_policy=MassPolicy::ExplicitMass;b.mass=mass;}
+    }
     return b;
 }
 Rect Entity::render_rect()const noexcept {const Vec p=position();return {p.x-size().x/2,p.y-size().y/2,size().x,size().y};}
@@ -168,16 +184,14 @@ void Entity::attach_carrier(Entity* carrier) {
     _carrier_offset=rotate_vector(origin-carrier->origin,-rad);
     _carrier_angle=angle*std::numbers::pi_v<float>/180-rad;
 }
-bool Entity::update_laser(Vec target,const Player& player) {
+bool Entity::update_laser(double delta,Vec target,const Player& player) {
     _laser_active=false;if(kind!=114)return false;
-    if((target-position()).length()>parameter(info,"ActiveRange",2000)||_time<parameter(info,"Lag"))return false;
-    const float degrees=info.contains("FixedAngle")?static_cast<float>(parameter(info,"FixedAngle")):
-        static_cast<float>(parameter(info,"MinAngle")+(parameter(info,"MaxAngle",180)-parameter(info,"MinAngle"))*_motion.fraction(_time));
-    const float rad=physics_state()->angle-degrees*std::numbers::pi_v<float>/180;
+    const float rad=_laser_aim.update(info,_time,delta,physics_state()->angle,player.position()-position());
+    if(!LaserAim::in_range(info,(target-position()).length()))return false;
     const Vec direction{std::cos(rad),std::sin(rad)};
-    _laser_start=position()+direction*24;_laser_end=_laser_start+direction*4000;
+    _laser_start=position()+direction*24;_laser_end=_laser_start+direction*32000;
     std::vector<CollisionQueryHit> hits;
-    physics_world()->raycast_all({.origin=_laser_start,.direction=direction,.max_distance=4000,.filter={.collision={.category=1|8,.mask=1|2|8}}},hits);
+    physics_world()->raycast_all({.origin=_laser_start,.direction=direction,.max_distance=32000,.filter={.collision={.category=1|8,.mask=1|2|8}}},hits);
     _laser_active=true;
     for(const auto& hit:hits)if(hit.target.collider!=physics_collider(0)&&hit.response==CollisionResponse::Block){
         _laser_end=hit.point;return player.owns_collider(hit.target.collider);
@@ -218,13 +232,16 @@ void Entity::submit_render_commands(std::vector<RenderCommand>& out) const {
     if(collected)return;
     if(wind()) {
         const float rad=angle*std::numbers::pi_v<float>/180;
-        const int count=std::max(4,static_cast<int>(size().x/12));
+        const int count=std::max(4,static_cast<int>(size().x*size().y/2000));
         for(int i=0;i<count;++i){
-            const float x=-size().x/2+6+i*12;
-            const float y=size().y/2-static_cast<float>(std::fmod(_time*90+i*37,size().y));
-            RenderCommand streak;streak.type=RenderCommandType::DrawLine;streak.color={150,213,255,110};streak.stroke_width=1.5f;
+            const float x=size().x/2-static_cast<float>(std::fmod(_time*90+i*37,size().x));
+            const float y=-size().y/2+static_cast<float>(std::fmod(i*53+11,size().y));
+            float fade=1;const std::string ends=info.value("Fade",std::string("00"));
+            if(ends.size()>0&&ends[0]=='1')fade*=std::clamp((size().x/2-x)/24.f,0.f,1.f);
+            if(ends.size()>1&&ends[1]=='1')fade*=std::clamp((size().x/2+x)/24.f,0.f,1.f);
+            RenderCommand streak;streak.type=RenderCommandType::DrawLine;streak.color={150,213,255,static_cast<Uint8>(110*fade)};streak.stroke_width=1.5f;
             streak.line_start=position()+rotate_vector({x,y},rad);
-            streak.line_end=position()+rotate_vector({x,std::max(-size().y/2,y-18)},rad);out.push_back(streak);
+            streak.line_end=position()+rotate_vector({std::max(-size().x/2,x-18),y},rad);out.push_back(streak);
         }
         return;
     }

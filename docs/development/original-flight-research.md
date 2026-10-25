@@ -47,3 +47,33 @@ Game Layer 适配了 BoxShape、CollisionQueryFilter、overlap_shape 和关节 s
 - `Bomb.createInPhysicalWorld:` 的触发圆半径 2 m、伤害圆半径 1.25 m；`initWithXML:` 默认 Alarm=1 秒、Power=3；`explode` 在爆炸开始只检测一次伤害，视觉结束不持续伤害。类型 116 的 27 帧（60 Hz）缩放/透明度表位于 0x1A04B8。已替换此前 80 单位距离触发、默认 1.5 秒及持续 0.5 秒伤害的推断。
 - `Role.hitByAmount:` 在 manaEnabled=false 时立即销毁身体并切换死亡动画，所以本批 NoMana 关卡采用一次命中死亡有直接证据。
 - 第 3/4/5 关鼠标路线均实际通关（各自 route01 日志）；第 4 关渐变背景截图已检查。炸弹命中原因与爆炸计数现在单独采样，后续实机测试须断言具体来源。
+
+
+## 旋转杆参数补充（2026-10-24）
+
+原 `Seesaw.initWithXML:`（0xbe808）提供默认 Anchor=0.5、Speed=0、Torque=100、Mass=-1（不覆盖）、AngularDamping=1.6。`initExtraInfo...`（0xbe5e8）跳转表将 108/109/110/117 的物理宽度设为 64/128/256/512，支点比例限制使其距杆端至少 4 单位。`createInPhysicalWorld:`（0xbdaf0）设置半厚 0.125 m（4 EU）、密度 0.5、摩擦 0.8。
+
+原刚体角是显示旋转角的负值，Speed 直接送给原 Y-up Box2D，故转为引擎 Y-down 后电机速度必须取反。此前方向直接沿用是实现错误，已修正 Game Layer。实体物理碰撞筛选也改为允许转杆与地形及实体阻挡，避免杆穿过环境。原 Stable 仅出现在 `update:` 的音效角位移计算，不能据此把杆固定或关闭转动。
+
+原 Mass>0 分支保留旧转动惯量只改质量；当前引擎 ExplicitMass 会按质量缩放惯量，此处仍有差异（明确 Mass 的 7 个对象）。未改引擎。对默认质量改用密度计算。
+
+证据：`out/analysis/seesaw-xml.log`、`seesaw-physics.log`、`seesaw-extra-tail.log`。跳转表字节不是指令，另从有效代码地址续读，未执行原版程序。
+
+
+## 风场方向与采样修正（2026-10-24）
+
+`Wind.initExtraInfoWithStrength:numBlocks:`（0xc9c64）明确 ori=(cos(-(Rotation+180)°),sin(-(Rotation+180)°))，因此 Y-down 下零角向左、90°向上；此前按零角向上是错误推断。`initWithXML:` 的 Strength 默认值是 20。`createInPhysicalWorld:`（0xc880c）宽度为 64×NumBlocks，中心相对第一格向左偏移 (1−NumBlocks)×32；此前向右扩展错误。高度 8/24/25 分别为 64/128/256。
+
+`RoleBodyComponent.getEnvelopeAABB` 普通角色包络为 32×61 EU，在 Y-down 体锚点的 x±16、y∈[-45,16]。`Wind.getIntersectRateWithRole:` 在横向三等分的两个内部列、纵向四等分的三个内部行取 6 点，每个在风场内贡献 1/6。`Wind.update:` 直接以此比例乘 strength×ori 施力，Fade 只用于边缘贴图，不是原先推断的 32 单位力渐变。
+
+修改 `wind_field.h`、风场中心和方向表现；更新原先建立在错误推断上的测试，保留范围外零力、旋转与强度检验，增加六点半覆盖和默认强度检验，不降低通关断言。完整叶片/流动素材表现仍为近似线条。
+
+## 激光与移动尖刺校准（2026-10-24，待本轮实跑）
+
+原程序静态证据 `LaserBeam.initWithXML:`（0xb7a60）、`update:`（0xb59e4）及 `updateOrientByVectorToRole:dt:`（0xb46a8）确认：
+- 激光默认 ActiveRange 为 1000，-1 表示无限激活距离；射线长度为 1000 物理米，即 32000 游戏单位。
+- FixedAngle 优先；存在 Cycle 时自动扫描，Rate 默认 1；两者都没有时跟踪角色身体锚点，局部角度限于 0..π，以 min(5×dt,1) 平滑。
+- Lag 仅延迟自动转向，不延迟发光。当前 Game Layer 已修正这些分支，发射口的 24 单位偏移和光束表现仍为近似。
+- `DynamicBox.initExtraInfoWithMovement:...`（0xb3930..0xb39dc）逐项读取 Spikes[0..3] 到 hasSpikeE/N/W/S，确认字符串顺序为右、上、左、下。此前错误采用上、右、下、左，已修正。第 8 关 wind02 之前的失败不能证明修正后难度或通路。
+
+证据保存在 `out/analysis/laser-{xml,update,aim,auto,start,sprites}.log` 与 `out/analysis/platform-extra.log`。以上均为本地只读反汇编，没有运行参考可执行文件。新版构建与关卡验证结果另见增量验证记录。

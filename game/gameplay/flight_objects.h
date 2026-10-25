@@ -7,6 +7,7 @@
 #include "game/content/content.h"
 #include "motion_profile.h"
 #include "shot_schedule.h"
+#include "laser_aim.h"
 #include "engine/camera/camera.h"
 #include <array>
 #include <map>
@@ -78,7 +79,7 @@ public:
     bool wind()const{return kind==8||kind==24||kind==25;}
     Vec wind_force_at(Vec point)const;
     void attach_carrier(Entity* carrier);
-    bool update_laser(Vec target,const Player& player);
+    bool update_laser(double delta,Vec target,const Player& player);
     bool laser_active()const{return _laser_active;}
     float laser_length()const{return (_laser_end-_laser_start).length();}
     int shots_due(double delta,Vec target);
@@ -97,6 +98,7 @@ private:
     SDL_Texture* _texture=nullptr;
     Vec _visual_size;
     MotionProfile _motion;
+    LaserAim _laser_aim;
     double _time=0;
     std::vector<Vec> _spike_positions;
     SDL_Texture* _spike_texture=nullptr;

@@ -1,0 +1,20 @@
+2026-10-24 22:46:45 [INFO] [application] (application.cpp:460) SDL3 GPU backend: direct3d12
+2026-10-24 22:46:46 [INFO] [scene] (scene_manager.cpp:216) Switching to SceneKey 4294901761 with reload mode 0
+2026-10-24 22:46:46 [INFO] [resource] (game_content_loader.cpp:143) Total requests built: 1205, total work units: 1479
+2026-10-24 22:46:53 [INFO] [scene] (scene_manager.cpp:216) Switching to SceneKey 2 with reload mode 2
+2026-10-24 22:46:53 [INFO] [fly.test] (replay_probe.cpp:27) Input replay started; no simulation overrides
+2026-10-24 22:46:53 [INFO] [fly] (flight_scene.cpp:83) Entered level 13: 116 entities, 4 contours
+2026-10-24 22:46:54 [INFO] [fly.story] (flight_scene.cpp:182) Dialogue: Level46-1
+2026-10-24 22:46:54 [INFO] [fly.story] (flight_scene.cpp:182) Dialogue: Level46-2
+2026-10-24 22:46:55 [INFO] [fly.story] (flight_scene.cpp:182) Dialogue: Level46-3
+2026-10-24 22:46:56 [INFO] [fly.story] (flight_scene.cpp:182) Dialogue: Level46-4
+2026-10-24 22:46:56 [INFO] [fly.story] (flight_scene.cpp:182) Dialogue: Level46-5
+2026-10-24 22:46:57 [INFO] [fly.story] (flight_scene.cpp:182) Dialogue: Level46-6
+2026-10-24 22:47:00 [INFO] [fly.portal] (flight_scene.cpp:251) Transit 0 -> 1
+2026-10-24 22:47:06 [INFO] [fly.trigger] (flight_scene.cpp:212) Start entity 2 at 13.133
+2026-10-24 22:47:09 [INFO] [fly.portal] (flight_scene.cpp:251) Transit 7 -> 8
+2026-10-24 22:47:21 [INFO] [fly.portal] (flight_scene.cpp:251) Transit 12 -> 11
+2026-10-24 22:47:28 [ERROR] [scene] (scene.cpp:348) APPLICATION-FATAL [scene]
+Argument not found.
+[1] type=scene key=2 reason=Update source=scene.cpp:348
+2026-10-24 22:47:28 [INFO] [scene] (scene_manager.cpp:216) Switching to SceneKey 4294901765 with reload mode 2

@@ -51,3 +51,13 @@
 用户明确说明物理系统更新，更新后基线 641 文件另存，旧基线和差异保留。适配经过 `build-engine-update01.log`、4 项 `engine-update-ctest01.log`；旧 AabbShape、查询过滤和关节平铺参数按新文档迁移。游戏未修改引擎实现。
 
 原版飞行计算、复合碰撞体与首关实机回归见 ../original-flight-research.md。`original-flight-ctest02.log` 还包含真实 PhysicsWorld 中的复合形状注册、线段落地、15 秒持续飞行终端速度检查。
+
+
+## 2026-10-24 结算、片尾与通关批次
+
+- `level7-route01`：真实鼠标输入到达月亮，0 星、3 水晶分值，17.302 秒。随后更精确的旋转杆参数调整另行回归。
+- `level8-route01`、`level8-route02`：均未通关；第二次运行满 75 秒，无死亡，停在 (467.60,1514.27) 的两杆之间。保留失败轨迹和截图，不视为通过。
+- `level9-route01` 至 `level12-route01`：上一批出现提前退出且缺少结果文件；不能据此确认退出原因。ReplayProbe 新增正常应用提前关闭时输出 interrupted=true 的失败结果，不阻止用户关闭窗口。
+- `build-result-credits01.log` 编译失败：UiWindow 没有 set_enabled，列表方向枚举应是 UiListDirection。仅修正 Game Layer；`build-result-credits02.log` Release 通过。
+- `credits-scroll01`：从主菜单用方向键进入制作人员，自动滚动 191.75 单位，正常退出，断言通过。截图已目视检查。
+- `result-clear01`：首关真实鼠标通关，3 星、22 水晶分值；显示时间 6.81 秒、得分 57144，结算面板断言通过并检查截图。结算快捷按钮、最终关到片尾尚待运行验证。

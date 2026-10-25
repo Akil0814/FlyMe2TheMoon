@@ -1,0 +1,24 @@
+{
+  "name": "progress-restart01",
+  "level": -1,
+  "duration": 4,
+  "events": [
+    {
+      "time": 0.5,
+      "key": "Return",
+      "down": true
+    },
+    {
+      "time": 0.6,
+      "key": "Return",
+      "down": false
+    }
+  ],
+  "expect": {
+    "scene": 3,
+    "stars_level1": 3,
+    "score_verified_level1": true,
+    "achievement101": true,
+    "save_error": ""
+  }
+}
