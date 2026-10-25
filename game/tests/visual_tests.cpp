@@ -204,6 +204,60 @@ void check_portals() {
         }
     }
 }
+void check_sleeping_bombs() {
+    auto data=mechanism(116);data["info"]["Alarm"]="0.25";
+    const auto key=data.at("key").get<std::string>();
+    const auto* leaf=ELYSIA_RESOURCES->find_atlas(key+".S02")->frame_at(0);
+    const auto* center=ELYSIA_RESOURCES->find_atlas(key+".S01")->frame_at(0);
+    game::play::Entity bomb(data);const auto initial=commands(bomb);bool animated=false;
+    for(int tick=0;tick<180;++tick) {
+        const auto drawn=commands(bomb);
+        require(bomb.bomb_state()==0&&drawn.size()==7,"Sleeping bomb must show six petals and its center before activation");
+        for(std::size_t i=0;i<drawn.size();++i) {
+            require(drawn[i].texture==(i<6?leaf->_texture:center->_texture)&&drawn[i].alpha==255,"Sleeping bomb is cycling between component/effect images");
+            const auto offset=drawn[i].command_rect.center()-bomb.center();
+            require(i<6?(offset.length()>7&&offset.length()<11):offset.length()<.001,"Sleeping bomb component is misplaced");
+            require(std::abs(drawn[i].command_rect.width()-(i<6?12.5:7))<.001,"Sleeping bomb component does not retain its native size");
+            if(tick>0)animated|=drawn[i].command_rect!=initial[i].command_rect;
+        }
+        bomb.update(1./60);
+    }
+    require(animated,"Sleeping bomb breathing animation is frozen");
+    game::play::Entity loop(data);loop.update(1.5);const auto wrapped=commands(loop);
+    for(std::size_t i=0;i<initial.size();++i)require(wrapped[i].command_rect==initial[i].command_rect,"Sleeping bomb 90-frame animation does not loop");
+    data["rotation"]=90;game::play::Entity turned(data);const auto rotated=commands(turned);
+    for(std::size_t i=0;i<initial.size();++i) {
+        const auto offset=initial[i].command_rect.center()-bomb.center();
+        require((rotated[i].command_rect.center()-turned.center()-core::Vector2{-offset.y,offset.x}).length()<.001,"Sleeping bomb components do not follow rotation");
+    }
+    physics::PhysicsWorld world({.gravity={0,0}});
+    const auto handle=world.register_object(bomb,bomb.body_definition(),bomb.collider_definitions());
+    require(handle.is_valid(),"Bomb visual transition registration failed");bomb.bind_physics(world,handle);
+    core::GameObject target(core::DepthLayer::Character);target.set_world_rect({bomb.center().x,bomb.center().y,1,1});
+    physics::Collider collider;collider.shape=physics::CircleShape{{0,0},1};collider.filter={.category=1,.mask=8};
+    const auto role=world.register_object(target,physics::BodyDefinition{.type=physics::BodyType::Static},std::span(&collider,1));
+    require(role.is_valid(),"Bomb activation fixture registration failed");
+    bomb.update_bomb(0,{});require(bomb.bomb_state()==1&&commands(bomb).size()==1,"Bomb did not replace sleeping petals with its alarm visual");
+    bomb.update_bomb(.26,{});require(bomb.bomb_state()==2&&commands(bomb).size()==1,"Bomb did not replace alarm with its blast visual");
+    bomb.update_bomb(.5,{});require(bomb.bomb_state()==3&&commands(bomb).empty(),"Exploded bomb still draws sleeping petals");
+    bomb.unbind_physics();require(world.unregister_object(handle)&&world.unregister_object(role),"Bomb visual transition cleanup failed");
+}
+void save_bomb_preview(SDL_Renderer* renderer) {
+    require(SDL_SetRenderDrawColor(renderer,16,25,38,255)&&SDL_RenderClear(renderer),SDL_GetError());
+    for(int column=0;column<4;++column) {
+        auto data=mechanism(116);if(column==3)data["rotation"]=45;
+        game::play::Entity bomb(data);bomb.update(column*.375);
+        const camera::Camera camera(bomb.position(),{1280,720},8);
+        for(const auto& command:commands(bomb)) {
+            auto projected=core::project_render_command_to_screen(command,camera);
+            projected.screen_rect=projected.screen_rect.translated(core::Vector2{160.f+320*column,360}-core::Vector2{640,360});
+            core::require_render_success(core::execute_render_command(renderer,projected));
+        }
+    }
+    SDL_Surface* captured=SDL_RenderReadPixels(renderer,nullptr);require(captured!=nullptr,SDL_GetError());
+    std::filesystem::create_directories("out/qa");
+    const bool saved=SDL_SaveBMP(captured,"out/qa/bomb-idle-visual-preview.bmp");SDL_DestroySurface(captured);require(saved,SDL_GetError());
+}
 void save_portal_preview(SDL_Renderer* renderer) {
     require(SDL_SetRenderDrawColor(renderer,16,25,38,255)&&SDL_RenderClear(renderer),SDL_GetError());
     for(int row=0;row<2;++row)for(int column=0;column<4;++column) {
@@ -282,14 +336,16 @@ int main() {
             check_platforms_and_rods();
             check_tracking_flower();
             check_portals();
+            check_sleeping_bombs();
             check_mechanism_interpolation();
             check_projectile(false);
             check_projectile(true);
             check_projectile_gravity();
             save_mechanism_preview(renderer);
             save_portal_preview(renderer);
+            save_bomb_preview(renderer);
         }
-        std::cout<<"PASS: idle/mechanism/portal visuals, ordinary projectile gravity/arcs/terrain hits, homing motion preserved\n";
+        std::cout<<"PASS: idle/mechanism/portal/bomb visuals, ordinary projectile gravity/arcs/terrain hits, homing motion preserved\n";
         result=0;
     } catch(const std::exception& error) {
         std::cerr<<"FAIL: "<<error.what()<<'\n';

@@ -10,6 +10,7 @@
 #include "seesaw_parameters.h"
 #include "launcher_visual.h"
 #include "portal_visual.h"
+#include "bomb_visual.h"
 
 namespace game::play {
 using namespace elysia::core;
@@ -140,7 +141,7 @@ Entity::Entity(const content::Json& d):GameObject(d.at("item").get<bool>()?Depth
     // Mechanism atlases contain state variants and component layers, not an
     // animation timeline. Select the base and draw attached parts separately.
     const bool platform=kind>=105&&kind<=107;
-    const bool state_images=item||kind==101||platform||rotating()||kind==113||kind==115;
+    const bool state_images=item||kind==101||platform||rotating()||kind==113||kind==115||kind==116;
     if(!state_images)_animation=ELYSIA_ANIMATIONS->create_animation(key);
     const auto& sizes=content::catalog().at("sizes");
     _visual_size={w,h};
@@ -163,7 +164,7 @@ Entity::Entity(const content::Json& d):GameObject(d.at("item").get<bool>()?Depth
         for(std::size_t i=0;i<_portal_frames.size();++i)_portal_frames[i]=mechanism_frame(parts,i);
     }
     if(kind==112||kind==113)_shots.emplace(info);
-    if(kind==116){_bomb_armed=ELYSIA_ANIMATIONS->create_animation(key+".S03");_bomb_blast=ELYSIA_ANIMATIONS->create_animation(key+".S04");}
+    if(kind==116){_bomb_leaf_frame=mechanism_frame(key+".S02",0);_bomb_center_frame=mechanism_frame(key+".S01",0);_bomb_armed=ELYSIA_ANIMATIONS->create_animation(key+".S03");_bomb_blast=ELYSIA_ANIMATIONS->create_animation(key+".S04");}
     Collider c;c.filter={.category=item||kind==101?4u:8u,.mask=1};
     c.response=item||kind==101||kind==111||kind==115||kind==116||kind==8||kind==24||kind==25?CollisionResponse::Overlap:CollisionResponse::Block;
     if(item||kind==101)c.shape=CircleShape{{0,0},kind==101?26.f:kind==3?18.f:10.f};
@@ -268,7 +269,7 @@ bool Entity::lethal(ColliderId hit)const {
     return false;
 }
 Vec Entity::wind_force_at(Vec point)const {return wind()?wind_force(point,position(),size(),angle*std::numbers::pi_v<float>/180,info):Vec{};}
-void Entity::update(double delta) {_shot_visual_time=std::min(1.,_shot_visual_time+delta);if(kind==115)_portal_visual_time=std::fmod(_portal_visual_time+delta,40./60.);if(_animation)_animation->update(delta);if(_bomb_armed)_bomb_armed->update(delta);}
+void Entity::update(double delta) {_shot_visual_time=std::min(1.,_shot_visual_time+delta);if(kind==115)_portal_visual_time=std::fmod(_portal_visual_time+delta,40./60.);if(kind==116&&_bomb_state==0)_bomb_idle_time=std::fmod(_bomb_idle_time+delta,1.5);if(_animation)_animation->update(delta);if(_bomb_armed)_bomb_armed->update(delta);}
 void Entity::submit_render_commands(std::vector<RenderCommand>& out) const {
     if(collected)return;
     if(wind()) {
@@ -304,6 +305,15 @@ void Entity::submit_render_commands(std::vector<RenderCommand>& out) const {
             sprite.use_src_rect=frame._source_rect.has_value();if(sprite.use_src_rect)sprite.src_rect=*frame._source_rect;
             out.push_back(sprite);
         }
+        return;
+    }
+    if(kind==116&&_bomb_state==0) {
+        // The transparent root is replaced by six independent S02 petals;
+        // the S01 center sits above them, as in Bomb.initSprites.
+        const float radians=rotation*std::numbers::pi_v<float>/180;
+        for(const auto& leaf:bomb_sleeping_pose(_bomb_idle_time))
+            append_component(out,*_bomb_leaf_frame,c+rotate_vector(leaf.offset,radians),{.5f,.5f},rotation+leaf.rotation);
+        append_component(out,*_bomb_center_frame,c,{.5f,.5f},rotation);
         return;
     }
     RenderCommand cmd;

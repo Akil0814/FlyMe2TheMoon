@@ -116,6 +116,9 @@ private:
     std::optional<ShotSchedule> _shots;
     int _bomb_state=0;
     double _bomb_time=0;
+    double _bomb_idle_time=0;
+    const elysia::resources::FrameInfo* _bomb_leaf_frame=nullptr;
+    const elysia::resources::FrameInfo* _bomb_center_frame=nullptr;
     std::unique_ptr<elysia::animation::Animation> _bomb_armed,_bomb_blast;
 };
 class Pivot final:public elysia::core::GameObject,public elysia::physics::PhysicsParticipant {

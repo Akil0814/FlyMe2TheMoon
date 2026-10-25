@@ -108,3 +108,13 @@ Game Layer 适配了 BoxShape、CollisionQueryFilter、overlap_shape 和关节 s
 验证：入口/出口各连续 180 帧检查部件数量、两组纹理、四向环绕与持续可见性、动画变化、40 帧循环及整体旋转；5 项 CTest 全部通过。`out/qa/portal-visual-preview.bmp` 为实际 SDL 渲染的两种门各四个时刻，已查看。
 
 新版主程序第 13 关输入回放 `level13-portal-visual01` 通过，观测到一次传送并正常退出；结果与截图保存在 `out/qa/`。
+
+## 爆炸物常态组合贴图（2026-10-25）
+
+116 型爆炸物的根贴图同样全透明。`Bomb.initSprites`（0xb018c）用 `S02/001.png` 创建六个独立花瓣，用 `S01/001.png` 创建上层中央图案；两者在原版中均以精灵默认中心锚点放在物体局部中心附近。S01 第二张是中央高亮层，S03 两张分别为预警整体花瓣及其高亮层，不能用透明根图代替触发前的部件。
+
+`refreshV2SleepLeafPosByIdxFrame`（0xaf2ec）使用 0x19e8e0 的 90×6 组位置/角度数据；`updateSleepAnimation:`（0xaf414）以 60 Hz、90 帧循环更新，形成轻微呼吸动画。本轮新增只读导入工具 `game/tools/import_bomb_visual.py` 和生成表 `game/gameplay/bomb_visual.h`，常态持续绘制六瓣及中央图案，并随物体整体旋转。触发、爆炸伤害和现有预警/爆炸绘制分支保持原有逻辑；本轮没有完成预警高亮层的原表校准。
+
+验证：常态连续 180 帧检查七个部件的纹理、透明度、尺寸及位置，检查呼吸变化、90 帧循环和整体旋转；绑定真实 PhysicsWorld 后由重叠对象触发，验证预警、爆炸、消失阶段不残留常态花瓣。5 项 CTest 全部通过，主程序构建成功。`out/qa/bomb-idle-visual-preview.bmp` 为实际 SDL 渲染预览，已查看。
+
+新版主程序第 31 关输入回放 `level31-bomb-idle-visual01` 通过，观测到爆炸物进入预警状态并正常退出；结果与截图保存在 `out/qa/`。
