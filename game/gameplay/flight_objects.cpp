@@ -8,10 +8,29 @@
 #include "flight_input.h"
 #include "role_geometry.h"
 #include "seesaw_parameters.h"
+#include "launcher_visual.h"
+#include "portal_visual.h"
 
 namespace game::play {
 using namespace elysia::core;
 using namespace elysia::physics;
+namespace {
+const elysia::resources::FrameInfo* mechanism_frame(const std::string& key,std::size_t index) {
+    const auto* atlas=ELYSIA_RESOURCES->find_atlas(key);
+    const auto* frame=atlas?atlas->frame_at(index):nullptr;
+    if(!frame||!frame->_texture)throw std::runtime_error("Missing mechanism sprite "+key+" frame "+std::to_string(index));
+    return frame;
+}
+void append_component(std::vector<RenderCommand>& out,const elysia::resources::FrameInfo& frame,
+                      Vec anchor,Vec origin,float rotation) {
+    const Vec size{frame._width*.5f,frame._height*.5f};
+    RenderCommand cmd;cmd.texture=frame._texture;
+    cmd.command_rect={anchor.x-origin.x*size.x,anchor.y-origin.y*size.y,size.x,size.y};
+    cmd.rotation_origin=origin;cmd.rotation_degrees=rotation;
+    cmd.use_src_rect=frame._source_rect.has_value();if(cmd.use_src_rect)cmd.src_rect=*frame._source_rect;
+    out.push_back(cmd);
+}
+}
 Parallax::Parallax(const content::Json& data,const elysia::camera::Camera* camera):GameObject(DepthLayer::Background),_world_size{data.at("width"),data.at("height")},_camera(camera) {
     // BackgroundLayer.load: in the supplied original selects these RGBA colors.
     switch(data.at("suite").get<int>()) {
@@ -118,15 +137,31 @@ Entity::Entity(const content::Json& d):GameObject(d.at("item").get<bool>()?Depth
     }
     set_world_rect({origin.x,origin.y,w,h});
     std::string key=d.at("key");
-    // Numbered pickup/moon images are separate normal and effect states,
-    // not consecutive frames of an idle animation.
-    const bool state_images=item||kind==101;
+    // Mechanism atlases contain state variants and component layers, not an
+    // animation timeline. Select the base and draw attached parts separately.
+    const bool platform=kind>=105&&kind<=107;
+    const bool state_images=item||kind==101||platform||rotating()||kind==113||kind==115;
     if(!state_images)_animation=ELYSIA_ANIMATIONS->create_animation(key);
     const auto& sizes=content::catalog().at("sizes");
     _visual_size={w,h};
     if(sizes.contains(key)&&(_animation||state_images)) {_visual_size={sizes.at(key)[0],sizes.at(key)[1]};}
     _texture=ELYSIA_RESOURCES->find_texture(state_images?key+".first":key);
     if(state_images&&!_texture)throw std::runtime_error("Missing normal-state texture "+key);
+    if(platform&&parameter(info,"Lock")!=0)_texture=mechanism_frame(key,3)->_texture;
+    if(rotating()) {
+        const float anchor=static_cast<float>(parameter(info,"Anchor",.5)-.5);
+        const float margin=16/seesaw_width(kind);
+        if(anchor<-.5f+margin||anchor>.5f-margin) {
+            _texture=mechanism_frame(key,1)->_texture;
+            if(anchor>.5f-margin)_base_flip=SpriteFlip::Horizontal;
+        }
+        _pivot_frame=mechanism_frame(key+".S01",0);
+    }
+    if(kind==113){_leaf_frames[0]=mechanism_frame(key,2);_leaf_frames[1]=mechanism_frame(key,1);}
+    if(kind==115) {
+        const auto parts=key+(info.contains("TargetPortalID")?".S01":".S02");
+        for(std::size_t i=0;i<_portal_frames.size();++i)_portal_frames[i]=mechanism_frame(parts,i);
+    }
     if(kind==112||kind==113)_shots.emplace(info);
     if(kind==116){_bomb_armed=ELYSIA_ANIMATIONS->create_animation(key+".S03");_bomb_blast=ELYSIA_ANIMATIONS->create_animation(key+".S04");}
     Collider c;c.filter={.category=item||kind==101?4u:8u,.mask=1};
@@ -169,7 +204,7 @@ BodyDefinition Entity::body_definition()const {
     }
     return b;
 }
-Rect Entity::render_rect()const noexcept {const Vec p=position();return {p.x-size().x/2,p.y-size().y/2,size().x,size().y};}
+Rect Entity::render_rect()const noexcept {const Vec p=GameObject::render_rect().position();return {p.x-size().x/2,p.y-size().y/2,size().x,size().y};}
 void Entity::fixed_update(double delta) {
     _time+=delta;
     if(_carrier) {
@@ -204,7 +239,9 @@ bool Entity::update_laser(double delta,Vec target,const Player& player) {
 }
 int Entity::shots_due(double delta,Vec target) {
     if(!_shots)return 0;const int count=_shots->advance(delta);
-    return (target-position()).length()<=parameter(info,"ActiveRange",800)?count:0;
+    const int fired=(target-position()).length()<=parameter(info,"ActiveRange",800)?count:0;
+    if(fired>0)_shot_visual_time=0;
+    return fired;
 }
 Vec Entity::fire_direction(Vec target)const {
     if(info.contains("FixedAngle")){
@@ -231,7 +268,7 @@ bool Entity::lethal(ColliderId hit)const {
     return false;
 }
 Vec Entity::wind_force_at(Vec point)const {return wind()?wind_force(point,position(),size(),angle*std::numbers::pi_v<float>/180,info):Vec{};}
-void Entity::update(double delta) {if(_animation)_animation->update(delta);if(_bomb_armed)_bomb_armed->update(delta);}
+void Entity::update(double delta) {_shot_visual_time=std::min(1.,_shot_visual_time+delta);if(kind==115)_portal_visual_time=std::fmod(_portal_visual_time+delta,40./60.);if(_animation)_animation->update(delta);if(_bomb_armed)_bomb_armed->update(delta);}
 void Entity::submit_render_commands(std::vector<RenderCommand>& out) const {
     if(collected)return;
     if(wind()) {
@@ -250,7 +287,25 @@ void Entity::submit_render_commands(std::vector<RenderCommand>& out) const {
         return;
     }
     Rect r=render_rect();const auto c=r.center();r={c.x-_visual_size.x/2,c.y-_visual_size.y/2,_visual_size.x,_visual_size.y};
-    const float rotation=physics_state()?physics_state()->angle*180/std::numbers::pi_v<float>:angle;
+    const auto pose=physics_world()?physics_world()->render_pose(physics_handle()):std::optional<PhysicsPose>{};
+    const float rotation=pose?pose->angle*180/std::numbers::pi_v<float>:angle;
+    if(kind==115) {
+        // The root image is transparent. Two groups of twelve sprites form
+        // the original portal, rather than two alternating animation frames.
+        const auto& parts=portal_pose(_portal_visual_time,!info.contains("TargetPortalID"));
+        const float radians=rotation*std::numbers::pi_v<float>/180;
+        for(std::size_t i=0;i<parts.size();++i) {
+            const auto& part=parts[i];const auto& frame=*_portal_frames[i/12];
+            const Vec center=c+rotate_vector(part.offset,radians);
+            const Vec extent{frame._width*.5f*part.scale.x,frame._height*.5f*part.scale.y};
+            RenderCommand sprite;sprite.texture=frame._texture;
+            sprite.command_rect={center.x-extent.x/2,center.y-extent.y/2,extent.x,extent.y};
+            sprite.rotation_degrees=rotation+part.rotation;sprite.alpha=part.alpha;
+            sprite.use_src_rect=frame._source_rect.has_value();if(sprite.use_src_rect)sprite.src_rect=*frame._source_rect;
+            out.push_back(sprite);
+        }
+        return;
+    }
     RenderCommand cmd;
     if(kind==116&&_bomb_state==3)return;
     if(kind==116&&_bomb_state==2&&_bomb_blast){
@@ -262,14 +317,22 @@ void Entity::submit_render_commands(std::vector<RenderCommand>& out) const {
     }
     else if(kind==116&&_bomb_state==1&&_bomb_armed){if(_bomb_armed->build_render_command(r,rotation,SpriteFlip::None,cmd))out.push_back(cmd);}
     else if(_animation) {if(_animation->build_render_command(r,rotation,SpriteFlip::None,cmd))out.push_back(cmd);}
-    else if(_texture){cmd.texture=_texture;cmd.command_rect=r;cmd.rotation_degrees=rotation;out.push_back(cmd);}
+    else if(_texture){cmd.texture=_texture;cmd.command_rect=r;cmd.rotation_degrees=rotation;cmd.flip=_base_flip;out.push_back(cmd);}
     if(_laser_active) {
         RenderCommand beam;beam.type=RenderCommandType::DrawLine;beam.line_start=_laser_start;beam.line_end=_laser_end;
         beam.color={221,88,255,130};beam.stroke_width=8;out.push_back(beam);
         beam.color={255,221,255,255};beam.stroke_width=2;out.push_back(beam);
     }
     const float rad=rotation*std::numbers::pi_v<float>/180;
-    for(Vec point:_spike_positions){const Vec p=position()+Vec{point.x*std::cos(rad)-point.y*std::sin(rad),point.x*std::sin(rad)+point.y*std::cos(rad)};
+    if(_pivot_frame)append_component(out,*_pivot_frame,c+rotate_vector({seesaw_anchor(kind,info),0},rad),{.5f,.5f},rotation);
+    if(kind==113)for(std::size_t part=0;part<_leaf_frames.size();++part) {
+        // The original children use bottom-left anchors in the stem's local,
+        // Y-up image coordinates. Keep their native size and original z order.
+        const auto leaf=launcher_leaf_pose(_shot_visual_time,part==0);
+        const Vec local{leaf.position.x-_visual_size.x/2,_visual_size.y/2-leaf.position.y};
+        append_component(out,*_leaf_frames[part],c+rotate_vector(local,rad),{0,1},rotation+leaf.rotation);
+    }
+    for(Vec point:_spike_positions){const Vec p=c+Vec{point.x*std::cos(rad)-point.y*std::sin(rad),point.x*std::sin(rad)+point.y*std::cos(rad)};
         RenderCommand s;s.texture=_spike_texture;s.command_rect={p.x-8,p.y-8,16,16};s.rotation_degrees=rotation;if(s.texture)out.push_back(s);}
 }
 Pivot::Pivot(Vec p):GameObject(DepthLayer::Terrain){set_world_rect({p.x,p.y,1,1});_colliders[0].shape=CircleShape{{0,0},1};_colliders[0].filter={.category=0,.mask=0};_colliders[0].response=CollisionResponse::Ignore;}

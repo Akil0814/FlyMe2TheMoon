@@ -97,6 +97,12 @@ private:
     std::unique_ptr<elysia::animation::Animation> _animation;
     SDL_Texture* _texture=nullptr;
     Vec _visual_size;
+    elysia::core::SpriteFlip _base_flip=elysia::core::SpriteFlip::None;
+    const elysia::resources::FrameInfo* _pivot_frame=nullptr;
+    std::array<const elysia::resources::FrameInfo*,2> _leaf_frames{};
+    std::array<const elysia::resources::FrameInfo*,2> _portal_frames{};
+    double _portal_visual_time=0;
+    double _shot_visual_time=1;
     MotionProfile _motion;
     LaserAim _laser_aim;
     double _time=0;

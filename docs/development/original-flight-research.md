@@ -77,3 +77,34 @@ Game Layer 适配了 BoxShape、CollisionQueryFilter、overlap_shape 和关节 s
 - `DynamicBox.initExtraInfoWithMovement:...`（0xb3930..0xb39dc）逐项读取 Spikes[0..3] 到 hasSpikeE/N/W/S，确认字符串顺序为右、上、左、下。此前错误采用上、右、下、左，已修正。第 8 关 wind02 之前的失败不能证明修正后难度或通路。
 
 证据保存在 `out/analysis/laser-{xml,update,aim,auto,start,sprites}.log` 与 `out/analysis/platform-extra.log`。以上均为本地只读反汇编，没有运行参考可执行文件。新版构建与关卡验证结果另见增量验证记录。
+
+## 杆体、平台与追踪花贴图（2026-10-25）
+
+本轮继续只读分析原程序，并逐张核对拆分 PNG，确认目录中的编号图片不能统一视为 12 FPS 循环动画：
+
+- `DynamicBox.initSprites`（0xb3c40）选普通底图或 Lock 底图；`initLightEffect`（0xb3b00）另建高亮层。105–107 的普通、锁定、高亮花纹不应逐帧轮播。当前固定选择普通/锁定底图；原版基于约束受力的高亮透明度尚未重建。
+- `Seesaw.initSprites`（0xbe274）独立创建 `S01/001.png` 轴心，依据锚点是否靠近杆端选择杆体第二张图，右端锚点还需水平翻转。轴心跟随同一刚体位姿绘制，不能与杆体交替显示。本轮同时统一杆体、轴心和尖刺的插值显示位姿。
+- `MissleLauncher.initSprites`（0xb96b8）为 113 型追踪花创建右花瓣（根目录第 2 张）和左花瓣（第 3 张），叠加在花茎（第 1 张）之上。花瓣使用左下锚点，原始局部坐标为 Y 向上；绘制次序为花茎、左瓣、右瓣。
+- `MissleLauncher.updateAnimation:`（0xb8500）使用两张 60 项位置/旋转表，地址分别为 0x1a0dfc、0x1a10cc；发射后重置计时，结束后停留闭合状态。本轮以 60 Hz 采样这些表，`game/tools/import_launcher_visual.py` 可重新生成 `game/gameplay/launcher_visual.h`，不执行参考程序。发射时序、追踪与伤害判定保持原有游戏逻辑。
+
+验证：新增平台状态、四种杆长/三类锚点、杆体与轴心插值一致性、追踪花三层持续显示及发射开合检查，连同既有拾取物/子弹检查覆盖连续 180 帧；5 项 CTest 通过。`out/qa/mechanism-visual-preview.bmp` 为实际 SDL 软件渲染预览，已查看普通/锁定花纹、杆体轴心以及闭合、开合、旋转花朵；该预览不替代全部关卡实机验收。
+
+## 普通弹重力（2026-10-25）
+
+`MissleLauncherMissle.createInPhysicalWorld:`（0xbab94）的刚体定义使用动态类型；该方法末尾（0xbb058）明确把弹体质量设为 0.1875 kg。此前游戏把普通弹和追踪弹都注册为无重力运动学刚体，导致普通弹沿初速度直线运动。
+
+本轮将普通弹改为有重力的动态刚体，显式指定 0.1875 kg，并保留圆形扫掠与命中销毁逻辑。显式质量必不可少：当前弹体仅包含不贡献质量的传感器，自动质量为零；仓库 Box2D 的速度积分在逆质量为零时不施加重力。扫掠预判加入半步加速度位移，实际运动仍由 PhysicsWorld 积分。追踪弹保留项目现有运动学、无重力和转向控制；本次不代表全部原版发射/追踪参数已完成校准。
+
+回归使用真实 PhysicsWorld：水平普通弹在 g=320 下的一秒速度/位移、向上发射后到达顶点并落回、下落时命中薄地形并销毁，以及追踪弹不受世界重力影响。修复前“普通弹应下落”的断言失败；仅改动态类型时进一步复现质量为零的问题；补充显式质量后上述检查通过。
+
+## 传送门圆环绘制（2026-10-25）
+
+`DynamicObject_115/001.png` 的 Alpha 全为零，只是透明底图。`Portal.initSprites`（0xbceac）从 S01（入口）或 S02（出口）各取两张纹理，分别创建 12 个子精灵，总计 24 个；不是把两张图片作为交替播放的帧。`initWithXML:`（0xbd2d4）以是否存在 TargetPortalID 区分入口与出口。
+
+`refreshV2SpritesByIdxFrame`（0xbc6e0）逐个应用位置、横纵缩放、旋转与透明度，入口表地址为 0x1a6e78，出口为 0x1a1478；每帧包含 24 组 24 字节记录。`updateAnimation:`（0xbc858）以 60 Hz 采样 40 帧，周期 2/3 秒。位置表以 Y-up 表示，子精灵 Y 还需加 64；游戏绘制转换成以门中心为原点的 Y-down 坐标。
+
+本轮通过 `game/tools/import_portal_visual.py` 只读提取上述表到 `game/gameplay/portal_visual.h`，在 Game Layer 直接提交 24 个纹理绘制命令，恢复黄绿色入口和紫色出口的动态环形效果。原程序无需执行；该圆环使用贴图组合，当前引擎公开渲染 API 足以实现。传送过程中的角色吸入/吐出和镜头过渡效果不在本次恢复范围。
+
+验证：入口/出口各连续 180 帧检查部件数量、两组纹理、四向环绕与持续可见性、动画变化、40 帧循环及整体旋转；5 项 CTest 全部通过。`out/qa/portal-visual-preview.bmp` 为实际 SDL 渲染的两种门各四个时刻，已查看。
+
+新版主程序第 13 关输入回放 `level13-portal-visual01` 通过，观测到一次传送并正常退出；结果与截图保存在 `out/qa/`。
