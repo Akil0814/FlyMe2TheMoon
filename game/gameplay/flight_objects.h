@@ -8,6 +8,7 @@
 #include "motion_profile.h"
 #include "shot_schedule.h"
 #include "laser_aim.h"
+#include "wind_visual.h"
 #include "engine/camera/camera.h"
 #include <array>
 #include <map>
@@ -97,6 +98,7 @@ private:
     std::unique_ptr<elysia::animation::Animation> _animation;
     SDL_Texture* _texture=nullptr;
     Vec _visual_size;
+    std::optional<WindVisual> _wind_visual;
     elysia::core::SpriteFlip _base_flip=elysia::core::SpriteFlip::None;
     const elysia::resources::FrameInfo* _pivot_frame=nullptr;
     std::array<const elysia::resources::FrameInfo*,2> _leaf_frames{};

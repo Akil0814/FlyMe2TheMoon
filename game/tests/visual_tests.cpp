@@ -204,6 +204,81 @@ void check_portals() {
         }
     }
 }
+void check_wind_visuals() {
+    for(int kind:{8,24,25})for(int blocks:{1,2,4})for(const std::string fade:{"00","10","01","11"}) {
+        auto data=mechanism(kind);data["rotation"]=0;data["info"]["NumBlocks"]=blocks;
+        data["info"]["Strength"]=20;data["info"]["Fade"]=fade;
+        game::play::Entity wind(data);
+        const auto* atlas=ELYSIA_RESOURCES->find_atlas(data.at("key").get<std::string>());
+        game::play::WindVisual visual(kind,data.at("info"),*atlas->frame_at(1),*atlas->frame_at(2),data.at("id"));
+        const auto parts=[&](const game::play::WindVisual& value,core::Vector2 center,float angle=0.f){std::vector<core::RenderCommand> drawn;value.build_parts(drawn,center,angle);return drawn;};
+        const int rows=kind==25?2:1,leaves=(blocks/2)*(kind==8?1:kind==24?2:3);
+        const int flow_count=rows*(blocks+12*((fade[0]=='1')+(fade[1]=='1')));
+        const auto initial=parts(visual,wind.center());bool scrolling=false,leaf_visible=leaves==0;
+        require(wind.size().x==64*blocks&&wind.size().y==(kind==8?64:kind==24?128:256),"Wind visual changed its physical dimensions");
+        for(int tick=0;tick<180;++tick) {
+            const auto drawn=parts(visual,wind.center());
+            require(drawn.size()==flow_count+leaves,"Wind block/fade/leaf count incorrect");
+            for(std::size_t i=0;i<drawn.size();++i) {
+                const auto& part=drawn[i];
+                require(part.type==core::RenderCommandType::Texture&&part.texture==atlas->texture_at(i<flow_count?1:2),"Wind still uses placeholder lines or cycles component images");
+                if(i<flow_count) {
+                    require(part.alpha>0&&part.use_src_rect,"Wind flow window became invisible");
+                    require(part.src_rect.x()>=0&&part.src_rect.x()+part.src_rect.width()<=768.001f&&part.src_rect.y()+part.src_rect.height()<=256.001f,"Wind flow sampled outside the source texture");
+                    require(std::abs(part.src_rect.width()-2*part.command_rect.width())<.001&&std::abs(part.src_rect.height()-2*part.command_rect.height())<.001,"Wind flow texture was stretched instead of cropped");
+                    scrolling|=part.src_rect!=initial[i].src_rect;
+                } else leaf_visible|=part.alpha>0;
+            }
+            auto* renderer=SDL_GetRendererFromTexture(atlas->texture_at(1));
+            auto* target=SDL_GetRenderTarget(renderer);Uint8 alpha_before=0,alpha_after=0;
+            require(SDL_GetTextureAlphaMod(atlas->texture_at(1),&alpha_before),SDL_GetError());
+            const auto composed=commands(wind);
+            require(composed.size()==1&&composed[0].texture!=atlas->texture_at(1)&&composed[0].texture!=atlas->texture_at(2),"Wind must compose its pieces before rotation to prevent tile cracks");
+            require(SDL_GetRenderTarget(renderer)==target&&SDL_GetTextureAlphaMod(atlas->texture_at(1),&alpha_after)&&alpha_before==alpha_after,"Wind composition leaked renderer/texture state");
+            require(composed[0].texture->w==2*(64*blocks+96)&&composed[0].texture->h==2*(wind.size().y+96),"Wind canvas does not retain native texture resolution and padding");
+            wind.update(1./60);visual.update(1./60);
+        }
+        require(scrolling&&leaf_visible,"Wind flow or leaves do not animate");
+        // Only the local coordinates rotate; the texture window stays the same.
+        game::play::Entity straight(data);data["rotation"]=90;game::play::Entity rotated(data);
+        const auto a=parts(visual,straight.center()),b=parts(visual,rotated.center(),90);
+        for(std::size_t i=0;i<a.size();++i) {
+            const auto offset=a[i].command_rect.center()-straight.center();
+            require((b[i].command_rect.center()-rotated.center()-core::Vector2{-offset.y,offset.x}).length()<.001&&a[i].src_rect==b[i].src_rect,"Wind components do not follow the field rotation");
+        }
+        if(fade=="11") {
+            const auto left=initial[blocks*rows].alpha,right=initial[(blocks+11)*rows].alpha;
+            require(left>right&&right>0,"Wind fade fringe has incorrect opacity ordering");
+        }
+    }
+    auto data=mechanism(8);data["info"]["NumBlocks"]=2;data["info"]["Fade"]="00";data["rotation"]=0;
+    data["info"]["Strength"]=10;game::play::Entity weak(data);
+    data["info"]["Strength"]=20;game::play::Entity normal(data);
+    const auto* atlas=ELYSIA_RESOURCES->find_atlas(data.at("key").get<std::string>());
+    game::play::WindVisual weak_visual(8,weak.info,*atlas->frame_at(1),*atlas->frame_at(2),0),normal_visual(8,normal.info,*atlas->frame_at(1),*atlas->frame_at(2),0);
+    weak_visual.update(.1);normal_visual.update(.1);
+    std::vector<core::RenderCommand> weak_parts,normal_parts;
+    weak_visual.build_parts(weak_parts,{} ,0);normal_visual.build_parts(normal_parts,{},0);
+    require(weak_parts[0].alpha<normal_parts[0].alpha&&weak_parts[0].src_rect.x()<normal_parts[0].src_rect.x(),"Wind Strength does not affect flow opacity and scrolling rate");
+}
+void save_wind_preview(SDL_Renderer* renderer) {
+    require(SDL_SetRenderDrawColor(renderer,16,25,38,255)&&SDL_RenderClear(renderer),SDL_GetError());
+    for(int row=0;row<3;++row)for(int column=0;column<3;++column) {
+        auto data=mechanism(row==0?8:row==1?24:25);
+        data["info"]["NumBlocks"]=4;data["info"]["Fade"]=column==0?"00":"11";data["info"]["Strength"]=20;
+        data["rotation"]=column==2?90:0;
+        game::play::Entity wind(data);for(int frame=0;frame<69;++frame)wind.update(1./60);
+        const camera::Camera camera(wind.position(),{1280,720},.7f);
+        for(const auto& command:commands(wind)) {
+            auto projected=core::project_render_command_to_screen(command,camera);
+            projected.screen_rect=projected.screen_rect.translated(core::Vector2{220.f+420*column,120.f+240*row}-core::Vector2{640,360});
+            core::require_render_success(core::execute_render_command(renderer,projected));
+        }
+    }
+    SDL_Surface* captured=SDL_RenderReadPixels(renderer,nullptr);require(captured!=nullptr,SDL_GetError());
+    std::filesystem::create_directories("out/qa");
+    const bool saved=SDL_SaveBMP(captured,"out/qa/wind-visual-preview.bmp");SDL_DestroySurface(captured);require(saved,SDL_GetError());
+}
 void check_sleeping_bombs() {
     auto data=mechanism(116);data["info"]["Alarm"]="0.25";
     const auto key=data.at("key").get<std::string>();
@@ -337,6 +412,7 @@ int main() {
             check_tracking_flower();
             check_portals();
             check_sleeping_bombs();
+            check_wind_visuals();
             check_mechanism_interpolation();
             check_projectile(false);
             check_projectile(true);
@@ -344,6 +420,7 @@ int main() {
             save_mechanism_preview(renderer);
             save_portal_preview(renderer);
             save_bomb_preview(renderer);
+            save_wind_preview(renderer);
         }
         std::cout<<"PASS: idle/mechanism/portal/bomb visuals, ordinary projectile gravity/arcs/terrain hits, homing motion preserved\n";
         result=0;

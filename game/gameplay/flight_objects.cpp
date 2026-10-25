@@ -141,13 +141,14 @@ Entity::Entity(const content::Json& d):GameObject(d.at("item").get<bool>()?Depth
     // Mechanism atlases contain state variants and component layers, not an
     // animation timeline. Select the base and draw attached parts separately.
     const bool platform=kind>=105&&kind<=107;
-    const bool state_images=item||kind==101||platform||rotating()||kind==113||kind==115||kind==116;
+    const bool state_images=item||kind==101||platform||rotating()||kind==113||kind==115||kind==116||wind();
     if(!state_images)_animation=ELYSIA_ANIMATIONS->create_animation(key);
     const auto& sizes=content::catalog().at("sizes");
     _visual_size={w,h};
     if(sizes.contains(key)&&(_animation||state_images)) {_visual_size={sizes.at(key)[0],sizes.at(key)[1]};}
     _texture=ELYSIA_RESOURCES->find_texture(state_images?key+".first":key);
     if(state_images&&!_texture)throw std::runtime_error("Missing normal-state texture "+key);
+    if(wind())_wind_visual.emplace(kind,info,*mechanism_frame(key,1),*mechanism_frame(key,2),id);
     if(platform&&parameter(info,"Lock")!=0)_texture=mechanism_frame(key,3)->_texture;
     if(rotating()) {
         const float anchor=static_cast<float>(parameter(info,"Anchor",.5)-.5);
@@ -269,27 +270,20 @@ bool Entity::lethal(ColliderId hit)const {
     return false;
 }
 Vec Entity::wind_force_at(Vec point)const {return wind()?wind_force(point,position(),size(),angle*std::numbers::pi_v<float>/180,info):Vec{};}
-void Entity::update(double delta) {_shot_visual_time=std::min(1.,_shot_visual_time+delta);if(kind==115)_portal_visual_time=std::fmod(_portal_visual_time+delta,40./60.);if(kind==116&&_bomb_state==0)_bomb_idle_time=std::fmod(_bomb_idle_time+delta,1.5);if(_animation)_animation->update(delta);if(_bomb_armed)_bomb_armed->update(delta);}
+void Entity::update(double delta) {
+    _shot_visual_time=std::min(1.,_shot_visual_time+delta);
+    if(_wind_visual)_wind_visual->update(delta);
+    if(kind==115)_portal_visual_time=std::fmod(_portal_visual_time+delta,40./60.);
+    if(kind==116&&_bomb_state==0)_bomb_idle_time=std::fmod(_bomb_idle_time+delta,1.5);
+    if(_animation)_animation->update(delta);
+    if(_bomb_armed)_bomb_armed->update(delta);
+}
 void Entity::submit_render_commands(std::vector<RenderCommand>& out) const {
     if(collected)return;
-    if(wind()) {
-        const float rad=angle*std::numbers::pi_v<float>/180;
-        const int count=std::max(4,static_cast<int>(size().x*size().y/2000));
-        for(int i=0;i<count;++i){
-            const float x=size().x/2-static_cast<float>(std::fmod(_time*90+i*37,size().x));
-            const float y=-size().y/2+static_cast<float>(std::fmod(i*53+11,size().y));
-            float fade=1;const std::string ends=info.value("Fade",std::string("00"));
-            if(ends.size()>0&&ends[0]=='1')fade*=std::clamp((size().x/2-x)/24.f,0.f,1.f);
-            if(ends.size()>1&&ends[1]=='1')fade*=std::clamp((size().x/2+x)/24.f,0.f,1.f);
-            RenderCommand streak;streak.type=RenderCommandType::DrawLine;streak.color={150,213,255,static_cast<Uint8>(110*fade)};streak.stroke_width=1.5f;
-            streak.line_start=position()+rotate_vector({x,y},rad);
-            streak.line_end=position()+rotate_vector({std::max(-size().x/2,x-18),y},rad);out.push_back(streak);
-        }
-        return;
-    }
     Rect r=render_rect();const auto c=r.center();r={c.x-_visual_size.x/2,c.y-_visual_size.y/2,_visual_size.x,_visual_size.y};
     const auto pose=physics_world()?physics_world()->render_pose(physics_handle()):std::optional<PhysicsPose>{};
     const float rotation=pose?pose->angle*180/std::numbers::pi_v<float>:angle;
+    if(_wind_visual){_wind_visual->submit(out,c,rotation);return;}
     if(kind==115) {
         // The root image is transparent. Two groups of twelve sprites form
         // the original portal, rather than two alternating animation frames.
