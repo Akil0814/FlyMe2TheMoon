@@ -160,3 +160,19 @@
 -- Configuring SDL3_ttf 3.2.2
 -- SDL3_ttf: Using vendored harfbuzz library
 WARNHarfBuzz has a Meson port and tries to migrate all the other build systems to it, please consider using it as we might remove our cmake port soon.
+Building introspection files on Windows requires BUILD_SHARED_LIBS to be enabled.
+-- SDL3_ttf: Using vendored freetype library
+-- Could NOT find PkgConfig (missing: PKG_CONFIG_EXECUTABLE) 
+-- SDL3_ttf backends:
+-- - enabled:  harfbuzz freetype
+-- - disabled: plutosvg
+-- Configuring SDL3_mixer 3.2.4
+-- SDL3_mixer backends:
+-- - enabled:  vorbis_stb flac_drflac mp3_drmp3 wave aiff voc au
+-- - disabled: opus vorbis_tremor vorbis_vorbisfile flac_libflac gme mod_xmp mp3_mpg123 midi_fluidsynth midi_timidity wavpack
+-- Configuring done (5.7s)
+-- Generating done (1.5s)
+-- Build files have been written to: C:/Code/FlyMe2TheMoon/out/build/release
+[0/2] Re-checking globbed directories...
+[1/3] Building CXX object game\CMakeFiles\fly_mechanism_tests.dir\tests\mechanism_tests.cpp.obj
+[2/3] Linking CXX executable game\fly_mechanism_tests.exe
