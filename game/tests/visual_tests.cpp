@@ -19,6 +19,7 @@ using namespace elysia;
 void require(bool condition,const std::string& message) {
     if(!condition)throw std::runtime_error(message);
 }
+std::vector<core::RenderCommand> commands(const core::GameObject& object);
 core::RenderCommand sprite(const core::GameObject& object) {
     std::vector<core::RenderCommand> commands;
     object.submit_render_commands(commands);
@@ -41,6 +42,93 @@ void check_pickups_and_moon() {
                 "Pickup/moon is cycling between normal and effect images: kind "+std::to_string(kind));
         }
     }
+}
+void check_role_effects(SDL_Renderer* renderer) {
+    using namespace game::play;
+    Player player({100,300});
+    require(commands(player).size()==1,"Normal role must draw one body sprite");
+    for(const auto effect:{RoleEffect::Enter,RoleEffect::Moon,RoleEffect::PortalIn}) {
+        player.play_effect(effect);
+        for(int frame=0;frame<=40;++frame) {
+            const auto pose=role_effect_pose(effect,frame/30.);
+            const auto drawn=commands(player);
+            require(drawn.size()==static_cast<size_t>(pose.body_visible)+(pose.image!=BallImage::None),"Role body/effect visibility does not follow native timeline");
+            if(pose.image!=BallImage::None) {
+                const std::string atlas="fly.CharActions.charEffects."+std::string(pose.image==BallImage::Ball?"ball":pose.image==BallImage::Disappear?"ballDisapear":"ballExplode");
+                const auto* expected=ELYSIA_RESOURCES->find_atlas(atlas)->frame_at(pose.frame);
+                require(drawn.back().texture==expected->_texture&&drawn.back().use_src_rect==expected->_source_rect.has_value(),"Role effect uses wrong atlas/frame");
+                require(!expected->_source_rect||drawn.back().src_rect==*expected->_source_rect,"Role effect atlas frame rectangle wrong");
+                require(std::abs(drawn.back().command_rect.width()-90*pose.scale)<.001,"Role ball native scale incorrect");
+            }
+            player.update(1./30);
+        }
+    }
+    require(role_effect_pose(RoleEffect::Enter,9./30).body_visible==false&&role_effect_pose(RoleEffect::Enter,10./30).body_visible,"Enter must reveal body at frame 10");
+    require(role_effect_pose(RoleEffect::Moon,5./30).body_visible&&!role_effect_pose(RoleEffect::Moon,6./30).body_visible,"Moon must conceal body at frame 6");
+    require(role_effect_pose(RoleEffect::PortalIn,19./30).image==BallImage::Disappear&&role_effect_pose(RoleEffect::PortalIn,20./30).image==BallImage::None,"Portal collapse must finish at frame 20");
+    player.die();player.update(3);player.dead=false;player.play_effect(RoleEffect::Enter);
+    require(commands(player).empty(),"Respawn must reset effect frame/visibility");
+    player.update(1);require(commands(player).size()==1,"Respawn did not restore normal body");
+    player.present_at(core::Vector2{500,500},.5f,true);require(commands(player).empty(),"Role must be hidden during portal camera travel");
+    player.present_at(std::nullopt);
+
+    // Exercise the public body disable/teleport/enable path with an actual role.
+    physics::PhysicsWorld world({.units_per_meter=32,.gravity={0,320}});
+    const auto handle=world.register_object(player,player.body_definition(),player.collider_definitions());
+    require(handle.is_valid(),"Transition role registration failed");player.bind_physics(world,handle);player.set_velocity({40,-60});const auto velocity=player.velocity();
+    const auto start=player.position();require(world.set_body_enabled(handle,false),"Transition body disable failed");
+    for(int i=0;i<120;++i)world.step(1./60);
+    require((player.position()-start).length()<.001,"Disabled role drifted under gravity");
+    require(world.teleport_object(handle,{700,800},physics::TeleportVelocityMode::Preserve)&&world.set_body_enabled(handle,true),"Transition body restore failed");
+    require(world.set_velocity(handle,velocity),"Portal velocity snapshot restore failed");
+    world.step(1./60);require(player.position().x>700&&player.position().y<800,"Portal velocity was lost or body remained disabled");
+    player.unbind_physics();require(world.unregister_object(handle),"Transition role cleanup failed");
+
+    require(SDL_SetRenderDrawColor(renderer,24,36,54,255)&&SDL_RenderClear(renderer),SDL_GetError());
+    const std::array<RoleEffect,3> effects{RoleEffect::Enter,RoleEffect::Moon,RoleEffect::PortalIn};
+    const std::array<std::array<int,8>,3> times{{{1,4,5,9,10,12,15,16},{0,5,6,15,25,31,33,36},{0,5,6,10,15,16,19,20}}};
+    for(int row=0;row<3;++row)for(int column=0;column<8;++column) {
+        Player sample({0,0});sample.play_effect(effects[row]);sample.update(times[row][column]/30.);
+        sample.present_at(core::Vector2{80.f+160*column,120.f+240*row},1.5f);
+        const camera::Camera preview_camera({640,360},{1280,720},1);
+        for(const auto& command:commands(sample))core::require_render_success(core::execute_render_command(renderer,core::project_render_command_to_screen(command,preview_camera)));
+    }
+    auto* captured=SDL_RenderReadPixels(renderer,nullptr);require(captured!=nullptr,SDL_GetError());
+    std::filesystem::create_directories("out/qa");const bool saved=SDL_SaveBMP(captured,"out/qa/role-transition-effects.bmp");SDL_DestroySurface(captured);require(saved,SDL_GetError());
+}
+void check_moon_highlight(SDL_Renderer* renderer) {
+    const auto level=game::content::level(1);
+    const auto data=*std::find_if(level.at("entities").begin(),level.at("entities").end(),[](const auto& e){return e.at("kind")==101;});
+    game::play::Entity moon(data);
+    const auto normal=sprite(moon);
+    const auto* highlight=ELYSIA_RESOURCES->find_atlas(data.at("key").get<std::string>())->frame_at(1);
+    require(highlight&&moon.moon_highlight_alpha()==0,"Idle moon must not light up");
+    moon.light_moon();
+    const std::map<int,int> samples{{0,0},{30,23},{60,93},{99,255},{144,255},{218,255},{219,0},{240,0}};
+    for(int frame=0;frame<=240;++frame) {
+        if(samples.contains(frame))require(moon.moon_highlight_alpha()==samples.at(frame),"Moon opacity differs from original table samples");
+        const auto drawn=commands(moon);
+        require(drawn[0].texture==normal.texture&&drawn[0].alpha==255,"Moon glow must retain its normal base image");
+        require(drawn.size()==(moon.moon_highlight_alpha()>0?2:1),"Moon highlight layer visibility incorrect");
+        if(drawn.size()==2) {
+            require(drawn[1].texture==highlight->_texture&&drawn[1].alpha==moon.moon_highlight_alpha(),"Moon must overlay the second image at the table opacity");
+            require(drawn[1].command_rect==drawn[0].command_rect&&drawn[1].rotation_degrees==drawn[0].rotation_degrees,"Moon highlight and base image do not align");
+            require(drawn[1].use_src_rect==highlight->_source_rect.has_value()&&(!highlight->_source_rect||drawn[1].src_rect==*highlight->_source_rect),"Moon highlight atlas frame incorrect");
+        }
+        moon.update(1./60);
+    }
+    moon.light_moon();moon.update(1.65);require(moon.moon_highlight_alpha()==255,"Moon highlight did not replay after tutorial reset");
+    moon.light_moon();require(moon.moon_highlight_alpha()==0,"Repeated moon entry did not restart light-up");
+    require(SDL_SetRenderDrawColor(renderer,24,36,54,255)&&SDL_RenderClear(renderer),SDL_GetError());
+    const std::array<double,6> times{0,.5,1,1.65,2.4,3.65};
+    const camera::Camera preview_camera({640,360},{1280,720},1);
+    for(int i=0;i<6;++i) {
+        auto preview=data;preview["x"]=210+420*(i%3);preview["y"]=180+360*(i/3);
+        game::play::Entity sample(preview);sample.light_moon();sample.update(times[i]);
+        for(const auto& command:commands(sample))core::require_render_success(core::execute_render_command(renderer,core::project_render_command_to_screen(command,preview_camera)));
+    }
+    auto* captured=SDL_RenderReadPixels(renderer,nullptr);require(captured!=nullptr,SDL_GetError());
+    const bool saved=SDL_SaveBMP(captured,"out/qa/moon-highlight-preview.bmp");SDL_DestroySurface(captured);require(saved,SDL_GetError());
 }
 void check_projectile(bool homing) {
     physics::PhysicsWorld world({.gravity={0,0}});
@@ -488,6 +576,8 @@ int main() {
             while(loader.is_running()&&SDL_GetTicks()<deadline){loader.update();SDL_Delay(1);}
             require(loader.is_finished(),loader.failure()?loader.failure()->diagnostic.message:"Content load timed out");
             check_pickups_and_moon();
+            check_role_effects(renderer);
+            check_moon_highlight(renderer);
             check_decoration_anchors();
             save_decor_preview(renderer);
             check_platforms_and_rods();

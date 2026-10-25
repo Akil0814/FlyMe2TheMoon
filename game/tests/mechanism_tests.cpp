@@ -8,6 +8,7 @@
 #include "game/gameplay/laser_aim.h"
 #include "game/gameplay/laser_geometry.h"
 #include "game/gameplay/platform_parameters.h"
+#include "game/gameplay/role_effect.h"
 #include "engine/physics/physics_world.h"
 #include "engine/core/game_object.h"
 #include <fstream>
@@ -17,6 +18,20 @@
 void check(bool b,const char* message){if(!b)throw std::runtime_error(message);}
 int main(){try{
     using namespace game::play;using namespace elysia::physics;using game::content::Json;
+    RoleTransition transition;transition.begin_moon({0,0},{100,200});
+    transition.advance(.6);check(transition.phase()==RoleTransitionPhase::MoonApproach&&std::abs(transition.position().x-100*std::sqrt(.5f))<.001,"Moon approach must use native CCEaseOut rate 2");
+    transition.advance(.6);check(transition.phase()==RoleTransitionPhase::MoonWait&&transition.position()==elysia::core::Vector2{100,200},"Moon approach must finish at 1.2 seconds");
+    transition.advance(1.199);check(transition.phase()==RoleTransitionPhase::MoonWait,"Moon callback ran before 2.4 seconds");
+    transition.advance(.002);check(transition.phase()==RoleTransitionPhase::Complete,"Moon callback did not finish after 2.4 seconds");
+    for(float distance:{0.f,100.f,1000.f,5000.f}) {
+        transition.begin_portal({10,30},{0,0},{distance,0});
+        check(transition.phase()==RoleTransitionPhase::PortalPull,"Portal did not start pulling");
+        transition.advance(RoleTransition::kPull/2);check(std::abs(transition.scale()-.875f)<.001,"Portal pull scale/easing incorrect");
+        transition.advance(RoleTransition::kPull/2+.0001);check(transition.phase()==RoleTransitionPhase::PortalTravel,"Portal camera started before pull completed");
+        transition.advance(transition.travel+.137);check(transition.phase()==RoleTransitionPhase::PortalTravel,"Portal role emerged before callback margin elapsed");
+        transition.advance(.002);check(transition.phase()==RoleTransitionPhase::PortalEmerge&&transition.camera_fraction()==1,"Portal exit / camera destination incorrect");
+        transition.advance(.6);check(transition.phase()==RoleTransitionPhase::Complete&&transition.position()==elysia::core::Vector2{distance,0},"Portal did not restore its exit state");
+    }
     check(LaserAim::in_range(Json{},1000)&&!LaserAim::in_range(Json{},1001)&&LaserAim::in_range(Json{{"ActiveRange","-1"}},50000),"Laser default range / unlimited sentinel incorrect");
     LaserAim tracking(Json{});
     const auto muzzle=laser_muzzle_offset(std::numbers::pi_v<float>/2,{41.5f,45});

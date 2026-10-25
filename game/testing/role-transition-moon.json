@@ -1,0 +1,46 @@
+{
+  "name": "role-transition-moon",
+  "level": 1,
+  "duration": 100,
+  "events": [],
+  "pilot": [
+    [
+      489,
+      1050
+    ],
+    [
+      489,
+      850
+    ],
+    [
+      489,
+      650
+    ],
+    [
+      489,
+      385
+    ]
+  ],
+  "expect": {
+    "level": 1,
+    "success": true,
+    "stars": 3,
+    "demo": false,
+    "finished": true
+  },
+  "stop_after_success": 1,
+  "observe": [
+    {
+      "field": "spawn_effects",
+      "max_at_least": 1
+    },
+    {
+      "field": "transition_phase",
+      "max_at_least": 2
+    },
+    {
+      "field": "moon_effects",
+      "max_at_least": 1
+    }
+  ]
+}

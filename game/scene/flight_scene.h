@@ -34,6 +34,9 @@ private:
     void continue_from_result();
     void reached(bool success,const char* reason="");
     void restore_player();
+    void begin_moon(play::Vec center);
+    void begin_portal(play::Entity& source,play::Entity& destination);
+    void update_transition(double delta);
     void apply_pointer(play::Vec point);
     content::Json story_action(const std::string&,const content::Json&);
     void update_dialogue();
@@ -47,6 +50,11 @@ private:
     std::vector<play::Entity*> _entities;
     play::Entity* _portal_lock=nullptr;
     int _portal_transits=0;
+    play::RoleTransition _transition;
+    play::Vec _transition_camera_from{};
+    play::Vec _transition_velocity{};
+    bool _portal_emerging=false;
+    int _spawn_effects=0,_moon_effects=0;
     play::Vec _wind_force{};
     bool _laser_hit=false;
     std::vector<play::Projectile*> _projectiles;

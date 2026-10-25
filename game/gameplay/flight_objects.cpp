@@ -14,6 +14,7 @@
 #include "portal_visual.h"
 #include "bomb_visual.h"
 #include "decor_transform.h"
+#include "moon_visual.h"
 
 namespace game::play {
 using namespace elysia::core;
@@ -101,27 +102,44 @@ Player::Player(Vec born):GameObject(DepthLayer::Character) {
         if(!anim)throw std::runtime_error("Missing player animation "+name);
         _animations.emplace(name,std::move(anim));
     }
+    _effect_frames[0]=mechanism_frame("fly.CharActions.charEffects.ball",0);
+    for(int i=0;i<4;++i)_effect_frames[1+i]=mechanism_frame("fly.CharActions.charEffects.ballDisapear",i);
+    for(int i=0;i<6;++i)_effect_frames[5+i]=mechanism_frame("fly.CharActions.charEffects.ballExplode",i);
+    // Scene pause freezes gameplay, while the original role presentation keeps advancing.
+    set_update_when_paused(true);
 }
 BodyDefinition Player::body_definition()const {BodyDefinition b;b.type=BodyType::Dynamic;b.mass_properties=ExplicitMass{1};b.linear_damping=0.1f;b.bullet=true;return b;}
 void Player::fixed_update(double delta) {
-    auto* world=physics_world();if(!world)return;
+    auto* world=physics_world();if(!world||_presentation)return;
     const auto& config=content::catalog().at("role");
     const auto force=thrust_force(thrust,velocity(),config);
     set_velocity(damp_velocity(velocity(),force.length_squared()>0,static_cast<float>(delta),config));
     if(!world->apply_force(physics_handle(),force))throw std::runtime_error("Player force rejected");
 }
-Rect Player::render_rect()const noexcept {const auto p=GameObject::render_rect().position();return {p.x-24,p.y-45,48,64};}
+Rect Player::render_rect()const noexcept {const auto p=_presentation.value_or(GameObject::render_rect().position()+Vec{0,-13});const float s=_presentation_scale;return {p.x-24*s,p.y-32*s,48*s,64*s};}
 bool Player::owns_collider(ColliderId id)const noexcept {for(size_t i=0;i<_colliders.size();++i)if(physics_collider(i)==id)return true;return false;}
 void Player::update(double delta) {
+    _effect_time+=std::max(0.,delta);
     const Vec v=velocity();
     look_time=std::max(0.,look_time-delta);
     _action=dead?"charDeath":look_time>0?"charLookLeftRight":thrust.y<-.1f?(thrust.x<-.2f?"charLeft":thrust.x>.2f?"charRight":"charUp"):
         std::abs(v.y)>35?"charFree":idle_enabled?"charIdle":"charStand";
     _animations.at(_action)->update(delta);
 }
-void Player::die(){dead=true;thrust={};_action="charDeath";_animations.at(_action)->reset();_animations.at(_action)->set_loop(false);set_update_when_paused(true);}
+void Player::play_effect(RoleEffect effect){_effect=effect;_effect_time=0;}
+void Player::die(){play_effect(RoleEffect::None);present_at(std::nullopt);dead=true;thrust={};_action="charDeath";_animations.at(_action)->reset();_animations.at(_action)->set_loop(false);set_update_when_paused(true);}
 void Player::submit_render_commands(std::vector<RenderCommand>& out) const {
-    RenderCommand cmd;if(_animations.at(_action)->build_render_command(render_rect(),0,SpriteFlip::None,cmd))out.push_back(cmd);
+    if(_presentation_hidden)return;
+    const auto pose=effect_pose();
+    RenderCommand cmd;if(pose.body_visible&&_animations.at(_action)->build_render_command(render_rect(),0,SpriteFlip::None,cmd))out.push_back(cmd);
+    if(pose.image!=BallImage::None) {
+        const auto* frame=_effect_frames[pose.image==BallImage::Ball?0:(pose.image==BallImage::Disappear?1:5)+pose.frame];
+        const auto rect=render_rect();const Vec center{rect.x()+rect.width()/2,rect.y()+rect.height()/2};
+        const float size=90*pose.scale*_presentation_scale;
+        cmd={};cmd.texture=frame->_texture;cmd.command_rect={center.x-size/2,center.y-size/2,size,size};
+        cmd.use_src_rect=frame->_source_rect.has_value();if(cmd.use_src_rect)cmd.src_rect=*frame->_source_rect;
+        out.push_back(cmd);
+    }
 }
 Entity::Entity(const content::Json& d):GameObject(d.at("item").get<bool>()?DepthLayer::Item:DepthLayer::EffectBack),
     kind(d.at("kind")),id(d.at("id")),item(d.at("item")),info(d.at("info")),origin{d.at("x"),d.at("y")},angle(d.at("rotation")),_motion(d.at("info")),_laser_aim(d.at("info")) {
@@ -146,6 +164,7 @@ Entity::Entity(const content::Json& d):GameObject(d.at("item").get<bool>()?Depth
     _texture=ELYSIA_RESOURCES->find_texture(state_images?key+".first":key);
     if(state_images&&!_texture)throw std::runtime_error("Missing normal-state texture "+key);
     if(wind())_wind_visual.emplace(kind,info,*mechanism_frame(key,1),*mechanism_frame(key,2),id);
+    if(kind==101){_moon_highlight_frame=mechanism_frame(key,1);set_update_when_paused(true);}
     if(platform&&parameter(info,"Lock")!=0)_texture=mechanism_frame(key,3)->_texture;
     if(rotating()) {
         const float anchor=static_cast<float>(parameter(info,"Anchor",.5)-.5);
@@ -287,7 +306,9 @@ bool Entity::lethal(ColliderId hit)const {
     return false;
 }
 Vec Entity::wind_force_at(Vec point)const {return wind()?wind_force(point,position(),size(),angle*std::numbers::pi_v<float>/180,info):Vec{};}
+std::uint8_t Entity::moon_highlight_alpha()const {return kind==101?play::moon_highlight_alpha(_moon_highlight_time):0;}
 void Entity::update(double delta) {
+    if(kind==101)_moon_highlight_time=std::min(220./60.,_moon_highlight_time+std::max(0.,delta));
     _shot_visual_time=std::min(1.,_shot_visual_time+delta);
     if(_wind_visual)_wind_visual->update(delta);
     if(kind==115)_portal_visual_time=std::fmod(_portal_visual_time+delta,40./60.);
@@ -339,6 +360,12 @@ void Entity::submit_render_commands(std::vector<RenderCommand>& out) const {
     else if(kind==116&&_bomb_state==1&&_bomb_armed){if(_bomb_armed->build_render_command(r,rotation,SpriteFlip::None,cmd))out.push_back(cmd);}
     else if(_animation) {if(_animation->build_render_command(r,rotation,SpriteFlip::None,cmd))out.push_back(cmd);}
     else if(_texture){cmd.texture=_texture;cmd.command_rect=r;cmd.rotation_degrees=rotation;cmd.flip=_base_flip;out.push_back(cmd);}
+    if(_moon_highlight_frame&&moon_highlight_alpha()>0) {
+        cmd={};cmd.texture=_moon_highlight_frame->_texture;cmd.command_rect=r;cmd.rotation_degrees=rotation;cmd.flip=_base_flip;
+        cmd.alpha=moon_highlight_alpha();cmd.use_src_rect=_moon_highlight_frame->_source_rect.has_value();
+        if(cmd.use_src_rect)cmd.src_rect=*_moon_highlight_frame->_source_rect;
+        out.push_back(cmd);
+    }
     if(_laser_active) {
         RenderCommand beam;beam.type=RenderCommandType::DrawLine;beam.line_start=_laser_start;beam.line_end=_laser_end;
         beam.color={221,88,255,130};beam.stroke_width=8;out.push_back(beam);

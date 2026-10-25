@@ -9,6 +9,7 @@
 #include "shot_schedule.h"
 #include "laser_aim.h"
 #include "wind_visual.h"
+#include "role_effect.h"
 #include "engine/physics/joint_definition.h"
 #include "engine/camera/camera.h"
 #include <array>
@@ -55,6 +56,9 @@ public:
     void submit_render_commands(std::vector<elysia::core::RenderCommand>& out) const override;
     Vec thrust{};
     void die();
+    void play_effect(RoleEffect effect);
+    RoleEffectPose effect_pose()const{return role_effect_pose(_effect,_effect_time);}
+    void present_at(std::optional<Vec> center,float scale=1,bool hidden=false){_presentation=center;_presentation_scale=scale;_presentation_hidden=hidden;}
     Vec center()const noexcept{return position()+Vec{0,-13};}
     Rect render_rect()const noexcept override;
     bool owns_collider(elysia::physics::ColliderId id)const noexcept;
@@ -64,6 +68,12 @@ private:
     std::array<elysia::physics::Collider,3> _colliders;
     std::map<std::string,std::unique_ptr<elysia::animation::Animation>> _animations;
     std::string _action="charIdle";
+    RoleEffect _effect=RoleEffect::None;
+    double _effect_time=0;
+    std::optional<Vec> _presentation;
+    float _presentation_scale=1;
+    bool _presentation_hidden=false;
+    std::array<const elysia::resources::FrameInfo*,11> _effect_frames{};
 };
 class Entity final : public elysia::core::GameObject, public elysia::core::Updatable,
                      public elysia::physics::PhysicsParticipant,public elysia::physics::PhysicsStepParticipant {
@@ -93,6 +103,8 @@ public:
     bool lethal(elysia::physics::ColliderId hit)const;
     int kind=0,id=0;
     bool item=false,collected=false;
+    void light_moon(){if(kind==101)_moon_highlight_time=0;}
+    std::uint8_t moon_highlight_alpha()const;
     content::Json info;
     Vec origin;
     float angle=0;
@@ -107,6 +119,8 @@ private:
     std::array<const elysia::resources::FrameInfo*,2> _leaf_frames{};
     std::array<const elysia::resources::FrameInfo*,2> _portal_frames{};
     double _portal_visual_time=0;
+    double _moon_highlight_time=220./60.;
+    const elysia::resources::FrameInfo* _moon_highlight_frame=nullptr;
     double _shot_visual_time=1;
     MotionProfile _motion;
     elysia::physics::JointHandle _platform_joint;
