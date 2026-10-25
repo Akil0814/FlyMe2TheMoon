@@ -77,7 +77,7 @@ void FlightScene::on_enter(const elysia::scene::ScenePayload& payload) {
     _tutorial=create_and_add_object<ui::UiImage>(nullptr,Rect{1040,280,140,160},19);_tutorial->set_visible(false);
     build_result_panel();
     set_ui_interaction_mode(elysia::scene::UiInteractionMode::Pointer);
-    camera_runtime().set_zoom(camera::CameraSlot::Main,1.0f);
+    camera_runtime().set_zoom(camera::CameraSlot::Main,1.5f);
     camera_runtime().set_world_bounds(camera::CameraSlot::Main,Rect{0,0,_data.at("width"),_data.at("height")});
     camera_runtime().set_follow_strategy(camera::CameraSlot::Main,std::make_unique<camera::HardFollowStrategy>());
     camera_runtime().snap_to_focus(camera::CameraSlot::Main);

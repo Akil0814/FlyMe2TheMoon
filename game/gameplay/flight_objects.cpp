@@ -15,6 +15,7 @@
 #include "bomb_visual.h"
 #include "decor_transform.h"
 #include "moon_visual.h"
+#include "thrower_visual.h"
 
 namespace game::play {
 using namespace elysia::core;
@@ -156,7 +157,7 @@ Entity::Entity(const content::Json& d):GameObject(d.at("item").get<bool>()?Depth
     // Mechanism atlases contain state variants and component layers, not an
     // animation timeline. Select the base and draw attached parts separately.
     const bool platform=kind>=105&&kind<=107;
-    const bool state_images=item||kind==101||platform||rotating()||kind==113||kind==115||kind==116||wind();
+    const bool state_images=item||kind==101||platform||rotating()||kind==112||kind==113||kind==115||kind==116||wind();
     if(!state_images)_animation=ELYSIA_ANIMATIONS->create_animation(key);
     const auto& sizes=content::catalog().at("sizes");
     _visual_size={w,h};
@@ -176,6 +177,7 @@ Entity::Entity(const content::Json& d):GameObject(d.at("item").get<bool>()?Depth
         _pivot_frame=mechanism_frame(key+".S01",0);
     }
     if(kind==113){_leaf_frames[0]=mechanism_frame(key,2);_leaf_frames[1]=mechanism_frame(key,1);}
+    if(kind==112){_thrower_head_frame=mechanism_frame(key+".S01",0);_thrower_orient=static_cast<float>(parameter(info,"FixedAngle",90))*std::numbers::pi_v<float>/180;}
     if(kind==115) {
         const auto parts=key+(info.contains("TargetPortalID")?".S01":".S02");
         for(std::size_t i=0;i<_portal_frames.size();++i)_portal_frames[i]=mechanism_frame(parts,i);
@@ -277,6 +279,16 @@ bool Entity::update_laser(double delta,Vec target,const Player& player) {
 }
 int Entity::shots_due(double delta,Vec target) {
     if(!_shots)return 0;const int count=_shots->advance(delta);
+    if(kind==112&&!info.contains("FixedAngle")) {
+        // Thrower.updateOrientByVec:dt: aims within its local forward semicircle.
+        constexpr float pi=std::numbers::pi_v<float>;
+        const float body_angle=physics_state()?physics_state()->angle:angle*pi/180;
+        const Vec to_role=target-position();
+        float local=std::atan2(-to_role.y,to_role.x)+body_angle+pi/2;
+        local-=std::floor(local/(2*pi))*(2*pi);
+        local=std::clamp(local-pi/2,0.f,pi);
+        _thrower_orient+=(local-_thrower_orient)*static_cast<float>(std::clamp(delta*5,0.,1.));
+    }
     const int fired=(target-position()).length()<=parameter(info,"ActiveRange",800)?count:0;
     if(fired>0)_shot_visual_time=0;
     return fired;
@@ -360,6 +372,18 @@ void Entity::submit_render_commands(std::vector<RenderCommand>& out) const {
     else if(kind==116&&_bomb_state==1&&_bomb_armed){if(_bomb_armed->build_render_command(r,rotation,SpriteFlip::None,cmd))out.push_back(cmd);}
     else if(_animation) {if(_animation->build_render_command(r,rotation,SpriteFlip::None,cmd))out.push_back(cmd);}
     else if(_texture){cmd.texture=_texture;cmd.command_rect=r;cmd.rotation_degrees=rotation;cmd.flip=_base_flip;out.push_back(cmd);}
+    if(_thrower_head_frame) {
+        // Original base center (21.75,37.25), in local Y-up image coordinates.
+        const Vec mount=c+rotate_vector({21.75f-_visual_size.x/2,_visual_size.y/2-37.25f},rotation*std::numbers::pi_v<float>/180);
+        const Vec scale=thrower_barrel_scale(_shot_visual_time);
+        const Vec extent{_thrower_head_frame->_width*.5f*scale.x,_thrower_head_frame->_height*.5f*scale.y};
+        const Vec origin{.5f,1-.344f};
+        cmd={};cmd.texture=_thrower_head_frame->_texture;
+        cmd.command_rect={mount.x-origin.x*extent.x,mount.y-origin.y*extent.y,extent.x,extent.y};
+        cmd.rotation_origin=origin;cmd.rotation_degrees=rotation+90-_thrower_orient*180/std::numbers::pi_v<float>;
+        cmd.use_src_rect=_thrower_head_frame->_source_rect.has_value();if(cmd.use_src_rect)cmd.src_rect=*_thrower_head_frame->_source_rect;
+        out.push_back(cmd);
+    }
     if(_moon_highlight_frame&&moon_highlight_alpha()>0) {
         cmd={};cmd.texture=_moon_highlight_frame->_texture;cmd.command_rect=r;cmd.rotation_degrees=rotation;cmd.flip=_base_flip;
         cmd.alpha=moon_highlight_alpha();cmd.use_src_rect=_moon_highlight_frame->_source_rect.has_value();

@@ -117,6 +117,8 @@ private:
     elysia::core::SpriteFlip _base_flip=elysia::core::SpriteFlip::None;
     const elysia::resources::FrameInfo* _pivot_frame=nullptr;
     std::array<const elysia::resources::FrameInfo*,2> _leaf_frames{};
+    const elysia::resources::FrameInfo* _thrower_head_frame=nullptr;
+    float _thrower_orient=1.5707963267948966f;
     std::array<const elysia::resources::FrameInfo*,2> _portal_frames{};
     double _portal_visual_time=0;
     double _moon_highlight_time=220./60.;

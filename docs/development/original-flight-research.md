@@ -178,3 +178,15 @@ Direct3D12 实跑 `transition-moon01` 通过：原首关教程演示到达月亮
 日志、原生断言结果、采样与截图保存在 `out/qa/transition-effects-audit/`；可复用的场景输入位于 `game/testing/role-transition-portal.json` 和 `role-transition-moon.json`。这属于三类视觉流程与两关局部验证，不代表全 60 关通关验收。
 
 随后根据用户指出的月亮高亮遗漏，核实 `Moon.initLightEffect` 取第二张纹理并作为独立子图层，`updateAnimation:` 使用 0x1a139c 的 220 项透明度表。已补入到达时触发、渐亮、保持和关闭；`import_moon_visual.py` 生成原表，底图保持可见。主程序及测试目标重新构建通过，`fly_idle_visuals` 包含本次逐帧高亮/图层对齐/重播回归，通过（32.68 秒）；已查看 `out/qa/moon-highlight-preview.bmp`。前述第 1、13 关原生回放发生在此高亮补充之前。
+
+## 普通子弹发射器的 S01 炮头（2026-10-25）
+
+用户对照截图指出 `DynamicObject_112` 只有棕色底座。核实原 `Thrower.initSprites`（0xc14a0）单独创建 `DynamicObject_112/S01/001.png`：该组只有一张 75×77 图片，逻辑尺寸 37.5×38.5；锚点为原 Y-up 的 (0.5,0.344)。`getBaseCenterPoint`（0xc0058）给出底座图片坐标 (21.75,37.25)，换算到当前居中且 Y-down 的底座为 (0,-21)。炮头围绕此连接点旋转，绘制在底座之上。
+
+`Thrower.updateAnimation:`（0xc0474）对炮头应用 ARM 地址 0x1ac8dc 的 20 项横纵缩放表，开火时 `throwThrown`（0xc00a0）重置计时；峰值为第 9 帧的 (1.11,0.85)，第 19 帧恢复 (1,1)。它通过变形单张贴图产生动作，不能把底座与 S01 当成轮播帧。`import_thrower_visual.py` 仅读取参考文件生成 `thrower_visual.h`。
+
+游戏已增加独立炮头，恢复上述锚点与发射回弹；固定角使用 `FixedAngle`，自动瞄准的炮头使用原 `updateOrientByVec:dt:`（0xc0378）的前向半圆限制与 `min(5*dt,1)` 平滑。底座与炮头共享公开物理渲染姿态，载体运动时保持拼接。此次未调整子弹生成点、速度、发射调度或原有直接指向目标的弹道策略；自动瞄准的弹道与炮头平滑仍有已有策略差异，不宣称完整复原 Thrower 的全部物理行为。
+
+新增视觉回归检查六种底座角度、真实 S01 绑定、连接点、发射峰值/恢复/重复触发、瞄准平滑，以及实际运动学物理体的显示插值。`out/qa/thrower-head-preview.bmp` 上排常态、下排开火回弹，展示向左、向上、向右三种朝向。
+
+主程序及五个测试目标构建成功，五项 CTest 全部通过（103.99 秒），已查看上述软件绘制预览；本次未增加原生窗口逐关回放。

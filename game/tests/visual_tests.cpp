@@ -241,6 +241,54 @@ void check_tracking_flower() {
     flower.update(1);const auto recovered=commands(flower);
     require(std::abs(recovered[1].rotation_degrees)<.001&&std::abs(recovered[2].rotation_degrees)<.001,"Flower petals did not return to rest");
 }
+void check_thrower_head(SDL_Renderer* renderer) {
+    auto data=mechanism(112);data["info"]={{"Seq","0.1,2"},{"Lag","0"},{"FixedAngle","90"}};
+    const auto key=data.at("key").get<std::string>();const auto* head=ELYSIA_RESOURCES->find_atlas(key+".S01")->frame_at(0);
+    for(float angle:{-90.f,0.f,48.f,90.f,180.f,270.f}) {
+        data["rotation"]=angle;game::play::Entity thrower(data);
+        const auto rest=commands(thrower);require(rest.size()==2,"Thrower must draw base and S01 head together");
+        require(rest[0].texture==ELYSIA_RESOURCES->find_texture(key+".first")&&rest[1].texture==head->_texture,"Thrower base/head textures incorrect");
+        require(std::abs(rest[1].command_rect.width()-37.5f)<.001&&std::abs(rest[1].command_rect.height()-38.5f)<.001,"Thrower head native size incorrect");
+        require(rest[1].rotation_origin==core::Vector2{.5f,.656f}&&std::abs(rest[1].rotation_degrees-angle)<.001,"Thrower fixed aim or head anchor incorrect");
+        const auto mount=rest[1].command_rect.position()+core::Vector2{rest[1].command_rect.width()*.5f,rest[1].command_rect.height()*.656f};
+        const float rad=angle*std::numbers::pi_v<float>/180;
+        require((mount-(thrower.center()+core::Vector2{21*std::sin(rad),-21*std::cos(rad)})).length()<.001,"Thrower head does not join the rotated base");
+        require(thrower.shots_due(.2,thrower.center())==1,"Thrower visual changed firing schedule");
+        thrower.update(.15);const auto recoil=commands(thrower);
+        require(recoil.size()==2&&recoil[0].command_rect==rest[0].command_rect,"Thrower recoil changed the base");
+        require(std::abs(recoil[1].command_rect.width()-37.5f*1.11f)<.001&&std::abs(recoil[1].command_rect.height()-38.5f*.85f)<.001,"Thrower recoil differs from original frame 9");
+        thrower.update(1);require(commands(thrower)[1].command_rect==rest[1].command_rect,"Thrower head did not recover after firing");
+        thrower.shots_due(2,thrower.center());require(commands(thrower)[1].command_rect==rest[1].command_rect,"Repeated thrower shot did not restart recoil");
+    }
+    data["rotation"]=0;data["info"].erase("FixedAngle");game::play::Entity tracking(data);
+    tracking.shots_due(.1,tracking.center()+core::Vector2{100,0});
+    require(std::abs(commands(tracking)[1].rotation_degrees-45)<.001,"Tracking thrower head must use native 5*dt smoothing");
+    data["info"]["FixedAngle"]="90";data["info"]["CarrierID"]="0";
+    game::play::Entity carried(data);physics::PhysicsWorld world({.gravity={0,0}});
+    const auto handle=world.register_object(carried,carried.body_definition(),carried.collider_definitions());
+    require(handle.is_valid(),"Carried thrower registration failed");carried.bind_physics(world,handle);
+    require(world.set_velocity(handle,{60,0})&&world.set_angular_velocity(handle,1),"Carried thrower test motion rejected");
+    world.step(1./60);world.finalize_frame(.25);const auto pose=world.render_pose(handle);const auto drawn=commands(carried);
+    require(pose&&std::abs(drawn[1].rotation_degrees-pose->angle*180/std::numbers::pi_v<float>)<.001,"Carried thrower head bypasses angle interpolation");
+    const auto mount=drawn[1].command_rect.position()+core::Vector2{18.75f,38.5f*.656f};
+    require((mount-(pose->position+core::Vector2{21*std::sin(pose->angle),-21*std::cos(pose->angle)})).length()<.001,"Carried thrower head bypasses position interpolation");
+    carried.unbind_physics();require(world.unregister_object(handle),"Carried thrower cleanup failed");
+
+    require(SDL_SetRenderDrawColor(renderer,24,36,54,255)&&SDL_RenderClear(renderer),SDL_GetError());
+    data["info"].erase("CarrierID");
+    for(int row=0;row<2;++row)for(int column=0;column<3;++column) {
+        data["rotation"]=(column-1)*90;game::play::Entity sample(data);
+        if(row){sample.shots_due(.2,sample.center());sample.update(.15);}
+        const camera::Camera preview(sample.position(),{1280,720},3);
+        for(const auto& command:commands(sample)) {
+            auto projected=core::project_render_command_to_screen(command,preview);
+            projected.screen_rect=projected.screen_rect.translated(core::Vector2{210.f+420*column-640,180.f+360*row-360});
+            core::require_render_success(core::execute_render_command(renderer,projected));
+        }
+    }
+    auto* captured=SDL_RenderReadPixels(renderer,nullptr);require(captured!=nullptr,SDL_GetError());
+    const bool saved=SDL_SaveBMP(captured,"out/qa/thrower-head-preview.bmp");SDL_DestroySurface(captured);require(saved,SDL_GetError());
+}
 void check_mechanism_interpolation() {
     auto data=mechanism(109);data["info"]["Anchor"]=.25;
     physics::PhysicsWorld world({.gravity={0,0}});
@@ -582,6 +630,7 @@ int main() {
             save_decor_preview(renderer);
             check_platforms_and_rods();
             check_tracking_flower();
+            check_thrower_head(renderer);
             check_portals();
             check_wind_visuals();
             save_wind_preview(renderer);
