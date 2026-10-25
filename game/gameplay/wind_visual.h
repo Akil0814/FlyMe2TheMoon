@@ -6,6 +6,7 @@
 #include <array>
 #include <memory>
 #include <stdexcept>
+#include <string_view>
 #include <vector>
 
 namespace game::play {
@@ -95,6 +96,10 @@ public:
         constexpr float margin=48;
         const Vec extent{width()+2*margin,_height+2*margin};
         auto* renderer=SDL_GetRendererFromTexture(_flow._texture);
+        // SDL's software target path does not preserve the alpha needed by
+        // this premultiplied composition. Keep correct component rendering
+        // there; accelerated backends compose before the world transform.
+        if(std::string_view(SDL_GetRendererName(renderer))=="software") {build_parts(out,center,rotation);return;}
         if(!_canvas) {
             _canvas.reset(SDL_CreateTexture(renderer,SDL_PIXELFORMAT_RGBA8888,SDL_TEXTUREACCESS_TARGET,
                                             static_cast<int>(2*extent.x),static_cast<int>(2*extent.y)));
@@ -111,11 +116,18 @@ public:
             for(const auto& part:parts) {
                 if(part.alpha==0)continue;
                 const auto& r=part.command_rect;
-                const SDL_FRect destination{2*r.x(),2*r.y(),2*r.width(),2*r.height()};
-                const auto& s=part.src_rect;const SDL_FRect source{s.x(),s.y(),s.width(),s.height()};
-                checked(SDL_SetTextureAlphaMod(part.texture,part.alpha));
-                checked(SDL_RenderTextureRotated(renderer,part.texture,part.use_src_rect?&source:nullptr,
-                                                 &destination,part.rotation_degrees,nullptr,SDL_FLIP_NONE));
+                const auto s=part.use_src_rect?part.src_rect:elysia::core::Rect{0,0,static_cast<float>(part.texture->w),static_cast<float>(part.texture->h)};
+                const float angle=static_cast<float>(part.rotation_degrees)*std::numbers::pi_v<float>/180;
+                const Vec pivot=r.center();std::array<SDL_Vertex,4> vertices;
+                constexpr std::array<Vec,4> corners{{{0,0},{1,0},{1,1},{0,1}}};
+                for(std::size_t i=0;i<corners.size();++i) {
+                    const auto uv=corners[i];
+                    const Vec position=2*(pivot+rotate_vector({(uv.x-.5f)*r.width(),(uv.y-.5f)*r.height()},angle));
+                    vertices[i]={{position.x,position.y},{1,1,1,part.alpha/255.f},
+                        {(s.x()+uv.x*s.width())/part.texture->w,(s.y()+uv.y*s.height())/part.texture->h}};
+                }
+                constexpr int indices[]{0,1,2,0,2,3};
+                checked(SDL_RenderGeometry(renderer,part.texture,vertices.data(),4,indices,6));
             }
             _dirty=false;
         }

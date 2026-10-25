@@ -67,7 +67,8 @@ def main():
                'decor':[],'edges':[],'entities':[],'areas':[], 'script':original_file(f'Level_{index:03}.lua').read_text(encoding='utf-8-sig')}
         for layer in root.findall('Layer'):
             name=layer.get('Name')
-            for obj in layer:
+            objects=sorted(layer,key=lambda obj:int(obj.get('Depth',0))) if name in ['Texture','Foreground','Farground','Background'] else layer
+            for obj in objects:
                 a=obj.attrib;x=float(a['X']);y=float(a['Y']);rotation=float(a.get('Rotation',0));seq=int(a.get('SeqID',0))
                 if name=='StaticObject':
                     for ref in refs[str(seq)]:
@@ -88,8 +89,11 @@ def main():
                     if key not in sizes:
                         unresolved.append([index,name,seq,key]);continue
                     sw,sh=sizes[key]
-                    level['decor'].append({'key':'fly.'+key,'x':x,'y':h-y-sh,'w':sw,'h':sh,'rotation':rotation,
-                                          'flip':a.get('IsXFlipped')=='true','layer':name,'layerWidth':float(layer.get('Width')),'layerHeight':float(layer.get('Height'))})
+                    decor={'key':'fly.'+key,'x':x,'y':h-y-sh,'w':sw,'h':sh,'rotation':rotation,
+                           'flip':a.get('IsXFlipped')=='true','layer':name,'layerWidth':float(layer.get('Width')),'layerHeight':float(layer.get('Height'))}
+                    if a.get('IsYFlipped')=='true':decor['flip_y']=True
+                    if 'Alpha' in a:decor['alpha']=max(0,min(255,int(a['Alpha'])))
+                    level['decor'].append(decor)
                 elif name in ['DynamicObject','Item']:
                     key=f'DynamicObjectsLite.{"Item" if name=="Item" else "DynamicObject"}_{seq:03}'
                     sw,sh=sizes[key]

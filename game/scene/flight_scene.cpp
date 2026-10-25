@@ -112,7 +112,7 @@ void FlightScene::on_routed_input(const input::InputSnapshot& snapshot) {
         up|=s.is_pressed(C::KeyW)||s.is_pressed(C::KeyUp)||s.is_pressed(C::KeySpace);
         if(s.is_pressed(C::MouseLeft)){mouse=true;point={static_cast<float>(source.frame.mouse_x),static_cast<float>(source.frame.mouse_y)};}
     }
-    if(up||left||right){const float angle=(right==left?0.f:right?1.f:-1.f)*50*std::numbers::pi_v<float>/180;_player->thrust={.8f*std::sin(angle),-.8f*std::cos(angle)};}
+    if(up||left||right){const float angle=(right==left?0.f:right?1.f:-1.f)*50*std::numbers::pi_v<float>/180;_player->thrust={std::sin(angle),-std::cos(angle)};}
     if(mouse) {
         apply_pointer(camera().screen_to_world(point));
     }

@@ -13,6 +13,7 @@
 #include "launcher_visual.h"
 #include "portal_visual.h"
 #include "bomb_visual.h"
+#include "decor_transform.h"
 
 namespace game::play {
 using namespace elysia::core;
@@ -44,11 +45,9 @@ Parallax::Parallax(const content::Json& data,const elysia::camera::Camera* camer
     }
     for(const auto& d:data.at("decor"))if(d.at("layer")=="Farground"||d.at("layer")=="Background"){
         LayerImage image;image.extent={d.at("layerWidth"),d.at("layerHeight")};
+        image.command=decor_transform(d,{0,-_world_size.y+image.extent.y});
         image.command.texture=ELYSIA_RESOURCES->find_texture(d.at("key").get<std::string>());
         if(!image.command.texture)throw std::runtime_error("Missing parallax texture");
-        image.command.command_rect={d.at("x"),d.at("y").get<float>()-_world_size.y+image.extent.y,d.at("w"),d.at("h")};
-        image.command.rotation_degrees=d.at("rotation");image.command.rotation_origin={0,1};
-        image.command.flip=d.at("flip").get<bool>()?SpriteFlip::Horizontal:SpriteFlip::None;
         _images.push_back(image);
     }
 }
@@ -74,12 +73,8 @@ void Parallax::submit_render_commands(std::vector<RenderCommand>& out)const {
 Decor::Decor(const content::Json& data,bool foreground):GameObject(foreground?DepthLayer::Foreground:DepthLayer::Terrain) {
     for(const auto& d:data.at("decor")) {
         if((d.at("layer")=="Foreground")!=foreground || d.at("layer")=="Farground"||d.at("layer")=="Background")continue;
-        RenderCommand cmd;cmd.texture=ELYSIA_RESOURCES->find_texture(d.at("key").get<std::string>());
+        RenderCommand cmd=decor_transform(d);cmd.texture=ELYSIA_RESOURCES->find_texture(d.at("key").get<std::string>());
         if(!cmd.texture)throw std::runtime_error("Missing level texture");
-        cmd.command_rect={d.at("x"),d.at("y"),d.at("w"),d.at("h")};
-        cmd.rotation_degrees=d.at("rotation");
-        cmd.rotation_origin={0,1};
-        cmd.flip=d.at("flip").get<bool>()?SpriteFlip::Horizontal:SpriteFlip::None;
         _commands.push_back(cmd);
     }
 }

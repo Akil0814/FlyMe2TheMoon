@@ -2,6 +2,7 @@
 #include "game/gameplay/projectile.h"
 #include "game/gameplay/seesaw_parameters.h"
 #include "game/gameplay/launcher_visual.h"
+#include "game/gameplay/decor_transform.h"
 #include "engine/io/path/path_manager.h"
 #include "engine/io/loaders/content_registry_loader.h"
 #include "engine/loading/game_content_loader.h"
@@ -204,6 +205,49 @@ void check_portals() {
         }
     }
 }
+void check_decoration_anchors() {
+    // Independent corner mapping from the native lower-left anchor and signed
+    // local scale, including 45-degree rotations and all mirror combinations.
+    for(bool x:{false,true})for(bool y:{false,true})for(float angle:{0.f,45.f,90.f,-90.f,180.f}) {
+        game::content::Json d={{"x",200},{"y",300},{"w",64},{"h",32},{"rotation",angle},{"flip",x},{"flip_y",y},
+            {"key","fly.terrain3.Texture_001"},{"layer","Texture"},{"layerWidth",1000},{"layerHeight",1000}};
+        const auto command=game::play::decor_transform(d);
+        const core::Vector2 anchor{200,332},extent{64,32};
+        const auto pivot=command.command_rect.position()+core::Vector2{command.rotation_origin.x*extent.x,command.rotation_origin.y*extent.y};
+        require((pivot-anchor).length()<.001,"Mirrored decoration moved its original lower-left anchor");
+        for(float u:{0.f,64.f})for(float v:{0.f,32.f}) {
+            const core::Vector2 signed_point{x?-u:u,y?v:-v};
+            const auto expected=anchor+game::play::rotate_vector(signed_point,angle*std::numbers::pi_v<float>/180);
+            const core::Vector2 inside{x?64-u:u,y?v:32-v};
+            const auto actual=pivot+game::play::rotate_vector(command.command_rect.position()+inside-pivot,angle*std::numbers::pi_v<float>/180);
+            require((actual-expected).length()<.001,"Mirrored/rotated wall corner differs from the native signed-scale transform");
+        }
+        const auto expected_flip=x?(y?core::SpriteFlip::Both:core::SpriteFlip::Horizontal):(y?core::SpriteFlip::Vertical:core::SpriteFlip::None);
+        require(command.flip==expected_flip,"Decoration mirror flags were dropped");
+        const core::Vector2 offset{17,-80};const auto shifted=game::play::decor_transform(d,offset);
+        require((shifted.command_rect.position()-command.command_rect.position()-offset).length()<.001,"Parallax coordinate conversion changed the decoration anchor");
+    }
+    int mirrored=0,vertical=0;
+    for(int level=1;level<=60;++level) {
+        const auto data=game::content::level(level);
+        game::play::Decor terrain(data,false),foreground(data,true);
+        for(bool front:{false,true}) {
+            const auto drawn=commands(front?foreground:terrain);std::size_t index=0;
+            for(const auto& d:data.at("decor")) {
+                const auto layer=d.at("layer").get<std::string>();
+                if((layer=="Foreground")!=front||layer=="Farground"||layer=="Background")continue;
+                require(index<drawn.size()&&drawn[index].texture==ELYSIA_RESOURCES->find_texture(d.at("key").get<std::string>()),"Decoration resource binding or layer order changed");
+                if(d.value("flip",false))++mirrored;if(d.value("flip_y",false))++vertical;
+                const auto& part=drawn[index++];
+                const auto pivot=part.command_rect.position()+core::Vector2{part.rotation_origin.x*part.command_rect.width(),part.rotation_origin.y*part.command_rect.height()};
+                const core::Vector2 expected{d.at("x"),d.at("y").get<float>()+d.at("h").get<float>()};
+                require((pivot-expected).length()<.001,"Level wall image detached from its original placement anchor");
+            }
+            require(index==drawn.size(),"Decoration layer contains an unexpected wall image");
+        }
+    }
+    require(mirrored==1002&&vertical==348,"All-level mirrored wall metadata was not imported");
+}
 void check_wind_visuals() {
     for(int kind:{8,24,25})for(int blocks:{1,2,4})for(const std::string fade:{"00","10","01","11"}) {
         auto data=mechanism(kind);data["rotation"]=0;data["info"]["NumBlocks"]=blocks;
@@ -233,9 +277,11 @@ void check_wind_visuals() {
             auto* target=SDL_GetRenderTarget(renderer);Uint8 alpha_before=0,alpha_after=0;
             require(SDL_GetTextureAlphaMod(atlas->texture_at(1),&alpha_before),SDL_GetError());
             const auto composed=commands(wind);
-            require(composed.size()==1&&composed[0].texture!=atlas->texture_at(1)&&composed[0].texture!=atlas->texture_at(2),"Wind must compose its pieces before rotation to prevent tile cracks");
+            const bool software=std::string_view(SDL_GetRendererName(renderer))=="software";
+            if(software)require(composed.size()==drawn.size()&&composed[0].texture==atlas->texture_at(1),"Software wind fallback lost its component textures");
+            else require(composed.size()==1&&composed[0].texture!=atlas->texture_at(1)&&composed[0].texture!=atlas->texture_at(2),"Wind must compose its pieces before rotation to prevent tile cracks");
             require(SDL_GetRenderTarget(renderer)==target&&SDL_GetTextureAlphaMod(atlas->texture_at(1),&alpha_after)&&alpha_before==alpha_after,"Wind composition leaked renderer/texture state");
-            require(composed[0].texture->w==2*(64*blocks+96)&&composed[0].texture->h==2*(wind.size().y+96),"Wind canvas does not retain native texture resolution and padding");
+            if(!software)require(composed[0].texture->w==2*(64*blocks+96)&&composed[0].texture->h==2*(wind.size().y+96),"Wind canvas does not retain native texture resolution and padding");
             wind.update(1./60);visual.update(1./60);
         }
         require(scrolling&&leaf_visible,"Wind flow or leaves do not animate");
@@ -261,17 +307,51 @@ void check_wind_visuals() {
     weak_visual.build_parts(weak_parts,{} ,0);normal_visual.build_parts(normal_parts,{},0);
     require(weak_parts[0].alpha<normal_parts[0].alpha&&weak_parts[0].src_rect.x()<normal_parts[0].src_rect.x(),"Wind Strength does not affect flow opacity and scrolling rate");
 }
+void save_decor_preview(SDL_Renderer* renderer) {
+    require(SDL_SetRenderDrawColor(renderer,42,81,116,255)&&SDL_RenderClear(renderer),SDL_GetError());
+    const auto level=game::content::level(13);
+    // Both panels use identical level data and cyan collision outlines.
+    // Left reproduces the previous in-rectangle mirrors; right uses signed scale.
+    for(int panel=0;panel<2;++panel) {
+        const camera::Camera camera({440,2450},{640,720},1);
+        const SDL_Rect clip{panel*640,0,640,720};require(SDL_SetRenderClipRect(renderer,&clip),SDL_GetError());
+        const auto draw=[&](const core::RenderCommand& command) {
+            auto projected=core::project_render_command_to_screen(command,camera);
+            const core::Vector2 offset{panel*640.f,0};
+            projected.screen_rect=projected.screen_rect.translated(offset);
+            projected.line_start+=offset;projected.line_end+=offset;
+            core::require_render_success(core::execute_render_command(renderer,projected));
+        };
+        for(const auto& d:level.at("decor")) {
+            if(d.at("layer")!="Texture"&&d.at("layer")!="Foreground")continue;
+            auto command=game::play::decor_transform(d);
+            if(panel==0) {
+                command.command_rect={d.at("x"),d.at("y"),d.at("w"),d.at("h")};command.rotation_origin={0,1};
+                command.flip=d.value("flip",false)?core::SpriteFlip::Horizontal:core::SpriteFlip::None;
+            }
+            command.texture=ELYSIA_RESOURCES->find_texture(d.at("key").get<std::string>());draw(command);
+        }
+        for(const auto& edge:level.at("edges"))for(std::size_t i=1;i<edge.size();++i) {
+            core::RenderCommand line;line.type=core::RenderCommandType::DrawLine;line.color={0,255,210,220};line.stroke_width=1;
+            line.line_start={edge[i-1][0],edge[i-1][1]};line.line_end={edge[i][0],edge[i][1]};draw(line);
+        }
+    }
+    require(SDL_SetRenderClipRect(renderer,nullptr),SDL_GetError());
+    auto* captured=SDL_RenderReadPixels(renderer,nullptr);require(captured!=nullptr,SDL_GetError());
+    std::filesystem::create_directories("out/qa");
+    const bool saved=SDL_SaveBMP(captured,"out/qa/decor-anchor-before-after.bmp");SDL_DestroySurface(captured);require(saved,SDL_GetError());
+}
 void save_wind_preview(SDL_Renderer* renderer) {
     require(SDL_SetRenderDrawColor(renderer,16,25,38,255)&&SDL_RenderClear(renderer),SDL_GetError());
     for(int row=0;row<3;++row)for(int column=0;column<3;++column) {
         auto data=mechanism(row==0?8:row==1?24:25);
-        data["info"]["NumBlocks"]=4;data["info"]["Fade"]=column==0?"00":"11";data["info"]["Strength"]=20;
+        data["info"]["NumBlocks"]=2;data["info"]["Fade"]=column==0?"00":"11";data["info"]["Strength"]=20;
         data["rotation"]=column==2?90:0;
         game::play::Entity wind(data);for(int frame=0;frame<69;++frame)wind.update(1./60);
-        const camera::Camera camera(wind.position(),{1280,720},.7f);
+        const camera::Camera camera(wind.position(),{1280,720},1.f);
         for(const auto& command:commands(wind)) {
             auto projected=core::project_render_command_to_screen(command,camera);
-            projected.screen_rect=projected.screen_rect.translated(core::Vector2{220.f+420*column,120.f+240*row}-core::Vector2{640,360});
+            projected.screen_rect=projected.screen_rect.translated(core::Vector2{220.f+420*column,row==0?100.f:row==1?300.f:560.f}-core::Vector2{640,360});
             core::require_render_success(core::execute_render_command(renderer,projected));
         }
     }
@@ -307,7 +387,7 @@ void check_sleeping_bombs() {
     }
     physics::PhysicsWorld world({.gravity={0,0}});
     const auto handle=world.register_object(bomb,bomb.body_definition(),bomb.collider_definitions());
-    require(handle.is_valid(),"Bomb visual transition registration failed");bomb.bind_physics(world,handle);
+    require(handle.is_valid(),"Bomb visual transition registration failed: type="+std::to_string(static_cast<int>(bomb.body_definition().type))+", mass="+std::to_string(bomb.body_definition().mass_properties.index())+", destroyed="+std::to_string(bomb.is_destroyed()));bomb.bind_physics(world,handle);
     core::GameObject target(core::DepthLayer::Character);target.set_world_rect({bomb.center().x,bomb.center().y,1,1});
     physics::Collider collider;collider.shape=physics::CircleShape{{0,0},1};collider.filter={.category=1,.mask=8};
     const auto role=world.register_object(target,physics::BodyDefinition{.type=physics::BodyType::Static},std::span(&collider,1));
@@ -408,11 +488,14 @@ int main() {
             while(loader.is_running()&&SDL_GetTicks()<deadline){loader.update();SDL_Delay(1);}
             require(loader.is_finished(),loader.failure()?loader.failure()->diagnostic.message:"Content load timed out");
             check_pickups_and_moon();
+            check_decoration_anchors();
+            save_decor_preview(renderer);
             check_platforms_and_rods();
             check_tracking_flower();
             check_portals();
-            check_sleeping_bombs();
             check_wind_visuals();
+            save_wind_preview(renderer);
+            check_sleeping_bombs();
             check_mechanism_interpolation();
             check_projectile(false);
             check_projectile(true);
@@ -420,7 +503,6 @@ int main() {
             save_mechanism_preview(renderer);
             save_portal_preview(renderer);
             save_bomb_preview(renderer);
-            save_wind_preview(renderer);
         }
         std::cout<<"PASS: idle/mechanism/portal/bomb visuals, ordinary projectile gravity/arcs/terrain hits, homing motion preserved\n";
         result=0;

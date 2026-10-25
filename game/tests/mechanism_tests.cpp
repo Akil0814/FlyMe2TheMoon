@@ -77,7 +77,7 @@ int main(){try{
         elysia::core::GameObject pin(elysia::core::DepthLayer::Terrain),platform(elysia::core::DepthLayer::Terrain),obstacle(elysia::core::DepthLayer::Terrain);
         pin.set_world_rect({0,0,1,1});platform.set_world_rect({0,0,1,1});obstacle.set_world_rect({80+platform_width(kind)/2,0,1,1});
         Collider anchor_shape;anchor_shape.shape=CircleShape{{},1};anchor_shape.response=CollisionResponse::Ignore;
-        const auto anchor_handle=platform_world.register_object(pin,BodyDefinition{},std::span(&anchor_shape,1));
+        const auto anchor_handle=platform_world.register_object(pin,BodyDefinition{.type=BodyType::Static},std::span(&anchor_shape,1));
         auto shape=platform_collider(kind);
         const auto body=platform_world.register_object(platform,BodyDefinition{.type=BodyType::Dynamic,.fixed_rotation=false},std::span(&shape,1));
         check(std::abs(platform_world.body_state(body)->mass-(kind-104))<.001f,"Platform density / original full dimensions incorrect");
@@ -86,7 +86,7 @@ int main(){try{
         const auto handle=platform_world.create_prismatic_joint(definition);
         check(handle.is_valid(),"Platform prismatic joint rejected");
         Collider wall;wall.shape=BoxShape::from_rect({0,-100,16,200});wall.filter={.category=2,.mask=8};
-        const auto wall_handle=platform_world.register_object(obstacle,BodyDefinition{},std::span(&wall,1));
+        const auto wall_handle=platform_world.register_object(obstacle,BodyDefinition{.type=BodyType::Static},std::span(&wall,1));
         for(int tick=0;tick<240;++tick)platform_world.step(1./60);
         const auto stopped=platform_world.body_state(body);
         const auto joint=std::get<PrismaticJointState>(platform_world.joint_state(handle)->details);
