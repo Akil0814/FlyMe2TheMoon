@@ -118,11 +118,15 @@ Entity::Entity(const content::Json& d):GameObject(d.at("item").get<bool>()?Depth
     }
     set_world_rect({origin.x,origin.y,w,h});
     std::string key=d.at("key");
-    _animation=ELYSIA_ANIMATIONS->create_animation(key);
+    // Numbered pickup/moon images are separate normal and effect states,
+    // not consecutive frames of an idle animation.
+    const bool state_images=item||kind==101;
+    if(!state_images)_animation=ELYSIA_ANIMATIONS->create_animation(key);
     const auto& sizes=content::catalog().at("sizes");
     _visual_size={w,h};
-    if(sizes.contains(key)&&_animation) {_visual_size={sizes.at(key)[0],sizes.at(key)[1]};}
-    _texture=ELYSIA_RESOURCES->find_texture(key);
+    if(sizes.contains(key)&&(_animation||state_images)) {_visual_size={sizes.at(key)[0],sizes.at(key)[1]};}
+    _texture=ELYSIA_RESOURCES->find_texture(state_images?key+".first":key);
+    if(state_images&&!_texture)throw std::runtime_error("Missing normal-state texture "+key);
     if(kind==112||kind==113)_shots.emplace(info);
     if(kind==116){_bomb_armed=ELYSIA_ANIMATIONS->create_animation(key+".S03");_bomb_blast=ELYSIA_ANIMATIONS->create_animation(key+".S04");}
     Collider c;c.filter={.category=item||kind==101?4u:8u,.mask=1};

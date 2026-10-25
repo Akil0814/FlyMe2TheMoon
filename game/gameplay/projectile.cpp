@@ -9,6 +9,9 @@ Projectile::Projectile(Vec p,Vec velocity,bool homing,float power,float maximum)
     _colliders[0].shape=CircleShape{{0,0},7};_colliders[0].filter={.category=8,.mask=1|2};_colliders[0].response=CollisionResponse::Overlap;
     _animation=ELYSIA_ANIMATIONS->create_animation(homing?"fly.DynamicObjectsLite.DynamicObject_113.S01":"fly.DynamicObjectsLite.DynamicObject_112.S02");
     if(!_animation)throw std::runtime_error("Projectile animation unavailable");
+    // The first frame is the flying sprite; subsequent images fade it out.
+    // Keep that effect sequence from looping while the projectile is alive.
+    _animation->pause();
 }
 BodyDefinition Projectile::body_definition()const {BodyDefinition b;b.type=BodyType::Kinematic;b.velocity=_initial_velocity;b.gravity_scale=0;return b;}
 bool Projectile::advance(double delta,Vec target,const Player& player) {
