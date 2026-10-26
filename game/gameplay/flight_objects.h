@@ -61,6 +61,8 @@ public:
     RoleEffectPose effect_pose()const{return role_effect_pose(_effect,_effect_time);}
     bool body_visible()const{return !_presentation_hidden&&effect_pose().body_visible;}
     bool entry_effect_finished()const{return _effect==RoleEffect::Enter&&_effect_time>=16./30.;}
+    bool death_effect_finished()const{return _effect==RoleEffect::Death&&_effect_time>=37./30.;}
+    double death_effect_time()const{return _effect==RoleEffect::Death?_effect_time:0;}
     void present_at(std::optional<Vec> center,float scale=1,bool hidden=false){_presentation=center;_presentation_scale=scale;_presentation_hidden=hidden;}
     Vec center()const noexcept{return position()+Vec{0,-13};}
     Rect render_rect()const noexcept override;

@@ -112,7 +112,7 @@ Player::Player(Vec born):GameObject(DepthLayer::Character) {
 }
 BodyDefinition Player::body_definition()const {BodyDefinition b;b.type=BodyType::Dynamic;b.mass_properties=ExplicitMass{1};b.linear_damping=0.1f;b.bullet=true;return b;}
 void Player::fixed_update(double delta) {
-    auto* world=physics_world();if(!world||_presentation)return;
+    auto* world=physics_world();if(!world||_presentation||dead)return;
     const auto& config=content::catalog().at("role");
     const auto force=thrust_force(thrust,velocity(),config);
     set_velocity(damp_velocity(velocity(),force.length_squared()>0,static_cast<float>(delta),config));
@@ -129,7 +129,7 @@ void Player::update(double delta) {
     _animations.at(_action)->update(delta);
 }
 void Player::play_effect(RoleEffect effect){_effect=effect;_effect_time=0;}
-void Player::die(){play_effect(RoleEffect::None);present_at(std::nullopt);dead=true;thrust={};_action="charDeath";_animations.at(_action)->reset();_animations.at(_action)->set_loop(false);set_update_when_paused(true);}
+void Player::die(){if(dead)return;play_effect(RoleEffect::Death);present_at(std::nullopt);dead=true;thrust={};_action="charDeath";_animations.at(_action)->reset();_animations.at(_action)->set_loop(false);set_update_when_paused(true);}
 void Player::submit_render_commands(std::vector<RenderCommand>& out) const {
     if(_presentation_hidden)return;
     const auto pose=effect_pose();
