@@ -157,7 +157,7 @@ Entity::Entity(const content::Json& d):GameObject(d.at("item").get<bool>()?Depth
     // Mechanism atlases contain state variants and component layers, not an
     // animation timeline. Select the base and draw attached parts separately.
     const bool platform=kind>=105&&kind<=107;
-    const bool state_images=item||kind==101||platform||rotating()||kind==112||kind==113||kind==115||kind==116||wind();
+    const bool state_images=item||kind==101||platform||rotating()||kind==112||kind==113||kind==114||kind==115||kind==116||wind();
     if(!state_images)_animation=ELYSIA_ANIMATIONS->create_animation(key);
     const auto& sizes=content::catalog().at("sizes");
     _visual_size={w,h};
@@ -178,6 +178,7 @@ Entity::Entity(const content::Json& d):GameObject(d.at("item").get<bool>()?Depth
     }
     if(kind==113){_leaf_frames[0]=mechanism_frame(key,2);_leaf_frames[1]=mechanism_frame(key,1);}
     if(kind==112){_thrower_head_frame=mechanism_frame(key+".S01",0);_thrower_orient=static_cast<float>(parameter(info,"FixedAngle",90))*std::numbers::pi_v<float>/180;}
+    if(kind==114){_laser_visual.emplace(key,id);_laser_local_angle=static_cast<float>(parameter(info,"FixedAngle",90))*std::numbers::pi_v<float>/180;}
     if(kind==115) {
         const auto parts=key+(info.contains("TargetPortalID")?".S01":".S02");
         for(std::size_t i=0;i<_portal_frames.size();++i)_portal_frames[i]=mechanism_frame(parts,i);
@@ -262,8 +263,9 @@ void Entity::attach_carrier(Entity* carrier) {
     _carrier_angle=angle*std::numbers::pi_v<float>/180-rad;
 }
 bool Entity::update_laser(double delta,Vec target,const Player& player) {
-    _laser_active=false;if(kind!=114)return false;
+    _laser_active=false;_laser_hit_surface=false;if(kind!=114)return false;
     const float rad=_laser_aim.update(info,_time,delta,physics_state()->angle,player.position()-position());
+    _laser_local_angle=physics_state()->angle-rad;
     if(!LaserAim::in_range(info,(target-position()).length()))return false;
     const Vec direction{std::cos(rad),std::sin(rad)};
     const float body_angle=physics_state()->angle;
@@ -273,7 +275,7 @@ bool Entity::update_laser(double delta,Vec target,const Player& player) {
     physics_world()->raycast_all({.origin=_laser_start,.direction=direction,.max_distance=32000,.filter={.collision={.category=1|8,.mask=1|2|8}}},hits);
     _laser_active=true;
     for(const auto& hit:hits)if(hit.target.collider!=physics_collider(0)&&hit.response==CollisionResponse::Block){
-        _laser_end=hit.point;return player.owns_collider(hit.target.collider);
+        _laser_hit_surface=true;_laser_end=hit.point;return player.owns_collider(hit.target.collider);
     }
     return false;
 }
@@ -320,6 +322,7 @@ bool Entity::lethal(ColliderId hit)const {
 Vec Entity::wind_force_at(Vec point)const {return wind()?wind_force(point,position(),size(),angle*std::numbers::pi_v<float>/180,info):Vec{};}
 std::uint8_t Entity::moon_highlight_alpha()const {return kind==101?play::moon_highlight_alpha(_moon_highlight_time):0;}
 void Entity::update(double delta) {
+    if(_laser_visual)_laser_visual->update(delta,_laser_active,_laser_hit_surface,_laser_end);
     if(kind==101)_moon_highlight_time=std::min(220./60.,_moon_highlight_time+std::max(0.,delta));
     _shot_visual_time=std::min(1.,_shot_visual_time+delta);
     if(_wind_visual)_wind_visual->update(delta);
@@ -334,6 +337,7 @@ void Entity::submit_render_commands(std::vector<RenderCommand>& out) const {
     const auto pose=physics_world()?physics_world()->render_pose(physics_handle()):std::optional<PhysicsPose>{};
     const float rotation=pose?pose->angle*180/std::numbers::pi_v<float>:angle;
     if(_wind_visual){_wind_visual->submit(out,c,rotation);return;}
+    if(_laser_visual){_laser_visual->submit(out,c,_visual_size,rotation,_laser_local_angle,_laser_active,laser_length(),_laser_hit_surface);return;}
     if(kind==115) {
         // The root image is transparent. Two groups of twelve sprites form
         // the original portal, rather than two alternating animation frames.
@@ -389,11 +393,6 @@ void Entity::submit_render_commands(std::vector<RenderCommand>& out) const {
         cmd.alpha=moon_highlight_alpha();cmd.use_src_rect=_moon_highlight_frame->_source_rect.has_value();
         if(cmd.use_src_rect)cmd.src_rect=*_moon_highlight_frame->_source_rect;
         out.push_back(cmd);
-    }
-    if(_laser_active) {
-        RenderCommand beam;beam.type=RenderCommandType::DrawLine;beam.line_start=_laser_start;beam.line_end=_laser_end;
-        beam.color={221,88,255,130};beam.stroke_width=8;out.push_back(beam);
-        beam.color={255,221,255,255};beam.stroke_width=2;out.push_back(beam);
     }
     const float rad=rotation*std::numbers::pi_v<float>/180;
     if(_pivot_frame)append_component(out,*_pivot_frame,c+rotate_vector({seesaw_anchor(kind,info),0},rad),{.5f,.5f},rotation);

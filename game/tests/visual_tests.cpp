@@ -3,6 +3,7 @@
 #include "game/gameplay/seesaw_parameters.h"
 #include "game/gameplay/launcher_visual.h"
 #include "game/gameplay/decor_transform.h"
+#include "game/gameplay/laser_visual.h"
 #include "engine/io/path/path_manager.h"
 #include "engine/io/loaders/content_registry_loader.h"
 #include "engine/loading/game_content_loader.h"
@@ -13,6 +14,7 @@
 #include <SDL3_ttf/SDL_ttf.h>
 #include <iostream>
 #include <stdexcept>
+#include <set>
 
 namespace {
 using namespace elysia;
@@ -295,6 +297,70 @@ void check_thrower_head(SDL_Renderer* renderer) {
     }
     auto* captured=SDL_RenderReadPixels(renderer,nullptr);require(captured!=nullptr,SDL_GetError());
     const bool saved=SDL_SaveBMP(captured,"out/qa/thrower-head-preview.bmp");SDL_DestroySurface(captured);require(saved,SDL_GetError());
+}
+void check_laser_visuals(SDL_Renderer* renderer) {
+    using namespace game::play;
+    auto data=mechanism(114);data["x"]=0;data["y"]=0;data["rotation"]=0;data["info"]={{"FixedAngle","90"},{"ActiveRange","-1"}};
+    const auto key=data.at("key").get<std::string>();
+    Entity laser(data);const auto idle=commands(laser);
+    require(idle.size()==3,"Laser grass must draw two S01 head parts plus its base when idle");
+    require(idle[0].texture==ELYSIA_RESOURCES->find_atlas(key+".S01")->texture_at(1)&&idle[1].texture==ELYSIA_RESOURCES->find_atlas(key+".S01")->texture_at(0),"Laser head texture order incorrect");
+    require(idle[0].rotation_origin==core::Vector2{0,1}&&idle[1].rotation_origin==core::Vector2{0,1},"Laser head must rotate around its original bottom-left anchor");
+    physics::PhysicsWorld world({.units_per_meter=32,.gravity={0,0}});
+    const auto handle=world.register_object(laser,laser.body_definition(),laser.collider_definitions());require(handle.is_valid(),"Laser visual fixture registration failed");laser.bind_physics(world,handle);
+    Player player({-25,-300});const auto player_handle=world.register_object(player,player.body_definition(),player.collider_definitions());require(player_handle.is_valid(),"Laser target registration failed");player.bind_physics(world,player_handle);
+    core::GameObject wall(core::DepthLayer::Terrain);wall.set_world_rect({0,-200,1,1});physics::BodyDefinition wall_body;wall_body.type=physics::BodyType::Static;
+    physics::Collider wall_shape;wall_shape.shape=physics::BoxShape::from_rect({-200,-5,400,10});wall_shape.filter={.category=2,.mask=1|8};
+    const auto wall_handle=world.register_object(wall,wall_body,std::span(&wall_shape,1));require(wall_handle.is_valid(),"Laser blocking wall registration failed");
+    require(!laser.update_laser(1./60,player.center(),player)&&laser.laser_active(),"Laser visual change bypassed terrain occlusion");
+    require(laser.laser_length()>170&&laser.laser_length()<190,"Laser beam did not stop at the blocking wall");
+    auto active=commands(laser);require(active.size()==7,"Active laser must draw cap, shaft, lightning, two head parts, base and impact");
+    require(active[0].texture==ELYSIA_RESOURCES->find_atlas(key+".S02")->texture_at(1)&&active[1].texture==ELYSIA_RESOURCES->find_atlas(key+".S02")->texture_at(0),"Laser core textures are reversed or missing");
+    const auto start=laser_muzzle_offset(std::numbers::pi_v<float>/2,laser.size());
+    const auto anchor=[](const core::RenderCommand& c){return c.command_rect.position()+core::Vector2{c.command_rect.width()*c.rotation_origin.x,c.command_rect.height()*c.rotation_origin.y};};
+    require((anchor(active[0])-start).length()<.001&&std::abs(active[0].command_rect.height()-9)<.001,"Laser cap does not align with native muzzle");
+    require((anchor(active[1])-(start+core::Vector2{0,-9})).length()<.001&&std::abs(active[1].command_rect.height()-(laser.laser_length()-9))<.001,"Laser shaft does not join cap or stop at hit distance");
+    require(active[2].command_rect.height()<=53&&std::abs(active[6].command_rect.center().y+195)<.001,"Lightning extent or impact point incorrect");
+    const auto first_lightning=active[2].texture;laser.update(.1);active=commands(laser);
+    require(active.size()>7&&active[2].texture!=first_lightning,"Laser lightning/particle animation did not advance");
+    const auto* stars=ELYSIA_RESOURCES->find_texture("fly.laser_stars");require(std::any_of(active.begin(),active.end(),[&](const auto& c){return c.texture==stars;}),"Laser world particles are missing");
+    std::set<SDL_Texture*> impacts;for(int i=0;i<20;++i){laser.update(1./60);impacts.insert(commands(laser)[6].texture);}
+    require(impacts.size()==20,"Laser impact must use all twenty S04 frames");
+    laser.info["ActiveRange"]="1";laser.update_laser(1./60,player.center(),player);laser.update(.3);
+    require(!laser.laser_active()&&commands(laser).size()==3,"Inactive laser retains beam, impact or expired particles");
+    laser.info["ActiveRange"]="-1";require(world.unregister_object(wall_handle),"Laser wall cleanup failed");
+    require(laser.update_laser(1./60,player.center(),player),"Laser no longer damages an unobstructed player");
+    require(world.set_body_enabled(player_handle,false),"Laser target disable failed");
+    require(!laser.update_laser(1./60,player.center(),player)&&commands(laser).size()==6,"Unobstructed laser invented a surface impact");
+    laser.unbind_physics();player.unbind_physics();require(world.unregister_object(handle)&&world.unregister_object(player_handle),"Laser fixture cleanup failed");
+
+    // Short beams must not create negative shaft/lightning lengths.
+    LaserVisual short_beam(key,1);std::vector<core::RenderCommand> short_commands;
+    short_beam.submit(short_commands,{0,0},{41.5f,45},0,std::numbers::pi_v<float>/2,true,4,true);
+    require(short_commands.size()==5&&short_commands[0].command_rect.height()==4,"Short laser geometry is invalid");
+    std::vector<core::RenderCommand> normal_pose,rotated_pose;
+    short_beam.submit(normal_pose,{0,0},{41.5f,45},0,std::numbers::pi_v<float>/2,false,100,false);
+    short_beam.submit(rotated_pose,{50,70},{41.5f,45},90,std::numbers::pi_v<float>/2,false,100,false);
+    const auto pivot=anchor(normal_pose[1]);const auto rotated=anchor(rotated_pose[1]);
+    require((rotated-(core::Vector2{50,70}+core::Vector2{-pivot.y,pivot.x})).length()<.001&&std::abs(rotated_pose[1].rotation_degrees-normal_pose[1].rotation_degrees-90)<.001,"Laser head does not follow carrier translation/rotation");
+    short_beam.update(.1,true,true,{100,200});normal_pose.clear();rotated_pose.clear();
+    short_beam.submit(normal_pose,{0,0},{41.5f,45},0,std::numbers::pi_v<float>/2,false,100,false);
+    short_beam.submit(rotated_pose,{50,70},{41.5f,45},90,std::numbers::pi_v<float>/2,false,100,false);
+    require(normal_pose.size()>3&&normal_pose.size()==rotated_pose.size(),"World-space laser particle fixture missing");
+    for(std::size_t i=3;i<normal_pose.size();++i)require(normal_pose[i].command_rect==rotated_pose[i].command_rect,"Emitted laser particles moved with their old carrier");
+    require(SDL_SetRenderDrawColor(renderer,24,36,54,255)&&SDL_RenderClear(renderer),SDL_GetError());
+    for(int row=0;row<2;++row)for(int column=0;column<3;++column) {
+        const float rotation=(column-1)*90.f;LaserVisual visual(key,7+column);
+        const float rad=rotation*std::numbers::pi_v<float>/180;
+        const core::Vector2 muzzle{start.x*std::cos(rad)-start.y*std::sin(rad),start.x*std::sin(rad)+start.y*std::cos(rad)};
+        const core::Vector2 end=muzzle+core::Vector2{std::sin(rad)*100,-std::cos(rad)*100};
+        if(row)visual.update(.15,true,true,end);
+        std::vector<core::RenderCommand> drawn;visual.submit(drawn,{0,0},{41.5f,45},rotation,std::numbers::pi_v<float>/2,row!=0,100,true);
+        const camera::Camera preview({0,0},{1280,720},1.8f);
+        for(const auto& c:drawn){auto screen=core::project_render_command_to_screen(c,preview);screen.screen_rect=screen.screen_rect.translated(core::Vector2{210.f+420*column-640,180.f+360*row-360});core::require_render_success(core::execute_render_command(renderer,screen));}
+    }
+    auto* captured=SDL_RenderReadPixels(renderer,nullptr);require(captured!=nullptr,SDL_GetError());
+    const bool saved=SDL_SaveBMP(captured,"out/qa/laser-visual-preview.bmp");SDL_DestroySurface(captured);require(saved,SDL_GetError());
 }
 void check_mechanism_interpolation() {
     auto data=mechanism(109);data["info"]["Anchor"]=.25;
@@ -638,6 +704,7 @@ int main() {
             check_platforms_and_rods();
             check_tracking_flower();
             check_thrower_head(renderer);
+            check_laser_visuals(renderer);
             check_portals();
             check_wind_visuals();
             save_wind_preview(renderer);

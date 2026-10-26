@@ -10,6 +10,7 @@
 #include "laser_aim.h"
 #include "wind_visual.h"
 #include "role_effect.h"
+#include "laser_visual.h"
 #include "engine/physics/joint_definition.h"
 #include "engine/camera/camera.h"
 #include <array>
@@ -116,6 +117,7 @@ private:
     SDL_Texture* _texture=nullptr;
     Vec _visual_size;
     std::optional<WindVisual> _wind_visual;
+    std::optional<LaserVisual> _laser_visual;
     elysia::core::SpriteFlip _base_flip=elysia::core::SpriteFlip::None;
     const elysia::resources::FrameInfo* _pivot_frame=nullptr;
     std::array<const elysia::resources::FrameInfo*,2> _leaf_frames{};
@@ -137,6 +139,8 @@ private:
     Vec _carrier_offset{};
     float _carrier_angle=0;
     bool _laser_active=false;
+    bool _laser_hit_surface=false;
+    float _laser_local_angle=1.5707963267948966f;
     Vec _laser_start{},_laser_end{};
     std::optional<ShotSchedule> _shots;
     int _bomb_state=0;

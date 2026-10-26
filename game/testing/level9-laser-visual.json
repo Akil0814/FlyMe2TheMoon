@@ -1,0 +1,23 @@
+{
+  "name": "level9-laser-visual",
+  "level": 9,
+  "duration": 25,
+  "events": [],
+  "pilot": [
+    [
+      466,
+      1845
+    ]
+  ],
+  "expect": {
+    "level": 9,
+    "finished": false,
+    "input_enabled": true
+  },
+  "observe": [
+    {
+      "field": "active_lasers",
+      "max_at_least": 1
+    }
+  ]
+}
