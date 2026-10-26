@@ -6,6 +6,7 @@
 #include "game/gameplay/laser_visual.h"
 #include "game/gameplay/homing_parameters.h"
 #include "game/frontend/moon_ui.h"
+#include "game/frontend/pickup_effects.h"
 #include "game/scene/main_menu_scene.h"
 #include "engine/ui/window/ui_window.h"
 #include "engine/io/path/path_manager.h"
@@ -254,6 +255,55 @@ void check_pickups_and_moon() {
                 "Pickup/moon is cycling between normal and effect images: kind "+std::to_string(kind));
         }
     }
+}
+void check_pickup_effects(SDL_Renderer* renderer){
+    const auto level=game::content::level(1);
+    for(int kind:{4,5}){
+        const auto found=std::find_if(level.at("entities").begin(),level.at("entities").end(),[kind](const auto& data){return data.at("kind")==kind;});
+        game::play::Entity crystal(*found);const auto idle=sprite(crystal);
+        crystal.begin_pickup();crystal.update(.15);auto enlarged=sprite(crystal);
+        require(enlarged.texture==idle.texture&&std::abs(enlarged.command_rect.width()/idle.command_rect.width()-1.1f)<.001f&&enlarged.command_rect.center()==idle.command_rect.center(),"Both crystal kinds must grow in place using their normal sprite");
+        crystal.begin_pickup();crystal.update(.15);
+        require(std::abs(sprite(crystal).command_rect.width()/idle.command_rect.width()-1.2f)<.001f,"Duplicate pickup must not restart the 0.3 second enlargement");
+        crystal.update(.15);require(std::abs(sprite(crystal).command_rect.width()/idle.command_rect.width()-.65f)<.001f,"Crystal must shrink toward 0.1 scale during its second phase");
+        crystal.update(.15);require(commands(crystal).empty()&&!crystal.is_visible(),"Crystal must disappear after 0.6 seconds");
+        crystal.restore_pickup();require(!crystal.collected&&crystal.is_visible()&&sprite(crystal).command_rect==idle.command_rect,"Scripted restore must reset collection, size and visibility");
+    }
+    using game::frontend::StarPickupEffects;
+    game::frontend::StarRating hud({982,24,136,40});StarPickupEffects flight;
+    const core::Vector2 from{180,480},destination=hud.slot_rect(0).center();
+    const auto drawn=[&]{std::vector<core::UiRenderCommand> out;flight.submit_ui_render_commands(out);return out;};
+    flight.launch(from,destination);const auto birth=drawn();
+    require(birth.size()==1&&birth[0].texture==ELYSIA_RESOURCES->find_texture("fly.InGameUI.animateStar")&&birth[0].screen_rect.center()==from,"Star pickup must start at the captured screen position using animateStar");
+    flight.advance(.05);const auto grown=drawn();
+    require((grown[0].screen_rect.center()-from).length()<.001f&&std::abs(grown[0].screen_rect.width()/birth[0].screen_rect.width()-1.4f)<.001f,"Star must grow to 1.4 over 0.05 seconds before moving");
+    flight.advance(.3);const auto middle=drawn();
+    require((middle[0].screen_rect.center()-(from+destination)*.5f).length()<.001f&&std::abs(middle[0].screen_rect.width()-birth[0].screen_rect.width())<.001f,"Star must move linearly toward its actual HUD slot while shrinking");
+    require(drawn()[0].screen_rect==middle[0].screen_rect,"Rendering must not advance the star pickup timeline");
+    flight.launch({400,520},hud.slot_rect(1).center());flight.advance(.3);
+    require(flight.pending_count()==1,"Overlapping star pickups must finish independently in collection order");
+    flight.clear();require(flight.pending_count()==0&&drawn().empty(),"Reset and settlement must remove every in-flight star");
+
+    require(SDL_SetRenderDrawColor(renderer,12,20,35,255)&&SDL_RenderClear(renderer),SDL_GetError());
+    const auto render_ui=[&](const ui::UiElement& element){std::vector<core::UiRenderCommand> out;element.submit_ui_render_commands(out);for(const auto& c:out)core::require_render_success(core::execute_render_command(renderer,c));};
+    const std::array<double,6> times{{0,.15,.3,.45,.599,.65}};
+    for(int column=0;column<6;++column){
+        const float x=100.f+210*column;
+        game::frontend::HudLabel time({x-80,28,160,40},0,ui::ui_raw_text(std::format("{:.2f} s",times[column])));render_ui(time);
+        for(int kind:{4,5}){
+            const auto found=std::find_if(level.at("entities").begin(),level.at("entities").end(),[kind](const auto& data){return data.at("kind")==kind;});
+            game::play::Entity crystal(*found);crystal.begin_pickup();crystal.update(times[column]);
+            for(auto command:commands(crystal)){
+                const auto extent=command.command_rect.size()*2;
+                command.command_rect=core::Rect::from_center({x,kind==4?160.f:280.f},extent);
+                core::require_render_success(core::execute_render_command(renderer,core::project_render_command_to_screen(command,camera::Camera({640,360},{1280,720},1))));
+            }
+        }
+        game::frontend::StarRating slot({x-68,400,136,40});slot.set_collected(times[column]>=.65?1:0);render_ui(slot);
+        StarPickupEffects sample;sample.launch({x,640},slot.slot_rect(0).center());sample.advance(times[column]);render_ui(sample);
+    }
+    auto* preview=SDL_RenderReadPixels(renderer,nullptr);require(preview!=nullptr,SDL_GetError());
+    const bool saved=SDL_SaveBMP(preview,"out/qa/pickup-effects-preview.bmp");SDL_DestroySurface(preview);require(saved,SDL_GetError());
 }
 void check_thrust_particles(SDL_Renderer* renderer){
     using namespace game::play;
@@ -1008,6 +1058,7 @@ int main() {
             check_run_stats(renderer);
             check_dialogue_and_pause(renderer);
             check_pickups_and_moon();
+            check_pickup_effects(renderer);
             check_driven_rotor_pause();
             check_role_effects(renderer);
             check_thrust_particles(renderer);

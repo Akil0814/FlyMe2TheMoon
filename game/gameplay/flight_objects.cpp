@@ -335,6 +335,7 @@ bool Entity::lethal(ColliderId hit)const {
 Vec Entity::wind_force_at(Vec point)const {return wind()?wind_force(point,position(),size(),angle*std::numbers::pi_v<float>/180,info):Vec{};}
 std::uint8_t Entity::moon_highlight_alpha()const {return kind==101?play::moon_highlight_alpha(_moon_highlight_time):0;}
 void Entity::update(double delta) {
+    if(collected){_pickup_time=std::min(.6,_pickup_time+std::max(0.,delta));if(_pickup_time>=.6)set_visible(false);return;}
     if(_laser_visual)_laser_visual->update(delta,_laser_active,_laser_hit_surface,_laser_end);
     if(kind==101)_moon_highlight_time=std::min(220./60.,_moon_highlight_time+std::max(0.,delta));
     _shot_visual_time=std::min(1.,_shot_visual_time+delta);
@@ -345,8 +346,14 @@ void Entity::update(double delta) {
     if(_bomb_armed)_bomb_armed->update(delta);
 }
 void Entity::submit_render_commands(std::vector<RenderCommand>& out) const {
-    if(collected)return;
+    if(!is_visible())return;
+    if(collected&&(kind==3||_pickup_time>=.6))return;
     Rect r=render_rect();const auto c=r.center();r={c.x-_visual_size.x/2,c.y-_visual_size.y/2,_visual_size.x,_visual_size.y};
+    if(collected){
+        // ItemLayer.crystalPieceDisappear: ScaleTo(1.2, 0.3s), ScaleTo(0.1, 0.3s).
+        const float scale=_pickup_time<.3?1+.2f*static_cast<float>(_pickup_time/.3):1.2f-1.1f*static_cast<float>((_pickup_time-.3)/.3);
+        r=Rect::from_center(c,_visual_size*scale);
+    }
     const auto pose=physics_world()?physics_world()->render_pose(physics_handle()):std::optional<PhysicsPose>{};
     const float rotation=pose?pose->angle*180/std::numbers::pi_v<float>:angle;
     if(_wind_visual){_wind_visual->submit(out,c,rotation);return;}

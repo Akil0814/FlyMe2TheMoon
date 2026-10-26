@@ -13,6 +13,7 @@
 #include "engine/ui/window/ui_window.h"
 #include "engine/ui/widgets/ui_button.h"
 #include "game/frontend/moon_ui.h"
+#include "game/frontend/pickup_effects.h"
 #include "engine/tools/development_overlay.h"
 
 namespace game::scene_keys {inline constexpr elysia::scene::SceneKey Flight=2;}
@@ -94,6 +95,7 @@ private:
     frontend::RunStats* _hud_stats=nullptr;
     elysia::ui::UiLabel* _hint=nullptr;
     frontend::StarRating* _hud_stars=nullptr;
+    frontend::StarPickupEffects* _star_pickups=nullptr;
     frontend::PauseIconButton* _pause_button=nullptr;
     elysia::ui::UiWindow* _pause_menu=nullptr;
     frontend::StarRating* _pause_stars=nullptr;
