@@ -13,6 +13,16 @@ void image(std::vector<core::UiRenderCommand>& out,SDL_Texture* source,core::Rec
     if(!source)return;
     auto command=core::make_ui_texture_command(source,rect);command.alpha=alpha;out.push_back(command);
 }
+ui::UiButtonStyleOverrides glass_button_style(){
+    return {.chrome={.background={.idle=core::Color{12,49,91,90},.focused=core::Color{72,182,245,80},.active=core::Color{29,105,164,130}},
+        .border={.idle=core::Color{125,216,255,75},.focused=core::Color{204,247,255,255}},.corner_radius=10.f,.draw_border=true},
+        .text={.enabled=core::Color{241,251,255,255}}};
+}
+void draw_glass_button(const ui::UiButton& button,std::vector<core::UiRenderCommand>& out){
+    if(!button.is_visible())return;
+    image(out,texture("mainMenuBtnUp"),button.screen_rect(),button.is_enabled()?220:80);
+    button.ui::UiButton::submit_ui_render_commands(out);
+}
 }
 void StarRating::submit_ui_render_commands(std::vector<core::UiRenderCommand>& out)const {
     if(!is_visible())return;
@@ -31,12 +41,11 @@ void MoonPanel::submit_ui_render_commands(std::vector<core::UiRenderCommand>& ou
     out.push_back(core::make_ui_draw_line_command({r.x()+32,r.y()+12},{r.right()-32,r.y()+12},{156,233,255,80}));
 }
 PauseIconButton::PauseIconButton(core::Rect rect,std::function<void()> action):UiButton(rect,12){
-    set_state_textures({.idle=ELYSIA_RESOURCES->find_texture("fly.InGameUI.pauseBtnUp"),.pushed=ELYSIA_RESOURCES->find_texture("fly.InGameUI.pauseBtnDown")});
-    set_style_overrides({.chrome={.corner_radius=10.f,.draw_border=false}});set_on_click(std::move(action));
+    set_style_overrides(glass_button_style());set_on_click(std::move(action));
 }
 void PauseIconButton::submit_ui_render_commands(std::vector<core::UiRenderCommand>& out)const {
     if(!is_visible())return;
-    UiButton::submit_ui_render_commands(out);const auto r=screen_rect();
+    draw_glass_button(*this,out);const auto r=screen_rect();
     image(out,ELYSIA_RESOURCES->find_texture("fly.InGameUI.pauseBtnText"),{r.center().x-11,r.center().y-14,22,28});
 }
 MenuArtwork::MenuArtwork():UiElement({0,0,544,816},-90),
@@ -87,14 +96,10 @@ void MoonBackdrop::submit_ui_render_commands(std::vector<core::UiRenderCommand>&
 GlassButton::GlassButton(std::string text,float width,float height,std::function<void()> action):UiButton({0,0,width,height}){
     set_text_content(ui::ui_raw_text(std::move(text)));set_on_click(std::move(action));
     set_typography_role(typography::UiTypographyRole::ButtonCompact);
-    set_style_overrides({.chrome={.background={.idle=core::Color{12,49,91,90},.focused=core::Color{72,182,245,80},.active=core::Color{29,105,164,130}},
-        .border={.idle=core::Color{125,216,255,75},.focused=core::Color{204,247,255,255}},.corner_radius=10.f,.draw_border=true},
-        .text={.enabled=core::Color{241,251,255,255}}});
+    set_style_overrides(glass_button_style());
 }
 void GlassButton::submit_ui_render_commands(std::vector<core::UiRenderCommand>& out)const {
-    if(!is_visible())return;
-    image(out,texture("mainMenuBtnUp"),screen_rect(),is_enabled()?220:80);
-    UiButton::submit_ui_render_commands(out);
+    draw_glass_button(*this,out);
 }
 std::unique_ptr<ui::UiLabel> label(std::string text,float width,float height,bool centered){
     auto result=std::make_unique<ui::UiLabel>(core::Rect{0,0,width,height},0,ui::ui_raw_text(std::move(text)));
