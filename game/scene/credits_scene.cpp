@@ -1,6 +1,7 @@
 #include "credits_scene.h"
 #include "main_menu_scene.h"
 #include "game/content/content.h"
+#include "game/frontend/moon_ui.h"
 #include "game/testing/replay_probe.h"
 #include "engine/ui/window/ui_window.h"
 #include "engine/ui/containers/ui_list_container.h"
@@ -15,10 +16,17 @@ using namespace elysia;
 void CreditsScene::on_enter(const elysia::scene::ScenePayload&) {
     clear_scene_objects();_auto_scroll=true;_wait=2;testing::ReplayProbe::shared().begin();
     auto* window=create_and_add_object<ui::UiWindow>(core::Rect{0,0,1280,720});
-    window->set_style_overrides({.draw_border=false,.background=core::Color{10,18,39,255}});
+    window->set_style_overrides({.draw_background=false,.draw_border=false});
+    window->add_child(std::make_unique<frontend::MoonBackdrop>("settings",100));
     window->set_on_cancel([this]{request_scene_switch(scene_keys::MainMenu);});
     auto scroll=std::make_unique<ui::UiScrollContainer>(core::Rect{0,0,800,590});_scroll=scroll.get();
-    scroll->set_scroll_axis(ui::UiScrollAxis::Vertical);scroll->set_style_overrides({.draw_background=false,.draw_border=false});
+    scroll->set_scroll_axis(ui::UiScrollAxis::Vertical);
+    scroll->set_style_overrides({.scrollbar={.corner_radius=7.f,.thickness=14.f,.margin=7.f,.min_thumb_length=40.f,
+        .track_idle_color=core::Color{12,49,91,100},.track_focused_color=core::Color{29,80,126,130},
+        .track_dragging_color=core::Color{29,105,164,150},.track_disabled_color=core::Color{12,49,91,60},
+        .thumb_idle_color=core::Color{112,204,245,210},.thumb_focused_color=core::Color{174,235,255,240},
+        .thumb_dragging_color=core::Color{219,249,255,255},.thumb_disabled_color=core::Color{112,204,245,80}},
+        .draw_background=false,.draw_border=false});
     auto images=std::make_unique<ui::UiListContainer>(core::Rect{0,0,760,1});images->set_cross_align(ui::UiLayoutAlign::Center);images->set_item_spacing(28);
     for(const auto* name:{"creditsTop","creditsText1","creditsText2","creditsText3","creditsText4","creditsText5","creditsText6","creditsSleep","creditsBottom"}) {
         auto* texture=ELYSIA_RESOURCES->find_texture(std::string("fly.ui.")+name);float width=0,height=0;
@@ -29,7 +37,7 @@ void CreditsScene::on_enter(const elysia::scene::ScenePayload&) {
     scroll->set_content(std::move(images));window->add_child(std::move(scroll),ui::UiLayoutChildOptions{._anchor=ui::UiLayoutAnchor::TopCenter,._margin={.top=18}});
     auto controls=std::make_unique<ui::UiListContainer>(core::Rect{0,0,760,90});controls->set_cross_align(ui::UiLayoutAlign::Center);controls->set_item_spacing(8);
     auto hint=std::make_unique<ui::UiLabel>(core::Rect{0,0,760,30},0,ui::ui_raw_text(content::ui("credits_controls")));hint->set_horizontal_align(ui::TextHorizontalAlign::Center);controls->add_back(std::move(hint));
-    auto back=std::make_unique<ui::UiButton>(core::Rect{0,0,360,48});back->set_text_content(ui::ui_raw_text(content::ui("back")));back->set_on_click([this]{request_scene_switch(scene_keys::MainMenu);});controls->add_back(std::move(back));
+    controls->add_back(std::make_unique<frontend::GlassButton>(content::ui("back"),360,48,[this]{request_scene_switch(scene_keys::MainMenu);}));
     auto* scope=controls.get();window->add_child(std::move(controls),ui::UiLayoutChildOptions{._anchor=ui::UiLayoutAnchor::BottomCenter,._margin={.bottom=16}});window->register_focus_scope(*scope);window->focus_first_available_scope();
     ELYSIA_AUDIO->play_music("fly.MoonTrip");
 }

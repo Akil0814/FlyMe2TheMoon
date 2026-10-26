@@ -1,0 +1,287 @@
+{
+  "checks": {
+    "observe.scene": {
+      "maximum": 5.0,
+      "minimum": 1.0,
+      "passed": true,
+      "requested": {
+        "field": "scene",
+        "max_at_least": 5,
+        "min_at_most": 1
+      },
+      "samples": 40
+    },
+    "scene": {
+      "actual": 1,
+      "expected": 1,
+      "passed": true
+    }
+  },
+  "passed": true,
+  "samples": [
+    {
+      "scene": 1,
+      "wall_time": 0.026
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.128
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.229
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.33
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.431
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.532
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.634
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.736
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.838
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.939
+    },
+    {
+      "scene": 1,
+      "wall_time": 1.041
+    },
+    {
+      "scene": 1,
+      "wall_time": 1.142
+    },
+    {
+      "scene": 1,
+      "wall_time": 1.244
+    },
+    {
+      "scene": 1,
+      "wall_time": 1.345
+    },
+    {
+      "scene": 1,
+      "wall_time": 1.446
+    },
+    {
+      "scene": 1,
+      "wall_time": 1.549
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 0.0,
+      "wall_time": 1.653
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 0.0,
+      "wall_time": 1.786
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 0.0,
+      "wall_time": 1.888
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 0.0,
+      "wall_time": 1.99
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 0.0,
+      "wall_time": 2.091
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 0.0,
+      "wall_time": 2.192
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 0.0,
+      "wall_time": 2.294
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 0.0,
+      "wall_time": 2.396
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 0.0,
+      "wall_time": 2.497
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 0.0,
+      "wall_time": 2.599
+    },
+    {
+      "scene": 1,
+      "wall_time": 2.701
+    },
+    {
+      "scene": 1,
+      "wall_time": 2.803
+    },
+    {
+      "scene": 1,
+      "wall_time": 2.904
+    },
+    {
+      "scene": 1,
+      "wall_time": 3.006
+    },
+    {
+      "scene": 1,
+      "wall_time": 3.107
+    },
+    {
+      "scene": 1,
+      "wall_time": 3.209
+    },
+    {
+      "scene": 1,
+      "wall_time": 3.31
+    },
+    {
+      "scene": 1,
+      "wall_time": 3.411
+    },
+    {
+      "scene": 1,
+      "wall_time": 3.513
+    },
+    {
+      "scene": 1,
+      "wall_time": 3.615
+    },
+    {
+      "scene": 1,
+      "wall_time": 3.716
+    },
+    {
+      "scene": 1,
+      "wall_time": 3.818
+    },
+    {
+      "scene": 1,
+      "wall_time": 3.919
+    },
+    {
+      "scene": 1,
+      "wall_time": 4.02
+    }
+  ],
+  "scenario": {
+    "duration": 4,
+    "events": [
+      {
+        "down": true,
+        "key": "Down",
+        "time": 0.5
+      },
+      {
+        "down": false,
+        "key": "Down",
+        "time": 0.6
+      },
+      {
+        "down": true,
+        "key": "Down",
+        "time": 0.8
+      },
+      {
+        "down": false,
+        "key": "Down",
+        "time": 0.9
+      },
+      {
+        "down": true,
+        "key": "Down",
+        "time": 1.1
+      },
+      {
+        "down": false,
+        "key": "Down",
+        "time": 1.2000000000000002
+      },
+      {
+        "down": true,
+        "key": "Return",
+        "time": 1.5
+      },
+      {
+        "down": false,
+        "key": "Return",
+        "time": 1.6
+      },
+      {
+        "down": true,
+        "mouse": [
+          640,
+          676
+        ],
+        "time": 2.5
+      },
+      {
+        "down": false,
+        "mouse": [
+          640,
+          676
+        ],
+        "time": 2.6
+      }
+    ],
+    "expect": {
+      "scene": 1
+    },
+    "language": "zh-Hans",
+    "level": -1,
+    "name": "credits-style-return01",
+    "observe": [
+      {
+        "field": "scene",
+        "max_at_least": 5,
+        "min_at_most": 1
+      }
+    ]
+  }
+}

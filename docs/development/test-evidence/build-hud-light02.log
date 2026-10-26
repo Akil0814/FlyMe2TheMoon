@@ -1,0 +1,29 @@
+**********************************************************************
+** Visual Studio 2022 Developer Command Prompt v17.14.10
+** Copyright (c) 2025 Microsoft Corporation
+**********************************************************************
+[vcvarsall.bat] Environment initialized for: 'x64'
+[0/2] Re-checking globbed directories...
+[1/10] Building CXX object game\CMakeFiles\game_lib.dir\frontend\moon_ui.cpp.obj
+[2/10] Building CXX object game\CMakeFiles\game_lib.dir\scene\settings_scene.cpp.obj
+[3/10] Building CXX object game\CMakeFiles\game_lib.dir\application\game_module.cpp.obj
+[4/10] Building CXX object game\CMakeFiles\game_lib.dir\scene\main_menu_scene.cpp.obj
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\memory(3630): warning C4244: “参数”: 从“_Ty”转换到“float”，可能丢失数据
+        with
+        [
+            _Ty=int
+        ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\memory(3630): note: 模板实例化上下文(最早的实例化上下文)为
+C:\Code\FlyMe2TheMoon\game\scene\main_menu_scene.cpp(43): note: 查看对正在编译的函数 模板 实例化“std::unique_ptr<game::frontend::GlassButton,std::default_delete<game::frontend::GlassButton>> std::make_unique<game::frontend::GlassButton,std::string,int,int,game::scene::MainMenuScene::on_enter::<lambda_2>,0>(std::string &&,int &&,int &&,game::scene::MainMenuScene::on_enter::<lambda_2> &&)”的引用
+[5/10] Building CXX object game\CMakeFiles\game_lib.dir\scene\flight_result.cpp.obj
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\memory(3630): warning C4244: “参数”: 从“_Ty”转换到“float”，可能丢失数据
+        with
+        [
+            _Ty=int
+        ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\memory(3630): note: 模板实例化上下文(最早的实例化上下文)为
+C:\Code\FlyMe2TheMoon\game\scene\flight_result.cpp(21): note: 查看对正在编译的函数 模板 实例化“std::unique_ptr<game::frontend::GlassButton,std::default_delete<game::frontend::GlassButton>> std::make_unique<game::frontend::GlassButton,std::string,int,int,std::function<void (void)>,0>(std::string &&,int &&,int &&,std::function<void (void)> &&)”的引用
+[6/10] Building CXX object game\CMakeFiles\game_lib.dir\scene\selection_scene.cpp.obj
+[7/10] Building CXX object game\CMakeFiles\game_lib.dir\scene\flight_scene.cpp.obj
+[8/10] Linking CXX static library game\game_lib.lib
+[9/10] Linking CXX executable FlyMe2TheMoon.exe
