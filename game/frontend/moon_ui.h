@@ -1,4 +1,5 @@
 #pragma once
+#include "engine/core/interface/updatable.h"
 #include "engine/ui/core/ui_element.h"
 #include "engine/ui/widgets/ui_button.h"
 #include "engine/ui/widgets/label/ui_label.h"
@@ -62,22 +63,30 @@ public:
 };
 std::unique_ptr<elysia::ui::UiLabel> label(std::string text,float width,float height,bool centered=false);
 void mark_selected(elysia::ui::UiButton& button);
-class LevelNode final:public elysia::ui::UiButton {
+class LevelNode final:public elysia::ui::UiButton,public elysia::core::Updatable {
 public:
     LevelNode(int id,int chapter,int stars,bool open,std::function<void()> action,
         std::optional<int> best_score=std::nullopt);
     [[nodiscard]] std::optional<int> best_score()const{return _best_score;}
+    bool unlocked()const{return _open;}
+    void show_unlock(){_unlock_time=.6;}
+    void update(double delta)override{_unlock_time=std::max(0.,_unlock_time-std::max(0.,delta));}
     void submit_ui_render_commands(std::vector<elysia::core::UiRenderCommand>& out)const override;
 private:
     int _chapter=0,_stars=-1;
     bool _open=false;
     std::optional<int> _best_score;
     mutable elysia::ui::UiLabel _score_label;
+    double _unlock_time=0;
 };
 class ConstellationGrid final:public elysia::ui::UiGridContainer {
 public:
     explicit ConstellationGrid(const elysia::core::Rect& rect);
+    bool on_ui_input_event(const elysia::ui::UiInputEvent& event)override;
+    void cancel_input_interaction()noexcept override{_locked_pressed=nullptr;UiGridContainer::cancel_input_interaction();}
     void submit_ui_render_commands(std::vector<elysia::core::UiRenderCommand>& out)const override;
+private:
+    LevelNode* _locked_pressed=nullptr;
 };
 class AchievementCard final:public elysia::ui::UiElement {
 public:

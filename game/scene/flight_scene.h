@@ -15,14 +15,16 @@
 #include "game/frontend/moon_ui.h"
 #include "game/frontend/pickup_effects.h"
 #include "engine/tools/development_overlay.h"
+#include "game/audio/game_audio.h"
 
 namespace game::scene_keys {inline constexpr elysia::scene::SceneKey Flight=2;}
 namespace game::scene {
 struct FlightPayload {int level=1;bool restart=false;};
-class FlightScene final : public elysia::scene::Scene {
+class FlightScene final : public elysia::scene::Scene, public elysia::physics::ICollisionListener {
 public:
     FlightScene();
     ~FlightScene() override;
+    void on_collision_event(const elysia::physics::CollisionEvent& event)override;
 protected:
     void on_enter(const elysia::scene::ScenePayload&) override;
     void on_exit() override;
@@ -59,6 +61,11 @@ private:
     void apply_pointer(play::Vec point);
     content::Json story_action(const std::string&,const content::Json&);
     void update_dialogue();
+    void update_audio(double delta);
+    void update_role_audio(double delta);
+    void start_entrance_sound(){_entrance_sound_pending=true;}
+    void update_result_animation(double delta);
+    void complete_result_animation();
     int _level=1,_stars=0,_crystals=0,_crystal_count=0;
     // Collected value = small + 5 * large; count = small + large.
     int large_crystal_count()const{return (_crystals-_crystal_count)/4;}
@@ -120,7 +127,14 @@ private:
     frontend::HudPanel* _portrait_panel=nullptr;
     elysia::ui::UiImage* _face=nullptr;
     elysia::ui::UiImage* _tutorial=nullptr;
-    std::vector<elysia::audio::SoundHandle> _sounds;
+    game::audio::World _audio;
+    bool _entrance_sound_pending=false,_audio_grounded=false;
+    double _idle_audio_time=0;
+    struct RotationAudio {float angle=0,accumulated=0;bool initialized=false;};
+    std::map<int,RotationAudio> _rotation_audio;
+    double _result_animation_time=0,_result_tick_time=0;
+    int _result_animation_stars=0,_result_score=0,_result_display_score=0;
+    bool _result_new_record=false,_result_animation_done=true;
     double _mechanism_time=0;
     std::vector<bool> _triggered_areas;
     std::vector<std::pair<double,int>> _scheduled_actions;

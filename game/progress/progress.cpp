@@ -73,7 +73,11 @@ bool Store::save() {
 }
 bool Store::record_clear(int level,int stars_count,int collected,int crystal_count,int pickups,double elapsed) {
     if(level<1||level>60||stars_count<0||stars_count>3||elapsed<=0)throw std::invalid_argument("Invalid level clear result");
+    std::array<bool,60> before{};
+    const auto& dependencies=content::catalog().at("dependencies");
+    for(int id=1;id<=60;++id)before[id-1]=data.unlocked(id,dependencies);
     const int i=level-1;data.stars[i]=std::max(data.stars[i],stars_count);
+    for(int id=1;id<=60;++id)if(!before[id-1]&&data.unlocked(id,dependencies))pending_unlocks.insert(id);
     if(data.best_time[i]==0||elapsed<data.best_time[i])data.best_time[i]=elapsed;
     const int score=original_score(level,stars_count,collected,elapsed,content::catalog().at("score").at("svrs"));
     data.score_verified[i]=true;

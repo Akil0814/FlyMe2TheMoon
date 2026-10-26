@@ -11,6 +11,8 @@
 #include "game/scene/selection_scene.h"
 #include "game/scene/settings_scene.h"
 #include "game/scene/credits_scene.h"
+#include "game/scene/flight_scene.h"
+#include "game/tests/original_music_fixture.h"
 #include "engine/audio/audio_service.h"
 #include "engine/save/save_service.h"
 #include "engine/ui/window/ui_window.h"
@@ -32,12 +34,13 @@
 #include <stdexcept>
 #include <set>
 #include <regex>
+#include <fstream>
 
 namespace elysia::scene {
 class SceneTestAccess {
 public:
     static void bind(Scene& scene,const SceneRuntimeContext& context){scene.bind_runtime_context(context);}
-    static void enter(Scene& scene){scene.lifecycle_enter({});}
+    static void enter(Scene& scene,const ScenePayload& payload={}){scene.lifecycle_enter(payload);}
     static void exit(Scene& scene){scene.lifecycle_exit();}
     static ui::UiWindow& window(Scene& scene){return dynamic_cast<ui::UiWindow&>(*scene._ui_roots.at(0));}
 };
@@ -47,6 +50,41 @@ namespace {
 using namespace elysia;
 void require(bool condition,const std::string& message) {
     if(!condition)throw std::runtime_error(message);
+}
+void check_level_music_playback(SDL_Renderer* renderer,const io::ContentRegistry& registry){
+    const auto directory=std::filesystem::path("out/qa/level-music")/std::to_string(SDL_GetTicksNS());
+    require(ELYSIA_SAVE->initialize(directory).has_value(),"Isolated level music save initialization failed");
+    require(ELYSIA_AUDIO->initialize({}),"Level music audio initialization failed");
+    scene::SceneRuntimeContext context(renderer,registry,1280,720);
+    auto* track=audio::detail::mixer_backend().music;
+    game::content::Json rows=game::content::Json::array();bool passed=true;
+    for(int id=1;id<=60;++id){
+        const auto& expected=game::testing::expected_level_music(id);
+        game::content::Json row{{"level",id},{"expected",expected},{"passed",false}};
+        try{
+            game::scene::FlightScene flight;scene::SceneTestAccess::bind(flight,context);
+            scene::SceneTestAccess::enter(flight,game::scene::FlightPayload{id});
+            const auto deadline=SDL_GetTicks()+500;
+            while(MIX_TrackPlaying(track)&&MIX_GetTrackPlaybackPosition(track)<=0&&SDL_GetTicks()<deadline)SDL_Delay(5);
+            std::string actual;
+            for(const auto& [music,levels]:game::testing::original_level_music)
+                if(MIX_GetTrackAudio(track)==ELYSIA_RESOURCES->find_music(music))actual=music;
+            const bool playing=MIX_TrackPlaying(track);
+            const auto frames=MIX_GetTrackPlaybackPosition(track);
+            row["suite"]=game::content::level(id).at("suite");row["actual"]=actual;
+            row["playing"]=playing;row["playback_frames"]=frames;
+            scene::SceneTestAccess::exit(flight);
+            row["stopped_on_exit"]=!MIX_TrackPlaying(track);
+            row["passed"]=actual==expected&&playing&&frames>0&&!MIX_TrackPlaying(track);
+        }catch(const std::exception& error){row["error"]=error.what();ELYSIA_AUDIO->stop_music();}
+        passed&=row.at("passed").get<bool>();rows.push_back(std::move(row));
+    }
+    ELYSIA_AUDIO->shutdown();ELYSIA_SAVE->shutdown();
+    std::ofstream report("out/qa/level-music-playback.json");
+    report<<game::content::Json{{"passed",passed},{"scope","60 real FlightScene entries with SDL dummy audio; track identity, advancing playback and stop on exit"},{"levels",rows}}.dump(2);
+    report.close();require(report.good(),"Could not save level music playback evidence");
+    require(passed,"Some level music playback checks failed; see out/qa/level-music-playback.json");
+    std::cout<<"PASS: all 60 real FlightScene music tracks match the original snapshot, advance playback and stop on exit\n";
 }
 void check_frontend_music(SDL_Renderer* renderer,const io::ContentRegistry& registry){
     const auto save_directory=std::filesystem::path("out/qa/menu-music")/
@@ -1081,7 +1119,8 @@ void save_mechanism_preview(SDL_Renderer* renderer) {
 }
 }
 
-int main() {
+int main(int argc,char** argv) {
+    const bool level_music_only=argc==2&&std::string_view(argv[1])=="--level-music-only";
     typography::FontResolver font_resolver;
     SDL_Surface* surface=nullptr;
     SDL_Renderer* renderer=nullptr;
@@ -1111,6 +1150,9 @@ int main() {
             const auto deadline=SDL_GetTicks()+30000;
             while(loader.is_running()&&SDL_GetTicks()<deadline){loader.update();SDL_Delay(1);}
             require(loader.is_finished(),loader.failure()?loader.failure()->diagnostic.message:"Content load timed out");
+            if(level_music_only){
+                check_level_music_playback(renderer,*registry);
+            }else{
             check_frontend_music(renderer,*registry);
             check_frontend_artwork(renderer);
             check_main_menu_background(renderer,*registry);
@@ -1140,8 +1182,9 @@ int main() {
             save_mechanism_preview(renderer);
             save_portal_preview(renderer);
             save_bomb_preview(renderer);
+            }
         }
-        std::cout<<"PASS: idle/mechanism/portal/bomb visuals, ordinary projectile gravity/arcs/terrain hits, homing motion preserved\n";
+        if(!level_music_only)std::cout<<"PASS: idle/mechanism/portal/bomb visuals, ordinary projectile gravity/arcs/terrain hits, homing motion preserved\n";
         result=0;
     } catch(const std::exception& error) {
         std::cerr<<"FAIL: "<<error.what()<<'\n';

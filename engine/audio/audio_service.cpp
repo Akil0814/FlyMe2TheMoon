@@ -76,6 +76,25 @@ SoundRequestResult AudioService::request_sound(const std::string_view& key, cons
         });
 }
 
+bool AudioService::set_sound_gain(SoundHandle handle,double gain)
+{
+    return _initialized && _sound_scheduler.set_gain(handle,gain,
+        [this](int channel){return channel_playing(channel);},
+        [this](int channel,SoundGroup group,double value){apply_sound_channel_volume(channel,group,value);});
+}
+
+bool AudioService::set_sound_paused(SoundHandle handle,bool paused)
+{
+    return _initialized && _sound_scheduler.set_paused(handle,paused,
+        [this](int channel){return channel_playing(channel);},
+        [this](int channel,bool value){return value?MIX_PauseTrack(_tracks[channel]):MIX_ResumeTrack(_tracks[channel]);});
+}
+
+bool AudioService::sound_active(SoundHandle handle)
+{
+    return _initialized && _sound_scheduler.is_active(handle,[this](int channel){return channel_playing(channel);});
+}
+
 void AudioService::update(double delta_seconds)
 {
     if (!_initialized)
@@ -307,7 +326,8 @@ namespace elysia::audio
 {
 bool AudioService::channel_playing(int channel) const
 {
-    return channel >= 0 && channel < static_cast<int>(_tracks.size()) && _tracks[channel] && MIX_TrackPlaying(_tracks[channel]);
+    return channel >= 0 && channel < static_cast<int>(_tracks.size()) && _tracks[channel] &&
+        (MIX_TrackPlaying(_tracks[channel]) || MIX_TrackPaused(_tracks[channel]));
 }
 void AudioService::halt_channel(int channel)
 {

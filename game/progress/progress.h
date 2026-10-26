@@ -31,6 +31,8 @@ public:
     bool record_clear(int level,int stars,int crystal_value,int crystal_count,int pickups,double elapsed);
     bool record_death(int level,int crystals);
     Progress data;
+    // Presentation events survive menu changes, but never become save data.
+    std::set<int> pending_unlocks;
     std::string error;
     bool recovered=false;
 private:

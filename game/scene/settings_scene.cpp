@@ -1,3 +1,4 @@
+#include "game/audio/game_audio.h"
 #include "settings_scene.h"
 #include "main_menu_scene.h"
 #include "game/frontend/moon_ui.h"
@@ -15,6 +16,7 @@ using namespace elysia;
 namespace {
 void style_controls(ui::UiElement& element){
     if(auto* button=dynamic_cast<ui::UiButton*>(&element)){
+        button->set_sounds({.click="fly.voice_6_3"});
         auto style=button->style_overrides();style.chrome.corner_radius=10.f;button->set_style_overrides(style);
     }
     if(auto* panel=dynamic_cast<ui::UiPanel*>(&element)){
@@ -33,7 +35,7 @@ void SettingsScene::on_enter(const elysia::scene::ScenePayload&){
     clear_scene_objects();_saved=false;_baseline=config::UserConfigService::instance()->user_config().runtime_state();
     auto* window=create_and_add_object<ui::UiWindow>(core::Rect{0,0,1280,720});
     window->set_style_overrides({.draw_background=false,.draw_border=false});
-    window->set_on_cancel([this]{request_scene_switch(scene_keys::MainMenu);});
+    window->set_on_cancel([this]{game::audio::ui_click();request_scene_switch(scene_keys::MainMenu);});
     window->add_child(std::make_unique<frontend::MoonBackdrop>("settings",35));
     auto panel=std::make_unique<ui::SettingsPanel>(core::Rect{0,0,732,660});_panel=panel.get();
     std::optional<ui::SettingsWindowSize> usable;

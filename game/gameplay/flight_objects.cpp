@@ -99,7 +99,7 @@ Player::Player(Vec born):GameObject(DepthLayer::Character) {
     for(auto& collider:_colliders){collider.filter={.category=1,.mask=2|4|8};collider.material={.friction=.2f,.restitution=0};collider.tag="player";}
     _colliders[0].material.friction=1;
     _colliders[0].density={1.27324f};_colliders[1].density={0};_colliders[2].density={0};
-    for(const std::string name:{"charIdle","charUp","charFree","charLeft","charRight","charDown","charDeath","charStand","charLookLeftRight"}) {
+    for(const std::string name:{"charIdle","charUp","charFree","charLeft","charRight","charDown","charDeath","charStand","charLookLeftRight","charLookLeft","charLookRight"}) {
         auto anim=ELYSIA_ANIMATIONS->create_animation("fly.CharActions."+name);
         if(!anim)throw std::runtime_error("Missing player animation "+name);
         _animations.emplace(name,std::move(anim));
@@ -124,8 +124,9 @@ void Player::update(double delta) {
     _effect_time+=std::max(0.,delta);
     const Vec v=velocity();
     look_time=std::max(0.,look_time-delta);
+    idle_action_time=std::max(0.,idle_action_time-delta);
     _action=dead?"charDeath":look_time>0?"charLookLeftRight":thrust.y<-.1f?(thrust.x<-.2f?"charLeft":thrust.x>.2f?"charRight":"charUp"):
-        std::abs(v.y)>35?"charFree":idle_enabled?"charIdle":"charStand";
+        std::abs(v.y)>35?"charFree":idle_action_time>0?(idle_action==0?"charLookLeft":idle_action==1?"charLookRight":idle_action==2?"charLookLeftRight":"charIdle"):"charStand";
     _animations.at(_action)->update(delta);
     _thrust_particles.update(delta,render_rect(),thrust,thrust_attachment(),show_thrust());
 }
@@ -333,6 +334,33 @@ bool Entity::lethal(ColliderId hit)const {
     return false;
 }
 Vec Entity::wind_force_at(Vec point)const {return wind()?wind_force(point,position(),size(),angle*std::numbers::pi_v<float>/180,info):Vec{};}
+Vec Entity::sound_position(Vec listener)const {
+    if(kind==114){
+        const Vec line=_laser_end-_laser_start;
+        const float denominator=line.length_squared();
+        return denominator>1e-6f?_laser_start+line*std::clamp((listener-_laser_start).dot(line)/denominator,0.f,1.f):_laser_start;
+    }
+    if(wind()){
+        const float radians=physics_state()?physics_state()->angle:angle*std::numbers::pi_v<float>/180;
+        Vec local=rotate_vector(listener-position(),-radians);
+        local.x=std::clamp(local.x,-size().x/2,size().x/2);local.y=std::clamp(local.y,-size().y/2,size().y/2);
+        return position()+rotate_vector(local,radians);
+    }
+    return position();
+}
+float Entity::sound_gain()const {
+    if(kind==114)return .36f;
+    if(wind()){
+        const float strength=std::clamp(static_cast<float>(parameter(info,"Strength",20))/20,.5f,1.f);
+        return strength*strength*(kind==8?.5f:kind==24?.75f:1.f);
+    }
+    if(moving()){
+        // The original drives source gain from its moving-box glow opacity.
+        const float fraction=static_cast<float>(_motion.fraction(_time));
+        return parameter(info,"Lock")!=0?0:std::floor(254*std::pow(2*std::min(fraction,1-fraction),.6f))/255;
+    }
+    return 1;
+}
 std::uint8_t Entity::moon_highlight_alpha()const {return kind==101?play::moon_highlight_alpha(_moon_highlight_time):0;}
 void Entity::update(double delta) {
     if(collected){_pickup_time=std::min(.6,_pickup_time+std::max(0.,delta));if(_pickup_time>=.6)set_visible(false);return;}

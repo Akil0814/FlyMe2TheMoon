@@ -29,6 +29,9 @@ public:
     SoundRequestResult request_sound(const std::string_view& key, const SoundPlayOptions& options = {});
     void update(double delta_seconds);
     bool stop_sound(SoundHandle handle,std::chrono::milliseconds fade_out = {});
+    bool set_sound_gain(SoundHandle handle,double gain);
+    bool set_sound_paused(SoundHandle handle,bool paused);
+    bool sound_active(SoundHandle handle);
     void cancel_all_scheduled_sounds();
 
     bool set_sound_group_config(SoundGroup group,const SoundGroupConfig& config);

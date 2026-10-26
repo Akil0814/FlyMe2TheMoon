@@ -1,3 +1,4 @@
+#include "game/audio/game_audio.h"
 #include "selection_scene.h"
 #include "main_menu_scene.h"
 #include "flight_scene.h"
@@ -13,7 +14,11 @@
 #include <numeric>
 namespace game::scene {
 using namespace elysia;
-void SelectionScene::on_after_update(double){
+void SelectionScene::on_after_update(double delta){
+    _audio.advance(delta);_unlock_time-=std::max(0.,delta);
+    if(!_unlock_nodes.empty()&&_unlock_time<=0){
+        _unlock_nodes.front()->show_unlock();_unlock_nodes.erase(_unlock_nodes.begin());_unlock_time=.5;_audio.play("108-1",1,true);
+    }
     const auto& store=progress::Store::instance();
     if(testing::ReplayProbe::shared().update(runtime_context().renderer(),{{"scene",3},{"cleared",std::count_if(store.data.stars.begin(),store.data.stars.end(),[](int s){return s>=0;})},{"stars_level1",store.data.stars[0]},{"score_level1",store.data.scores[0]},{"score_verified_level1",store.data.score_verified[0]},{"achievement101",store.data.achievements.contains(101)},{"save_error",store.error}}))request_quit();
 }
@@ -31,10 +36,11 @@ void title(ui::UiListContainer& list,const std::string& text) {
 }
 }
 void SelectionScene::on_enter(const elysia::scene::ScenePayload& payload) {
+    _audio.reset();_unlock_nodes.clear();_unlock_time=.25;
     ELYSIA_AUDIO->transition_music("fly.MoonTrip");
     clear_scene_objects();auto& store=progress::Store::instance();(void)store.load();
     int chapter=0;if(auto p=elysia::scene::try_scene_payload<SelectionPayload>(payload))chapter=std::clamp(p->chapter,0,3);
-    auto* window=create_and_add_object<ui::UiWindow>(core::Rect{0,0,1280,720});window->set_on_cancel([this]{request_scene_switch(scene_keys::MainMenu);});
+    auto* window=create_and_add_object<ui::UiWindow>(core::Rect{0,0,1280,720});window->set_on_cancel([this]{game::audio::ui_click();request_scene_switch(scene_keys::MainMenu);});
     window->set_style_overrides({.draw_background=false,.draw_border=false});
     auto list=std::make_unique<ui::UiListContainer>(core::Rect{0,0,1120,640});list->set_item_spacing(18);
     title(*list,content::format("chapter_title",chapter+1));
@@ -49,7 +55,9 @@ void SelectionScene::on_enter(const elysia::scene::ScenePayload& payload) {
         const bool open=store.data.unlocked(id,content::catalog().at("dependencies"));const int stars=store.data.stars[id-1];
         const auto score=stars>=0&&store.data.score_verified[id-1]
             ?std::optional<int>{store.data.scores[id-1]}:std::nullopt;
-        levels->add_child(std::make_unique<frontend::LevelNode>(id,chapter,stars,open,[this,id]{request_scene_switch(scene_keys::Flight,FlightPayload{id},elysia::scene::SceneReloadMode::Recreate);},score));
+        auto node=std::make_unique<frontend::LevelNode>(id,chapter,stars,open,[this,id]{request_scene_switch(scene_keys::Flight,FlightPayload{id},elysia::scene::SceneReloadMode::Recreate);},score);
+        if(open&&store.pending_unlocks.erase(id))_unlock_nodes.push_back(node.get());
+        levels->add_child(std::move(node));
     }
     auto* levels_scope=levels.get();list->add_back(std::move(levels));
     const int cleared=static_cast<int>(std::count_if(store.data.stars.begin(),store.data.stars.end(),[](int s){return s>=0;}));
@@ -69,7 +77,7 @@ void AchievementsScene::on_enter(const elysia::scene::ScenePayload& payload) {
     ELYSIA_AUDIO->transition_music("fly.MoonTrip");
     clear_scene_objects();auto& store=progress::Store::instance();(void)store.load();
     _page=0;if(auto* p=elysia::scene::try_scene_payload<AchievementsPayload>(payload))_page=std::clamp(p->page,0,2);
-    auto* window=create_and_add_object<ui::UiWindow>(core::Rect{0,0,1280,720});window->set_on_cancel([this]{request_scene_switch(scene_keys::MainMenu);});
+    auto* window=create_and_add_object<ui::UiWindow>(core::Rect{0,0,1280,720});window->set_on_cancel([this]{game::audio::ui_click();request_scene_switch(scene_keys::MainMenu);});
     window->set_style_overrides({.draw_background=false,.draw_border=false});
     auto list=std::make_unique<ui::UiListContainer>(core::Rect{0,0,1160,652});list->set_item_spacing(16);list->set_cross_align(ui::UiLayoutAlign::Center);
     title(*list,content::format("achievements_title",store.data.achievements.size()));

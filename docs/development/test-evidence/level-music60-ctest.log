@@ -1,0 +1,96 @@
+Start testing: Oct 26 01:37 Pacific Daylight Time
+----------------------------------------------------------
+1/10 Testing: fly_original_music
+1/10 Test: fly_original_music
+Command: "C:/Code/FlyMe2TheMoon/out/build/x64-Debug/game/fly_music_tests.exe"
+Directory: C:/Code/FlyMe2TheMoon
+"fly_original_music" start time: Oct 26 01:37 Pacific Daylight Time
+Output:
+----------------------------------------------------------
+PASS: all 60 original level music assignments, 13 Hectic levels, opening overrides and registered audio files
+<end of output>
+Test time =   3.59 sec
+----------------------------------------------------------
+Test Passed.
+"fly_original_music" end time: Oct 26 01:37 Pacific Daylight Time
+"fly_original_music" time elapsed: 00:00:03
+----------------------------------------------------------
+
+6/10 Testing: fly_level_music_playback
+6/10 Test: fly_level_music_playback
+Command: "C:/Code/FlyMe2TheMoon/out/build/x64-Debug/game/fly_visual_tests.exe" "--level-music-only"
+Directory: C:/Code/FlyMe2TheMoon
+"fly_level_music_playback" start time: Oct 26 01:37 Pacific Daylight Time
+Output:
+----------------------------------------------------------
+2026-10-26 01:37:19 [INFO] [resource] (game_content_loader.cpp:143) Total requests built: 1227, total work units: 1437
+2026-10-26 01:37:22 [INFO] [fly] (flight_scene.cpp:127) Entered level 1: 14 entities, 1 contours
+2026-10-26 01:37:22 [INFO] [fly] (flight_scene.cpp:127) Entered level 2: 58 entities, 1 contours
+2026-10-26 01:37:22 [INFO] [fly] (flight_scene.cpp:127) Entered level 3: 42 entities, 1 contours
+2026-10-26 01:37:22 [INFO] [fly] (flight_scene.cpp:127) Entered level 4: 42 entities, 5 contours
+2026-10-26 01:37:22 [INFO] [fly] (flight_scene.cpp:127) Entered level 5: 61 entities, 2 contours
+2026-10-26 01:37:23 [INFO] [fly] (flight_scene.cpp:127) Entered level 6: 66 entities, 3 contours
+2026-10-26 01:37:23 [INFO] [fly] (flight_scene.cpp:127) Entered level 7: 66 entities, 5 contours
+2026-10-26 01:37:23 [INFO] [fly] (flight_scene.cpp:127) Entered level 8: 55 entities, 2 contours
+2026-10-26 01:37:23 [INFO] [fly] (flight_scene.cpp:127) Entered level 9: 52 entities, 3 contours
+2026-10-26 01:37:24 [INFO] [fly] (flight_scene.cpp:127) Entered level 10: 69 entities, 2 contours
+2026-10-26 01:37:24 [INFO] [fly] (flight_scene.cpp:127) Entered level 11: 83 entities, 1 contours
+2026-10-26 01:37:24 [INFO] [fly] (flight_scene.cpp:127) Entered level 12: 64 entities, 1 contours
+2026-10-26 01:37:24 [INFO] [fly] (flight_scene.cpp:127) Entered level 13: 116 entities, 4 contours
+2026-10-26 01:37:25 [INFO] [fly] (flight_scene.cpp:127) Entered level 14: 53 entities, 2 contours
+2026-10-26 01:37:25 [INFO] [fly] (flight_scene.cpp:127) Entered level 15: 65 entities, 8 contours
+2026-10-26 01:37:25 [INFO] [fly] (flight_scene.cpp:127) Entered level 16: 84 entities, 3 contours
+2026-10-26 01:37:25 [INFO] [fly] (flight_scene.cpp:127) Entered level 17: 81 entities, 4 contours
+2026-10-26 01:37:25 [INFO] [fly] (flight_scene.cpp:127) Entered level 18: 57 entities, 4 contours
+2026-10-26 01:37:25 [INFO] [fly] (flight_scene.cpp:127) Entered level 19: 40 entities, 1 contours
+2026-10-26 01:37:26 [INFO] [fly] (flight_scene.cpp:127) Entered level 20: 61 entities, 2 contours
+2026-10-26 01:37:26 [INFO] [fly] (flight_scene.cpp:127) Entered level 21: 69 entities, 2 contours
+2026-10-26 01:37:26 [INFO] [fly] (flight_scene.cpp:127) Entered level 22: 70 entities, 1 contours
+2026-10-26 01:37:26 [INFO] [fly] (flight_scene.cpp:127) Entered level 23: 63 entities, 1 contours
+2026-10-26 01:37:26 [INFO] [fly] (flight_scene.cpp:127) Entered level 24: 97 entities, 2 contours
+2026-10-26 01:37:27 [INFO] [fly] (flight_scene.cpp:127) Entered level 25: 55 entities, 2 contours
+2026-10-26 01:37:27 [INFO] [fly] (flight_scene.cpp:127) Entered level 26: 68 entities, 4 contours
+2026-10-26 01:37:27 [INFO] [fly] (flight_scene.cpp:127) Entered level 27: 88 entities, 3 contours
+2026-10-26 01:37:27 [INFO] [fly] (flight_scene.cpp:127) Entered level 28: 43 entities, 2 contours
+2026-10-26 01:37:27 [INFO] [fly] (flight_scene.cpp:127) Entered level 29: 57 entities, 1 contours
+2026-10-26 01:37:28 [INFO] [fly] (flight_scene.cpp:127) Entered level 30: 57 entities, 3 contours
+2026-10-26 01:37:28 [INFO] [fly] (flight_scene.cpp:127) Entered level 31: 113 entities, 4 contours
+2026-10-26 01:37:28 [INFO] [fly] (flight_scene.cpp:127) Entered level 32: 125 entities, 2 contours
+2026-10-26 01:37:28 [INFO] [fly] (flight_scene.cpp:127) Entered level 33: 74 entities, 1 contours
+2026-10-26 01:37:28 [INFO] [fly] (flight_scene.cpp:127) Entered level 34: 82 entities, 7 contours
+2026-10-26 01:37:29 [INFO] [fly] (flight_scene.cpp:127) Entered level 35: 87 entities, 1 contours
+2026-10-26 01:37:29 [INFO] [fly] (flight_scene.cpp:127) Entered level 36: 82 entities, 1 contours
+2026-10-26 01:37:29 [INFO] [fly] (flight_scene.cpp:127) Entered level 37: 78 entities, 3 contours
+2026-10-26 01:37:29 [INFO] [fly] (flight_scene.cpp:127) Entered level 38: 40 entities, 6 contours
+2026-10-26 01:37:29 [INFO] [fly] (flight_scene.cpp:127) Entered level 39: 72 entities, 2 contours
+2026-10-26 01:37:30 [INFO] [fly] (flight_scene.cpp:127) Entered level 40: 85 entities, 2 contours
+2026-10-26 01:37:30 [INFO] [fly] (flight_scene.cpp:127) Entered level 41: 34 entities, 5 contours
+2026-10-26 01:37:30 [INFO] [fly] (flight_scene.cpp:127) Entered level 42: 94 entities, 2 contours
+2026-10-26 01:37:30 [INFO] [fly] (flight_scene.cpp:127) Entered level 43: 71 entities, 2 contours
+2026-10-26 01:37:30 [INFO] [fly] (flight_scene.cpp:127) Entered level 44: 76 entities, 1 contours
+2026-10-26 01:37:30 [INFO] [fly] (flight_scene.cpp:127) Entered level 45: 114 entities, 8 contours
+2026-10-26 01:37:31 [INFO] [fly] (flight_scene.cpp:127) Entered level 46: 78 entities, 3 contours
+2026-10-26 01:37:31 [INFO] [fly] (flight_scene.cpp:127) Entered level 47: 45 entities, 3 contours
+2026-10-26 01:37:31 [INFO] [fly] (flight_scene.cpp:127) Entered level 48: 114 entities, 5 contours
+2026-10-26 01:37:31 [INFO] [fly] (flight_scene.cpp:127) Entered level 49: 88 entities, 3 contours
+2026-10-26 01:37:31 [INFO] [fly] (flight_scene.cpp:127) Entered level 50: 82 entities, 1 contours
+2026-10-26 01:37:32 [INFO] [fly] (flight_scene.cpp:127) Entered level 51: 106 entities, 19 contours
+2026-10-26 01:37:32 [INFO] [fly] (flight_scene.cpp:127) Entered level 52: 91 entities, 4 contours
+2026-10-26 01:37:32 [INFO] [fly] (flight_scene.cpp:127) Entered level 53: 58 entities, 5 contours
+2026-10-26 01:37:32 [INFO] [fly] (flight_scene.cpp:127) Entered level 54: 125 entities, 1 contours
+2026-10-26 01:37:32 [INFO] [fly] (flight_scene.cpp:127) Entered level 55: 127 entities, 3 contours
+2026-10-26 01:37:33 [INFO] [fly] (flight_scene.cpp:127) Entered level 56: 80 entities, 5 contours
+2026-10-26 01:37:33 [INFO] [fly] (flight_scene.cpp:127) Entered level 57: 172 entities, 4 contours
+2026-10-26 01:37:33 [INFO] [fly] (flight_scene.cpp:127) Entered level 58: 107 entities, 15 contours
+2026-10-26 01:37:33 [INFO] [fly] (flight_scene.cpp:127) Entered level 59: 106 entities, 1 contours
+2026-10-26 01:37:34 [INFO] [fly] (flight_scene.cpp:127) Entered level 60: 174 entities, 11 contours
+PASS: all 60 real FlightScene music tracks match the original snapshot, advance playback and stop on exit
+<end of output>
+Test time =  16.21 sec
+----------------------------------------------------------
+Test Passed.
+"fly_level_music_playback" end time: Oct 26 01:37 Pacific Daylight Time
+"fly_level_music_playback" time elapsed: 00:00:16
+----------------------------------------------------------
+
+End testing: Oct 26 01:37 Pacific Daylight Time

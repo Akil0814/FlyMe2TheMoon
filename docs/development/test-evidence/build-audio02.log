@@ -1,0 +1,50 @@
+**********************************************************************
+** Visual Studio 2022 Developer Command Prompt v17.14.10
+** Copyright (c) 2025 Microsoft Corporation
+**********************************************************************
+[vcvarsall.bat] Environment initialized for: 'x64'
+[0/2] Re-checking globbed directories...
+[1/24] Building CXX object game\CMakeFiles\game_lib.dir\audio\game_audio.cpp.obj
+[2/24] Building CXX object game\CMakeFiles\game_lib.dir\frontend\moon_ui.cpp.obj
+[3/24] Building CXX object game\CMakeFiles\game_lib.dir\application\game_module.cpp.obj
+[4/24] Building CXX object game\CMakeFiles\game_lib.dir\scene\credits_scene.cpp.obj
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\memory(3630): warning C4244: “参数”: 从“_Ty”转换到“float”，可能丢失数据
+        with
+        [
+            _Ty=int
+        ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\memory(3630): note: 模板实例化上下文(最早的实例化上下文)为
+C:\Code\FlyMe2TheMoon\game\scene\credits_scene.cpp(41): note: 查看对正在编译的函数 模板 实例化“std::unique_ptr<game::frontend::GlassButton,std::default_delete<game::frontend::GlassButton>> std::make_unique<game::frontend::GlassButton,std::string,int,int,game::scene::CreditsScene::on_enter::<lambda_2>,0>(std::string &&,int &&,int &&,game::scene::CreditsScene::on_enter::<lambda_2> &&)”的引用
+[5/24] Building CXX object game\CMakeFiles\game_lib.dir\progress\progress.cpp.obj
+[6/24] Linking CXX static library engine\engine_lib.lib
+[7/24] Building CXX object game\CMakeFiles\game_lib.dir\scene\flight_audio.cpp.obj
+[8/24] Building CXX object game\CMakeFiles\game_lib.dir\scene\flight_result.cpp.obj
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\memory(3630): warning C4244: “参数”: 从“_Ty”转换到“float”，可能丢失数据
+        with
+        [
+            _Ty=int
+        ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\memory(3630): note: 模板实例化上下文(最早的实例化上下文)为
+C:\Code\FlyMe2TheMoon\game\scene\flight_result.cpp(22): note: 查看对正在编译的函数 模板 实例化“std::unique_ptr<game::frontend::GlassButton,std::default_delete<game::frontend::GlassButton>> std::make_unique<game::frontend::GlassButton,std::string,int,int,std::function<void (void)>,0>(std::string &&,int &&,int &&,std::function<void (void)> &&)”的引用
+[9/24] Building CXX object game\CMakeFiles\game_lib.dir\scene\main_menu_scene.cpp.obj
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\memory(3630): warning C4244: “参数”: 从“_Ty”转换到“float”，可能丢失数据
+        with
+        [
+            _Ty=int
+        ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\memory(3630): note: 模板实例化上下文(最早的实例化上下文)为
+C:\Code\FlyMe2TheMoon\game\scene\main_menu_scene.cpp(48): note: 查看对正在编译的函数 模板 实例化“std::unique_ptr<game::frontend::GlassButton,std::default_delete<game::frontend::GlassButton>> std::make_unique<game::frontend::GlassButton,std::string,int,int,game::scene::MainMenuScene::on_enter::<lambda_2>,0>(std::string &&,int &&,int &&,game::scene::MainMenuScene::on_enter::<lambda_2> &&)”的引用
+[10/24] Building CXX object game\CMakeFiles\game_lib.dir\scene\settings_scene.cpp.obj
+[11/24] Building CXX object game\CMakeFiles\game_lib.dir\scene\selection_scene.cpp.obj
+[12/24] Building CXX object game\CMakeFiles\game_lib.dir\scene\flight_scene.cpp.obj
+[13/24] Linking CXX static library game\game_lib.lib
+[14/24] Linking CXX executable game\fly_story_tests.exe
+[15/24] Building CXX object game\CMakeFiles\fly_selection_tests.dir\tests\selection_tests.cpp.obj
+[16/24] Building CXX object game\CMakeFiles\fly_game_tests.dir\tests\progress_tests.cpp.obj
+[17/24] Linking CXX executable FlyMe2TheMoon.exe
+[18/24] Linking CXX executable game\fly_selection_tests.exe
+[19/24] Linking CXX executable game\fly_game_tests.exe
+[20/24] Building CXX object game\CMakeFiles\fly_mechanism_tests.dir\tests\mechanism_tests.cpp.obj
+[21/24] Linking CXX executable game\fly_mechanism_tests.exe
+[22/24] Building CXX object game\CMakeFiles\fly_visual_tests.dir\tests\visual_tests.cpp.obj
+[23/24] Linking CXX executable game\fly_visual_tests.exe

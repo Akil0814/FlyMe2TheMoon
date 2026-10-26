@@ -18,8 +18,9 @@ enum class SoundGroup : std::uint8_t
 };
 
 inline constexpr std::size_t kSoundGroupCount = static_cast<std::size_t>(SoundGroup::Count);
-inline constexpr std::size_t kSoundChannelCount = 24;
-inline constexpr std::array<std::size_t,kSoundGroupCount> kSoundGroupHardLimits{ 4,12,4,4 };
+// Spatial loop sources must not exhaust the channels reserved for event sounds.
+inline constexpr std::size_t kSoundChannelCount = 64;
+inline constexpr std::array<std::size_t,kSoundGroupCount> kSoundGroupHardLimits{ 4,16,40,4 };
 
 [[nodiscard]] constexpr std::size_t sound_group_index(SoundGroup group) noexcept
 {
@@ -53,6 +54,7 @@ struct SoundPlayOptions
     SoundGroup group = SoundGroup::Extra;
     std::chrono::milliseconds start_delay{ 0 };
     std::chrono::milliseconds fade_in{ 0 };
+    double gain = 1.0;
 };
 
 using SoundHandle = std::uint64_t;

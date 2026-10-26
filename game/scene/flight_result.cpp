@@ -55,7 +55,7 @@ void FlightScene::build_result_panel(){
     adopt_list(*_result,std::move(list));
 }
 void FlightScene::build_pause_panel(){
-    _pause_menu=build_modal_frame();_pause_menu->set_on_cancel([this]{close_pause_menu();});
+    _pause_menu=build_modal_frame();_pause_menu->set_on_cancel([this]{game::audio::ui_click();close_pause_menu();});
     auto list=modal_list();add_label(*list,48,true)->set_text_content(ui::ui_raw_text(content::ui("pause_title")));
     _pause_stars=add_stars(*list);_pause_metrics=add_metrics(*list);_pause_stats=add_stat_label(*list);add_label(*list,32);
     add_button(*list,"resume_level",[this]{close_pause_menu();});
@@ -65,6 +65,7 @@ void FlightScene::build_pause_panel(){
 }
 void FlightScene::open_pause_menu(){
     if(_pause_menu_open||_finished||_event_pending||!_player)return;
+    game::audio::ui_click();_audio.set_paused(true);
     _pause_was_logic_paused=is_paused();_pause_menu_open=true;
     _pause_updates.clear();
     const auto freeze=[this](core::GameObject* object){if(object->update_when_paused()){_pause_updates.push_back(object);object->set_update_when_paused(false);}};
@@ -82,16 +83,20 @@ void FlightScene::close_pause_menu(){
     _pause_menu->set_visible(false);_pause_menu->set_active(false);_pause_menu_open=false;
     for(auto* object:_pause_updates)object->set_update_when_paused(true);_pause_updates.clear();
     if(!_pause_was_logic_paused)resume();
+    _audio.set_paused(false);
     _pause_button->set_active(true);set_all_gameplay_input_blocked(false);set_ui_interaction_mode(elysia::scene::UiInteractionMode::Pointer);update_dialogue();
 }
 void FlightScene::retry_level(){request_scene_switch(scene_keys::Flight,FlightPayload{_level,true},elysia::scene::SceneReloadMode::Recreate);}
 void FlightScene::show_result(bool saved,bool new_record){
     _result_title->set_text_content(ui::ui_raw_text(content::format(_success?"result_success":"result_failure",_level)));
-    _result_stars->set_collected(_stars);
+    _result_stars->set_collected(_success?0:_stars);
     const int score=_success?progress::original_score(_level,_stars,_crystals,_elapsed,content::catalog().at("score").at("svrs")):0;
-    _result_stats->set_text_content(ui::ui_raw_text(content::format("result_score",score)));
+    _result_animation_time=0;_result_tick_time=0;_result_animation_stars=0;_result_score=score;_result_display_score=0;
+    _result_new_record=saved&&new_record;_result_animation_done=!_success;
+    _result_stats->set_text_content(ui::ui_raw_text(content::format("result_score",0)));
     _result_metrics->set_values(_elapsed,large_crystal_count(),small_crystal_count());
     _result_notice->set_text_content(ui::ui_raw_text(!saved?content::ui("save_failure"):new_record?content::ui("result_new_record"):""));
+    _result_notice->set_visible(!saved);
     _result_notice->set_style_overrides({.text=saved&&new_record?core::Color{120,65,8,255}:core::Color{16,46,77,255}});
     _result_continue->set_text_content(ui::ui_raw_text(content::ui(_level==60?"credits":"next_level")));
     _result_continue->set_visible(_success);_result_continue->set_enabled(_success);
@@ -101,9 +106,38 @@ void FlightScene::show_result(bool saved,bool new_record){
 }
 void FlightScene::continue_from_result(){
     if(!_finished)return;
+    if(!_result_animation_done){complete_result_animation();return;}
     if(!_success)retry_level();
     else if(_level==60)request_scene_switch(scene_keys::Credits);
     else if(progress::Store::instance().data.unlocked(_level+1,content::catalog().at("dependencies")))request_scene_switch(scene_keys::Flight,FlightPayload{_level+1},elysia::scene::SceneReloadMode::Recreate);
     else request_scene_switch(scene_keys::Selection,SelectionPayload{(_level-1)/15});
+}
+void FlightScene::update_result_animation(double delta){
+    if(!_finished||_result_animation_done)return;
+    _result_animation_time+=std::max(0.,delta);
+    while(_result_animation_stars<_stars&&_result_animation_time>=_result_animation_stars*.5){
+        ++_result_animation_stars;_result_stars->set_collected(_result_animation_stars);
+        _audio.play("106-"+std::to_string(_result_animation_stars),1,true);
+    }
+    const double score_time=std::max(0.,_result_animation_time-_stars*.5-1);
+    while(_result_tick_time+1./60.<=score_time&&_result_display_score<_result_score){
+        _result_tick_time+=1./60.;
+        const int before=_result_display_score;_result_display_score=std::min(_result_score,before+1199);
+        if(_result_display_score/6000>before/6000)_audio.play("107-1",1,true);
+    }
+    _result_stats->set_text_content(ui::ui_raw_text(content::format("result_score",_result_display_score)));
+    if(_result_display_score==_result_score&&_result_animation_time>=_stars*.5+1+_result_tick_time+.5){
+        if(_result_new_record)_audio.play("109-1",1,true);
+        _result_notice->set_visible(true);_result_animation_done=true;
+    }
+}
+void FlightScene::complete_result_animation(){
+    if(_result_animation_done)return;
+    while(_result_animation_stars<_stars){++_result_animation_stars;_audio.play("106-"+std::to_string(_result_animation_stars),1,true);}
+    _result_stars->set_collected(_stars);
+    if(_result_display_score<_result_score)_audio.play("107-1",1,true);
+    if(_result_new_record)_audio.play("109-1",1,true);
+    _result_display_score=_result_score;_result_stats->set_text_content(ui::ui_raw_text(content::format("result_score",_result_score)));
+    _result_notice->set_visible(true);_result_animation_done=true;
 }
 }

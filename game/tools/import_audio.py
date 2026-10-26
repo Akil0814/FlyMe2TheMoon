@@ -40,6 +40,8 @@ for path in sorted((REF/'03_音频').rglob('*')):
     key='fly.'+('voice_'+path.stem.replace('-','_') if group=='sounds' else path.stem)
     data[group][key]={'path':target.relative_to(ROOT/'assets/audio').as_posix()}
     report.append({'source':str(path.relative_to(REF)),'output':str(target.relative_to(ROOT)),'bytes':target.stat().st_size,'container_repair':repair,'frames':frames,'rate':rate,'channels':channels,'diagnostics':conversion.stderr})
+# 44-1 is an original filename archived in 99_重复文件; its content equals 42-1.
+data['sounds']['fly.voice_44_1']={'path':'fly/sounds/42-1.wav'}
 manifest.write_text(json.dumps(data,ensure_ascii=False,indent=2),encoding='utf-8')
 (OUT/'test-evidence/audio-import.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
 print(f'Imported {len(report)} original audio files')

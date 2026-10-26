@@ -1,3 +1,4 @@
+#include "game/audio/game_audio.h"
 #include "main_menu_scene.h"
 #include "flight_scene.h"
 #include "credits_scene.h"
@@ -33,7 +34,7 @@ void MainMenuScene::on_enter(const elysia::scene::ScenePayload&)
             static_cast<float>(context.logical_width()),
             static_cast<float>(context.logical_height())});
     _window=window;
-    window->set_on_cancel([this] { open_exit_dialog(); });
+    window->set_on_cancel([this] { game::audio::ui_click();open_exit_dialog(); });
     window->set_style_overrides({.draw_background=false,.draw_border=false});
     window->add_child(std::make_unique<frontend::MoonBackdrop>("menu"));
     // Menu scenes share this track; transitioning to the same key preserves playback.

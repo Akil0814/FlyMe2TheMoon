@@ -1,6 +1,7 @@
 #include "sound_playback_scheduler.h"
 
 #include <algorithm>
+#include <cmath>
 
 namespace elysia::audio
 {
@@ -24,7 +25,7 @@ SoundRequestResult SoundPlaybackScheduler::request_sound(std::string_view key,
     const SoundPlayOptions& options,const StartSoundCallback& start_sound,
     const ChannelPlayingCallback& is_channel_playing,const StopSoundCallback& stop_sound)
 {
-    if (key.empty())
+    if (key.empty() || !std::isfinite(options.gain) || options.gain < 0)
         return {};
 
     const SoundHandle handle = _next_sound_handle++;
@@ -51,8 +52,8 @@ void SoundPlaybackScheduler::update(double delta_seconds,
     auto active = _active_sounds.begin();
     while (active != _active_sounds.end())
     {
-        active->fade.update(delta_seconds);
-        if (volume) volume(active->channel,active->group,active->fade.gain());
+        if (!active->paused) active->fade.update(delta_seconds);
+        if (volume) volume(active->channel,active->group,active->fade.gain()*active->gain);
         if (active->stopping && active->fade.finished() && stop_sound)
         {
             stop_sound(active->channel);
@@ -131,7 +132,7 @@ void SoundPlaybackScheduler::for_each_active_channel(SoundGroup group,
     prune_finished_sounds(is_channel_playing);
     for (const ActiveSound& sound : _active_sounds)
         if (sound.group == group)
-            callback(sound.channel,sound.fade.gain());
+            callback(sound.channel,sound.fade.gain()*sound.gain);
 }
 
 void SoundPlaybackScheduler::reset()
@@ -177,11 +178,11 @@ bool SoundPlaybackScheduler::try_start_sound(SoundHandle handle,std::string_view
     AudioFade fade;
     fade.reset(options.fade_in.count() > 0 ? 0.0 : 1.0);
     fade.start(1.0,options.fade_in);
-    const int channel = start_sound(key,options.loops.value_or(0),options.group,fade.gain());
+    const int channel = start_sound(key,options.loops.value_or(0),options.group,fade.gain()*options.gain);
     if (channel < 0)
         return false;
 
-    _active_sounds.push_back({ handle,channel,options.group,fade,false });
+    _active_sounds.push_back({ handle,channel,options.group,fade,false,options.gain,false });
     _last_started_seconds_by_key[std::string(key)] = _elapsed_seconds;
     return true;
 }
@@ -198,5 +199,37 @@ std::size_t SoundPlaybackScheduler::active_count(SoundGroup group) const
 {
     return static_cast<std::size_t>(std::count_if(_active_sounds.begin(),_active_sounds.end(),
         [group](const ActiveSound& sound) { return sound.group == group; }));
+}
+
+bool SoundPlaybackScheduler::set_gain(SoundHandle handle,double gain,const ChannelPlayingCallback& playing,const VolumeCallback& volume)
+{
+    if (!std::isfinite(gain) || gain < 0) return false;
+    for (auto& pending : _pending_sounds) if (pending.handle == handle) { pending.options.gain=gain; return true; }
+    prune_finished_sounds(playing);
+    for (auto& sound : _active_sounds) if (sound.handle == handle) {
+        sound.gain=gain;
+        if (volume) volume(sound.channel,sound.group,sound.fade.gain()*gain);
+        return true;
+    }
+    return false;
+}
+
+bool SoundPlaybackScheduler::set_paused(SoundHandle handle,bool paused,const ChannelPlayingCallback& playing,const std::function<bool(int,bool)>& pause)
+{
+    prune_finished_sounds(playing);
+    for (auto& sound : _active_sounds) if (sound.handle == handle) {
+        if (sound.paused == paused) return true;
+        if (!pause || !pause(sound.channel,paused)) return false;
+        sound.paused=paused;
+        return true;
+    }
+    return false;
+}
+
+bool SoundPlaybackScheduler::is_active(SoundHandle handle,const ChannelPlayingCallback& playing)
+{
+    prune_finished_sounds(playing);
+    return std::ranges::any_of(_active_sounds,[handle](const auto& sound){return sound.handle==handle;}) ||
+        std::ranges::any_of(_pending_sounds,[handle](const auto& sound){return sound.handle==handle;});
 }
 }

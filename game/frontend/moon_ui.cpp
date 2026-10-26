@@ -1,4 +1,5 @@
 #include "moon_ui.h"
+#include "game/audio/game_audio.h"
 #include "engine/resources/resource_service.h"
 #include "game/content/content.h"
 #include <format>
@@ -133,6 +134,7 @@ void MoonBackdrop::submit_ui_render_commands(std::vector<core::UiRenderCommand>&
     for(int step=0;step<24;++step)out.push_back(core::make_ui_fill_rect_command({rect.x(),rect.y()+rect.height()-144+step*6,rect.width(),6},{2,9,28,static_cast<Uint8>(step*4)}));
 }
 GlassButton::GlassButton(std::string text,float width,float height,std::function<void()> action):UiButton({0,0,width,height}){
+    set_sounds({.click="fly.voice_6_3"});
     set_text_content(ui::ui_raw_text(std::move(text)));set_on_click(std::move(action));
     set_typography_role(typography::UiTypographyRole::ButtonCompact);
     set_style_overrides(glass_button_style());
@@ -155,6 +157,7 @@ void mark_selected(ui::UiButton& button){
     button.set_style_overrides(style);
 }
 LevelNode::LevelNode(int id,int chapter,int stars,bool open,std::function<void()> action,std::optional<int> best_score):UiButton({0,0,210,94}),_chapter(chapter),_stars(stars),_open(open),_best_score(best_score){
+    set_sounds({.click="fly.voice_6_3"});
     set_text_content(ui::ui_raw_text(std::format("{:02}",id)));set_on_click(std::move(action));set_enabled(open);
     set_typography_role(typography::UiTypographyRole::ButtonCompact);
     set_style_overrides({.chrome={.background={.idle=core::Color{5,25,64,70},.focused=core::Color{52,144,219,135},.disabled=core::Color{4,15,36,115}},
@@ -172,6 +175,7 @@ void LevelNode::submit_ui_render_commands(std::vector<core::UiRenderCommand>& ou
     if(!is_visible())return;
     const auto r=screen_rect();
     UiButton::submit_ui_render_commands(out);
+    if(_unlock_time>0)out.push_back(core::make_ui_fill_rect_command(r,{255,225,130,static_cast<Uint8>(100*_unlock_time/.6)}));
     const std::string color(1,"OGYP"[_chapter]);
     image(out,texture("point"+color),{r.x()+16,r.y()+30,40,40},_open?255:65);
     if(!_open){
@@ -192,6 +196,19 @@ void LevelNode::submit_ui_render_commands(std::vector<core::UiRenderCommand>& ou
     _score_label.submit_ui_render_commands(out);
 }
 ConstellationGrid::ConstellationGrid(const core::Rect& rect):UiGridContainer(rect){}
+bool ConstellationGrid::on_ui_input_event(const ui::UiInputEvent& event){
+    const auto inside=[&](const ui::UiElement& element){const auto r=element.screen_rect();return event.mouse_x>=r.x()&&event.mouse_x<r.right()&&event.mouse_y>=r.y()&&event.mouse_y<r.bottom();};
+    if(event.type==ui::UiInputEventType::PointerPressed&&event.control==input::RawInputControl::MouseLeft){
+        _locked_pressed=nullptr;
+        for(std::size_t i=0;i<child_count();++i)if(auto* node=dynamic_cast<LevelNode*>(child_at(i));node&&!node->unlocked()&&node->is_visible()&&inside(*node)){
+            _locked_pressed=node;return true;
+        }
+    }
+    if(event.type==ui::UiInputEventType::PointerReleased&&_locked_pressed){
+        auto* node=_locked_pressed;_locked_pressed=nullptr;if(inside(*node))game::audio::ui_click(false);return true;
+    }
+    return UiGridContainer::on_ui_input_event(event);
+}
 void ConstellationGrid::submit_ui_render_commands(std::vector<core::UiRenderCommand>& out)const {
     // Use the actual laid-out nodes, so map lines follow logical-size changes.
     for(std::size_t index=1;index<child_count();++index){

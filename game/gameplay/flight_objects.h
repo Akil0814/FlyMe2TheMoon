@@ -62,6 +62,7 @@ public:
     RoleEffectPose effect_pose()const{return role_effect_pose(_effect,_effect_time);}
     bool body_visible()const{return !_presentation_hidden&&effect_pose().body_visible;}
     bool entry_effect_finished()const{return _effect==RoleEffect::Enter&&_effect_time>=16./30.;}
+    double effect_time()const{return _effect_time;}
     bool death_effect_finished()const{return _effect==RoleEffect::Death&&_effect_time>=37./30.;}
     double death_effect_time()const{return _effect==RoleEffect::Death?_effect_time:0;}
     void present_at(std::optional<Vec> center,float scale=1,bool hidden=false){_presentation=center;_presentation_scale=scale;_presentation_hidden=hidden;}
@@ -70,6 +71,8 @@ public:
     bool owns_collider(elysia::physics::ColliderId id)const noexcept;
     bool idle_enabled=true,dead=false;
     double look_time=0;
+    double idle_action_time=0;
+    int idle_action=0;
 private:
     std::array<elysia::physics::Collider,3> _colliders;
     bool show_thrust()const{
@@ -105,6 +108,8 @@ public:
     bool rotating()const{return kind==108||kind==109||kind==110||kind==117;}
     bool wind()const{return kind==8||kind==24||kind==25;}
     Vec wind_force_at(Vec point)const;
+    Vec sound_position(Vec listener)const;
+    float sound_gain()const;
     void attach_carrier(Entity* carrier);
     bool update_laser(double delta,Vec target,const Player& player);
     bool laser_active()const{return _laser_active;}

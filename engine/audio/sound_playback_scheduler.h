@@ -34,6 +34,9 @@ public:
     [[nodiscard]] bool stop_sound(SoundHandle handle,const ChannelPlayingCallback& is_channel_playing,const StopSoundCallback& stop_sound,std::chrono::milliseconds fade_out = {});
     void stop_all_sounds(const ChannelPlayingCallback& playing,const StopSoundCallback& stop,std::chrono::milliseconds fade_out = {});
     void cancel_all_scheduled_sounds();
+    bool set_gain(SoundHandle handle,double gain,const ChannelPlayingCallback& playing,const VolumeCallback& volume);
+    bool set_paused(SoundHandle handle,bool paused,const ChannelPlayingCallback& playing,const std::function<bool(int,bool)>& pause);
+    bool is_active(SoundHandle handle,const ChannelPlayingCallback& playing);
     void clear_active_sounds();
     void for_each_active_channel(SoundGroup group,const ChannelPlayingCallback& is_channel_playing,const ActiveChannelCallback& callback);
     void reset();
@@ -46,6 +49,8 @@ private:
         SoundGroup group = SoundGroup::Extra;
         AudioFade fade;
         bool stopping = false;
+        double gain = 1.0;
+        bool paused = false;
     };
 
     struct PendingSound
