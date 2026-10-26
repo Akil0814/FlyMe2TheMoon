@@ -1,4 +1,4 @@
-param([Parameter(Mandatory=$true)][string]$Scenario)
+param([Parameter(Mandatory=$true)][string]$Scenario,[switch]$Interactive,[int]$StartupTimeoutSeconds=60)
 $ErrorActionPreference='Stop'
 $projectRoot=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../..'))
 $scenarioPath=(Resolve-Path -LiteralPath $Scenario).Path
@@ -10,7 +10,7 @@ $stderrPath=Join-Path $evidencePath ($data.name+'-stderr.log')
 $resultPath=Join-Path $evidencePath ($data.name+'.json')
 $executablePath=Join-Path $projectRoot 'out/build/release/FlyMe2TheMoon.exe'
 $runStarted=Get-Date
-$metadata=[ordered]@{name=$data.name;started=$runStarted.ToString('o');executable_sha256=(Get-FileHash -LiteralPath $executablePath -Algorithm SHA256).Hash;scenario_sha256=(Get-FileHash -LiteralPath $scenarioPath -Algorithm SHA256).Hash;exit_code=$null;passed=$false}
+$metadata=[ordered]@{name=$data.name;started=$runStarted.ToString('o');executable_sha256=(Get-FileHash -LiteralPath $executablePath -Algorithm SHA256).Hash;scenario_sha256=(Get-FileHash -LiteralPath $scenarioPath -Algorithm SHA256).Hash;interactive=[bool]$Interactive;startup_timeout_seconds=$StartupTimeoutSeconds;exit_code=$null;passed=$false}
 # Keep earlier failed attempts and tie each new report to its actual build.
 $oldEvidence=@('.json','.bmp','.png','-console.log','-stderr.log','-run.json') | ForEach-Object {Join-Path $evidencePath ($data.name+$_)} | Where-Object {Test-Path -LiteralPath $_}
 if($oldEvidence.Count -gt 0){
@@ -21,8 +21,9 @@ if($oldEvidence.Count -gt 0){
 $oldScenario=$env:FLY_REPLAY_SCENARIO
 try {
     $env:FLY_REPLAY_SCENARIO=$scenarioPath
-    $process=Start-Process -FilePath $executablePath -WorkingDirectory $projectRoot -WindowStyle Hidden -PassThru -RedirectStandardOutput $stdoutPath -RedirectStandardError $stderrPath
-    if(!$process.WaitForExit([int](($data.duration+25)*1000))){Stop-Process -Id $process.Id -Force;throw 'Replay timed out; runtime failure scene may be open'}
+    $windowStyle=if($Interactive){'Normal'}else{'Hidden'}
+    $process=Start-Process -FilePath $executablePath -WorkingDirectory $projectRoot -WindowStyle $windowStyle -PassThru -RedirectStandardOutput $stdoutPath -RedirectStandardError $stderrPath
+    if(!$process.WaitForExit([int](($data.duration+$StartupTimeoutSeconds)*1000))){Stop-Process -Id $process.Id -Force;throw 'Replay timed out; runtime failure scene may be open'}
     $process.Refresh()
     $metadata.exit_code=$process.ExitCode
     if($process.ExitCode -ne 0){throw "Game process exited with code $($process.ExitCode)"}

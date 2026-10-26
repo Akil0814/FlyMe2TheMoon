@@ -1,0 +1,26 @@
+2026-10-25 17:31:02 [INFO] [application] (application.cpp:460) SDL3 GPU backend: direct3d12
+2026-10-25 17:31:02 [INFO] [scene] (scene_manager.cpp:216) Switching to SceneKey 4294901761 with reload mode 0
+2026-10-25 17:31:02 [ERROR] [startup] (resource_load_plan_validator.cpp:115) CONTENT-PLAN [startup]
+Effect references missing Animation key: test.animation
+  source: assets/configs/manifests/effects_manifest.json#/effects/0
+        scope=core module=core capability=effects logical=effect.test
+[1] type=Effect key=effect.test declared_at=assets/configs/manifests/effects_manifest.json#/effects/0 reason=Effect references missing Animation key: test.animation
+  source: assets/configs/manifests/effects_manifest.json#/effects/0
+        scope=core module=core capability=effects logical=effect.test source=resource_load_plan_validator.cpp:115
+2026-10-25 17:31:02 [INFO] [scene] (scene_manager.cpp:216) Switching to SceneKey 4294901765 with reload mode 0
+2026-10-25 17:31:10 [ERROR] [startup] (resource_load_plan_validator.cpp:115) CONTENT-PLAN [startup]
+Effect references missing Animation key: test.animation
+  source: assets/configs/manifests/effects_manifest.json#/effects/0
+        scope=core module=core capability=effects logical=effect.test
+[1] type=Effect key=effect.test declared_at=assets/configs/manifests/effects_manifest.json#/effects/0 reason=Effect references missing Animation key: test.animation
+  source: assets/configs/manifests/effects_manifest.json#/effects/0
+        scope=core module=core capability=effects logical=effect.test source=resource_load_plan_validator.cpp:115
+2026-10-25 17:31:10 [ERROR] [startup] (resource_load_plan_validator.cpp:115) CONTENT-PLAN [startup]
+Effect references missing Animation key: test.animation
+  source: assets/configs/manifests/effects_manifest.json#/effects/0
+        scope=core module=core capability=effects logical=effect.test
+[1] type=Effect key=effect.test declared_at=assets/configs/manifests/effects_manifest.json#/effects/0 reason=Effect references missing Animation key: test.animation
+  source: assets/configs/manifests/effects_manifest.json#/effects/0
+        scope=core module=core capability=effects logical=effect.test source=resource_load_plan_validator.cpp:115
+2026-10-25 17:31:10 [TERMINATING] [application] (application.cpp:535) Application terminating after a fatal runtime failure
+2026-10-25 17:31:10 [INFO] [application] (application.cpp:722) Application shutdown complete

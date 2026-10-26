@@ -1,268 +1,178 @@
 {
   "checks": {
     "achievement101": {
-      "actual": true,
+      "actual": null,
       "expected": true,
-      "passed": true
+      "passed": false
     },
     "save_error": {
-      "actual": "",
+      "actual": null,
       "expected": "",
-      "passed": true
+      "passed": false
     },
     "scene": {
-      "actual": 4,
+      "actual": 1,
       "expected": 4,
-      "passed": true
+      "passed": false
     }
   },
-  "passed": true,
+  "passed": false,
   "samples": [
     {
       "scene": 1,
-      "wall_time": 0.021
+      "wall_time": 0.04
     },
     {
       "scene": 1,
-      "wall_time": 0.124
+      "wall_time": 0.143
     },
     {
       "scene": 1,
-      "wall_time": 0.224
+      "wall_time": 0.244
     },
     {
       "scene": 1,
-      "wall_time": 0.328
+      "wall_time": 0.359
     },
     {
       "scene": 1,
-      "wall_time": 0.433
+      "wall_time": 0.462
     },
     {
       "scene": 1,
-      "wall_time": 0.536
+      "wall_time": 0.568
     },
     {
       "scene": 1,
-      "wall_time": 0.64
+      "wall_time": 0.671
     },
     {
       "scene": 1,
-      "wall_time": 0.745
+      "wall_time": 0.776
     },
     {
       "scene": 1,
-      "wall_time": 0.849
+      "wall_time": 0.881
     },
     {
-      "achievement101": true,
-      "achievement_count": 1,
-      "save_error": "",
-      "scene": 4,
-      "wall_time": 0.966
+      "scene": 1,
+      "wall_time": 0.983
     },
     {
-      "achievement101": true,
-      "achievement_count": 1,
-      "save_error": "",
-      "scene": 4,
-      "wall_time": 1.072
+      "scene": 1,
+      "wall_time": 1.088
     },
     {
-      "achievement101": true,
-      "achievement_count": 1,
-      "save_error": "",
-      "scene": 4,
-      "wall_time": 1.174
+      "scene": 1,
+      "wall_time": 1.192
     },
     {
-      "achievement101": true,
-      "achievement_count": 1,
-      "save_error": "",
-      "scene": 4,
-      "wall_time": 1.286
+      "scene": 1,
+      "wall_time": 1.296
     },
     {
-      "achievement101": true,
-      "achievement_count": 1,
-      "save_error": "",
-      "scene": 4,
-      "wall_time": 1.391
+      "scene": 1,
+      "wall_time": 1.399
     },
     {
-      "achievement101": true,
-      "achievement_count": 1,
-      "save_error": "",
-      "scene": 4,
-      "wall_time": 1.494
+      "scene": 1,
+      "wall_time": 1.503
     },
     {
-      "achievement101": true,
-      "achievement_count": 1,
-      "save_error": "",
-      "scene": 4,
-      "wall_time": 1.598
+      "scene": 1,
+      "wall_time": 1.607
     },
     {
-      "achievement101": true,
-      "achievement_count": 1,
-      "save_error": "",
-      "scene": 4,
-      "wall_time": 1.702
+      "scene": 1,
+      "wall_time": 1.713
     },
     {
-      "achievement101": true,
-      "achievement_count": 1,
-      "save_error": "",
-      "scene": 4,
-      "wall_time": 1.807
+      "scene": 1,
+      "wall_time": 1.815
     },
     {
-      "achievement101": true,
-      "achievement_count": 1,
-      "save_error": "",
-      "scene": 4,
-      "wall_time": 1.911
+      "scene": 1,
+      "wall_time": 1.919
     },
     {
-      "achievement101": true,
-      "achievement_count": 1,
-      "save_error": "",
-      "scene": 4,
-      "wall_time": 2.015
+      "scene": 1,
+      "wall_time": 2.025
     },
     {
-      "achievement101": true,
-      "achievement_count": 1,
-      "save_error": "",
-      "scene": 4,
-      "wall_time": 2.119
+      "scene": 1,
+      "wall_time": 2.128
     },
     {
-      "achievement101": true,
-      "achievement_count": 1,
-      "save_error": "",
-      "scene": 4,
-      "wall_time": 2.223
+      "scene": 1,
+      "wall_time": 2.232
     },
     {
-      "achievement101": true,
-      "achievement_count": 1,
-      "save_error": "",
-      "scene": 4,
-      "wall_time": 2.329
+      "scene": 1,
+      "wall_time": 2.339
     },
     {
-      "achievement101": true,
-      "achievement_count": 1,
-      "save_error": "",
-      "scene": 4,
-      "wall_time": 2.432
+      "scene": 1,
+      "wall_time": 2.442
     },
     {
-      "achievement101": true,
-      "achievement_count": 1,
-      "save_error": "",
-      "scene": 4,
-      "wall_time": 2.535
+      "scene": 1,
+      "wall_time": 2.545
     },
     {
-      "achievement101": true,
-      "achievement_count": 1,
-      "save_error": "",
-      "scene": 4,
-      "wall_time": 2.64
+      "scene": 1,
+      "wall_time": 2.65
     },
     {
-      "achievement101": true,
-      "achievement_count": 1,
-      "save_error": "",
-      "scene": 4,
-      "wall_time": 2.744
+      "scene": 1,
+      "wall_time": 2.753
     },
     {
-      "achievement101": true,
-      "achievement_count": 1,
-      "save_error": "",
-      "scene": 4,
-      "wall_time": 2.848
+      "scene": 1,
+      "wall_time": 2.857
     },
     {
-      "achievement101": true,
-      "achievement_count": 1,
-      "save_error": "",
-      "scene": 4,
-      "wall_time": 2.951
+      "scene": 1,
+      "wall_time": 2.962
     },
     {
-      "achievement101": true,
-      "achievement_count": 1,
-      "save_error": "",
-      "scene": 4,
-      "wall_time": 3.055
+      "scene": 1,
+      "wall_time": 3.066
     },
     {
-      "achievement101": true,
-      "achievement_count": 1,
-      "save_error": "",
-      "scene": 4,
-      "wall_time": 3.16
+      "scene": 1,
+      "wall_time": 3.169
     },
     {
-      "achievement101": true,
-      "achievement_count": 1,
-      "save_error": "",
-      "scene": 4,
-      "wall_time": 3.264
+      "scene": 1,
+      "wall_time": 3.273
     },
     {
-      "achievement101": true,
-      "achievement_count": 1,
-      "save_error": "",
-      "scene": 4,
-      "wall_time": 3.368
+      "scene": 1,
+      "wall_time": 3.377
     },
     {
-      "achievement101": true,
-      "achievement_count": 1,
-      "save_error": "",
-      "scene": 4,
-      "wall_time": 3.472
+      "scene": 1,
+      "wall_time": 3.482
     },
     {
-      "achievement101": true,
-      "achievement_count": 1,
-      "save_error": "",
-      "scene": 4,
-      "wall_time": 3.578
+      "scene": 1,
+      "wall_time": 3.587
     },
     {
-      "achievement101": true,
-      "achievement_count": 1,
-      "save_error": "",
-      "scene": 4,
-      "wall_time": 3.681
+      "scene": 1,
+      "wall_time": 3.69
     },
     {
-      "achievement101": true,
-      "achievement_count": 1,
-      "save_error": "",
-      "scene": 4,
-      "wall_time": 3.785
+      "scene": 1,
+      "wall_time": 3.794
     },
     {
-      "achievement101": true,
-      "achievement_count": 1,
-      "save_error": "",
-      "scene": 4,
-      "wall_time": 3.888
+      "scene": 1,
+      "wall_time": 3.897
     },
     {
-      "achievement101": true,
-      "achievement_count": 1,
-      "save_error": "",
-      "scene": 4,
-      "wall_time": 3.993
+      "scene": 1,
+      "wall_time": 4.002
     }
   ],
   "scenario": {

@@ -4,6 +4,7 @@
 #include "game/gameplay/launcher_visual.h"
 #include "game/gameplay/decor_transform.h"
 #include "game/gameplay/laser_visual.h"
+#include "game/frontend/moon_ui.h"
 #include "engine/io/path/path_manager.h"
 #include "engine/io/loaders/content_registry_loader.h"
 #include "engine/loading/game_content_loader.h"
@@ -20,6 +21,38 @@ namespace {
 using namespace elysia;
 void require(bool condition,const std::string& message) {
     if(!condition)throw std::runtime_error(message);
+}
+void check_frontend_artwork(){
+    game::frontend::MenuArtwork menu;std::vector<core::UiRenderCommand> art;menu.submit_ui_render_commands(art);
+    auto* original_title=ELYSIA_RESOURCES->find_texture("fly.ui.mainTitle2");int title_strips=0;
+    for(const auto& command:art)if(command.texture==original_title){
+        ++title_strips;
+        require(command.screen_rect.width()==544&&command.src_rect.width()==640,"Central artwork must use a full-width quad to avoid fractional strip gaps");
+        require(std::abs(command.screen_rect.y()-539*.85f)<.001f&&std::abs(command.screen_rect.height()-276*.85f)<.001f,"Original menu title must overlap the boots at original crop Y=539 with the same background scale");
+    }
+    require(title_strips==41,"Original menu title must cover the central image plus both clipped fade edges");
+    const auto achievements=game::content::read("text/en/gcDescriptions.json").at("achievements");
+    for(const auto& [key,description]:achievements.items()){
+        auto* badge=ELYSIA_RESOURCES->find_texture("fly.frontend.achv"+key);require(badge!=nullptr,"Original achievement badge is missing: "+key);
+        for(bool earned:{false,true}){
+            game::frontend::AchievementCard card(std::stoi(key),description.at("title"),description.at("earnedDesc"),earned);
+            std::vector<core::UiRenderCommand> drawn;card.submit_ui_render_commands(drawn);
+            int badges=0,masks=0;
+            for(const auto& command:drawn){
+                if(command.texture==badge){++badges;require(command.screen_rect.width()==92&&command.screen_rect.height()==92,"Achievement badge must preserve its square aspect");}
+                if(command.color==core::Color{4,12,31,170}){++masks;require(command.screen_rect.width()==92&&command.screen_rect.height()==92,"Locked mask must cover the badge");}
+            }
+            require(badges==1&&masks==(earned?0:1),"Locked achievements must show the original badge under a dark mask; earned badges must stay clear");
+        }
+    }
+    for(const char* name:{"menu","settings","moon"}){
+        game::frontend::MoonBackdrop background(name);std::vector<core::UiRenderCommand> drawn;background.submit_ui_render_commands(drawn);
+        auto* source=ELYSIA_RESOURCES->find_texture(std::string("fly.frontend.background_")+name);
+        require(source!=nullptr,"Supplied widescreen background missing");
+        const auto found=std::find_if(drawn.begin(),drawn.end(),[&](const auto& command){return command.texture==source;});
+        require(found!=drawn.end()&&found->use_src_rect,"Background cover must use an aspect-preserving source crop");
+        require(std::abs(found->src_rect.width()/found->src_rect.height()-1280.f/720)<.001f,"Widescreen background was stretched");
+    }
 }
 std::vector<core::RenderCommand> commands(const core::GameObject& object);
 core::RenderCommand sprite(const core::GameObject& object) {
@@ -696,6 +729,7 @@ int main() {
             const auto deadline=SDL_GetTicks()+30000;
             while(loader.is_running()&&SDL_GetTicks()<deadline){loader.update();SDL_Delay(1);}
             require(loader.is_finished(),loader.failure()?loader.failure()->diagnostic.message:"Content load timed out");
+            check_frontend_artwork();
             check_pickups_and_moon();
             check_role_effects(renderer);
             check_moon_highlight(renderer);
