@@ -32,3 +32,8 @@
 - `MassProperties` 的 DensityMass / ExplicitMass / BodyMassData 区分默认密度、比例缩放惯量、独立质量数据。七根原版转杆现在可只替换质量、保留初始惯量，公开状态能够直接验证 COM 与惯量，无需访问 Box2D。Release 与 5 项 CTest 通过，三个受影响关卡采样确认。
 - 接入范围仅 Game Layer。独立质量字段解决了原还原差异；第 30 关残留出生激光死亡是游戏还原调查项，不能以引擎回执测试代替关卡验收。
 - CollisionFilter.group 可表达附属物和同载体之间不互撞；实际消除了第 30 关转杆被自身附属物卡住的问题，角速度恢复到配置值。
+
+2026-10-25 第 39 关电机休眠调查：
+
+- 公开 BodyState.awake 和角速度足以在隔离场景确认持续驱动转杆错误休眠。源码只读调查指向动态体设置质量后没有维护 Box2D 形状尺度；证据与建议见 `../engine-support-requests/007-dynamic-mass-extents-sleep.md`。
+- 游戏通过现有 BodyDefinition.enable_sleep 对持续电机保持活跃，保留被动杆休眠与正常暂停语义；没有访问原生刚体或修改引擎。此策略缓解当前机关，但引擎仍需维护动态体几何范围。
