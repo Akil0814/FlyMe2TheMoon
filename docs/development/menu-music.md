@@ -25,3 +25,5 @@
 `game/tests/visual_tests.cpp` 使用 SDL dummy 音频后端加载真实音乐，将播放位置设为 240000 帧，逐个进入/退出各菜单并返回主菜单，检查曲目、播放状态和位置不回退；重复选关/成就进入以覆盖分页重建，检查静音/恢复音量，以及每个界面在无音乐或关卡音乐之后恢复菜单曲目。存档使用 `out/qa/menu-music/` 下的独立目录。
 
 验证命令：`ctest --test-dir out/build/x64-Debug -R "^(fly_idle_visuals|fly_selection_input)$" --output-on-failure`。
+
+结果：Debug 游戏及相关测试目标编译成功；两项测试均通过（`fly_idle_visuals` 77.72 秒，`fly_selection_input` 0.45 秒）。音乐检查使用 dummy 音频设备验证真实播放状态和位置，未进行人工听音验收。
