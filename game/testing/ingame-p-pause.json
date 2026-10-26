@@ -1,0 +1,79 @@
+{
+  "name": "ingame-p-pause",
+  "level": 39,
+  "duration": 9,
+  "language": "zh-Hans",
+  "events": [
+    {
+      "time": 5,
+      "key": "P",
+      "down": true,
+      "when": {
+        "input_enabled": true,
+        "paused": false,
+        "opening_camera": false,
+        "dialogue": ""
+      }
+    },
+    {
+      "time": 5.1,
+      "key": "P",
+      "down": false
+    }
+  ],
+  "expect": {
+    "scene": 2,
+    "pause_menu_open": true,
+    "paused": true
+  },
+  "observe": [
+    {
+      "field": "camera_x",
+      "when": {
+        "pause_menu_open": true
+      },
+      "span_at_most": 0.001,
+      "samples_at_least": 8
+    },
+    {
+      "field": "camera_y",
+      "when": {
+        "pause_menu_open": true
+      },
+      "span_at_most": 0.001,
+      "samples_at_least": 8
+    },
+    {
+      "field": "x",
+      "when": {
+        "pause_menu_open": true
+      },
+      "span_at_most": 0.001,
+      "samples_at_least": 8
+    },
+    {
+      "field": "y",
+      "when": {
+        "pause_menu_open": true
+      },
+      "span_at_most": 0.001,
+      "samples_at_least": 8
+    },
+    {
+      "field": "elapsed",
+      "when": {
+        "pause_menu_open": true
+      },
+      "span_at_most": 0.001,
+      "samples_at_least": 8
+    },
+    {
+      "field": "role_effect_frame",
+      "when": {
+        "pause_menu_open": true
+      },
+      "span_at_most": 0.001,
+      "samples_at_least": 8
+    }
+  ]
+}

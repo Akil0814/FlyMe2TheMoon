@@ -1,0 +1,44 @@
+{
+  "name": "ingame-icon-resume",
+  "level": 1,
+  "duration": 4,
+  "language": "zh-Hans",
+  "events": [
+    {
+      "time": 0.4,
+      "mouse": [
+        1228,
+        42
+      ],
+      "down": true
+    },
+    {
+      "time": 0.5,
+      "mouse": [
+        1228,
+        42
+      ],
+      "down": false
+    },
+    {
+      "time": 1.4,
+      "mouse": [
+        640,
+        396
+      ],
+      "down": true
+    },
+    {
+      "time": 1.5,
+      "mouse": [
+        640,
+        396
+      ],
+      "down": false
+    }
+  ],
+  "expect": {
+    "scene": 2,
+    "pause_menu_open": false
+  }
+}

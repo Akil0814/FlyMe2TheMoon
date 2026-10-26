@@ -81,7 +81,8 @@ bool ReplayProbe::update(SDL_Renderer* renderer,const content::Json& state) {
         if(observation.contains("span_at_least"))ok&=high-low>=observation.at("span_at_least").get<double>();
         if(observation.contains("span_at_most"))ok&=high-low<=observation.at("span_at_most").get<double>();
         if(observation.contains("samples_at_least"))ok&=matched_samples>=observation.at("samples_at_least").get<int>();
-        checks["observe."+field+"."+std::to_string(checks.size())]={{"requested",observation},{"minimum",low},{"maximum",high},{"samples",matched_samples},{"passed",ok}};passed&=ok;
+        const auto check_key="observe."+field+(checks.contains("observe."+field)?"."+std::to_string(checks.size()):"");
+        checks[check_key]={{"requested",observation},{"minimum",low},{"maximum",high},{"samples",matched_samples},{"passed",ok}};passed&=ok;
     }
     std::ofstream out(_output.string()+".json");out<<content::Json{{"passed",passed},{"checks",checks},{"scenario",_scenario},{"samples",_samples}}.dump(2);
     if(auto* surface=SDL_RenderReadPixels(renderer,nullptr)){SDL_SaveBMP(surface,(_output.string()+".bmp").c_str());SDL_DestroySurface(surface);}

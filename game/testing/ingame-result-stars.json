@@ -1,0 +1,36 @@
+{
+  "name": "ingame-result-stars",
+  "level": 1,
+  "duration": 42,
+  "events": [],
+  "pilot": [
+    [
+      489,
+      1050
+    ],
+    [
+      489,
+      850
+    ],
+    [
+      489,
+      650
+    ],
+    [
+      489,
+      385
+    ]
+  ],
+  "expect": {
+    "level": 1,
+    "success": true,
+    "stars": 3,
+    "demo": false,
+    "result_visible": true,
+    "hud_gold_stars": 3,
+    "hud_gray_stars": 0,
+    "result_gold_stars": 3
+  },
+  "stop_after_success": 2,
+  "language": "zh-Hans"
+}

@@ -1,0 +1,40 @@
+{
+  "name": "ingame-pause-retry",
+  "level": 1,
+  "duration": 4,
+  "language": "zh-Hans",
+  "events": [
+    {
+      "time": 0.4,
+      "key": "Escape",
+      "down": true
+    },
+    {
+      "time": 0.5,
+      "key": "Escape",
+      "down": false
+    },
+    {
+      "time": 1.4,
+      "mouse": [
+        640,
+        456
+      ],
+      "down": true
+    },
+    {
+      "time": 1.5,
+      "mouse": [
+        640,
+        456
+      ],
+      "down": false
+    }
+  ],
+  "expect": {
+    "scene": 2,
+    "level": 1,
+    "pause_menu_open": false,
+    "restart": true
+  }
+}

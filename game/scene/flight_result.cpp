@@ -62,7 +62,7 @@ void FlightScene::open_pause_menu(){
     _pause_updates.clear();
     const auto freeze=[this](core::GameObject* object){if(object->update_when_paused()){_pause_updates.push_back(object);object->set_update_when_paused(false);}};
     freeze(_player);for(auto* entity:_entities)freeze(entity);
-    _player->thrust={};pause();
+    _player->thrust={};pause();set_all_gameplay_input_blocked(true);
     _pause_stars->set_collected(_stars);
     _pause_stats->set_text_content(ui::ui_raw_text(content::format("pause_stats",_level,_crystals,_elapsed)));
     _pause_button->set_active(false);_hint->set_visible(false);update_dialogue();
@@ -74,7 +74,7 @@ void FlightScene::close_pause_menu(){
     _pause_menu->set_visible(false);_pause_menu->set_active(false);_pause_menu_open=false;
     for(auto* object:_pause_updates)object->set_update_when_paused(true);_pause_updates.clear();
     if(!_pause_was_logic_paused)resume();
-    _pause_button->set_active(true);set_ui_interaction_mode(elysia::scene::UiInteractionMode::Pointer);reset_input_routing();update_dialogue();
+    _pause_button->set_active(true);set_all_gameplay_input_blocked(false);set_ui_interaction_mode(elysia::scene::UiInteractionMode::Pointer);update_dialogue();
 }
 void FlightScene::retry_level(){request_scene_switch(scene_keys::Flight,FlightPayload{_level,true},elysia::scene::SceneReloadMode::Recreate);}
 void FlightScene::show_result(bool saved){

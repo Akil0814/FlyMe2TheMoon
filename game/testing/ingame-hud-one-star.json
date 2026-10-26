@@ -1,0 +1,20 @@
+{
+  "name": "ingame-hud-one-star",
+  "level": 1,
+  "duration": 15,
+  "language": "zh-Hans",
+  "events": [],
+  "expect": {
+    "scene": 2,
+    "stars": 1,
+    "hud_gold_stars": 1,
+    "hud_gray_stars": 2,
+    "finished": false
+  },
+  "pilot": [
+    [
+      489,
+      850
+    ]
+  ]
+}

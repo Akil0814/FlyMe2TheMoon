@@ -1,0 +1,37 @@
+{
+  "name": "ingame-pause-select",
+  "level": 1,
+  "duration": 4,
+  "language": "zh-Hans",
+  "events": [
+    {
+      "time": 0.4,
+      "key": "Escape",
+      "down": true
+    },
+    {
+      "time": 0.5,
+      "key": "Escape",
+      "down": false
+    },
+    {
+      "time": 1.4,
+      "mouse": [
+        640,
+        516
+      ],
+      "down": true
+    },
+    {
+      "time": 1.5,
+      "mouse": [
+        640,
+        516
+      ],
+      "down": false
+    }
+  ],
+  "expect": {
+    "scene": 3
+  }
+}
