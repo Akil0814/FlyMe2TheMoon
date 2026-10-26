@@ -16,7 +16,6 @@
 #include "game/gameplay/homing_parameters.h"
 #if ELYSIA_ENABLE_IMGUI
 #include "game/development/camera_controls.h"
-#include "engine/tools/imgui/imgui_development_overlay.h"
 #include <imgui.h>
 #endif
 
@@ -34,7 +33,7 @@ void FlightScene::attach_development_panel() {
     _development_panels=runtime_context().development_panels();
     if (!_development_panels) return;
     _development_panel=_development_panels->register_panel("fly.flight.camera", [this] {
-        if (ImGui::Begin(tools::ImGuiDevelopmentOverlay::MainPanelTitle))
+        if (ImGui::Begin("Flight camera (F2)"))
             development::draw_camera_controls(camera_runtime(), kDefaultCameraZoom);
         ImGui::End();
     });
@@ -95,24 +94,16 @@ void FlightScene::on_enter(const elysia::scene::ScenePayload& payload) {
     if(!_player||!_player->physics_state())throw std::runtime_error("Player registration failed");
     _player->present_at(std::nullopt,1,true);
     create_and_add_object<Decor>(_data,true);
-    auto* hud_panel=create_and_add_object<ui::UiLabel>(Rect{16,12,500,64},9,ui::ui_raw_text(""));
-    hud_panel->set_style_overrides({.corner_radius=16.f,.background=core::Color{9,30,62,218},.draw_background=true});
-    auto* star_panel=create_and_add_object<ui::UiLabel>(Rect{960,12,180,64},9,ui::ui_raw_text(""));
-    star_panel->set_style_overrides({.corner_radius=16.f,.background=core::Color{9,30,62,218},.draw_background=true});
     _hud_stars=create_and_add_object<frontend::StarRating>(Rect{982,24,136,40},11);
-    _hud=create_and_add_object<ui::UiLabel>(Rect{32,24,466,40},11,ui::ui_raw_text(""));
-    _hud->set_typography_role(typography::UiTypographyRole::ButtonCompact);_hud->set_vertical_align(ui::TextVerticalAlign::Center);
-    _pause_button=create_and_add_object<frontend::PauseIconButton>(Rect{1160,12,96,64},[this]{open_pause_menu();});
-    _hint=create_and_add_object<ui::UiLabel>(Rect{24,668,1230,36},10,ui::ui_raw_text(""));
-    _hint->set_text_fit_mode(ui::UiLabelTextFitMode::ShrinkToFit);
-    _hud->set_style_overrides({.text=core::Color{229,246,255,255}});
-    _hint->set_typography_role(typography::UiTypographyRole::ButtonCompact);
-    _hint->set_style_overrides({.corner_radius=12.f,.background=core::Color{9,30,62,210},.draw_background=true});_hint->set_padding(6);
-    _dialogue_panel=create_and_add_object<frontend::MoonPanel>(Rect{24,474,1232,182},20);
-    _portrait_panel=create_and_add_object<frontend::MoonPanel>(Rect{38,486,156,156},21);
+    _hud=create_and_add_object<frontend::HudLabel>(Rect{16,12,280,64},11);
+    _hud_stats=create_and_add_object<frontend::RunStats>(Rect{312,12,620,64},11);
+    _pause_button=create_and_add_object<frontend::PauseIconButton>(Rect{1192,12,64,64},[this]{open_pause_menu();});
+    _hint=create_and_add_object<frontend::HudLabel>(Rect{24,668,1230,36},10);
+    _dialogue_panel=create_and_add_object<frontend::HudPanel>(Rect{24,474,1232,182},20);
+    _portrait_panel=create_and_add_object<frontend::HudPanel>(Rect{38,486,156,156},21);
     _face=create_and_add_object<ui::UiImage>(nullptr,Rect{46,494,140,140},22);
     _dialogue=create_and_add_object<ui::UiTextBlock>(Rect{212,492,1024,144},22);_dialogue->set_padding(8);
-    _dialogue->set_style_overrides({.text=core::Color{229,246,255,255}});
+    _dialogue->set_style_overrides({.text=core::Color{16,46,77,255}});
     _tutorial=create_and_add_object<ui::UiImage>(nullptr,Rect{1040,280,140,160},19);_tutorial->set_visible(false);
     build_result_panel();
     build_pause_panel();
@@ -133,7 +124,7 @@ void FlightScene::on_enter(const elysia::scene::ScenePayload& payload) {
     ELYSIA_LOG_INFO("fly",std::format("Entered level {}: {} entities, {} contours",_level,_entities.size(),_data.at("edges").size()));
     attach_development_panel();
 }
-void FlightScene::on_exit(){detach_development_panel();for(auto h:_sounds)ELYSIA_AUDIO->stop_sound(h);_sounds.clear();ELYSIA_AUDIO->stop_music();_pause_updates.clear();_pause_menu_open=false;_player=nullptr;_entities.clear();_hud=nullptr;_hint=nullptr;_hud_stars=nullptr;_pause_menu=nullptr;_pause_button=nullptr;_dialogue=nullptr;_face=nullptr;_tutorial=nullptr;_dialogue_panel=nullptr;_portrait_panel=nullptr;clear_scene_objects();}
+void FlightScene::on_exit(){detach_development_panel();for(auto h:_sounds)ELYSIA_AUDIO->stop_sound(h);_sounds.clear();ELYSIA_AUDIO->stop_music();_pause_updates.clear();_pause_menu_open=false;_player=nullptr;_entities.clear();_hud=nullptr;_hud_stats=nullptr;_pause_metrics=nullptr;_result_metrics=nullptr;_hint=nullptr;_hud_stars=nullptr;_pause_menu=nullptr;_pause_button=nullptr;_dialogue=nullptr;_face=nullptr;_tutorial=nullptr;_dialogue_panel=nullptr;_portrait_panel=nullptr;clear_scene_objects();}
 void FlightScene::on_reset(){on_exit();}
 void FlightScene::on_shortcuts(const input::RawInputFrame&,const std::vector<input::RawInputEvent>& events) {
     using C=input::RawInputControl;
@@ -399,7 +390,8 @@ void FlightScene::on_after_update(double delta) {
     }
     }
     _hud_stars->set_collected(_stars);
-    _hud->set_text_content(ui::ui_raw_text(content::format("hud_compact",_level,_crystals,_elapsed,_finished?content::ui(_success?"done":"failed"):_demo?content::ui("demo"):is_paused()?content::ui("paused"):"")));
+    _hud->set_text_content(ui::ui_raw_text(content::format("hud_stage",_level,_finished?content::ui(_success?"done":"failed"):_demo?content::ui("demo"):is_paused()?content::ui("paused"):"")));
+    _hud_stats->set_values(_elapsed,large_crystal_count(),small_crystal_count());
     _hint->set_visible(!_pause_menu_open&&!_finished&&!_death_pending);
     if(opening())_hint->set_text_content(ui::ui_raw_text(content::ui("wait")));
     else if(_story.dialogue())_hint->set_text_content(ui::ui_raw_text(content::ui(_story.dialogue()->remaining>0?"wait":_story.skip_enabled()?(_using_gamepad?"gamepad_skip":"skip"):(_using_gamepad?"gamepad_continue":"continue"))));

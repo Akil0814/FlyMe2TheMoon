@@ -7,6 +7,7 @@
 #include <memory>
 #include <algorithm>
 #include <optional>
+#include <array>
 
 namespace game::frontend {
 class StarRating final:public elysia::ui::UiElement {
@@ -18,10 +19,26 @@ public:
 private:
     int _collected=0;
 };
-class MoonPanel final:public elysia::ui::UiElement {
+class HudLabel final:public elysia::ui::UiLabel {
 public:
-    explicit MoonPanel(elysia::core::Rect rect,int order=0):UiElement(rect,order){}
+    explicit HudLabel(elysia::core::Rect rect,int order=0,elysia::ui::UiTextContent text={});
     void submit_ui_render_commands(std::vector<elysia::core::UiRenderCommand>& out)const override;
+};
+class HudPanel final:public elysia::ui::UiElement {
+public:
+    explicit HudPanel(elysia::core::Rect rect,int order=0):UiElement(rect,order){}
+    void submit_ui_render_commands(std::vector<elysia::core::UiRenderCommand>& out)const override;
+};
+class RunStats final:public elysia::ui::UiElement {
+public:
+    explicit RunStats(elysia::core::Rect rect,int order=0);
+    void set_values(double seconds,int large_crystals,int small_crystals);
+    int large_crystals()const{return _large;}
+    int small_crystals()const{return _small;}
+    void submit_ui_render_commands(std::vector<elysia::core::UiRenderCommand>& out)const override;
+private:
+    int _large=0,_small=0;
+    mutable std::array<elysia::ui::UiLabel,3> _labels;
 };
 class PauseIconButton final:public elysia::ui::UiButton {
 public:

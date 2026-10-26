@@ -339,12 +339,12 @@
     "select_level": "Select level",
     "result_success": "Level {:02} · Moon reached!",
     "result_failure": "Level {:02} · Try again",
-    "result_stats": "{0:.2f}s    Crystals {1}    Score {2}",
+    "result_score": "Score {}",
     "credits_controls": "Stick / ↑↓: scroll · Space / X: pause / resume · Esc / B: menu",
     "album_page": "Album {}",
-    "hud_compact": "Stage {:02}   Crystals {}   {:.1f}s{}",
+    "hud_stage": "Stage {:02}{}",
     "pause_title": "Paused",
     "resume_level": "Resume",
-    "pause_stats": "Stage {:02}   Crystals {}   {:.1f}s"
+    "pause_stage": "Stage {:02}"
   }
 }

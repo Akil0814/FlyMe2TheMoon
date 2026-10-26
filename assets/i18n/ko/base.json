@@ -339,12 +339,12 @@
     "select_level": "Select level",
     "result_success": "Level {:02} · Moon reached!",
     "result_failure": "Level {:02} · Try again",
-    "result_stats": "{0:.2f}초    크리스탈 {1}    점수 {2}",
+    "result_score": "점수 {}",
     "credits_controls": "스틱 / ↑↓: 스크롤 · Space / X: 일시 정지 / 재개 · Esc / B: 메뉴",
     "album_page": "앨범 {}",
-    "hud_compact": "스테이지 {:02}   크리스탈 {}   {:.1f}초{}",
+    "hud_stage": "스테이지 {:02}{}",
     "pause_title": "일시 정지",
     "resume_level": "계속하기",
-    "pause_stats": "스테이지 {:02}   크리스탈 {}   {:.1f}초"
+    "pause_stage": "스테이지 {:02}"
   }
 }

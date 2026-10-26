@@ -55,10 +55,6 @@ public:
     virtual void render(SDL_Renderer& renderer) = 0;
     virtual void shutdown() noexcept = 0;
 
-    // Optional background content (for example an FPS HUD) can outlive the panels.
-    virtual void set_panels_visible(bool) noexcept {}
-    [[nodiscard]] virtual bool has_background_content() const noexcept { return false; }
-
     [[nodiscard]] virtual elysia::input::InputCapture
         captured_input() const noexcept = 0;
 };

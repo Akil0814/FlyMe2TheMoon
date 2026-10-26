@@ -21,7 +21,8 @@ void compose_application_scenes(
 {
     scene_manager.register_engine_scene<
         elysia::builtin::StartupLoadingScene>(
-            elysia::builtin::SceneKeys::StartupLoading);
+            elysia::builtin::SceneKeys::StartupLoading,
+            descriptor.presentation.startup.engine_logo);
     scene_manager.register_engine_scene<
         elysia::builtin::SettingsScene>(
             elysia::builtin::SceneKeys::Settings);

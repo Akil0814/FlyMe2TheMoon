@@ -53,7 +53,6 @@ std::expected<void, std::string> DevelopmentOverlayHost::initialize(
     }
     _initialized = true;
     _visible = false;
-    _overlay->set_panels_visible(false);
     return {};
 }
 
@@ -65,10 +64,7 @@ bool DevelopmentOverlayHost::process_event(const SDL_Event& event)
     if (is_toggle_event(event))
     {
         if (event.type == SDL_EVENT_KEY_DOWN && event.key.repeat == 0)
-        {
             _visible = !_visible;
-            _overlay->set_panels_visible(_visible);
-        }
         return true;
     }
 
@@ -79,13 +75,13 @@ bool DevelopmentOverlayHost::process_event(const SDL_Event& event)
 
 void DevelopmentOverlayHost::begin_frame(double delta_seconds)
 {
-    if (_initialized && _overlay && (_visible || _overlay->has_background_content()))
+    if (_initialized && _visible && _overlay)
         _overlay->begin_frame(delta_seconds);
 }
 
 void DevelopmentOverlayHost::render(SDL_Renderer& renderer)
 {
-    if (_initialized && _overlay && (_visible || _overlay->has_background_content()))
+    if (_initialized && _visible && _overlay)
         _overlay->render(renderer);
 }
 

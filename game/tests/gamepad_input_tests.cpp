@@ -198,6 +198,12 @@ void test_flight_scene(SDL_Renderer* renderer,const io::ContentRegistry& registr
     require(!flight.is_paused()&&!scene::SceneTestAccess::modal_visible(flight),"Holding or releasing B after resume must not reopen pause");
     require(!scene::SceneTestAccess::jet_visible(flight),"Held RT must not leave a residual jet after resume");
     system.begin_frame();axis(system,SDL_GAMEPAD_AXIS_RIGHT_TRIGGER,0);send();
+    system.begin_frame();SDL_Event pause_click{};pause_click.type=SDL_EVENT_MOUSE_BUTTON_DOWN;pause_click.button.button=SDL_BUTTON_LEFT;pause_click.button.x=1228;pause_click.button.y=42;pause_click.button.down=true;system.process_event(pause_click);send();
+    require(!flight.is_paused(),"Pause icon must wait for the mouse release before activating");
+    system.begin_frame();pause_click.type=SDL_EVENT_MOUSE_BUTTON_UP;pause_click.button.down=false;system.process_event(pause_click);send();
+    require(flight.is_paused()&&scene::SceneTestAccess::modal_visible(flight),"The textured pause icon must open the real pause menu");
+    press(SDL_GAMEPAD_BUTTON_EAST);
+    require(!flight.is_paused(),"B must resume after opening pause with the textured mouse button");
     press(SDL_GAMEPAD_BUTTON_START);
     require(flight.is_paused()&&scene::SceneTestAccess::modal_visible(flight),"Start must still open pause");
     press(SDL_GAMEPAD_BUTTON_START);
