@@ -2,6 +2,7 @@
 #include "game/scene/selection_scene.h"
 #include "game/scene/flight_scene.h"
 #include "game/scene/main_menu_scene.h"
+#include "game/progress/progress.h"
 #include "engine/input/input_system.h"
 #include "engine/io/path/path_manager.h"
 #include "engine/io/loaders/content_registry_loader.h"
@@ -40,6 +41,23 @@ public:
             std::vector<core::RenderCommand> drawn;player->submit_render_commands(drawn);return drawn.size()>1;
         }
         throw std::runtime_error("Flight test player missing");
+    }
+    static void move_to_result(Scene& scene,bool success){
+        game::play::Player* player=nullptr;game::play::Entity* moon=nullptr;
+        for(auto& layer:scene._object_layers)for(auto& object:layer){
+            if(auto* p=dynamic_cast<game::play::Player*>(object.get()))player=p;
+            if(auto* e=dynamic_cast<game::play::Entity*>(object.get());e&&e->kind==101)moon=e;
+        }
+        if(!player||!moon)throw std::runtime_error("Result test player/moon missing");
+        const auto position=success?moon->center()-(player->center()-player->position()):core::Vector2{-200,-200};
+        if(!scene.physics_world().teleport_object(player->physics_handle(),position,physics::TeleportVelocityMode::Clear))throw std::runtime_error("Result test teleport failed");
+    }
+    static ui::UiLabel* result_notice(Scene& scene){
+        for(auto& root:scene._ui_roots)if(auto* window=dynamic_cast<ui::UiWindow*>(root.get());window&&window->is_visible()){
+            auto* list=dynamic_cast<ui::UiChildHost*>(window->child_at(1));
+            if(list)return dynamic_cast<ui::UiLabel*>(list->child_at(4));
+        }
+        return nullptr;
     }
 };
 }
@@ -214,6 +232,33 @@ void test_flight_scene(SDL_Renderer* renderer,const io::ContentRegistry& registr
     require(payload&&payload->level==39&&payload->restart,"Menu Retry must retain the current level and restart flag");
     system.shutdown();scene::SceneTestAccess::exit(flight);
 }
+void test_result_records(SDL_Renderer* renderer,const io::ContentRegistry& registry){
+    auto& data=game::progress::Store::instance().data;
+    const auto run=[&](bool success,const std::string& expected){
+        scene::SceneRuntimeContext context(renderer,registry,1280,720);
+        game::scene::FlightScene flight;scene::SceneTestAccess::bind(flight,context);
+        scene::SceneTestAccess::enter(flight,game::scene::FlightPayload{39,true});
+        for(int i=0;i<600&&flight.is_paused();++i)scene::SceneTestAccess::update(flight,1./60.);
+        require(!flight.is_paused(),"Record test must leave the opening and skipped story");
+        scene::SceneTestAccess::move_to_result(flight,success);
+        for(int i=0;i<600&&!scene::SceneTestAccess::modal_visible(flight);++i)scene::SceneTestAccess::update(flight,1./60.);
+        auto* notice=scene::SceneTestAccess::result_notice(flight);
+        require(notice&&notice->text_content().value==expected,"Result notice must reflect the saved score record, ties, failure and save errors");
+        scene::SceneTestAccess::layout(flight);
+        require(notice->screen_rect().height()>0&&notice->screen_rect().y()>300,"Record notice must occupy its own line below the score");
+        scene::SceneTestAccess::exit(flight);
+    };
+    data.score_verified[38]=false;data.scores[38]=0;
+    run(true,game::content::ui("result_new_record"));
+    const int best=data.scores[38];require(best>0&&data.score_verified[38],"First clear must persist its verified score");
+    run(true,"");require(data.scores[38]==best,"Equal score must retain the previous best without a record notice");
+    data.scores[38]=best+100;run(true,"");
+    data.scores[38]=best-1;run(true,game::content::ui("result_new_record"));
+    run(false,"");
+    data.scores[38]=0;
+    require(ELYSIA_SAVE->close("fly_progress").has_value(),"Save-error test must close the isolated slot");
+    run(true,game::content::ui("save_failure"));
+}
 }
 int main(){
     SDL_Surface* surface=nullptr;SDL_Renderer* renderer=nullptr;int result=1;
@@ -234,6 +279,7 @@ int main(){
         while(loader.is_running()&&SDL_GetTicks()<deadline){loader.update();SDL_Delay(1);}
         require(loader.is_finished(),loader.failure()?loader.failure()->diagnostic.message.c_str():"Game content load timed out");
         test_flight_scene(renderer,*registry);
+        test_result_records(renderer,*registry);
         std::cout<<"PASS: analog flight, input suppression, menu A/B, scene B/Start pause, no A thrust or X restart, story A and menu Retry\n";result=0;
     }catch(const std::exception& error){std::cerr<<"FAIL: "<<error.what()<<'\n';}
     ELYSIA_SAVE->shutdown();

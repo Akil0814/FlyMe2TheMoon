@@ -48,7 +48,7 @@ void FlightScene::build_result_panel(){
     _result->set_on_cancel([this]{_result->focus_first_available_scope();});
     auto list=modal_list();
     _result_title=add_label(*list,48,true);_result_stars=add_stars(*list);
-    _result_metrics=add_metrics(*list);_result_stats=add_stat_label(*list);_result_save=add_label(*list,32);
+    _result_metrics=add_metrics(*list);_result_stats=add_stat_label(*list);_result_notice=add_label(*list,32);
     _result_continue=add_button(*list,"next_level",[this]{continue_from_result();});
     add_button(*list,"retry",[this]{retry_level();});
     add_button(*list,"select_level",[this]{request_scene_switch(scene_keys::Selection,SelectionPayload{(_level-1)/15});});
@@ -85,13 +85,14 @@ void FlightScene::close_pause_menu(){
     _pause_button->set_active(true);set_all_gameplay_input_blocked(false);set_ui_interaction_mode(elysia::scene::UiInteractionMode::Pointer);update_dialogue();
 }
 void FlightScene::retry_level(){request_scene_switch(scene_keys::Flight,FlightPayload{_level,true},elysia::scene::SceneReloadMode::Recreate);}
-void FlightScene::show_result(bool saved){
+void FlightScene::show_result(bool saved,bool new_record){
     _result_title->set_text_content(ui::ui_raw_text(content::format(_success?"result_success":"result_failure",_level)));
     _result_stars->set_collected(_stars);
     const int score=_success?progress::original_score(_level,_stars,_crystals,_elapsed,content::catalog().at("score").at("svrs")):0;
     _result_stats->set_text_content(ui::ui_raw_text(content::format("result_score",score)));
     _result_metrics->set_values(_elapsed,large_crystal_count(),small_crystal_count());
-    _result_save->set_text_content(ui::ui_raw_text(saved?"":content::ui("save_failure")));
+    _result_notice->set_text_content(ui::ui_raw_text(!saved?content::ui("save_failure"):new_record?content::ui("result_new_record"):""));
+    _result_notice->set_style_overrides({.text=saved&&new_record?core::Color{120,65,8,255}:core::Color{16,46,77,255}});
     _result_continue->set_text_content(ui::ui_raw_text(content::ui(_level==60?"credits":"next_level")));
     _result_continue->set_visible(_success);_result_continue->set_enabled(_success);
     _pause_button->set_visible(false);_hint->set_visible(false);

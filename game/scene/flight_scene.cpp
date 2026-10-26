@@ -2,6 +2,7 @@
 #include "main_menu_scene.h"
 #include "selection_scene.h"
 #include "game/progress/progress.h"
+#include "game/progress/scoring.h"
 #include "engine/camera/follow_strategy.h"
 #include "engine/tools/logger.h"
 #include "engine/resources/resource_service.h"
@@ -174,9 +175,12 @@ void FlightScene::finish(bool success) {
     if(_finished||_death_pending)return;_finished=true;_success=success;_player->thrust={};pause();
     _hint->set_text_content(ui::ui_raw_text(content::ui(success?"success_hint":"failure_hint")));
     auto& store=progress::Store::instance();
+    // Compare before record_clear replaces the previous best; ties are not records.
+    const bool new_record=success&&(!store.data.score_verified[_level-1]||
+        progress::original_score(_level,_stars,_crystals,_elapsed,content::catalog().at("score").at("svrs"))>store.data.scores[_level-1]);
     const bool saved=success?store.record_clear(_level,_stars,_crystals,_crystal_count,_stars+_crystal_count,_elapsed):store.record_death(_level,_crystal_count);
     if(!saved)_hint->set_text_content(ui::ui_raw_text(content::ui("save_failure")));
-    show_result(saved);
+    show_result(saved,new_record);
     ELYSIA_LOG_INFO("fly",std::format("Level {} {} time={:.3f} stars={} crystals={}",_level,success?"SUCCESS":"FAIL",_elapsed,_stars,_crystals));
 }
 void FlightScene::reached(bool success,const char* reason) {
@@ -390,7 +394,7 @@ void FlightScene::on_after_update(double delta) {
     }
     }
     _hud_stars->set_collected(_stars);
-    _hud->set_text_content(ui::ui_raw_text(content::format("hud_stage",_level,_finished?content::ui(_success?"done":"failed"):_demo?content::ui("demo"):is_paused()?content::ui("paused"):"")));
+    _hud->set_text_content(ui::ui_raw_text(content::format("hud_stage",_level)));
     _hud_stats->set_values(_elapsed,large_crystal_count(),small_crystal_count());
     _hint->set_visible(!_pause_menu_open&&!_finished&&!_death_pending);
     if(opening())_hint->set_text_content(ui::ui_raw_text(content::ui("wait")));
