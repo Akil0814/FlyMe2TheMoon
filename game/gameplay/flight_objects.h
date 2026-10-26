@@ -101,6 +101,7 @@ public:
     float laser_length()const{return (_laser_end-_laser_start).length();}
     int shots_due(double delta,Vec target);
     Vec fire_direction(Vec target)const;
+    Vec fire_position(Vec direction)const;
     bool update_bomb(double delta,Vec target);
     int bomb_state()const{return _bomb_state;}
     bool lethal(elysia::physics::ColliderId hit)const;

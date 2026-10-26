@@ -16,6 +16,7 @@
 #include "decor_transform.h"
 #include "moon_visual.h"
 #include "thrower_visual.h"
+#include "homing_parameters.h"
 
 namespace game::play {
 using namespace elysia::core;
@@ -183,7 +184,8 @@ Entity::Entity(const content::Json& d):GameObject(d.at("item").get<bool>()?Depth
         const auto parts=key+(info.contains("TargetPortalID")?".S01":".S02");
         for(std::size_t i=0;i<_portal_frames.size();++i)_portal_frames[i]=mechanism_frame(parts,i);
     }
-    if(kind==112||kind==113)_shots.emplace(info);
+    if(kind==112)_shots.emplace(info);
+    if(kind==113){auto shot_info=info;shot_info["Seq"]=info.value("Seq",std::string("1,2"));shot_info.erase("Lag");_shots.emplace(shot_info);}
     if(kind==116){_bomb_leaf_frame=mechanism_frame(key+".S02",0);_bomb_center_frame=mechanism_frame(key+".S01",0);_bomb_armed=ELYSIA_ANIMATIONS->create_animation(key+".S03");_bomb_blast=ELYSIA_ANIMATIONS->create_animation(key+".S04");}
     Collider c;c.filter={.category=item||kind==101?4u:8u,.mask=1};
     c.response=item||kind==101||kind==111||kind==115||kind==116||kind==8||kind==24||kind==25?CollisionResponse::Overlap:CollisionResponse::Block;
@@ -225,6 +227,8 @@ BodyDefinition Entity::body_definition()const {
     b.angle=angle*std::numbers::pi_v<float>/180;
     if(rotating()){
         b.fixed_rotation=false;b.angular_damping=static_cast<float>(parameter(info,"AngularDamping",1.6));
+        // A continuously powered motor must remain awake across logic pauses.
+        b.enable_sleep=seesaw_speed(info)==0;
         b.mass_properties=seesaw_mass_properties(kind,info);
     }
     return b;
@@ -291,7 +295,9 @@ int Entity::shots_due(double delta,Vec target) {
         local=std::clamp(local-pi/2,0.f,pi);
         _thrower_orient+=(local-_thrower_orient)*static_cast<float>(std::clamp(delta*5,0.,1.));
     }
-    const int fired=(target-position()).length()<=parameter(info,"ActiveRange",800)?count:0;
+    const float body_angle=physics_state()?physics_state()->angle:angle*std::numbers::pi_v<float>/180;
+    const Vec source=position()+(kind==113?rotate_vector(homing_launcher_anchor(_visual_size),body_angle):Vec{});
+    const int fired=(target-source).length()<=(kind==113?homing_active_range(info):parameter(info,"ActiveRange",800))?count:0;
     if(fired>0)_shot_visual_time=0;
     return fired;
 }
@@ -301,6 +307,11 @@ Vec Entity::fire_direction(Vec target)const {
         return {std::cos(rad),std::sin(rad)};
     }
     const Vec dir=target-position();return dir.length()>.01f?dir/dir.length():Vec{0,-1};
+}
+Vec Entity::fire_position(Vec direction)const {
+    if(kind!=113)return center()+direction*30;
+    const float radians=physics_state()?physics_state()->angle:angle*std::numbers::pi_v<float>/180;
+    return center()+rotate_vector(homing_muzzle_offset(_visual_size),radians);
 }
 bool Entity::update_bomb(double delta,Vec target) {
     if(kind!=116||_bomb_state==3)return false;

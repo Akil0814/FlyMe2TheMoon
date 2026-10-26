@@ -4,6 +4,7 @@
 #include "game/gameplay/launcher_visual.h"
 #include "game/gameplay/decor_transform.h"
 #include "game/gameplay/laser_visual.h"
+#include "game/gameplay/homing_parameters.h"
 #include "engine/io/path/path_manager.h"
 #include "engine/io/loaders/content_registry_loader.h"
 #include "engine/loading/game_content_loader.h"
@@ -22,6 +23,33 @@ void require(bool condition,const std::string& message) {
     if(!condition)throw std::runtime_error(message);
 }
 std::vector<core::RenderCommand> commands(const core::GameObject& object);
+void check_driven_rotor_pause() {
+    using namespace game::play;
+    const auto level=game::content::level(39);
+    const auto data=*std::find_if(level.at("entities").begin(),level.at("entities").end(),[](const auto& e){return e.at("kind")==108&&e.at("id")==0;});
+    Entity rotor(data);Pivot pivot(rotor.origin);
+    physics::PhysicsWorld world({.units_per_meter=32,.gravity={0,320}});
+    const auto body=world.register_object(rotor,rotor.body_definition(),rotor.collider_definitions());
+    const auto anchor=world.register_object(pivot,pivot.body_definition(),pivot.collider_definitions());
+    require(body.is_valid()&&anchor.is_valid(),"Driven rotor fixture registration failed");rotor.bind_physics(world,body);
+    const auto joint=world.create_revolute_joint({.first=anchor,.second=body,.local_anchor_first={},.local_anchor_second={},
+        .settings={.enable_motor=true,.motor_speed=seesaw_speed(rotor.info),.max_motor_torque=102400}});
+    require(joint.is_valid(),"Driven rotor test joint failed");
+    for(int cycle=0;cycle<3;++cycle) {
+        for(int i=0;i<90;++i)world.step(1./60);
+        const auto before=world.body_state(body);
+        require(before&&before->awake&&std::abs(before->angular_velocity-seesaw_speed(rotor.info))<.001,
+            "Powered rotor fell asleep: angular velocity="+std::to_string(before->angular_velocity)+", awake="+std::to_string(before->awake));
+        // Scene pause omits physics steps, while still finalizing display frames.
+        for(int i=0;i<120;++i)world.finalize_frame(.5);
+        require(world.body_state(body)->angle==before->angle,"Paused rotor changed physical angle");
+        world.step(1./60);const auto after=world.body_state(body);
+        require(after->awake&&std::abs(after->angular_velocity-seesaw_speed(rotor.info))<.001&&after->angle!=before->angle,"Powered rotor did not continue after pause");
+    }
+    rotor.unbind_physics();require(world.unregister_object(body)&&world.unregister_object(anchor),"Driven rotor fixture cleanup failed");
+    auto passive_data=data;passive_data["info"]["Speed"]="0";Entity passive(passive_data);
+    require(passive.body_definition().enable_sleep,"Passive rods should retain normal sleeping policy");
+}
 core::RenderCommand sprite(const core::GameObject& object) {
     std::vector<core::RenderCommand> commands;
     object.submit_render_commands(commands);
@@ -167,8 +195,8 @@ void check_projectile_gravity() {
         require(handle.is_valid(),"Gravity test projectile registration failed");projectile.bind_physics(world,handle);
         for(int tick=0;tick<60;++tick){require(!projectile.advance(1./60,{1000,0},player),"Gravity test projectile reported a hit");world.step(1./60);}
         const auto state=projectile.physics_state();require(state.has_value(),"Projectile physics state missing");
-        require(std::abs(state->position.x-100)<.1,"Gravity changed horizontal launch speed");
-        if(homing)require(std::abs(state->position.y)<.01&&std::abs(state->velocity.y)<.01,"Homing projectile unexpectedly falls under gravity");
+        if(!homing)require(std::abs(state->position.x-100)<.1,"Gravity changed horizontal launch speed");
+        if(homing)require(std::abs(state->world_center.y+1.6f)<.01&&std::abs(state->velocity.y)<.01&&state->position.x>94&&state->position.x<96&&state->velocity.x>90&&state->velocity.x<91,"Homing gravity compensation or native linear damping incorrect");
         else require(std::abs(state->velocity.y-320)<.1&&std::abs(state->position.y-160)<2,
             "Ordinary projectile must fall along a gravity-driven trajectory: y="+std::to_string(state->position.y)+", vy="+std::to_string(state->velocity.y)+", mass="+std::to_string(state->mass));
         projectile.unbind_physics();require(world.unregister_object(handle),"Gravity test cleanup failed");
@@ -207,6 +235,56 @@ game::content::Json mechanism(int kind) {
 }
 std::vector<core::RenderCommand> commands(const core::GameObject& object) {
     std::vector<core::RenderCommand> result;object.submit_render_commands(result);return result;
+}
+void check_homing_launch_and_motion(SDL_Renderer* renderer) {
+    using namespace game::play;
+    auto data=mechanism(113);data["info"]=game::content::Json::object();data["x"]=100;data["y"]=100;
+    require(homing_power(data["info"])==1&&homing_max_speed(data["info"])==-1&&homing_active_range(data["info"])==1000,"Native homing defaults differ");
+    for(float degrees:{0.f,45.f,90.f,180.f,270.f}) {
+        data["rotation"]=degrees;Entity launcher(data);const float radians=degrees*std::numbers::pi_v<float>/180;
+        const Vec expected=launcher.center()+rotate_vector({-1.75f,-31},radians);
+        require((launcher.fire_position({1,0})-expected).length()<.001&&(launcher.fire_position({0,-1})-expected).length()<.001,"Homing muzzle depends on target or ignores native anchor/rotation");
+    }
+    data["rotation"]=0;
+    Entity defaults(data);require(defaults.shots_due(.99,defaults.center())==0&&defaults.shots_due(.02,defaults.center())==1,"Default homing sequence must first fire at 1 second");
+    require(defaults.shots_due(1.99,defaults.center())==0&&defaults.shots_due(.02,defaults.center())==1,"Default homing sequence must repeat every 2 seconds");
+    data["info"]={{"Seq","0,2"},{"Lag","100"}};Entity lag(data);require(lag.shots_due(.01,lag.center())==1,"Original homing launcher does not consume Lag");
+    Entity in_range(data),out_range(data);const Vec anchor=in_range.center()+Vec{-1.75f,-13};
+    require(in_range.shots_due(.01,anchor+Vec{999,0})==1&&out_range.shots_due(.01,anchor+Vec{1001,0})==0,"Homing active range must use native launcher anchor");
+    data["info"]["CarrierID"]="0";Entity carried(data);physics::PhysicsWorld carrier_world({.units_per_meter=32,.gravity={0,320}});
+    const auto carrier_body=carrier_world.register_object(carried,carried.body_definition(),carried.collider_definitions());require(carrier_body.is_valid(),"Homing carrier fixture failed");carried.bind_physics(carrier_world,carrier_body);
+    require(carrier_world.set_transform(carrier_body,{{200,300},std::numbers::pi_v<float>/2}),"Homing carrier move failed");
+    require((carried.fire_position({1,0})-Vec{231,298.25f}).length()<.001,"Moving carrier launch point is stale");
+    carried.unbind_physics();require(carrier_world.unregister_object(carrier_body),"Homing carrier cleanup failed");
+
+    physics::PhysicsWorld world({.units_per_meter=32,.gravity={0,320}});Player player({10000,10000});
+    Projectile missile({0,0},{},true,1,-1);const auto def=missile.body_definition();
+    require(def.type==physics::BodyType::Dynamic&&!def.fixed_rotation&&def.velocity==Vec{}&&def.linear_damping==.1f&&def.angular_damping==4,"Native homing body settings differ");
+    require(std::get<physics::ConvexPolygonShape>(missile.collider_definitions()[0].shape).vertex_count==5,"Homing collider must be the native five-point shape");
+    const auto body=world.register_object(missile,def,missile.collider_definitions());require(body.is_valid(),"Homing physics registration failed");missile.bind_physics(world,body);
+    const auto mass=*missile.physics_state();require(std::abs(mass.mass-.1875f)<1e-6&&std::abs(mass.local_center.y+1.6f)<1e-5&&std::abs(mass.rotational_inertia-3.63479187f)<1e-5,"Homing mass, COM or independent inertia wrong");
+    missile.advance(1./60,{1000,-1.6f},player);world.step(1./60);
+    const auto first=*missile.physics_state();
+    require(first.velocity.x>.53f&&first.velocity.x<.534f&&std::abs(first.velocity.y)<1e-4&&first.angular_velocity>0,"Homing thrust acceleration or nose torque wrong");
+    require(std::abs(first.angle)>1e-5&&std::abs(first.angle-std::atan2(first.velocity.y,first.velocity.x))>1e-5,"Homing orientation must come from body torque");
+    for(int i=0;i<120;++i){missile.advance(1./60,{1000,-1.6f},player);world.step(1./60);}
+    world.finalize_frame(1);
+    auto command=sprite(missile);const auto pose=*world.render_pose(body);
+    require(command.rotation_degrees>10&&std::abs(command.rotation_degrees-pose.angle*180/std::numbers::pi_v<float>)<.001,"Homing sprite must rotate with interpolated body pose");
+    require(std::abs(command.command_rect.width()-16)<.001&&std::abs(command.command_rect.height()-25.5f)<.001,"Homing sprite must retain native aspect ratio");
+    require(world.set_velocity(body,{300,0}),"Homing speed fixture setup failed");
+    missile.advance(0,{1000,0},player);require(missile.velocity().x==300,"Negative MaxSpeed must leave speed uncapped");
+    missile.unbind_physics();require(world.unregister_object(body),"Homing cleanup failed");
+    Projectile capped({0,0},{300,0},true,0,2.5f);const auto cap_body=world.register_object(capped,capped.body_definition(),capped.collider_definitions());require(cap_body.is_valid(),"Homing cap fixture registration failed");capped.bind_physics(world,cap_body);
+    capped.advance(0,{1000,0},player);require(std::abs(capped.velocity().length()-80)<.001,"Positive MaxSpeed must use 32 EU/m");
+    capped.advance(12.1,{1000,0},player);require(!capped.expired,"Homing lifetime must exceed old 12 seconds");
+    capped.advance(19.9,{1000,0},player);require(capped.expired,"Homing must expire at native 32 seconds");
+    capped.unbind_physics();require(world.unregister_object(cap_body),"Homing cap cleanup failed");
+
+    require(SDL_SetRenderDrawColor(renderer,12,20,35,255)&&SDL_RenderClear(renderer),SDL_GetError());
+    const camera::Camera view({640,360},{1280,720},1);
+    for(int i=0;i<5;++i){Projectile sample({160.f+240*i,350},{},true,1,-1,i*std::numbers::pi_v<float>/4);auto c=sprite(sample);const auto p=c.command_rect.center();c.command_rect={p.x-c.command_rect.width()*2,p.y-c.command_rect.height()*2,c.command_rect.width()*4,c.command_rect.height()*4};core::require_render_success(core::execute_render_command(renderer,core::project_render_command_to_screen(c,view)));}
+    auto* image=SDL_RenderReadPixels(renderer,nullptr);require(image!=nullptr,SDL_GetError());const bool saved=SDL_SaveBMP(image,"out/qa/homing-rotation-preview.bmp");SDL_DestroySurface(image);require(saved,SDL_GetError());
 }
 void check_platforms_and_rods() {
     for(int kind:{105,106,107})for(bool locked:{false,true}) {
@@ -697,12 +775,14 @@ int main() {
             while(loader.is_running()&&SDL_GetTicks()<deadline){loader.update();SDL_Delay(1);}
             require(loader.is_finished(),loader.failure()?loader.failure()->diagnostic.message:"Content load timed out");
             check_pickups_and_moon();
+            check_driven_rotor_pause();
             check_role_effects(renderer);
             check_moon_highlight(renderer);
             check_decoration_anchors();
             save_decor_preview(renderer);
             check_platforms_and_rods();
             check_tracking_flower();
+            check_homing_launch_and_motion(renderer);
             check_thrower_head(renderer);
             check_laser_visuals(renderer);
             check_portals();
