@@ -18,7 +18,7 @@ inline elysia::core::Vector2 gamepad_thrust(const elysia::input::RawInputState& 
     float power=std::max(std::abs(steering),std::max(0.f,-axis(state.axis_value(A::GamepadLeftY),.2f)));
     const bool left=state.is_pressed(C::GamepadDPadLeft),right=state.is_pressed(C::GamepadDPadRight);
     if(left||right){steering=static_cast<float>(right)-static_cast<float>(left);power=1;}
-    if(state.is_pressed(C::GamepadDPadUp)||state.is_pressed(C::GamepadSouth))power=1;
+    if(state.is_pressed(C::GamepadDPadUp))power=1;
     // Match the scene router's neutral threshold so held axes cannot leak
     // through pause/focus/capture suppression at a lower gameplay dead zone.
     power=std::max(power,axis(state.axis_value(A::GamepadRightTrigger),.2f));
