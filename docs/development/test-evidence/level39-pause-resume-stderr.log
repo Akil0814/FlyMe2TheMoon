@@ -1,0 +1,17 @@
+2026-10-25 18:29:40 [INFO] [application] (application.cpp:460) SDL3 GPU backend: direct3d12
+2026-10-25 18:29:40 [INFO] [scene] (scene_manager.cpp:216) Switching to SceneKey 4294901761 with reload mode 0
+2026-10-25 18:29:41 [INFO] [resource] (game_content_loader.cpp:143) Total requests built: 1224, total work units: 1434
+2026-10-25 18:29:46 [INFO] [scene] (scene_manager.cpp:216) Switching to SceneKey 2 with reload mode 2
+2026-10-25 18:29:46 [INFO] [fly.test] (replay_probe.cpp:27) Input replay started; no simulation overrides
+2026-10-25 18:29:46 [INFO] [fly] (flight_scene.cpp:103) Entered level 39: 72 entities, 2 contours
+2026-10-25 18:29:48 [INFO] [fly.camera] (flight_scene.cpp:307) Opening pan complete; role entrance started
+2026-10-25 18:29:48 [INFO] [fly.camera] (flight_scene.cpp:311) Role entrance complete; original story started
+2026-10-25 18:29:49 [INFO] [fly.story] (flight_scene.cpp:263) Dialogue: Level39-1
+2026-10-25 18:29:49 [INFO] [fly.story] (flight_scene.cpp:263) Dialogue: Level39-2
+2026-10-25 18:29:50 [INFO] [fly.story] (flight_scene.cpp:263) Dialogue: Level39-3
+2026-10-25 18:29:51 [INFO] [fly.test.input] (replay_probe.cpp:57) 5.016000 P down
+2026-10-25 18:29:51 [INFO] [fly.test.input] (replay_probe.cpp:57) 5.203000 P up
+2026-10-25 18:29:53 [INFO] [fly.test.input] (replay_probe.cpp:57) 7.014000 P down
+2026-10-25 18:29:53 [INFO] [fly.test.input] (replay_probe.cpp:57) 7.203000 P up
+2026-10-25 18:29:54 [INFO] [fly.test] (replay_probe.cpp:90) Replay assertions PASS
+2026-10-25 18:29:54 [INFO] [application] (application.cpp:722) Application shutdown complete

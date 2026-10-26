@@ -1,0 +1,102 @@
+{
+  "name": "ingame-dialogue-resume",
+  "level": 39,
+  "duration": 8,
+  "language": "zh-Hans",
+  "events": [
+    {
+      "time": 4.2,
+      "key": "P",
+      "down": true,
+      "when": {
+        "dialogue": "Level39-1"
+      }
+    },
+    {
+      "time": 4.3,
+      "key": "P",
+      "down": false,
+      "when": {
+        "pause_menu_open": true
+      }
+    },
+    {
+      "time": 6,
+      "key": "P",
+      "down": true,
+      "when": {
+        "pause_menu_open": true
+      }
+    },
+    {
+      "time": 6.1,
+      "key": "P",
+      "down": false
+    }
+  ],
+  "expect": {
+    "scene": 2,
+    "pause_menu_open": false,
+    "paused": true,
+    "dialogue": "Level39-1",
+    "input_enabled": false
+  },
+  "observe": [
+    {
+      "field": "camera_x",
+      "when": {
+        "pause_menu_open": true
+      },
+      "span_at_most": 0.001,
+      "samples_at_least": 8
+    },
+    {
+      "field": "camera_y",
+      "when": {
+        "pause_menu_open": true
+      },
+      "span_at_most": 0.001,
+      "samples_at_least": 8
+    },
+    {
+      "field": "x",
+      "when": {
+        "pause_menu_open": true
+      },
+      "span_at_most": 0.001,
+      "samples_at_least": 8
+    },
+    {
+      "field": "y",
+      "when": {
+        "pause_menu_open": true
+      },
+      "span_at_most": 0.001,
+      "samples_at_least": 8
+    },
+    {
+      "field": "elapsed",
+      "when": {
+        "pause_menu_open": true
+      },
+      "span_at_most": 0.001,
+      "samples_at_least": 8
+    },
+    {
+      "field": "role_effect_frame",
+      "when": {
+        "pause_menu_open": true
+      },
+      "span_at_most": 0.001,
+      "samples_at_least": 8
+    },
+    {
+      "field": "mechanism_time",
+      "when": {
+        "pause_menu_open": true
+      },
+      "span_at_most": 0.001,
+      "samples_at_least": 8
+    }
+  ]
+}

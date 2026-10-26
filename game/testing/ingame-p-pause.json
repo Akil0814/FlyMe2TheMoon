@@ -1,7 +1,7 @@
 {
   "name": "ingame-p-pause",
   "level": 39,
-  "duration": 9,
+  "duration": 18,
   "language": "zh-Hans",
   "events": [
     {
@@ -18,7 +18,10 @@
     {
       "time": 5.1,
       "key": "P",
-      "down": false
+      "down": false,
+      "when": {
+        "pause_menu_open": true
+      }
     }
   ],
   "expect": {
@@ -74,6 +77,20 @@
       },
       "span_at_most": 0.001,
       "samples_at_least": 8
+    },
+    {
+      "field": "mechanism_time",
+      "when": {
+        "pause_menu_open": true
+      },
+      "span_at_most": 0.001,
+      "samples_at_least": 8
     }
+  ],
+  "pilot": [
+    [
+      983,
+      1493
+    ]
   ]
 }

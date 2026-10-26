@@ -1,0 +1,52 @@
+{
+  "name": "ingame-one-star-pause",
+  "level": 1,
+  "duration": 45,
+  "language": "zh-Hans",
+  "events": [
+    {
+      "time": 0,
+      "key": "P",
+      "down": true,
+      "when": {
+        "stars": 1,
+        "demo": false,
+        "input_enabled": true,
+        "pause_menu_open": false
+      }
+    },
+    {
+      "time": 0,
+      "key": "P",
+      "down": false,
+      "when": {
+        "pause_menu_open": true
+      }
+    }
+  ],
+  "expect": {
+    "scene": 2,
+    "stars": 1,
+    "hud_gold_stars": 1,
+    "hud_gray_stars": 2,
+    "finished": false,
+    "pause_menu_open": true,
+    "paused": true
+  },
+  "pilot": [
+    [
+      489,
+      850
+    ]
+  ],
+  "observe": [
+    {
+      "field": "elapsed",
+      "when": {
+        "pause_menu_open": true
+      },
+      "span_at_most": 0.001,
+      "samples_at_least": 8
+    }
+  ]
+}
