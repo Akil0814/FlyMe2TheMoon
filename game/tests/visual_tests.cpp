@@ -176,12 +176,15 @@ void check_original_tutorial_ui(SDL_Renderer* renderer){
         tutorial.advance(.1);
     }
     require(tutorial.frame()==0,"Second tutorial cycle must last eight seconds");
-    tutorial.set_type(0);tutorial.set_demo(true);tutorial.set_pointer({640,380},true);
+    tutorial.set_type(0);tutorial.set_demo(true);tutorial.set_pointer_pressed(true);
     std::vector<core::UiRenderCommand> demo;tutorial.submit_ui_render_commands(demo);
     const auto language=game::content::language()=="zh-Hans"?std::string("zh"):game::content::language();
     require(contains(demo,ELYSIA_RESOURCES->find_texture("fly.InGameUI.fingerDown"))&&contains(demo,ELYSIA_RESOURCES->find_texture("fly.frontend.tutorial_demo_"+language)),"Automatic demonstration needs its recorded finger and original localized Demo indicator");
-    tutorial.set_pointer({640,380},false);demo.clear();tutorial.submit_ui_render_commands(demo);
+    const auto pressed_finger=*std::find_if(demo.begin(),demo.end(),[&](const auto& c){return c.texture==ELYSIA_RESOURCES->find_texture("fly.InGameUI.fingerDown");});
+    tutorial.set_pointer_pressed(false);demo.clear();tutorial.submit_ui_render_commands(demo);
     require(contains(demo,ELYSIA_RESOURCES->find_texture("fly.InGameUI.fingerUp")),"Releasing recorded input must change the demonstration finger");
+    const auto released_finger=*std::find_if(demo.begin(),demo.end(),[&](const auto& c){return c.texture==ELYSIA_RESOURCES->find_texture("fly.InGameUI.fingerUp");});
+    require(pressed_finger.screen_rect==released_finger.screen_rect&&released_finger.screen_rect.bottom()<474,"Both demo finger states must share a fixed position above the dialogue");
     tutorial.set_demo(false);demo.clear();tutorial.submit_ui_render_commands(demo);require(demo.empty(),"Player handoff must remove all demonstration overlays");
     require(SDL_SetRenderDrawColor(renderer,12,20,35,255)&&SDL_RenderClear(renderer),SDL_GetError());
     const auto draw=[&](const auto& element){std::vector<core::UiRenderCommand> commands;element.submit_ui_render_commands(commands);for(const auto& command:commands)core::require_render_success(core::execute_render_command(renderer,command));};

@@ -109,9 +109,6 @@ void FlightScene::on_enter(const elysia::scene::ScenePayload& payload) {
     _dialogue=create_and_add_object<frontend::StoryText>(Rect{212,492,1024,144},22);_dialogue->set_padding(8);
     _dialogue->set_style_overrides({.text=core::Color{16,46,77,255}});
     _tutorial=create_and_add_object<frontend::TutorialUi>();
-    auto skip_button=std::make_unique<frontend::GlassButton>(content::ui("skip_story"),126,40,[this]{advance_dialogue(true);});
-    skip_button->set_order(23);_skip_button=add_object(std::move(skip_button));
-    _skip_button->set_screen_rect({1110,666,126,40});_skip_button->set_visible(false);
     build_result_panel();
     build_pause_panel();
     set_ui_interaction_mode(elysia::scene::UiInteractionMode::Pointer);
@@ -132,9 +129,9 @@ void FlightScene::on_enter(const elysia::scene::ScenePayload& payload) {
     ELYSIA_LOG_INFO("fly",std::format("Entered level {}: {} entities, {} contours",_level,_entities.size(),_data.at("edges").size()));
     attach_development_panel();
 }
-void FlightScene::on_exit(){detach_development_panel();_audio.clear();ELYSIA_AUDIO->stop_music();_pause_updates.clear();_pause_menu_open=false;_player=nullptr;_entities.clear();_hud=nullptr;_hud_stats=nullptr;_pause_metrics=nullptr;_result_metrics=nullptr;_hint=nullptr;_hud_stars=nullptr;_star_pickups=nullptr;_pause_menu=nullptr;_pause_button=nullptr;_dialogue=nullptr;_face=nullptr;_tutorial=nullptr;_skip_button=nullptr;_dialogue_panel=nullptr;_portrait_panel=nullptr;clear_scene_objects();}
+void FlightScene::on_exit(){detach_development_panel();_audio.clear();ELYSIA_AUDIO->stop_music();_pause_updates.clear();_pause_menu_open=false;_player=nullptr;_entities.clear();_hud=nullptr;_hud_stats=nullptr;_pause_metrics=nullptr;_result_metrics=nullptr;_hint=nullptr;_hud_stars=nullptr;_star_pickups=nullptr;_pause_menu=nullptr;_pause_button=nullptr;_dialogue=nullptr;_face=nullptr;_tutorial=nullptr;_dialogue_panel=nullptr;_portrait_panel=nullptr;clear_scene_objects();}
 void FlightScene::on_reset(){on_exit();}
-void FlightScene::on_shortcuts(const input::RawInputFrame& frame,const std::vector<input::RawInputEvent>& events) {
+void FlightScene::on_shortcuts(const input::RawInputFrame&,const std::vector<input::RawInputEvent>& events) {
     using C=input::RawInputControl;
     for(const auto& e:events){
         if(e.type==input::RawInputEventType::ControlReleased&&e.control==C::MouseLeft&&_dialogue_pointer_pressed){
@@ -152,8 +149,6 @@ void FlightScene::on_shortcuts(const input::RawInputFrame& frame,const std::vect
         if(e.control==C::KeyEscape||e.control==C::KeyP||e.control==C::GamepadStart||e.control==C::GamepadEast){consume_input(e);open_pause_menu();return;}
         if(!_death_pending&&_story_started&&_story.dialogue()&&(e.control==C::KeyEnter||e.control==C::MouseLeft||e.control==C::KeyTab||e.control==C::GamepadSouth||e.control==C::GamepadNorth)){
             if(e.control==C::MouseLeft){
-                const auto r=_skip_button->screen_rect();
-                if(_skip_button->is_visible()&&frame.mouse_x>=r.x()&&frame.mouse_x<r.right()&&frame.mouse_y>=r.y()&&frame.mouse_y<r.bottom())continue;
                 _dialogue_pointer_pressed=true;consume_input(e);return;
             }
             consume_input(e);advance_dialogue(e.control==C::KeyTab||e.control==C::GamepadNorth);return;
@@ -303,8 +298,8 @@ content::Json FlightScene::story_action(const std::string& op,const content::Jso
     else if(op=="event.unhandled")finish(a[0]=="onRoleReachedMoon");
     else if(op=="game.showTutorialDiagram"){
         _tutorial->set_type(a[0]);
-    }else if(op=="game.setReplayMode"){_demo=true;_demo_paused=true;_tutorial->set_demo(true);_tutorial->clear_pointer();}
-    else if(op=="game.setPlayMode"){_demo=false;_tutorial->set_demo(false);_tutorial->clear_pointer();}
+    }else if(op=="game.setReplayMode"){_demo=true;_demo_paused=true;_tutorial->set_demo(true);}
+    else if(op=="game.setPlayMode"){_demo=false;_tutorial->set_demo(false);}
     else if(op=="game.loadTutorialRep"){
         _tutorial_replay.load(content::read("tutorial.json").at(a[0].get<std::string>()));
         ELYSIA_LOG_INFO("fly.story","Loaded original tutorial input: "+a[0].get<std::string>());
@@ -331,8 +326,6 @@ void FlightScene::update_dialogue() {
         ELYSIA_LOG_INFO("fly.story","Dialogue: "+line->key);
     }
     if(!has_dialogue)_dialogue_key.clear();
-    _skip_button->set_visible(visible&&_story.skip_enabled());
-    _skip_button->set_active(visible&&_story.skip_enabled());
     _tutorial->set_visible(!_pause_menu_open&&!_finished);
 }
 void FlightScene::advance_dialogue(bool skip){
@@ -387,7 +380,7 @@ void FlightScene::on_after_update(double delta) {
     if(!_pause_menu_open){
     _tutorial->advance(delta);
     if(_story.dialogue())_dialogue->advance(delta);
-    if(_demo)if(const auto point=_tutorial_replay.last_point())_tutorial->set_pointer(camera().world_to_screen(*point),_tutorial_replay.pressed());
+    if(_demo)_tutorial->set_pointer_pressed(_tutorial_replay.pressed());
     if(!_finished)_star_pickups->advance(delta);
     const bool opening_frame=opening();
     std::erase_if(_projectiles,[](auto* p){if(p->expired){p->destroy();return true;}return false;});

@@ -130,7 +130,6 @@ private:
     frontend::HudPanel* _portrait_panel=nullptr;
     elysia::ui::UiImage* _face=nullptr;
     frontend::TutorialUi* _tutorial=nullptr;
-    frontend::GlassButton* _skip_button=nullptr;
     bool _dialogue_pointer_pressed=false;
     game::audio::World _audio;
     bool _entrance_sound_pending=false;

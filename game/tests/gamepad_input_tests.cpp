@@ -348,8 +348,7 @@ void test_original_tutorial_sequence(SDL_Renderer* renderer,const io::ContentReg
         }
         system.shutdown();scene::SceneTestAccess::exit(flight);
     }
-    // A normal re-entry of the now-seen second tutorial exposes its mouse Skip
-    // button; that operation bypasses the 6.5-second teaching minimum.
+    // Tab still skips a seen tutorial without waiting for its teaching minimum.
     game::scene::FlightScene seen;scene::SceneTestAccess::bind(seen,context);
     scene::SceneTestAccess::enter(seen,game::scene::FlightPayload{2});
     input::InputSystem system;system.initialize();
@@ -359,14 +358,14 @@ void test_original_tutorial_sequence(SDL_Renderer* renderer,const io::ContentReg
         if(frame%12<2){SDL_Event event{};event.type=frame%12==0?SDL_EVENT_KEY_DOWN:SDL_EVENT_KEY_UP;event.key.scancode=SDL_SCANCODE_RETURN;event.key.key=SDLK_RETURN;event.key.down=frame%12==0;system.process_event(event);}
         scene::SceneTestAccess::input(seen,system.snapshot());scene::SceneTestAccess::update(seen,1./60.);
     }
-    require(diagram.type()==2,"Seen-story mouse skip fixture must reach the direction tutorial");
+    require(diagram.type()==2,"Seen-story Tab skip fixture must reach the direction tutorial");
     for(bool down:{true,false}){
-        system.begin_frame();SDL_Event motion{};motion.type=SDL_EVENT_MOUSE_MOTION;motion.motion.x=1160;motion.motion.y=686;system.process_event(motion);
-        SDL_Event event{};event.type=down?SDL_EVENT_MOUSE_BUTTON_DOWN:SDL_EVENT_MOUSE_BUTTON_UP;event.button.button=SDL_BUTTON_LEFT;event.button.down=down;event.button.x=1160;event.button.y=686;system.process_event(event);
+        system.begin_frame();SDL_Event event{};event.type=down?SDL_EVENT_KEY_DOWN:SDL_EVENT_KEY_UP;
+        event.key.scancode=SDL_SCANCODE_TAB;event.key.key=SDLK_TAB;event.key.down=down;system.process_event(event);
         scene::SceneTestAccess::input(seen,system.snapshot());
     }
     for(int i=0;i<120&&diagram.type()!=0;++i)scene::SceneTestAccess::update(seen,1./60.);
-    require(diagram.type()==0&&!seen.is_paused(),"Mouse Skip must bypass the seen tutorial's minimum and clean up its overlay");
+    require(diagram.type()==0&&!seen.is_paused(),"Tab must bypass the seen tutorial's minimum and clean up its overlay");
     system.shutdown();scene::SceneTestAccess::exit(seen);
 }
 void test_tutorial_flight_animation(SDL_Renderer* renderer,const io::ContentRegistry& registry){

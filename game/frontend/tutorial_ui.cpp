@@ -20,7 +20,8 @@ void TutorialUi::submit_ui_render_commands(std::vector<core::UiRenderCommand>& o
         const auto language=content::language()=="zh-Hans"?std::string("zh"):content::language();
         draw("fly.frontend.tutorial_demo_"+language,{640,124},.75f,{.5f,0});
         if(out.size()>begin)out.back().alpha=static_cast<Uint8>(127+128*(1-std::abs(std::fmod(_demo_time,2.)-1)));
-        if(_has_point)draw(_pressed?"fly.InGameUI.fingerDown":"fly.InGameUI.fingerUp",_point,.5f,{.5f,.5f});
+        // Keep both states above the dialogue, independent of camera/recorded coordinates.
+        draw(_pressed?"fly.InGameUI.fingerDown":"fly.InGameUI.fingerUp",{640,420},.5f,{.5f,.5f});
     }
     if(!_type)return;
     // Preserve the original 320x480 local layout and source aspect ratios.
