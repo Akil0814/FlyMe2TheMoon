@@ -28,7 +28,7 @@ void CreditsScene::on_enter(const elysia::scene::ScenePayload&) {
         .thumb_dragging_color=core::Color{219,249,255,255},.thumb_disabled_color=core::Color{112,204,245,80}},
         .draw_background=false,.draw_border=false});
     auto images=std::make_unique<ui::UiListContainer>(core::Rect{0,0,760,1});images->set_cross_align(ui::UiLayoutAlign::Center);images->set_item_spacing(28);
-    for(const auto* name:{"creditsTop","creditsText1","creditsText2","creditsText3","creditsText4","creditsText5","creditsText6","creditsSleep","creditsBottom"}) {
+    for(const auto* name:{"creditsText1","creditsText2","creditsText3","creditsText4","creditsText5","creditsText6","creditsSleep"}) {
         auto* texture=ELYSIA_RESOURCES->find_texture(std::string("fly.ui.")+name);float width=0,height=0;
         if(!texture||!SDL_GetTextureSize(texture,&width,&height))throw std::runtime_error("Missing credits image");
         const float scale=std::min(1.5f,700/width);

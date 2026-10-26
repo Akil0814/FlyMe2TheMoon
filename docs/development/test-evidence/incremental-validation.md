@@ -136,3 +136,9 @@ build-credits-style01.log：Release 游戏目标构建成功。首次 credits-sc
 首次拖动检查 credits-background-drag01 的滚动位移断言通过，但 auto_scroll=false 断言失败：原生 UI 消费按下事件后，场景 MouseLeft 快捷键不会停止自动滚动。随后曾增加游戏层显示 / 输入适配（build-credits-background02，回放通过），用户明确要求保留引擎组件、接受直角滑块，故已撤去全部自定义滚动适配及临时支持请求。最终仍为原生 UiScrollContainer，未修改引擎源码或文档，也未改变其滚动交互。
 
 最终 build-credits-background03.log Release 构建成功。独立场景 credits-background-native01 验证 Scene 5、原生拖动滚动位移超过 400，通过并查看背景 / 滑块截图；它不要求已被用户取消的手动暂停适配，原失败及中间成功回放均保留。credits-style-return01 在最终构建上通过，确认返回主菜单。证据和 run.json 记录场景及 EXE 哈希；本次没有运行全量回归或 CTest。
+
+### 2026-10-25 移除制作人员旧背景切片
+
+确认 creditsTop / creditsBottom 仅为旧人物月亮背景的顶部和底部切片，与当前完整 kiana2 背景重复。已从滚动序列移除，删除 assets 中两张运行贴图、纹理清单及 catalog 尺寸记录；导入脚本跳过这两张旧背景，避免重新导入。原始 reference 文件和制作人员文字 / creditsSleep 保留，原生滚动组件不变。
+
+build-credits-cleanup01.log：Release 构建成功。credits-scroll01 在删除运行资源后实际启动、进入制作人员页并滚动，PASS、退出 0；已查看截图，资源加载正常。场景与构建哈希见 credits-scroll01-run.json。本次未运行全量回归或 CTest，引擎与原始参考文件未修改。

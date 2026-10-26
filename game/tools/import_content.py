@@ -44,6 +44,8 @@ def main():
             texture(key+'.first',frames[0])
     single=REF/'08_PNG解析/01_独立图片'
     for p in single.rglob('*.png'):
+        # The credits page now uses a complete widescreen background.
+        if p.stem in {'creditsTop-hd','creditsBottom-hd'}:continue
         if p.name=='stars.png':texture('laser_stars',p,1)
         if p.stem.endswith('-hd') and any(s in str(p) for s in ['剧情与背景','角色表情']):
             texture('ui.'+p.stem.removesuffix('-hd'),p)
