@@ -7,6 +7,11 @@
 #include "game/gameplay/homing_parameters.h"
 #include "game/frontend/moon_ui.h"
 #include "game/scene/main_menu_scene.h"
+#include "game/scene/selection_scene.h"
+#include "game/scene/settings_scene.h"
+#include "game/scene/credits_scene.h"
+#include "engine/audio/audio_service.h"
+#include "engine/save/save_service.h"
 #include "engine/ui/window/ui_window.h"
 #include "engine/io/path/path_manager.h"
 #include "engine/io/loaders/content_registry_loader.h"
@@ -41,6 +46,53 @@ namespace {
 using namespace elysia;
 void require(bool condition,const std::string& message) {
     if(!condition)throw std::runtime_error(message);
+}
+void check_frontend_music(SDL_Renderer* renderer,const io::ContentRegistry& registry){
+    const auto save_directory=std::filesystem::path("out/qa/menu-music")/
+        std::to_string(SDL_GetTicksNS());
+    require(ELYSIA_SAVE->initialize(save_directory).has_value(),"Isolated menu music save initialization failed");
+    require(ELYSIA_AUDIO->initialize({}),"Menu music audio initialization failed");
+    scene::SceneRuntimeContext context(renderer,registry,1280,720);
+    game::scene::MainMenuScene menu;
+    game::scene::SelectionScene selection;
+    game::scene::AchievementsScene achievements;
+    game::scene::SettingsScene settings;
+    game::scene::CreditsScene credits;
+    auto* track=audio::detail::mixer_backend().music;
+    auto* moon_trip=ELYSIA_RESOURCES->find_music("fly.MoonTrip");
+    require(moon_trip!=nullptr,"Menu music resource missing");
+    const auto check_playing=[&]{
+        require(MIX_TrackPlaying(track)&&MIX_GetTrackAudio(track)==moon_trip,"Every menu scene must play MoonTrip");
+    };
+    constexpr Sint64 position=240000;
+    const auto check_position=[&]{
+        check_playing();
+        require(MIX_GetTrackPlaybackPosition(track)>=position,"Menu scene transition must preserve music position");
+    };
+    const auto enter=[&](scene::Scene& current){
+        scene::SceneTestAccess::bind(current,context);scene::SceneTestAccess::enter(current);
+    };
+    enter(menu);check_playing();
+    require(MIX_SetTrackPlaybackPosition(track,position),SDL_GetError());
+    scene::SceneTestAccess::exit(menu);check_position();
+    // Include repeated selection/achievement entries to cover page recreation.
+    for(auto* current:std::array<scene::Scene*,6>{&settings,&achievements,&selection,&credits,&selection,&achievements}){
+        enter(*current);check_position();
+        scene::SceneTestAccess::exit(*current);check_position();
+        enter(menu);check_position();
+        scene::SceneTestAccess::exit(menu);check_position();
+    }
+    ELYSIA_AUDIO->set_music_volume(0);check_position();
+    ELYSIA_AUDIO->set_music_volume(100);check_position();
+    // Each scene must also recover the menu track after gameplay or stopped audio.
+    for(auto* current:std::array<scene::Scene*,5>{&menu,&settings,&achievements,&selection,&credits}){
+        ELYSIA_AUDIO->stop_music();enter(*current);check_playing();
+        scene::SceneTestAccess::exit(*current);
+        require(ELYSIA_AUDIO->play_music("fly.SkyTunnel"),"Gameplay music start failed");
+        enter(*current);check_playing();scene::SceneTestAccess::exit(*current);
+    }
+    ELYSIA_AUDIO->shutdown();ELYSIA_SAVE->shutdown();
+    std::cout<<"PASS: menu music position survives all frontend scene exits/entries, page recreation and mute; cold/gameplay returns restore MoonTrip\n";
 }
 void check_run_stats(SDL_Renderer* renderer){
     using namespace game::frontend;
@@ -982,7 +1034,8 @@ int main() {
     try {
         require(io::PathManager::instance()->initialize(std::filesystem::current_path()).has_value(),"Path initialization failed");
         SDL_SetHint(SDL_HINT_VIDEO_DRIVER,"dummy");
-        require(SDL_Init(SDL_INIT_VIDEO),SDL_GetError());
+        SDL_SetHint(SDL_HINT_AUDIO_DRIVER,"dummy");
+        require(SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO),SDL_GetError());
         require(TTF_Init(),SDL_GetError());
         require(MIX_Init(),SDL_GetError());
         surface=SDL_CreateSurface(1280,720,SDL_PIXELFORMAT_RGBA32);
@@ -1003,6 +1056,7 @@ int main() {
             const auto deadline=SDL_GetTicks()+30000;
             while(loader.is_running()&&SDL_GetTicks()<deadline){loader.update();SDL_Delay(1);}
             require(loader.is_finished(),loader.failure()?loader.failure()->diagnostic.message:"Content load timed out");
+            check_frontend_music(renderer,*registry);
             check_frontend_artwork(renderer);
             check_main_menu_background(renderer,*registry);
             check_run_stats(renderer);
@@ -1039,6 +1093,7 @@ int main() {
     localization::LocalizationManager::instance()->shutdown();font_resolver.shutdown();builtin::BuiltinResources::instance()->shutdown();
     if(renderer)SDL_DestroyRenderer(renderer);
     if(surface)SDL_DestroySurface(surface);
+    ELYSIA_AUDIO->shutdown();ELYSIA_SAVE->shutdown();audio::detail::mixer_backend().shutdown();
     MIX_Quit();TTF_Quit();SDL_Quit();
     return result;
 }

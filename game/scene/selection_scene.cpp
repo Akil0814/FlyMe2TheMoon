@@ -3,6 +3,7 @@
 #include "flight_scene.h"
 #include "game/progress/progress.h"
 #include "game/frontend/moon_ui.h"
+#include "engine/audio/audio_service.h"
 #include "engine/ui/containers/ui_grid_container.h"
 #include "engine/ui/containers/ui_list_container.h"
 #include "engine/ui/widgets/ui_button.h"
@@ -30,6 +31,7 @@ void title(ui::UiListContainer& list,const std::string& text) {
 }
 }
 void SelectionScene::on_enter(const elysia::scene::ScenePayload& payload) {
+    ELYSIA_AUDIO->transition_music("fly.MoonTrip");
     clear_scene_objects();auto& store=progress::Store::instance();(void)store.load();
     int chapter=0;if(auto p=elysia::scene::try_scene_payload<SelectionPayload>(payload))chapter=std::clamp(p->chapter,0,3);
     auto* window=create_and_add_object<ui::UiWindow>(core::Rect{0,0,1280,720});window->set_on_cancel([this]{request_scene_switch(scene_keys::MainMenu);});
@@ -64,6 +66,7 @@ void SelectionScene::on_enter(const elysia::scene::ScenePayload& payload) {
     window->add_child(std::make_unique<frontend::MoonBackdrop>("moon",110));
 }
 void AchievementsScene::on_enter(const elysia::scene::ScenePayload& payload) {
+    ELYSIA_AUDIO->transition_music("fly.MoonTrip");
     clear_scene_objects();auto& store=progress::Store::instance();(void)store.load();
     _page=0;if(auto* p=elysia::scene::try_scene_payload<AchievementsPayload>(payload))_page=std::clamp(p->page,0,2);
     auto* window=create_and_add_object<ui::UiWindow>(core::Rect{0,0,1280,720});window->set_on_cancel([this]{request_scene_switch(scene_keys::MainMenu);});

@@ -39,9 +39,9 @@ void CreditsScene::on_enter(const elysia::scene::ScenePayload&) {
     auto hint=std::make_unique<ui::UiLabel>(core::Rect{0,0,760,30},0,ui::ui_raw_text(content::ui("credits_controls")));hint->set_horizontal_align(ui::TextHorizontalAlign::Center);controls->add_back(std::move(hint));
     controls->add_back(std::make_unique<frontend::GlassButton>(content::ui("back"),360,48,[this]{request_scene_switch(scene_keys::MainMenu);}));
     auto* scope=controls.get();window->add_child(std::move(controls),ui::UiLayoutChildOptions{._anchor=ui::UiLayoutAnchor::BottomCenter,._margin={.bottom=16}});window->register_focus_scope(*scope);window->focus_first_available_scope();
-    ELYSIA_AUDIO->play_music("fly.MoonTrip");
+    ELYSIA_AUDIO->transition_music("fly.MoonTrip");
 }
-void CreditsScene::on_exit(){_scroll=nullptr;ELYSIA_AUDIO->stop_music();clear_scene_objects();}
+void CreditsScene::on_exit(){_scroll=nullptr;clear_scene_objects();}
 void CreditsScene::on_shortcuts(const input::RawInputFrame&,const std::vector<input::RawInputEvent>& events) {
     using C=input::RawInputControl;
     for(const auto& e:events)if(e.type==input::RawInputEventType::ControlPressed){

@@ -4,6 +4,7 @@
 #include "game/content/content.h"
 #include "game/testing/replay_probe.h"
 #include "engine/config/user_config_service.h"
+#include "engine/audio/audio_service.h"
 #include "engine/localization/localization_service.h"
 #include "engine/ui/window/ui_window.h"
 #include "engine/ui/containers/ui_panel.h"
@@ -28,6 +29,7 @@ ui::SettingsPanelDraft draft(const config::UserConfigData& data){
 }
 }
 void SettingsScene::on_enter(const elysia::scene::ScenePayload&){
+    ELYSIA_AUDIO->transition_music("fly.MoonTrip");
     clear_scene_objects();_saved=false;_baseline=config::UserConfigService::instance()->user_config().runtime_state();
     auto* window=create_and_add_object<ui::UiWindow>(core::Rect{0,0,1280,720});
     window->set_style_overrides({.draw_background=false,.draw_border=false});

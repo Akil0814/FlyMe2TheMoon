@@ -32,7 +32,8 @@ void MainMenuScene::on_enter(const elysia::scene::ScenePayload&)
     window->set_on_cancel([this] { request_quit(); });
     window->set_style_overrides({.draw_background=false,.draw_border=false});
     window->add_child(std::make_unique<frontend::MoonBackdrop>("menu"));
-    ELYSIA_AUDIO->play_music("fly.MoonTrip");
+    // Menu scenes share this track; transitioning to the same key preserves playback.
+    ELYSIA_AUDIO->transition_music("fly.MoonTrip");
 
     auto content = std::make_unique<elysia::ui::UiListContainer>(
         elysia::core::Rect{0, 0, 316, 336});
@@ -58,7 +59,6 @@ void MainMenuScene::on_enter(const elysia::scene::ScenePayload&)
 
 void MainMenuScene::on_exit()
 {
-    ELYSIA_AUDIO->stop_music();
     clear_scene_objects();
 }
 void MainMenuScene::on_after_update(double) {
