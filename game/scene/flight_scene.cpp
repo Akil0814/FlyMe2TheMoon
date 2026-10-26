@@ -97,12 +97,12 @@ void FlightScene::on_enter(const elysia::scene::ScenePayload& payload) {
     create_and_add_object<Decor>(_data,true);
     auto* hud_panel=create_and_add_object<ui::UiLabel>(Rect{16,12,500,64},9,ui::ui_raw_text(""));
     hud_panel->set_style_overrides({.corner_radius=16.f,.background=core::Color{9,30,62,218},.draw_background=true});
-    auto* star_panel=create_and_add_object<ui::UiLabel>(Rect{1000,12,180,64},9,ui::ui_raw_text(""));
+    auto* star_panel=create_and_add_object<ui::UiLabel>(Rect{960,12,180,64},9,ui::ui_raw_text(""));
     star_panel->set_style_overrides({.corner_radius=16.f,.background=core::Color{9,30,62,218},.draw_background=true});
-    _hud_stars=create_and_add_object<frontend::StarRating>(Rect{1022,24,136,40},11);
+    _hud_stars=create_and_add_object<frontend::StarRating>(Rect{982,24,136,40},11);
     _hud=create_and_add_object<ui::UiLabel>(Rect{32,24,466,40},11,ui::ui_raw_text(""));
     _hud->set_typography_role(typography::UiTypographyRole::ButtonCompact);_hud->set_vertical_align(ui::TextVerticalAlign::Center);
-    _pause_button=create_and_add_object<frontend::PauseIconButton>(Rect{1200,16,56,52},[this]{open_pause_menu();});
+    _pause_button=create_and_add_object<frontend::PauseIconButton>(Rect{1160,16,96,52},[this]{open_pause_menu();});
     _hint=create_and_add_object<ui::UiLabel>(Rect{24,668,1230,36},10,ui::ui_raw_text(""));
     _hint->set_text_fit_mode(ui::UiLabelTextFitMode::ShrinkToFit);
     _hud->set_style_overrides({.text=core::Color{229,246,255,255}});

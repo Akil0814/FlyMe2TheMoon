@@ -110,3 +110,9 @@
 本轮分阶段实际验证菜单、章节切换、三页成就、键盘入口、设置保存与返回；所有回放保留 EXE / 场景哈希。最后按用户要求删除主菜单副标题、页脚及成就 / 设置引导语，并清理五种语言和导入脚本。合并后遗漏头文件导致 build-frontend09 失败，补回后 build-frontend10 成功；frontend-ctest10 为 5/5 通过，frontend-menu03、frontend-achievements-page3、frontend-settings03 在该构建上重新运行通过并逐页查看截图。没有修改成功断言或跳过资源检查。
 
 此结论仅覆盖本轮局外内容。全部关卡的进入、通关、失败、独立发布和完整原版启动画面验收仍未完成。
+
+### 2026-10-25 暂停按钮与菜单材质统一
+
+暂停键改为复用菜单的 mainMenuBtnUp 素材及同一套玻璃按钮绘制 / 圆角 / 交互颜色，外形调整为横向按钮；右上角星星组左移 40 个逻辑单位，保留与暂停键之间的 20 单位间距。只修改 Game Layer。
+
+按用户要求未运行全量回归，也未执行 CTest。本次仅构建 FlyMe2TheMoon Release 目标（build-hud-menu-style02.log），并运行一项已有的 ingame-icon-resume 输入回放，验证点击暂停后继续游戏，结果 PASS、进程退出 0；已查看其界面截图确认材质和布局。第一次构建命令使用正斜杠批处理路径未执行成功，记录保留于 build-hud-menu-style.log；随后使用 Windows 批处理路径完成编译。
