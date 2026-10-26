@@ -123,7 +123,11 @@ void LevelNode::submit_ui_render_commands(std::vector<core::UiRenderCommand>& ou
     const std::string color(1,"OGYP"[_chapter]);
     image(out,texture("point"+color),{r.x()+16,r.y()+30,40,40},_open?255:65);
     if(!_open)image(out,texture("levelBtnLock"),{r.x()+170,r.y()+39,20,25},160);
-    for(int star=0;star<3;++star)image(out,texture(std::string(star<_stars?"starUp":"starGrey")+color),{r.center().x-34+star*24,r.y()+7,22,22},_open?255:85);
+    for(int star=0;star<3;++star){
+        // Original LevelSelectButtonV2: starDown is full, starUp is empty.
+        const char* state=!_open||_stars<0?"starGrey":star<_stars?"starDown":"starUp";
+        image(out,texture(std::string(state)+color),{r.center().x-34+star*24,r.y()+7,22,22},_open?255:85);
+    }
     if(_stars>=0)out.push_back(core::make_ui_fill_rect_command({r.x()+72,r.y()+78,66,2},{110,226,255,190}));
 }
 ConstellationGrid::ConstellationGrid(const core::Rect& rect):UiGridContainer(rect){}

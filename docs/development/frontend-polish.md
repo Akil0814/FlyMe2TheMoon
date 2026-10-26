@@ -61,3 +61,13 @@ Use case: precise-object-edit. Asset type: widescreen background for a 2D game m
 各次增量构建的 EXE / 场景 SHA256 以对应 `*-run.json` 为准。最后一次焦点修复后重跑完整 CTest、中文菜单、第 2 章、第 3 页成就；其余界面保留此前成功记录。
 
 用户随后要求去除“60 个关卡 · 一段月光下的旅程”“让旅程更合心意”等额外文案。主菜单副标题、页脚、成就页引导语和设置页引导语已从界面及五种语言表中移除；导入脚本也不再重新生成这些文案。`build-frontend09.log` 记录合并后视觉测试漏引头文件的编译失败；补回引用后，`build-frontend10.log` 成功，`frontend-ctest10.log` 5/5 通过。中文菜单、成就第 3 页和设置页均重新实际运行通过，截图逐页确认文案已消失。旧截图保留在同名场景的 history 中。
+
+## 选关成绩星星的实心/空心绑定修正（2026-10-25）
+
+用户指出已获得的星星仍为空心。核实当前 `starUp*` 图片中心透明，且与参考 HD 图片完全一致，排除导入损坏。原 `LevelSelectButtonV2.initSprites`（0xd5bbc）明确将 `starDown*` 赋给 `starFullSpriteFrame_`、`starUp*` 赋给 `starEmptySpriteFrame_`、`starGrey*` 赋给 `starGreySpriteFrame_`；`refreshSprites`（0xd702c）在 0xd7358..0xd7380 根据 nStars 选择实心或空心。此前复刻把 starUp 当作已获得星星，同时漏导入 starDown，属于游戏贴图状态映射错误。
+
+现已补入四章的原版 `starDownO/G/Y/P`，文件均与参考 HD 源逐字节一致；前端导入器也保留此项。已通关关卡按星数绘制实心 starDown 与空心 starUp，未通关使用 starGrey；锁定节点保留当前桌面布局的灰星和低透明度。没有改动存档成绩、关卡解锁、按钮布局或星星尺寸。原作锁定/新关隐藏星星及选中边框等完整视觉策略仍未逐项复原。
+
+Debug 主程序及游戏测试目标构建通过。针对本次修改执行 `fly_idle_visuals` 和 `fly_selection_input`，两项均通过（36.23 秒）；新增视觉检查覆盖四章、未通关及 0..3 星、锁定/解锁状态的纹理绑定、三颗星数量与透明度。测试预览 `out/qa/selection-stars-audit/preview.bmp` 已查看：四行对应四章，五列依次为未通关、0、1、2、3 星。它是实际 SDL 软件绘制，不包含完整场景交互或原生窗口截图；本轮未另跑窗口回放。日志为同目录 `ctest01.log`，原方法摘录为 `initSprites.asm`、`refreshSprites.asm`。
+
+首轮构建发现新预览代码误调用 UiButton 不存在的 update 方法；移除该调用后重新构建、运行上述测试通过，没有跳过相关检查。
