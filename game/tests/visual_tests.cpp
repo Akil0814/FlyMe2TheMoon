@@ -5,6 +5,7 @@
 #include "game/gameplay/decor_transform.h"
 #include "game/gameplay/laser_visual.h"
 #include "game/gameplay/homing_parameters.h"
+#include "game/frontend/moon_ui.h"
 #include "engine/io/path/path_manager.h"
 #include "engine/io/loaders/content_registry_loader.h"
 #include "engine/loading/game_content_loader.h"

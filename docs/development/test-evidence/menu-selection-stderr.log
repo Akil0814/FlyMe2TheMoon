@@ -1,3 +1,10 @@
-2026-10-25 17:17:40 [INFO] [application] (application.cpp:460) SDL3 GPU backend: direct3d12
-2026-10-25 17:17:40 [INFO] [scene] (scene_manager.cpp:216) Switching to SceneKey 4294901761 with reload mode 0
-2026-10-25 17:17:41 [INFO] [resource] (game_content_loader.cpp:143) Total requests built: 1243, total work units: 1517
+2026-10-25 17:47:35 [INFO] [application] (application.cpp:460) SDL3 GPU backend: direct3d12
+2026-10-25 17:47:35 [INFO] [scene] (scene_manager.cpp:216) Switching to SceneKey 4294901761 with reload mode 0
+2026-10-25 17:47:35 [INFO] [resource] (game_content_loader.cpp:143) Total requests built: 1220, total work units: 1430
+2026-10-25 17:47:41 [INFO] [scene] (scene_manager.cpp:216) Switching to SceneKey 1 with reload mode 2
+2026-10-25 17:47:41 [INFO] [fly.test] (replay_probe.cpp:27) Input replay started; no simulation overrides
+2026-10-25 17:47:42 [INFO] [fly.test.input] (replay_probe.cpp:57) 0.618000 Return down
+2026-10-25 17:47:42 [INFO] [fly.test.input] (replay_probe.cpp:57) 0.702000 Return up
+2026-10-25 17:47:42 [INFO] [scene] (scene_manager.cpp:216) Switching to SceneKey 3 with reload mode 0
+2026-10-25 17:47:44 [INFO] [fly.test] (replay_probe.cpp:84) Replay assertions PASS
+2026-10-25 17:47:44 [INFO] [application] (application.cpp:722) Application shutdown complete

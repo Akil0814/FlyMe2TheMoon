@@ -1,0 +1,53 @@
+{
+  "date": "2026-10-25",
+  "release_build": "build-frontend10.log",
+  "ctest": "frontend-ctest10.log",
+  "ctest_passed": true,
+  "removed_copy_keys": [
+    "menu_tagline",
+    "menu_journey",
+    "achievements_intro",
+    "settings_intro"
+  ],
+  "all_five_locales_checked": true,
+  "ui_runs": [
+    {
+      "name": "frontend-menu03",
+      "started": "2026-10-25T17:55:45.2870907-07:00",
+      "executable_sha256": "DCB04AEF12040208A2967DC40D1BEB46A21D1C7778B9AE10EBCB08DCB7623FF3",
+      "scenario_sha256": "E2295C6838A9888EF35E1787183901583EAA988D525709C9B9EC0CCC90E7CB12",
+      "interactive": true,
+      "startup_timeout_seconds": 60,
+      "exit_code": 0,
+      "passed": true,
+      "ended": "2026-10-25T17:56:01.7627863-07:00"
+    },
+    {
+      "name": "frontend-achievements-page3",
+      "started": "2026-10-25T17:56:01.9499462-07:00",
+      "executable_sha256": "DCB04AEF12040208A2967DC40D1BEB46A21D1C7778B9AE10EBCB08DCB7623FF3",
+      "scenario_sha256": "ACA1AAC48CE03C280F1916235FCA601887DCB11E9E783FF99CD7B9B8D9F4D324",
+      "interactive": true,
+      "startup_timeout_seconds": 60,
+      "exit_code": 0,
+      "passed": true,
+      "ended": "2026-10-25T17:56:15.6115615-07:00"
+    },
+    {
+      "name": "frontend-settings03",
+      "started": "2026-10-25T17:56:15.6310941-07:00",
+      "executable_sha256": "DCB04AEF12040208A2967DC40D1BEB46A21D1C7778B9AE10EBCB08DCB7623FF3",
+      "scenario_sha256": "AD344478399DDDB52D43E77F8D3596C55986D9CE97C05832AF25F81ED0DE88E5",
+      "interactive": true,
+      "startup_timeout_seconds": 60,
+      "exit_code": 0,
+      "passed": true,
+      "ended": "2026-10-25T17:56:27.5166380-07:00"
+    }
+  ],
+  "visual_review": [
+    "main menu: no extra subtitle or footer",
+    "achievement album: no extra introductory copy",
+    "settings: no extra introductory copy"
+  ]
+}

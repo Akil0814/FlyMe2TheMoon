@@ -1,0 +1,241 @@
+{
+  "checks": {
+    "scene": {
+      "actual": 1,
+      "expected": 1,
+      "passed": true
+    }
+  },
+  "passed": true,
+  "samples": [
+    {
+      "scene": 1,
+      "wall_time": 0.016
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.12
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.224
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.329
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.432
+    },
+    {
+      "master_volume": 100,
+      "scene": 6,
+      "settings_ready": true,
+      "settings_saved": false,
+      "wall_time": 0.538
+    },
+    {
+      "master_volume": 100,
+      "scene": 6,
+      "settings_ready": true,
+      "settings_saved": false,
+      "wall_time": 0.642
+    },
+    {
+      "master_volume": 100,
+      "scene": 6,
+      "settings_ready": true,
+      "settings_saved": false,
+      "wall_time": 0.745
+    },
+    {
+      "master_volume": 100,
+      "scene": 6,
+      "settings_ready": true,
+      "settings_saved": false,
+      "wall_time": 0.85
+    },
+    {
+      "master_volume": 100,
+      "scene": 6,
+      "settings_ready": true,
+      "settings_saved": false,
+      "wall_time": 0.954
+    },
+    {
+      "master_volume": 100,
+      "scene": 6,
+      "settings_ready": true,
+      "settings_saved": false,
+      "wall_time": 1.059
+    },
+    {
+      "master_volume": 100,
+      "scene": 6,
+      "settings_ready": true,
+      "settings_saved": false,
+      "wall_time": 1.165
+    },
+    {
+      "master_volume": 100,
+      "scene": 6,
+      "settings_ready": true,
+      "settings_saved": false,
+      "wall_time": 1.268
+    },
+    {
+      "master_volume": 100,
+      "scene": 6,
+      "settings_ready": true,
+      "settings_saved": false,
+      "wall_time": 1.373
+    },
+    {
+      "master_volume": 100,
+      "scene": 6,
+      "settings_ready": true,
+      "settings_saved": false,
+      "wall_time": 1.477
+    },
+    {
+      "scene": 1,
+      "wall_time": 1.579
+    },
+    {
+      "scene": 1,
+      "wall_time": 1.682
+    },
+    {
+      "scene": 1,
+      "wall_time": 1.786
+    },
+    {
+      "scene": 1,
+      "wall_time": 1.89
+    },
+    {
+      "scene": 1,
+      "wall_time": 1.993
+    },
+    {
+      "scene": 1,
+      "wall_time": 2.098
+    },
+    {
+      "scene": 1,
+      "wall_time": 2.203
+    },
+    {
+      "scene": 1,
+      "wall_time": 2.307
+    },
+    {
+      "scene": 1,
+      "wall_time": 2.411
+    },
+    {
+      "scene": 1,
+      "wall_time": 2.516
+    },
+    {
+      "scene": 1,
+      "wall_time": 2.619
+    },
+    {
+      "scene": 1,
+      "wall_time": 2.723
+    },
+    {
+      "scene": 1,
+      "wall_time": 2.827
+    },
+    {
+      "scene": 1,
+      "wall_time": 2.932
+    },
+    {
+      "scene": 1,
+      "wall_time": 3.035
+    },
+    {
+      "scene": 1,
+      "wall_time": 3.139
+    },
+    {
+      "scene": 1,
+      "wall_time": 3.244
+    },
+    {
+      "scene": 1,
+      "wall_time": 3.349
+    },
+    {
+      "scene": 1,
+      "wall_time": 3.451
+    },
+    {
+      "scene": 1,
+      "wall_time": 3.556
+    },
+    {
+      "scene": 1,
+      "wall_time": 3.661
+    },
+    {
+      "scene": 1,
+      "wall_time": 3.764
+    },
+    {
+      "scene": 1,
+      "wall_time": 3.869
+    },
+    {
+      "scene": 1,
+      "wall_time": 3.973
+    }
+  ],
+  "scenario": {
+    "duration": 4,
+    "events": [
+      {
+        "down": true,
+        "mouse": [
+          1066,
+          360
+        ],
+        "time": 0.4
+      },
+      {
+        "down": false,
+        "mouse": [
+          1066,
+          360
+        ],
+        "time": 0.5
+      },
+      {
+        "down": true,
+        "mouse": [
+          968,
+          642
+        ],
+        "time": 1.4
+      },
+      {
+        "down": false,
+        "mouse": [
+          968,
+          642
+        ],
+        "time": 1.5
+      }
+    ],
+    "expect": {
+      "scene": 1
+    },
+    "language": "zh-Hans",
+    "level": -1,
+    "name": "frontend-settings-back03"
+  }
+}

@@ -36,11 +36,10 @@ void MainMenuScene::on_enter(const elysia::scene::ScenePayload&)
     ELYSIA_AUDIO->play_music("fly.MoonTrip");
 
     auto content = std::make_unique<elysia::ui::UiListContainer>(
-        elysia::core::Rect{0, 0, 316, 430});
+        elysia::core::Rect{0, 0, 316, 336});
     content->set_cross_align(elysia::ui::UiLayoutAlign::Center);
     content->set_item_spacing(14);
 
-    content->add_back(frontend::label(game::content::ui("menu_tagline"),316,28,true));
     auto play = std::make_unique<frontend::GlassButton>(game::content::ui("play"),300,58,[this] {request_scene_switch(game::scene_keys::Selection);});
     content->add_back(std::move(play));
     content->add_back(std::make_unique<frontend::GlassButton>(game::content::ui("achievements"),300,58,[this]{request_scene_switch(game::scene_keys::Achievements);}));
@@ -56,8 +55,6 @@ void MainMenuScene::on_enter(const elysia::scene::ScenePayload&)
         elysia::ui::UiLayoutChildOptions{._anchor = elysia::ui::UiLayoutAnchor::CenterRight,._margin={.right=48}});
     window->register_focus_scope(*focus_scope);
     window->focus_first_available_scope();
-    window->add_child(frontend::label(game::content::ui("menu_journey"),360,36),
-        elysia::ui::UiLayoutChildOptions{._anchor=elysia::ui::UiLayoutAnchor::BottomLeft,._margin={.left=40,.bottom=32}});
 }
 
 void MainMenuScene::on_exit()

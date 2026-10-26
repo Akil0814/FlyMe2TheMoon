@@ -3,6 +3,7 @@
 #include "game/content/content.h"
 #include <format>
 #include <cmath>
+#include <cctype>
 
 namespace game::frontend {
 using namespace elysia;
@@ -115,6 +116,12 @@ AchievementCard::AchievementCard(int id,std::string title,std::string descriptio
     _badge(texture(std::format("achv{}",id))),_earned(earned){
     _title.set_text_content(ui::ui_raw_text(std::move(title)));_title.set_typography_role(typography::UiTypographyRole::Label);
     _title.set_style_overrides({.text=core::Color{239,249,255,255}});_title.set_vertical_align(ui::TextVerticalAlign::Center);
+    // Give the text wrapper a word boundary before numeric requirements so
+    // values such as 100 / 10000 stay together in the original Chinese text.
+    for(std::size_t index=1;index<description.size();++index){
+        const auto current=static_cast<unsigned char>(description[index]),previous=static_cast<unsigned char>(description[index-1]);
+        if(std::isdigit(current)&&(previous>=128||std::isalpha(previous))){description.insert(index," ");++index;}
+    }
     _description.set_text_content(ui::ui_raw_text(std::move(description)));_description.set_typography_role(typography::UiTypographyRole::DialogBody);
     _description.set_style_overrides({.text=core::Color{177,207,229,255}});
     _status.set_text_content(ui::ui_raw_text(content::ui(earned?"earned":"not_earned")));_status.set_typography_role(typography::UiTypographyRole::ButtonCompact);

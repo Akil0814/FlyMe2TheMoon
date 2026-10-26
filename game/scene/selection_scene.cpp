@@ -37,8 +37,9 @@ void SelectionScene::on_enter(const elysia::scene::ScenePayload& payload) {
     auto list=std::make_unique<ui::UiListContainer>(core::Rect{0,0,1120,640});list->set_item_spacing(18);
     title(*list,content::format("chapter_title",chapter+1));
     auto chapters=std::make_unique<ui::UiGridContainer>(core::Rect{0,0,1120,48});chapters->set_column_count(4);chapters->set_cell_spacing({16,0});
+    auto* chapter_scope=chapters.get();ui::UiButton* current_chapter=nullptr;
     for(int c=0;c<4;++c){auto tab=button(content::format("chapter_range",c+1,c*15+1,c*15+15),265,48,[this,c]{request_scene_switch(scene_keys::Selection,SelectionPayload{c},elysia::scene::SceneReloadMode::Recreate);});
-        if(c==chapter)frontend::mark_selected(*tab);
+        if(c==chapter){frontend::mark_selected(*tab);current_chapter=tab.get();}
         chapters->add_child(std::move(tab));}
     list->add_back(std::move(chapters));
     auto levels=std::make_unique<frontend::ConstellationGrid>(core::Rect{0,0,1120,330});levels->set_column_count(5);levels->set_cell_spacing({16,18});
@@ -56,6 +57,7 @@ void SelectionScene::on_enter(const elysia::scene::ScenePayload& payload) {
     // The list delegates focus to its grids. Registering those grids again on
     // the window lets the parent and window clear each other's pressed state.
     if(levels_scope->focus_first_available())list_scope->set_focused_target(levels_scope->focused_target());
+    else if(current_chapter){chapter_scope->set_focused_target(current_chapter);list_scope->set_focused_target(current_chapter);}
     window->register_focus_scope(*list_scope);window->focus_first_available_scope();
     window->add_child(std::make_unique<frontend::MoonBackdrop>("moon",110));
 }
@@ -66,7 +68,7 @@ void AchievementsScene::on_enter(const elysia::scene::ScenePayload& payload) {
     window->set_style_overrides({.draw_background=false,.draw_border=false});
     auto list=std::make_unique<ui::UiListContainer>(core::Rect{0,0,1160,652});list->set_item_spacing(16);list->set_cross_align(ui::UiLayoutAlign::Center);
     title(*list,content::format("achievements_title",store.data.achievements.size()));
-    list->add_back(frontend::label(content::ui("achievements_intro"),1120,30,true));
+    list->add_back(std::make_unique<ui::UiElement>(core::Rect{0,0,1120,30}));
     auto grid=std::make_unique<ui::UiGridContainer>(core::Rect{0,0,1160,374});grid->set_column_count(3);grid->set_cell_spacing({20,18});
     const auto descriptions=content::read("text/"+content::language()+"/gcDescriptions.json");
     int index=0;
@@ -76,12 +78,15 @@ void AchievementsScene::on_enter(const elysia::scene::ScenePayload& payload) {
     }
     list->add_back(std::move(grid));
     auto pages=std::make_unique<ui::UiGridContainer>(core::Rect{0,0,560,44});pages->set_column_count(3);pages->set_cell_spacing({16,0});
+    auto* page_scope=pages.get();ui::UiButton* current_page=nullptr;
     for(int p=0;p<3;++p){auto b=button(content::format("album_page",p+1),176,44,[this,p]{request_scene_switch(scene_keys::Achievements,AchievementsPayload{p},elysia::scene::SceneReloadMode::Recreate);});
-        if(p==_page)frontend::mark_selected(*b);
+        if(p==_page){frontend::mark_selected(*b);current_page=b.get();}
         pages->add_child(std::move(b));}
     list->add_back(std::move(pages));
     list->add_back(button(content::ui("back"),320,48,[this]{request_scene_switch(scene_keys::MainMenu);}));
-    auto* scope=list.get();window->add_child(std::move(list),ui::UiLayoutChildOptions{._anchor=ui::UiLayoutAnchor::Center});window->register_focus_scope(*scope);window->focus_first_available_scope();
+    auto* scope=list.get();window->add_child(std::move(list),ui::UiLayoutChildOptions{._anchor=ui::UiLayoutAnchor::Center});
+    page_scope->set_focused_target(current_page);scope->set_focused_target(current_page);
+    window->register_focus_scope(*scope);window->focus_first_available_scope();
     window->add_child(std::make_unique<frontend::MoonBackdrop>("moon",145));
 }
 }
