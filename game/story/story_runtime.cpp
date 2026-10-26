@@ -62,8 +62,10 @@ void Runtime::update(double delta) {
     else if(_thread)resume();
 }
 void Runtime::advance(bool skip) {
-    if(!_dialogue||_dialogue->remaining>0||(_dialogue->fixed&&!skip))return;
-    if(skip&&!_skip_enabled)return;_skipped=skip;_dialogue.reset();resume();
+    if(!_dialogue)return;
+    if(skip){if(!_skip_enabled)return;}
+    else if(_dialogue->remaining>0||_dialogue->fixed)return;
+    _skipped=skip;_dialogue.reset();resume();
 }
 bool Runtime::event(const char* name) {
     // The original first-level script installs callbacks after its flying demo.

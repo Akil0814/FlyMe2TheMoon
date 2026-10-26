@@ -67,6 +67,7 @@ void FlightScene::open_pause_menu(){
     if(_pause_menu_open||_finished||_event_pending||!_player)return;
     game::audio::ui_click();_audio.set_paused(true);
     _pause_was_logic_paused=is_paused();_pause_menu_open=true;
+    _dialogue_pointer_pressed=false;
     _pause_updates.clear();
     const auto freeze=[this](core::GameObject* object){if(object->update_when_paused()){_pause_updates.push_back(object);object->set_update_when_paused(false);}};
     freeze(_player);for(auto* entity:_entities)freeze(entity);

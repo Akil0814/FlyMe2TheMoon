@@ -107,8 +107,9 @@ Player::Player(Vec born):GameObject(DepthLayer::Character) {
     _effect_frames[0]=mechanism_frame("fly.CharActions.charEffects.ball",0);
     for(int i=0;i<4;++i)_effect_frames[1+i]=mechanism_frame("fly.CharActions.charEffects.ballDisapear",i);
     for(int i=0;i<6;++i)_effect_frames[5+i]=mechanism_frame("fly.CharActions.charEffects.ballExplode",i);
-    // Scene pause freezes gameplay, while the original role presentation keeps advancing.
-    set_update_when_paused(true);
+    // Original Game.doUpdate:realDt: freezes Role.update: with paused logic.
+    // Death presentation explicitly opts in while the scene awaits its callback.
+    set_update_when_paused(false);
 }
 BodyDefinition Player::body_definition()const {BodyDefinition b;b.type=BodyType::Dynamic;b.mass_properties=ExplicitMass{1};b.linear_damping=0.1f;b.bullet=true;return b;}
 void Player::fixed_update(double delta) {
@@ -125,8 +126,9 @@ void Player::update(double delta) {
     const Vec v=velocity();
     look_time=std::max(0.,look_time-delta);
     idle_action_time=std::max(0.,idle_action_time-delta);
-    _action=dead?"charDeath":look_time>0?"charLookLeftRight":thrust.y<-.1f?(thrust.x<-.2f?"charLeft":thrust.x>.2f?"charRight":"charUp"):
+    const std::string action=dead?"charDeath":look_time>0?"charLookLeftRight":thrust.y<-.1f?(thrust.x<-.2f?"charLeft":thrust.x>.2f?"charRight":"charUp"):
         std::abs(v.y)>35?"charFree":idle_action_time>0?(idle_action==0?"charLookLeft":idle_action==1?"charLookRight":idle_action==2?"charLookLeftRight":"charIdle"):"charStand";
+    if(action!=_action){_action=action;_animations.at(_action)->reset();}
     _animations.at(_action)->update(delta);
     _thrust_particles.update(delta,render_rect(),thrust,thrust_attachment(),show_thrust());
 }

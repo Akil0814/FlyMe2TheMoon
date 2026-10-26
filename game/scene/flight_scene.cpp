@@ -61,7 +61,7 @@ void FlightScene::on_enter(const elysia::scene::ScenePayload& payload) {
     if(const auto* p=elysia::scene::try_scene_payload<FlightPayload>(payload)){_level=p->level;_restart=p->restart;}
     _data=content::level(_level);_stars=0;_crystals=0;_crystal_count=0;_elapsed=0;_finished=false;_success=false;
     (void)progress::Store::instance().load();
-    _text=content::read("text/"+content::language()+"/strings.json");_input_enabled=true;_demo=false;_demo_paused=false;_event_pending=false;_follow_role=true;_dialogue_key.clear();
+    _text=content::read("text/"+content::language()+"/strings.json");_input_enabled=true;_demo=false;_demo_paused=false;_event_pending=false;_follow_role=true;_dialogue_key.clear();_dialogue_pointer_pressed=false;
     _mechanism_time=0;_triggered_areas.assign(_data.at("areas").size(),false);_scheduled_actions.clear();
     create_and_add_object<Parallax>(_data,&camera());
     create_and_add_object<Decor>(_data,false);
@@ -106,12 +106,16 @@ void FlightScene::on_enter(const elysia::scene::ScenePayload& payload) {
     _dialogue_panel=create_and_add_object<frontend::HudPanel>(Rect{24,474,1232,182},20);
     _portrait_panel=create_and_add_object<frontend::HudPanel>(Rect{38,486,156,156},21);
     _face=create_and_add_object<ui::UiImage>(nullptr,Rect{46,494,140,140},22);
-    _dialogue=create_and_add_object<ui::UiTextBlock>(Rect{212,492,1024,144},22);_dialogue->set_padding(8);
+    _dialogue=create_and_add_object<frontend::StoryText>(Rect{212,492,1024,144},22);_dialogue->set_padding(8);
     _dialogue->set_style_overrides({.text=core::Color{16,46,77,255}});
-    _tutorial=create_and_add_object<ui::UiImage>(nullptr,Rect{1040,280,140,160},19);_tutorial->set_visible(false);
+    _tutorial=create_and_add_object<frontend::TutorialUi>();
+    auto skip_button=std::make_unique<frontend::GlassButton>(content::ui("skip_story"),126,40,[this]{advance_dialogue(true);});
+    skip_button->set_order(23);_skip_button=add_object(std::move(skip_button));
+    _skip_button->set_screen_rect({1110,666,126,40});_skip_button->set_visible(false);
     build_result_panel();
     build_pause_panel();
     set_ui_interaction_mode(elysia::scene::UiInteractionMode::Pointer);
+    set_shortcut_devices(input::InputCapture::Keyboard|input::InputCapture::Pointer|input::InputCapture::Gamepad);
     camera_runtime().set_zoom(camera::CameraSlot::Main,kDefaultCameraZoom);
     camera_runtime().set_world_bounds(camera::CameraSlot::Main,Rect{0,0,_data.at("width"),_data.at("height")});
     camera_runtime().set_follow_strategy(camera::CameraSlot::Main,std::make_unique<camera::HardFollowStrategy>());
@@ -128,11 +132,17 @@ void FlightScene::on_enter(const elysia::scene::ScenePayload& payload) {
     ELYSIA_LOG_INFO("fly",std::format("Entered level {}: {} entities, {} contours",_level,_entities.size(),_data.at("edges").size()));
     attach_development_panel();
 }
-void FlightScene::on_exit(){detach_development_panel();_audio.clear();ELYSIA_AUDIO->stop_music();_pause_updates.clear();_pause_menu_open=false;_player=nullptr;_entities.clear();_hud=nullptr;_hud_stats=nullptr;_pause_metrics=nullptr;_result_metrics=nullptr;_hint=nullptr;_hud_stars=nullptr;_star_pickups=nullptr;_pause_menu=nullptr;_pause_button=nullptr;_dialogue=nullptr;_face=nullptr;_tutorial=nullptr;_dialogue_panel=nullptr;_portrait_panel=nullptr;clear_scene_objects();}
+void FlightScene::on_exit(){detach_development_panel();_audio.clear();ELYSIA_AUDIO->stop_music();_pause_updates.clear();_pause_menu_open=false;_player=nullptr;_entities.clear();_hud=nullptr;_hud_stats=nullptr;_pause_metrics=nullptr;_result_metrics=nullptr;_hint=nullptr;_hud_stars=nullptr;_star_pickups=nullptr;_pause_menu=nullptr;_pause_button=nullptr;_dialogue=nullptr;_face=nullptr;_tutorial=nullptr;_skip_button=nullptr;_dialogue_panel=nullptr;_portrait_panel=nullptr;clear_scene_objects();}
 void FlightScene::on_reset(){on_exit();}
-void FlightScene::on_shortcuts(const input::RawInputFrame&,const std::vector<input::RawInputEvent>& events) {
+void FlightScene::on_shortcuts(const input::RawInputFrame& frame,const std::vector<input::RawInputEvent>& events) {
     using C=input::RawInputControl;
-    for(const auto& e:events)if(e.type==input::RawInputEventType::ControlPressed) {
+    for(const auto& e:events){
+        if(e.type==input::RawInputEventType::ControlReleased&&e.control==C::MouseLeft&&_dialogue_pointer_pressed){
+            _dialogue_pointer_pressed=false;consume_input(e);
+            if(!_pause_menu_open&&!_death_pending&&_story.dialogue())advance_dialogue();
+            return;
+        }
+        if(e.type!=input::RawInputEventType::ControlPressed)continue;
         _using_gamepad=e.device==input::InputDevice::Gamepad;
         if(_pause_menu_open){
             if(e.control==C::KeyP||e.control==C::KeyEscape||e.control==C::GamepadStart){consume_input(e);game::audio::ui_click();close_pause_menu();}
@@ -140,7 +150,14 @@ void FlightScene::on_shortcuts(const input::RawInputFrame&,const std::vector<inp
             return;
         }
         if(e.control==C::KeyEscape||e.control==C::KeyP||e.control==C::GamepadStart||e.control==C::GamepadEast){consume_input(e);open_pause_menu();return;}
-        if(!_death_pending&&_story_started&&_story.dialogue()&&(e.control==C::KeyEnter||e.control==C::MouseLeft||e.control==C::KeyTab||e.control==C::GamepadSouth||e.control==C::GamepadNorth)){consume_input(e);_story.advance(e.control==C::KeyTab||e.control==C::GamepadNorth);update_dialogue();return;}
+        if(!_death_pending&&_story_started&&_story.dialogue()&&(e.control==C::KeyEnter||e.control==C::MouseLeft||e.control==C::KeyTab||e.control==C::GamepadSouth||e.control==C::GamepadNorth)){
+            if(e.control==C::MouseLeft){
+                const auto r=_skip_button->screen_rect();
+                if(_skip_button->is_visible()&&frame.mouse_x>=r.x()&&frame.mouse_x<r.right()&&frame.mouse_y>=r.y()&&frame.mouse_y<r.bottom())continue;
+                _dialogue_pointer_pressed=true;consume_input(e);return;
+            }
+            consume_input(e);advance_dialogue(e.control==C::KeyTab||e.control==C::GamepadNorth);return;
+        }
         if(e.control==C::KeyR){consume_input(e);game::audio::ui_click();request_scene_switch(scene_keys::Flight,FlightPayload{_level,true},elysia::scene::SceneReloadMode::Recreate);return;}
         if(e.control==C::KeyEnter&&_finished){consume_input(e);
             game::audio::ui_click();continue_from_result();return;}
@@ -210,7 +227,7 @@ void FlightScene::restore_player() {
     physics_world().teleport_object(_player->physics_handle(),role_spawn({_data.at("born")[0],_data.at("born")[1]}),physics::TeleportVelocityMode::Clear);
     physics_world().set_body_enabled(_player->physics_handle(),true);
     _player->present_at(std::nullopt);_player->play_effect(RoleEffect::Enter);start_entrance_sound();++_spawn_effects;
-    _player->dead=false;_player->set_update_when_paused(true);_player->thrust={};_stars=0;_crystals=0;_crystal_count=0;_elapsed=0;_event_pending=false;_finished=false;
+    _player->dead=false;_player->set_update_when_paused(false);_player->thrust={};_stars=0;_crystals=0;_crystal_count=0;_elapsed=0;_event_pending=false;_finished=false;
     _star_pickups->clear();_hud_stars->set_collected(0);
     for(auto* entity:_entities)if(entity->item){entity->restore_pickup();physics_world().set_body_enabled(entity->physics_handle(),true);}
     _result->set_visible(false);_result->set_active(false);
@@ -285,16 +302,16 @@ content::Json FlightScene::story_action(const std::string& op,const content::Jso
     else if(op=="game.success")finish(true);
     else if(op=="event.unhandled")finish(a[0]=="onRoleReachedMoon");
     else if(op=="game.showTutorialDiagram"){
-        const int index=a[0];_tutorial->set_visible(index!=0);if(index)_tutorial->set_texture(ELYSIA_RESOURCES->find_texture(index==1?"fly.TutorialUI.tutCharUp":"fly.TutorialUI.tutCharLeft"));
-    }else if(op=="game.setReplayMode"){_demo=true;_demo_paused=true;}
-    else if(op=="game.setPlayMode")_demo=false;
+        _tutorial->set_type(a[0]);
+    }else if(op=="game.setReplayMode"){_demo=true;_demo_paused=true;_tutorial->set_demo(true);_tutorial->clear_pointer();}
+    else if(op=="game.setPlayMode"){_demo=false;_tutorial->set_demo(false);_tutorial->clear_pointer();}
     else if(op=="game.loadTutorialRep"){
         _tutorial_replay.load(content::read("tutorial.json").at(a[0].get<std::string>()));
         ELYSIA_LOG_INFO("fly.story","Loaded original tutorial input: "+a[0].get<std::string>());
     }else if(op=="replay.skipNonControlFrames"){_tutorial_replay.skip_idle();_demo_paused=false;resume();}
     else if(op=="replay.pause"){_demo_paused=true;_player->thrust={};}
     else if(op=="role.loadState")restore_player();
-    else if(op=="role.lookLeftRight"){_player->look_time=3;_audio.role_look();}
+    else if(op=="role.lookLeftRight"){_player->look_around();_audio.role_look();}
     else if(op=="role.setIdleActionEnabled")_player->idle_enabled=a[0];
     else if(op=="camera.setFollowRoleMode"){_follow_role=a[0];if(!_follow_role&&!_camera_move.active())_story_camera=camera().center();}
     else if(op=="camera.gotoPosition")return move_camera({a[0],_data.at("height").get<float>()-a[1].get<float>()});
@@ -310,11 +327,20 @@ content::Json FlightScene::story_action(const std::string& op,const content::Jso
 void FlightScene::update_dialogue() {
     const auto& line=_story.dialogue();const bool has_dialogue=_story_started&&line.has_value();const bool visible=has_dialogue&&!_pause_menu_open;_dialogue_panel->set_visible(visible);_portrait_panel->set_visible(visible);_dialogue->set_visible(visible);_face->set_visible(visible);
     if(has_dialogue&&_dialogue_key!=line->key){_dialogue_key=line->key;
-        std::string text=_text.value(line->key,line->key);text=std::regex_replace(text,std::regex("#c[0-9a-fA-F]{6}|#n"),"");
-        _dialogue->set_text_content(ui::ui_raw_text(text));_face->set_texture(ELYSIA_RESOURCES->find_texture("fly.ui."+line->face));
+        _dialogue->set_story_text(_text.value(line->key,line->key));_face->set_texture(ELYSIA_RESOURCES->find_texture("fly.ui."+line->face));
         ELYSIA_LOG_INFO("fly.story","Dialogue: "+line->key);
     }
     if(!has_dialogue)_dialogue_key.clear();
+    _skip_button->set_visible(visible&&_story.skip_enabled());
+    _skip_button->set_active(visible&&_story.skip_enabled());
+    _tutorial->set_visible(!_pause_menu_open&&!_finished);
+}
+void FlightScene::advance_dialogue(bool skip){
+    if(!_story.dialogue())return;
+    if(skip)_story.advance(true);
+    else if(!_dialogue->complete())_dialogue->reveal();
+    else _story.advance();
+    update_dialogue();
 }
 void FlightScene::on_fixed_update(std::uint64_t,double delta) {
     if(_demo&&!_demo_paused&&!_finished&&!_event_pending&&!_transition.active()) {
@@ -359,18 +385,18 @@ void FlightScene::on_after_update(double delta) {
     if(!_player)return;
     update_result_animation(delta);
     if(!_pause_menu_open){
+    _tutorial->advance(delta);
+    if(_story.dialogue())_dialogue->advance(delta);
+    if(_demo)if(const auto point=_tutorial_replay.last_point())_tutorial->set_pointer(camera().world_to_screen(*point),_tutorial_replay.pressed());
     if(!_finished)_star_pickups->advance(delta);
     const bool opening_frame=opening();
     std::erase_if(_projectiles,[](auto* p){if(p->expired){p->destroy();return true;}return false;});
     if(opening()) {
         if(_opening_phase==OpeningPhase::Pan&&!_camera_move.active()) {
-            _opening_phase=OpeningPhase::Spawn;
             _player->present_at(std::nullopt);_player->play_effect(RoleEffect::Enter);start_entrance_sound();++_spawn_effects;
-            ELYSIA_LOG_INFO("fly.camera","Opening pan complete; role entrance started");
-        }else if(_opening_phase==OpeningPhase::Spawn&&_player->entry_effect_finished()) {
             _opening_phase=OpeningPhase::Ready;_follow_role=true;_input_enabled=true;resume();_story_started=true;
             _story.start(_data.at("script"),[this](const std::string& op,const content::Json& args){return story_action(op,args);});
-            ELYSIA_LOG_INFO("fly.camera","Role entrance complete; original story started");
+            ELYSIA_LOG_INFO("fly.camera","Opening pan complete; original story and role entrance ready");
         }
     }else if(!_death_pending)_story.update(delta);
     if(_death_pending&&_player->death_effect_finished()) {
@@ -439,7 +465,7 @@ void FlightScene::on_after_update(double delta) {
     }
     content::Json mechanisms=content::Json::array();
     for(const auto* entity:_entities)if(!entity->item&&((entity->kind>=105&&entity->kind<=107)||entity->rotating()))mechanisms.push_back({{"id",entity->id},{"kind",entity->kind},{"x",entity->position().x},{"y",entity->position().y},{"angle",entity->physics_state()->angle},{"mass",entity->physics_state()->mass},{"rotational_inertia",entity->physics_state()->rotational_inertia},{"angular_velocity",entity->physics_state()->angular_velocity},{"awake",entity->physics_state()->awake},{"body_enabled",entity->physics_state()->enabled}});
-    if(_probe.update(runtime_context().renderer(),{{"audio_requests",_audio.requests()},{"audio_loops",_audio.active_loops()},{"audio_events",_audio.events()},{"result_animation_done",_result_animation_done},{"restart",_restart},{"mechanism_time",_mechanism_time},{"pause_menu_open",_pause_menu_open},{"hud_gold_stars",_hud_stars->collected()},{"hud_empty_stars",3-_hud_stars->collected()},{"result_gold_stars",_result_stars->collected()},{"role_effect_frame",_player->effect_pose().frame},{"opening_camera",opening()},{"opening_phase",static_cast<int>(_opening_phase)},{"camera_moving",static_cast<int>(_camera_move.active())},{"camera_holding",_camera_move.holding()},{"camera_moves",_camera_moves},{"camera_x",camera().center().x},{"camera_y",camera().center().y},{"role_effect_image",static_cast<int>(_player->effect_pose().image)},{"role_body_visible",_player->body_visible()},{"transition_phase",static_cast<int>(_transition.phase())},{"spawn_effects",_spawn_effects},{"moon_effects",_moon_effects},{"role_body_enabled",_player->physics_state()->enabled},{"paused",is_paused()},{"thrust_x",_player->thrust.x},{"thrust_y",_player->thrust.y},{"result_visible",_finished},{"death_playing",_death_pending},{"death_time",_player->death_effect_time()},{"deaths",_deaths},{"failure_reason",_failure_reason},{"detonated_bombs",std::count_if(_entities.begin(),_entities.end(),[](const auto* e){return e->bomb_state()>=2;})},{"pilot_view",{camera().view_rect().x(),camera().view_rect().y(),camera().zoom()}},{"scene",2},{"level",_level},{"success",_success},{"finished",_finished},{"stars",_stars},{"crystals",_crystals},{"crystal_count",_crystal_count},{"elapsed",_elapsed},{"dialogue",_dialogue_key},{"input_enabled",_input_enabled},{"demo",_demo},{"demo_frame",_tutorial_replay.cursor()},{"portal_transits",_portal_transits},{"active_lasers",std::count_if(_entities.begin(),_entities.end(),[](const auto* e){return e->laser_active();})},{"wind_x",_wind_force.x},{"wind_y",_wind_force.y},{"shots_fired",_shots_fired},{"homing_fired",_homing_fired},{"projectiles",_projectiles.size()},{"armed_bombs",std::count_if(_entities.begin(),_entities.end(),[](const auto* e){return e->bomb_state()>0;})},{"homing_projectiles",homing_projectiles},{"mechanisms",mechanisms},{"triggered_count",std::count(_triggered_areas.begin(),_triggered_areas.end(),true)},{"x",_player->center().x},{"y",_player->center().y},{"vx",_player->velocity().x},{"vy",_player->velocity().y}}))request_quit();
+    if(_probe.update(runtime_context().renderer(),{{"tutorial_type",_tutorial->type()},{"tutorial_frame",_tutorial->frame()},{"dialogue_characters",_dialogue->visible_count()},{"dialogue_complete",_dialogue->complete()},{"role_effect_time",_player->effect_time()},{"audio_requests",_audio.requests()},{"audio_loops",_audio.active_loops()},{"audio_events",_audio.events()},{"result_animation_done",_result_animation_done},{"restart",_restart},{"mechanism_time",_mechanism_time},{"pause_menu_open",_pause_menu_open},{"hud_gold_stars",_hud_stars->collected()},{"hud_empty_stars",3-_hud_stars->collected()},{"result_gold_stars",_result_stars->collected()},{"role_effect_frame",_player->effect_pose().frame},{"opening_camera",opening()},{"opening_phase",static_cast<int>(_opening_phase)},{"camera_moving",static_cast<int>(_camera_move.active())},{"camera_holding",_camera_move.holding()},{"camera_moves",_camera_moves},{"camera_x",camera().center().x},{"camera_y",camera().center().y},{"role_effect_image",static_cast<int>(_player->effect_pose().image)},{"role_body_visible",_player->body_visible()},{"transition_phase",static_cast<int>(_transition.phase())},{"spawn_effects",_spawn_effects},{"moon_effects",_moon_effects},{"role_body_enabled",_player->physics_state()->enabled},{"paused",is_paused()},{"thrust_x",_player->thrust.x},{"thrust_y",_player->thrust.y},{"result_visible",_finished},{"death_playing",_death_pending},{"death_time",_player->death_effect_time()},{"deaths",_deaths},{"failure_reason",_failure_reason},{"detonated_bombs",std::count_if(_entities.begin(),_entities.end(),[](const auto* e){return e->bomb_state()>=2;})},{"pilot_view",{camera().view_rect().x(),camera().view_rect().y(),camera().zoom()}},{"scene",2},{"level",_level},{"success",_success},{"finished",_finished},{"stars",_stars},{"crystals",_crystals},{"crystal_count",_crystal_count},{"elapsed",_elapsed},{"dialogue",_dialogue_key},{"input_enabled",_input_enabled},{"demo",_demo},{"demo_frame",_tutorial_replay.cursor()},{"portal_transits",_portal_transits},{"active_lasers",std::count_if(_entities.begin(),_entities.end(),[](const auto* e){return e->laser_active();})},{"wind_x",_wind_force.x},{"wind_y",_wind_force.y},{"shots_fired",_shots_fired},{"homing_fired",_homing_fired},{"projectiles",_projectiles.size()},{"armed_bombs",std::count_if(_entities.begin(),_entities.end(),[](const auto* e){return e->bomb_state()>0;})},{"homing_projectiles",homing_projectiles},{"mechanisms",mechanisms},{"triggered_count",std::count(_triggered_areas.begin(),_triggered_areas.end(),true)},{"x",_player->center().x},{"y",_player->center().y},{"vx",_player->velocity().x},{"vy",_player->velocity().y}}))request_quit();
     }
 }
 std::optional<camera::CameraFocus> FlightScene::resolve_camera_focus(camera::CameraSlot)const {

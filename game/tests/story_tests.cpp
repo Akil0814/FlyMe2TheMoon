@@ -37,8 +37,11 @@ int main(){try {
     check(lines==expected,"Original dialogue branch coverage incomplete");check(flags.size()>=25,"Story progress flags missing");check(success>=7,"Chapter / final success callbacks missing");check(restores>=4,"Tutorial restore callbacks missing");
     // Minimum display time and seen-story skip return values must survive coroutine suspension.
     game::story::Runtime timing;bool finished=false;
-    timing.start("dialog.setSkipEnabled(true); local r=dialog.showMinTime('test',facePutong,2); assert(r==1); game.success()",[&](const std::string&,const Json&)->Json{finished=true;return nullptr;});
-    timing.advance(true);check(!finished,"Minimum reading time ignored");timing.update(2);timing.advance(true);check(finished,"Skip return value lost");
+    timing.start("dialog.showMinTime('test',facePutong,2); game.success()",[&](const std::string&,const Json&)->Json{finished=true;return nullptr;});
+    timing.advance();check(!finished,"Minimum reading time ignored");timing.update(2);timing.advance();check(finished,"Minimum reading time did not end");
+    finished=false;
+    timing.start("dialog.setSkipEnabled(true); local r=dialog.showMinTime('test',facePutong,6.5); assert(r==1); game.success()",[&](const std::string&,const Json&)->Json{finished=true;return nullptr;});
+    timing.advance(true);check(finished,"Seen-story skip must bypass minimum time and return 1 to Lua");
     bool queued=false;game::story::Runtime pending;
     pending.start("script.delay(2); onRoleReachedMoon=function() game.success() end",[&](const std::string&,const Json&)->Json{queued=true;return nullptr;});
     check(pending.event("onRoleReachedMoon"),"Event during initial script was lost");check(!queued,"Event ran before callback declaration");pending.update(2);check(queued,"Deferred callback did not run");

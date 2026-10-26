@@ -41,6 +41,14 @@ public:
         for(auto& layer:scene._object_layers)for(auto& object:layer)if(auto* player=dynamic_cast<game::play::Player*>(object.get()))return *player;
         throw std::runtime_error("Flight test player missing");
     }
+    static game::frontend::StoryText& story_text(Scene& scene){
+        for(auto& root:scene._ui_roots)if(auto* text=dynamic_cast<game::frontend::StoryText*>(root.get()))return *text;
+        throw std::runtime_error("Story text missing");
+    }
+    static game::frontend::TutorialUi& tutorial(Scene& scene){
+        for(auto& root:scene._ui_roots)if(auto* tutorial=dynamic_cast<game::frontend::TutorialUi*>(root.get()))return *tutorial;
+        throw std::runtime_error("Tutorial composition missing");
+    }
     static game::play::Entity& pickup(Scene& scene,int kind){
         for(auto& layer:scene._object_layers)for(auto& object:layer)if(auto* e=dynamic_cast<game::play::Entity*>(object.get());e&&e->kind==kind&&!e->collected)return *e;
         throw std::runtime_error("Pickup fixture missing");
@@ -205,9 +213,11 @@ void test_flight_scene(SDL_Renderer* renderer,const io::ContentRegistry& registr
     const auto first_line=scene::SceneTestAccess::dialogue(flight);
     require(!first_line.empty(),"Original level 39 story must reach its first dialogue");
     press(SDL_GAMEPAD_BUTTON_SOUTH);
+    require(scene::SceneTestAccess::dialogue(flight)==first_line,"First A press must complete the typewriter text without advancing Lua");
+    press(SDL_GAMEPAD_BUTTON_SOUTH);
     const auto second_line=scene::SceneTestAccess::dialogue(flight);
     require(!second_line.empty()&&second_line!=first_line,"A must still advance the actual scene's dialogue");
-    press(SDL_GAMEPAD_BUTTON_SOUTH);press(SDL_GAMEPAD_BUTTON_SOUTH);
+    press(SDL_GAMEPAD_BUTTON_SOUTH);press(SDL_GAMEPAD_BUTTON_SOUTH);press(SDL_GAMEPAD_BUTTON_SOUTH);press(SDL_GAMEPAD_BUTTON_SOUTH);
     require(scene::SceneTestAccess::dialogue(flight).empty()&&!flight.is_paused(),"A must finish the original story and restore flight");
     change(SDL_GAMEPAD_BUTTON_SOUTH,true);
     require(scene::SceneTestAccess::thrust(flight).length_squared()==0,"A must not thrust after leaving dialogue");
@@ -279,6 +289,85 @@ void test_pickup_scene(SDL_Renderer* renderer,const io::ContentRegistry& registr
     Access::exit(flight);Access::enter(flight,game::scene::FlightPayload{39,true});
     require(Access::star_pickups(flight).pending_count()==0&&Access::hud_stars(flight).collected()==0&&!Access::pickup(flight,5).collected,"Retry must start with fresh pickups and no leftover HUD flights");
     system.shutdown();Access::exit(flight);
+}
+void test_original_tutorial_sequence(SDL_Renderer* renderer,const io::ContentRegistry& registry){
+    scene::SceneRuntimeContext context(renderer,registry,1280,720);
+    const auto texts=game::content::read("text/"+game::content::language()+"/strings.json");
+    for(int level:{1,2}){
+        game::scene::FlightScene flight;scene::SceneTestAccess::bind(flight,context);
+        scene::SceneTestAccess::enter(flight,game::scene::FlightPayload{level});
+        input::InputSystem system;system.initialize();
+        const auto tick=[&]{system.begin_frame();scene::SceneTestAccess::input(flight,system.snapshot());scene::SceneTestAccess::update(flight,1./60.);};
+        const auto press=[&]{
+            for(bool down:{true,false}){system.begin_frame();SDL_Event e{};e.type=down?SDL_EVENT_KEY_DOWN:SDL_EVENT_KEY_UP;
+                e.key.scancode=SDL_SCANCODE_RETURN;e.key.key=SDLK_RETURN;e.key.down=down;system.process_event(e);scene::SceneTestAccess::input(flight,system.snapshot());}
+        };
+        auto& player=scene::SceneTestAccess::player(flight);
+        auto& text=scene::SceneTestAccess::story_text(flight);
+        auto& diagram=scene::SceneTestAccess::tutorial(flight);
+        for(int i=0;i<600&&flight.is_paused()&&scene::SceneTestAccess::dialogue(flight).empty();++i)tick();
+        if(level==1){
+            require(flight.is_paused()&&!player.body_visible()&&player.effect_time()==0,"First incantation must precede the role's entrance animation");
+            for(int i=0;i<10;++i)tick();
+            require(player.effect_time()==0&&!player.body_visible(),"Incantation pause must freeze the role's ball effect");
+            const auto first=scene::SceneTestAccess::dialogue(flight);press();
+            require(text.complete()&&scene::SceneTestAccess::dialogue(flight)==first,"Continue must first reveal the incantation");
+            // A mouse press alone cannot close dialogue; the release completes it.
+            for(bool down:{true,false}){
+                system.begin_frame();SDL_Event motion{};motion.type=SDL_EVENT_MOUSE_MOTION;motion.motion.x=600;motion.motion.y=600;system.process_event(motion);
+                SDL_Event e{};e.type=down?SDL_EVENT_MOUSE_BUTTON_DOWN:SDL_EVENT_MOUSE_BUTTON_UP;e.button.button=SDL_BUTTON_LEFT;e.button.down=down;e.button.x=600;e.button.y=600;system.process_event(e);
+                scene::SceneTestAccess::input(flight,system.snapshot());
+                require(flight.is_paused()==down,"Dialogue should resume role logic on mouse release, not press");
+            }
+            for(int i=0;i<20;++i)tick();
+            require(player.effect_time()>0&&!player.entry_effect_finished(),"Role must unfold only after continuing the incantation");
+            for(int i=0;i<45;++i)tick();
+            require(scene::SceneTestAccess::dialogue(flight)=="~~~~~~"&&player.entry_effect_finished(),"Original one-second entrance delay must lead to the next line");
+            if(!text.complete())press();press();
+            require(player.look_time==3.5,"Look-around must start a full 3.5-second animation");
+            for(int i=0;i<181;++i)tick();
+            require(player.look_time>0&&player.look_time<.6,"Look-around tail must overlap the next line after the Lua's three-second wait");
+        }else{
+            // The original second-level delay overlaps the entrance animation.
+            int frames=0;while(scene::SceneTestAccess::dialogue(flight).empty()&&frames++<70)tick();
+            require(frames<=62&&!scene::SceneTestAccess::dialogue(flight).empty()&&player.entry_effect_finished(),"Second-level first line must follow one second, without a separate spawn wait");
+        }
+        for(int i=0;i<1800&&diagram.type()==0;++i){if(i%12==0&&!scene::SceneTestAccess::dialogue(flight).empty())press();tick();}
+        require(diagram.type()==level,"Each original tutorial must select its own animated diagram");
+        if(!text.complete())press();press();
+        const int minimum=level==1?240:390;
+        for(int i=0;i<minimum-20;++i)tick();press();
+        require(diagram.type()==level,"First-time tutorial must retain its original minimum display duration");
+        for(int i=0;i<24;++i)tick();press();
+        require(diagram.type()==0,"Tutorial diagram must hide after the minimum time and continue");
+        if(level==1){
+            for(int i=0;i<1200&&scene::SceneTestAccess::dialogue(flight)!=texts.at("Level1-10").get<std::string>();++i)tick();
+            require(scene::SceneTestAccess::dialogue(flight)==texts.at("Level1-10").get<std::string>(),"Original automatic demo must reach the moon and return to its handoff dialogue");
+        }else{
+            require(game::progress::Store::instance().data.story_flags.contains("lvl2_b1"),"Second-level direction tutorial must save its viewed flag");
+        }
+        system.shutdown();scene::SceneTestAccess::exit(flight);
+    }
+    // A normal re-entry of the now-seen second tutorial exposes its mouse Skip
+    // button; that operation bypasses the 6.5-second teaching minimum.
+    game::scene::FlightScene seen;scene::SceneTestAccess::bind(seen,context);
+    scene::SceneTestAccess::enter(seen,game::scene::FlightPayload{2});
+    input::InputSystem system;system.initialize();
+    auto& diagram=scene::SceneTestAccess::tutorial(seen);
+    for(int frame=0;frame<1800&&diagram.type()!=2;++frame){
+        system.begin_frame();
+        if(frame%12<2){SDL_Event event{};event.type=frame%12==0?SDL_EVENT_KEY_DOWN:SDL_EVENT_KEY_UP;event.key.scancode=SDL_SCANCODE_RETURN;event.key.key=SDLK_RETURN;event.key.down=frame%12==0;system.process_event(event);}
+        scene::SceneTestAccess::input(seen,system.snapshot());scene::SceneTestAccess::update(seen,1./60.);
+    }
+    require(diagram.type()==2,"Seen-story mouse skip fixture must reach the direction tutorial");
+    for(bool down:{true,false}){
+        system.begin_frame();SDL_Event motion{};motion.type=SDL_EVENT_MOUSE_MOTION;motion.motion.x=1160;motion.motion.y=686;system.process_event(motion);
+        SDL_Event event{};event.type=down?SDL_EVENT_MOUSE_BUTTON_DOWN:SDL_EVENT_MOUSE_BUTTON_UP;event.button.button=SDL_BUTTON_LEFT;event.button.down=down;event.button.x=1160;event.button.y=686;system.process_event(event);
+        scene::SceneTestAccess::input(seen,system.snapshot());
+    }
+    for(int i=0;i<120&&diagram.type()!=0;++i)scene::SceneTestAccess::update(seen,1./60.);
+    require(diagram.type()==0&&!seen.is_paused(),"Mouse Skip must bypass the seen tutorial's minimum and clean up its overlay");
+    system.shutdown();scene::SceneTestAccess::exit(seen);
 }
 void test_tutorial_flight_animation(SDL_Renderer* renderer,const io::ContentRegistry& registry){
     scene::SceneRuntimeContext context(renderer,registry,1280,720);
@@ -367,11 +456,13 @@ int main(){
         renderer=SDL_CreateSoftwareRenderer(surface);require(renderer!=nullptr,SDL_GetError());
         const auto registry=io::ContentRegistryLoader{}.load(io::PathManager::instance()->content_registry());
         require(registry.has_value(),"Content registry load failed");
-        loading::GameContentLoader loader;require(loader.start(renderer,*registry,{}).has_value(),"Game content load failed to start");
+        loading::GameContentLoader loader;const auto started=loader.start(renderer,*registry,{});
+        require(started.has_value(),started?"":started.error().diagnostic.message.c_str());
         const auto deadline=SDL_GetTicks()+30000;
         while(loader.is_running()&&SDL_GetTicks()<deadline){loader.update();SDL_Delay(1);}
         require(loader.is_finished(),loader.failure()?loader.failure()->diagnostic.message.c_str():"Game content load timed out");
         test_flight_scene(renderer,*registry);
+        test_original_tutorial_sequence(renderer,*registry);
         test_pickup_scene(renderer,*registry);
         test_tutorial_flight_animation(renderer,*registry);
         test_result_records(renderer,*registry);
