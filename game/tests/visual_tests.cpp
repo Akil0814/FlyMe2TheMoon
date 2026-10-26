@@ -24,13 +24,22 @@ void require(bool condition,const std::string& message) {
     if(!condition)throw std::runtime_error(message);
 }
 void check_frontend_artwork(SDL_Renderer* renderer){
-    auto* gold=ELYSIA_RESOURCES->find_texture("fly.InGameUI.starDown");auto* gray=ELYSIA_RESOURCES->find_texture("fly.frontend.starGreyY");
-    require(gold&&gray,"Gold and gray collection icons must both exist");
+    auto* gold=ELYSIA_RESOURCES->find_texture("fly.InGameUI.starDown");auto* empty=ELYSIA_RESOURCES->find_texture("fly.InGameUI.starUp");
+    require(gold&&empty,"Collected and uncollected in-game star textures must both exist");
+    require(SDL_SetRenderDrawColor(renderer,12,20,35,255)&&SDL_RenderClear(renderer),SDL_GetError());
     for(int count=0;count<=3;++count)for(auto size:{core::Vector2{136,40},core::Vector2{216,64}}){
-        game::frontend::StarRating stars({0,0,size.x,size.y});stars.set_collected(count);
+        const core::Rect rect{160.f+320*count-size.x/2,size.y<50?150.f:460.f,size.x,size.y};
+        game::frontend::StarRating stars(rect);stars.set_collected(count);
         std::vector<core::UiRenderCommand> icons;stars.submit_ui_render_commands(icons);require(icons.size()==3,"HUD / modal must always display all 3 star slots");
-        for(int index=0;index<3;++index){require(icons[index].texture==(index<count?gold:gray)&&icons[index].alpha==255,"Collected stars must be gold and remaining stars gray, without translucent gold placeholders");require(icons[index].screen_rect.width()==icons[index].screen_rect.height(),"Collection icon aspect ratio changed");}
+        for(int index=0;index<3;++index){require(icons[index].texture==(index<count?gold:empty)&&icons[index].alpha==255,"Collected stars must use InGameUI.starDown and uncollected stars InGameUI.starUp");require(icons[index].screen_rect.width()==icons[index].screen_rect.height(),"Collection icon aspect ratio changed");}
+        game::frontend::MoonPanel panel({rect.x()-20,rect.y()-12,rect.width()+40,rect.height()+24});
+        std::vector<core::UiRenderCommand> background;panel.submit_ui_render_commands(background);
+        for(const auto& command:background)core::require_render_success(core::execute_render_command(renderer,command));
+        for(const auto& command:icons)core::require_render_success(core::execute_render_command(renderer,command));
     }
+    std::filesystem::create_directories("out/qa");
+    auto* star_preview=SDL_RenderReadPixels(renderer,nullptr);require(star_preview!=nullptr,SDL_GetError());
+    const bool star_preview_saved=SDL_SaveBMP(star_preview,"out/qa/ingame-stars-preview.bmp");SDL_DestroySurface(star_preview);require(star_preview_saved,SDL_GetError());
     game::frontend::MenuArtwork menu;std::vector<core::UiRenderCommand> art;menu.submit_ui_render_commands(art);
     auto* original_title=ELYSIA_RESOURCES->find_texture("fly.ui.mainTitle2");int title_strips=0;
     for(const auto& command:art)if(command.texture==original_title){

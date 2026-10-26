@@ -30,7 +30,7 @@ void StarRating::submit_ui_render_commands(std::vector<core::UiRenderCommand>& o
     const float side=std::min(r.height(),(r.width()-gap*2)/3);
     const float x=r.center().x-(side*3+gap*2)/2,y=r.center().y-side/2;
     for(int index=0;index<3;++index){
-        auto* star=ELYSIA_RESOURCES->find_texture(index<_collected?"fly.InGameUI.starDown":"fly.frontend.starGreyY");
+        auto* star=ELYSIA_RESOURCES->find_texture(index<_collected?"fly.InGameUI.starDown":"fly.InGameUI.starUp");
         image(out,star,{x+(side+gap)*index,y,side,side});
     }
 }
