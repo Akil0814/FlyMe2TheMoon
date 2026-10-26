@@ -300,6 +300,9 @@
     }
   },
   "fly": {
+    "gamepad_controls": "A / RT: 추진 · 왼쪽 스틱 / 방향 패드: 비행 · Start: 일시 정지 · X: 재시도",
+    "gamepad_continue": "A: 계속",
+    "gamepad_skip": "A: 계속 · Y: 읽은 이야기 건너뛰기",
     "play": "Play · Select level",
     "achievements": "Achievements",
     "settings": "Settings",
@@ -337,7 +340,7 @@
     "result_success": "Level {:02} · Moon reached!",
     "result_failure": "Level {:02} · Try again",
     "result_stats": "{0:.2f}초    크리스탈 {1}    점수 {2}",
-    "credits_controls": "↑ / ↓ or wheel: scroll     Space: pause / resume     Esc: menu",
+    "credits_controls": "스틱 / ↑↓: 스크롤 · Space / X: 일시 정지 / 재개 · Esc / B: 메뉴",
     "album_page": "앨범 {}",
     "hud_compact": "스테이지 {:02}   크리스탈 {}   {:.1f}초{}",
     "pause_title": "일시 정지",

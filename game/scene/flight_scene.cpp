@@ -138,32 +138,40 @@ void FlightScene::on_reset(){on_exit();}
 void FlightScene::on_shortcuts(const input::RawInputFrame&,const std::vector<input::RawInputEvent>& events) {
     using C=input::RawInputControl;
     for(const auto& e:events)if(e.type==input::RawInputEventType::ControlPressed) {
+        _using_gamepad=e.device==input::InputDevice::Gamepad;
         if(_pause_menu_open){
-            if(e.control==C::KeyP||e.control==C::KeyEscape){consume_input(e);close_pause_menu();}
-            else if(e.control==C::KeyR){consume_input(e);retry_level();}
+            if(e.control==C::KeyP||e.control==C::KeyEscape||e.control==C::GamepadStart){consume_input(e);close_pause_menu();}
+            else if(e.control==C::KeyR||e.control==C::GamepadWest){consume_input(e);retry_level();}
             return;
         }
-        if(e.control==C::KeyEscape||e.control==C::KeyP){consume_input(e);open_pause_menu();return;}
-        if(_story_started&&_story.dialogue()&&(e.control==C::KeyEnter||e.control==C::MouseLeft||e.control==C::KeyTab)){consume_input(e);_story.advance(e.control==C::KeyTab);update_dialogue();return;}
-        if(e.control==C::KeyR){consume_input(e);request_scene_switch(scene_keys::Flight,FlightPayload{_level,true},elysia::scene::SceneReloadMode::Recreate);return;}
+        if(e.control==C::KeyEscape||e.control==C::KeyP||e.control==C::GamepadStart){consume_input(e);open_pause_menu();return;}
+        if(_story_started&&_story.dialogue()&&(e.control==C::KeyEnter||e.control==C::MouseLeft||e.control==C::KeyTab||e.control==C::GamepadSouth||e.control==C::GamepadNorth)){consume_input(e);_story.advance(e.control==C::KeyTab||e.control==C::GamepadNorth);update_dialogue();return;}
+        if(e.control==C::KeyR||e.control==C::GamepadWest){consume_input(e);request_scene_switch(scene_keys::Flight,FlightPayload{_level,true},elysia::scene::SceneReloadMode::Recreate);return;}
         if(e.control==C::KeyEnter&&_finished){consume_input(e);
             continue_from_result();return;}
     }
 }
 void FlightScene::on_routed_input(const input::InputSnapshot& snapshot) {
+    for(const auto& e:snapshot.events)if(e.type==input::RawInputEventType::ControlPressed||e.type==input::RawInputEventType::MouseMoved||
+        (e.type==input::RawInputEventType::AxisChanged&&std::abs(e.axis_value)>.2f))_using_gamepad=e.device==input::InputDevice::Gamepad;
     if(!_player)return;_player->thrust={};if(is_paused()||_finished||_event_pending||_transition.active())return;
     if(_demo)return;
     if(!_input_enabled||snapshot.focus_lost)return;
     using C=input::RawInputControl;
-    bool left=false,right=false,up=false,mouse=false;Vec point;
+    bool left=false,right=false,up=false,mouse=false;Vec point,pad;
     for(const auto& source:snapshot.sources) {
         const auto& s=source.frame.state;
         left|=s.is_pressed(C::KeyA)||s.is_pressed(C::KeyLeft);
         right|=s.is_pressed(C::KeyD)||s.is_pressed(C::KeyRight);
         up|=s.is_pressed(C::KeyW)||s.is_pressed(C::KeyUp)||s.is_pressed(C::KeySpace);
+        if(source.source.is_gamepad()){
+            const auto thrust=gamepad_thrust(s);
+            if(thrust.length_squared()>pad.length_squared())pad=thrust;
+        }
         if(s.is_pressed(C::MouseLeft)){mouse=true;point={static_cast<float>(source.frame.mouse_x),static_cast<float>(source.frame.mouse_y)};}
     }
     if(up||left||right){const float angle=(right==left?0.f:right?1.f:-1.f)*50*std::numbers::pi_v<float>/180;_player->thrust={std::sin(angle),-std::cos(angle)};}
+    else _player->thrust=pad;
     if(mouse) {
         apply_pointer(camera().screen_to_world(point));
     }
@@ -384,8 +392,8 @@ void FlightScene::on_after_update(double delta) {
     _hud->set_text_content(ui::ui_raw_text(content::format("hud_compact",_level,_crystals,_elapsed,_finished?content::ui(_success?"done":"failed"):_demo?content::ui("demo"):is_paused()?content::ui("paused"):"")));
     _hint->set_visible(!_pause_menu_open&&!_finished);
     if(opening())_hint->set_text_content(ui::ui_raw_text(content::ui("wait")));
-    else if(_story.dialogue())_hint->set_text_content(ui::ui_raw_text(content::ui(_story.dialogue()->remaining>0?"wait":_story.skip_enabled()?"skip":"continue")));
-    else if(!_finished)_hint->set_text_content(ui::ui_raw_text(content::ui("controls")));
+    else if(_story.dialogue())_hint->set_text_content(ui::ui_raw_text(content::ui(_story.dialogue()->remaining>0?"wait":_story.skip_enabled()?(_using_gamepad?"gamepad_skip":"skip"):(_using_gamepad?"gamepad_continue":"continue"))));
+    else if(!_finished)_hint->set_text_content(ui::ui_raw_text(content::ui(_using_gamepad?"gamepad_controls":"controls")));
     if(_probe.enabled()) {
     content::Json homing_projectiles=content::Json::array();
     if(_probe.enabled())for(const auto* projectile:_projectiles)if(projectile->homing()&&!projectile->expired){

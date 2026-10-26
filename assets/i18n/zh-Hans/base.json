@@ -300,6 +300,9 @@
     }
   },
   "fly": {
+    "gamepad_controls": "A / RT 喷射 · 左摇杆 / 方向键飞行 · Start 暂停 · X 重试",
+    "gamepad_continue": "A：继续",
+    "gamepad_skip": "A：继续 · Y：跳过已读剧情",
     "play": "开始游戏 · 选择关卡",
     "achievements": "成就",
     "settings": "设置",
@@ -337,7 +340,7 @@
     "result_success": "第 {:02} 关 · 到达月亮！",
     "result_failure": "第 {:02} 关 · 再试一次",
     "result_stats": "{0:.2f} 秒    水晶 {1}    得分 {2}",
-    "credits_controls": "↑ / ↓ 或滚轮：滚动     空格：暂停 / 继续     Esc：菜单",
+    "credits_controls": "左摇杆 / ↑↓：滚动 · 空格 / X：暂停 / 继续 · Esc / B：菜单",
     "album_page": "星册 {}",
     "hud_compact": "第 {:02} 关   水晶 {}   {:.1f} 秒{}",
     "pause_title": "暂停",

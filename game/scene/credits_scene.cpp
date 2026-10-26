@@ -37,7 +37,7 @@ void CreditsScene::on_exit(){_scroll=nullptr;ELYSIA_AUDIO->stop_music();clear_sc
 void CreditsScene::on_shortcuts(const input::RawInputFrame&,const std::vector<input::RawInputEvent>& events) {
     using C=input::RawInputControl;
     for(const auto& e:events)if(e.type==input::RawInputEventType::ControlPressed){
-        if(e.control==C::KeySpace){consume_input(e);_auto_scroll=!_auto_scroll;}
+        if(e.control==C::KeySpace||e.control==C::GamepadWest){consume_input(e);_auto_scroll=!_auto_scroll;}
         else if(e.control==C::KeyDown||e.control==C::KeyUp){consume_input(e);_auto_scroll=false;_scroll->scroll_by({0,e.control==C::KeyDown?90.f:-90.f});}
         else if(e.control==C::MouseLeft)_auto_scroll=false;
     }

@@ -1,10 +1,30 @@
 #pragma once
 #include "engine/core/geometry/vector2.h"
+#include "engine/input/raw_input_state.h"
 #include "game/content/content.h"
 #include <algorithm>
 #include <numbers>
 
 namespace game::play {
+// Match the keyboard's 50-degree steering limit. Down alone never fires the jet.
+// Rescale the dead zone so both the stick and trigger retain gradual thrust.
+inline elysia::core::Vector2 gamepad_thrust(const elysia::input::RawInputState& state) {
+    using C=elysia::input::RawInputControl;
+    using A=elysia::input::RawInputAxis;
+    const auto axis=[](float value,float dead_zone){
+        return std::copysign(std::clamp((std::abs(value)-dead_zone)/(1-dead_zone),0.f,1.f),value);
+    };
+    float steering=axis(state.axis_value(A::GamepadLeftX),.2f);
+    float power=std::max(std::abs(steering),std::max(0.f,-axis(state.axis_value(A::GamepadLeftY),.2f)));
+    const bool left=state.is_pressed(C::GamepadDPadLeft),right=state.is_pressed(C::GamepadDPadRight);
+    if(left||right){steering=static_cast<float>(right)-static_cast<float>(left);power=1;}
+    if(state.is_pressed(C::GamepadDPadUp)||state.is_pressed(C::GamepadSouth))power=1;
+    // Match the scene router's neutral threshold so held axes cannot leak
+    // through pause/focus/capture suppression at a lower gameplay dead zone.
+    power=std::max(power,axis(state.axis_value(A::GamepadRightTrigger),.2f));
+    const float angle=steering*50*std::numbers::pi_v<float>/180;
+    return {std::sin(angle)*power,-std::cos(angle)*power};
+}
 // Recovered from the supplied original's RoleBodyComponent.applyPush:pushPoint:.
 // Return a dimensionless fraction of maxF in the engine's downward-Y coordinates.
 inline elysia::core::Vector2 pointer_thrust(elysia::core::Vector2 role,elysia::core::Vector2 point,const content::Json& config) {
