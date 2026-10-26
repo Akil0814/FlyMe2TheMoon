@@ -6,6 +6,8 @@
 #include "game/gameplay/laser_visual.h"
 #include "game/gameplay/homing_parameters.h"
 #include "game/frontend/moon_ui.h"
+#include "game/scene/main_menu_scene.h"
+#include "engine/ui/window/ui_window.h"
 #include "engine/io/path/path_manager.h"
 #include "engine/io/loaders/content_registry_loader.h"
 #include "engine/loading/game_content_loader.h"
@@ -24,6 +26,16 @@
 #include <stdexcept>
 #include <set>
 #include <regex>
+
+namespace elysia::scene {
+class SceneTestAccess {
+public:
+    static void bind(Scene& scene,const SceneRuntimeContext& context){scene.bind_runtime_context(context);}
+    static void enter(Scene& scene){scene.lifecycle_enter({});}
+    static void exit(Scene& scene){scene.lifecycle_exit();}
+    static ui::UiWindow& window(Scene& scene){return dynamic_cast<ui::UiWindow&>(*scene._ui_roots.at(0));}
+};
+}
 
 namespace {
 using namespace elysia;
@@ -111,6 +123,24 @@ void check_dialogue_and_pause(SDL_Renderer* renderer){
     auto source=game::content::read("text/zh-Hans/strings.json").at("Level39-1").get<std::string>();source=std::regex_replace(source,std::regex("#c[0-9a-fA-F]{6}|#n"),"");line.set_text_content(ui::ui_raw_text(source));render(line);
     auto* preview=SDL_RenderReadPixels(renderer,nullptr);require(preview!=nullptr,SDL_GetError());const bool saved=SDL_SaveBMP(preview,"out/qa/dialogue-pause-assets-preview.bmp");SDL_DestroySurface(preview);require(saved,SDL_GetError());
 }
+void check_main_menu_background(SDL_Renderer* renderer,const io::ContentRegistry& registry){
+    scene::SceneRuntimeContext context(renderer,registry,1280,720);
+    game::scene::MainMenuScene menu;scene::SceneTestAccess::bind(menu,context);scene::SceneTestAccess::enter(menu);
+    auto& window=scene::SceneTestAccess::window(menu);window.update(0);
+    std::vector<core::UiRenderCommand> drawn;window.submit_ui_render_commands(drawn);
+    auto* expected=ELYSIA_RESOURCES->find_texture("fly.frontend.background_menu");require(expected!=nullptr,"Requested main-menu background missing");
+    int backgrounds=0;
+    for(const auto& command:drawn){
+        if(command.texture==expected){++backgrounds;require(command.screen_rect==core::Rect{0,0,1280,720},"Menu background must fill the viewport");}
+        require(command.texture!=ELYSIA_RESOURCES->find_texture("fly.ui.mainBg2")&&command.texture!=ELYSIA_RESOURCES->find_texture("fly.ui.mainTitle2")&&command.texture!=ELYSIA_RESOURCES->find_texture("fly.frontend.background_menu_outpaint"),"New menu must not retain the old artwork layers");
+    }
+    require(backgrounds==1&&window.child_count()==2,"Main menu must draw one new background alongside its existing navigation");
+    require(SDL_SetRenderDrawColor(renderer,12,20,35,255)&&SDL_RenderClear(renderer),SDL_GetError());
+    for(const auto& command:drawn)core::require_render_success(core::execute_render_command(renderer,command));
+    auto* preview=SDL_RenderReadPixels(renderer,nullptr);require(preview!=nullptr,SDL_GetError());
+    std::filesystem::create_directories("out/qa");const bool saved=SDL_SaveBMP(preview,"out/qa/main-menu-background-preview.bmp");SDL_DestroySurface(preview);require(saved,SDL_GetError());
+    scene::SceneTestAccess::exit(menu);
+}
 void check_frontend_artwork(SDL_Renderer* renderer){
     auto* gold=ELYSIA_RESOURCES->find_texture("fly.InGameUI.starDown");auto* empty=ELYSIA_RESOURCES->find_texture("fly.InGameUI.starUp");
     require(gold&&empty,"Collected and uncollected in-game star textures must both exist");
@@ -128,14 +158,6 @@ void check_frontend_artwork(SDL_Renderer* renderer){
     std::filesystem::create_directories("out/qa");
     auto* star_preview=SDL_RenderReadPixels(renderer,nullptr);require(star_preview!=nullptr,SDL_GetError());
     const bool star_preview_saved=SDL_SaveBMP(star_preview,"out/qa/ingame-stars-preview.bmp");SDL_DestroySurface(star_preview);require(star_preview_saved,SDL_GetError());
-    game::frontend::MenuArtwork menu;std::vector<core::UiRenderCommand> art;menu.submit_ui_render_commands(art);
-    auto* original_title=ELYSIA_RESOURCES->find_texture("fly.ui.mainTitle2");int title_strips=0;
-    for(const auto& command:art)if(command.texture==original_title){
-        ++title_strips;
-        require(command.screen_rect.width()==544&&command.src_rect.width()==640,"Central artwork must use a full-width quad to avoid fractional strip gaps");
-        require(std::abs(command.screen_rect.y()-539*.85f)<.001f&&std::abs(command.screen_rect.height()-276*.85f)<.001f,"Original menu title must overlap the boots at original crop Y=539 with the same background scale");
-    }
-    require(title_strips==41,"Original menu title must cover the central image plus both clipped fade edges");
     require(SDL_SetRenderDrawColor(renderer,12,20,35,255)&&SDL_RenderClear(renderer),SDL_GetError());
     for(int chapter=0;chapter<4;++chapter)for(int stars=-1;stars<=3;++stars){
         const std::string color(1,"OGYP"[chapter]);
@@ -981,6 +1003,7 @@ int main() {
             while(loader.is_running()&&SDL_GetTicks()<deadline){loader.update();SDL_Delay(1);}
             require(loader.is_finished(),loader.failure()?loader.failure()->diagnostic.message:"Content load timed out");
             check_frontend_artwork(renderer);
+            check_main_menu_background(renderer,*registry);
             check_run_stats(renderer);
             check_dialogue_and_pause(renderer);
             check_pickups_and_moon();

@@ -113,35 +113,6 @@ void PauseIconButton::submit_ui_render_commands(std::vector<core::UiRenderComman
     auto command=core::make_ui_texture_command(text,{r.center().x-icon_width/2,r.center().y-extent/2,icon_width,extent});
     apply_opacity(command);out.push_back(command);
 }
-MenuArtwork::MenuArtwork():UiElement({0,0,544,816},-90),
-    _background(ELYSIA_RESOURCES->find_texture("fly.ui.mainBg2")),_title(ELYSIA_RESOURCES->find_texture("fly.ui.mainTitle2")){}
-void MenuArtwork::submit_ui_render_commands(std::vector<core::UiRenderCommand>& out)const {
-    if(!_background||!_title)return;
-    const auto r=screen_rect();const float scale=r.height()/960;
-    // Original 640x276 title is the background crop beginning at Y=539,
-    // including the character's boots. Replace that band, using the same scale
-    // and source coordinates; drawing it as a separate banner breaks alignment.
-    const auto column=[&](core::Rect clip,Uint8 alpha){
-        const auto band=[&](SDL_Texture* source,float source_y,float height,float dest_y){
-            auto command=core::make_ui_texture_command(source,{r.x(),r.y()+dest_y*scale,r.width(),height*scale});
-            command.use_src_rect=true;command.src_rect={0,source_y,640,height};command.alpha=alpha;
-            core::set_ui_command_clip_rect(command,clip);out.push_back(command);
-        };
-        band(_background,0,539,0);
-        band(_title,0,276,539);
-        band(_background,815,145,815);
-    };
-    // Clip full-width quads instead of subdividing texture geometry: fractional
-    // strip widths can leave visible raster gaps across the character.
-    constexpr float fade=40;
-    column({r.x()+fade,0,r.width()-2*fade,720},255);
-    for(int step=0;step<20;++step){
-        const auto alpha=static_cast<Uint8>((step+.5f)*255/20);
-        column({r.x()+step*2,0,2,720},alpha);
-        column({r.right()-(step+1)*2,0,2,720},alpha);
-    }
-    for(int row=0;row<60;row+=2)out.push_back(core::make_ui_fill_rect_command({0,660.f+row,1280,2},{2,9,28,static_cast<Uint8>(row*255/60)}));
-}
 MoonBackdrop::MoonBackdrop(const char* name,int shade):UiElement({0,0,1280,720},-100),_texture(texture(std::string("background_")+name)),_shade(shade){}
 void MoonBackdrop::submit_ui_render_commands(std::vector<core::UiRenderCommand>& out)const {
     const auto rect=screen_rect();out.push_back(core::make_ui_fill_rect_command(rect,{4,13,36,255}));

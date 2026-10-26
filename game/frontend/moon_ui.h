@@ -45,14 +45,6 @@ public:
     explicit PauseIconButton(elysia::core::Rect rect,std::function<void()> action);
     void submit_ui_render_commands(std::vector<elysia::core::UiRenderCommand>& out)const override;
 };
-class MenuArtwork final:public elysia::ui::UiElement {
-public:
-    MenuArtwork();
-    void submit_ui_render_commands(std::vector<elysia::core::UiRenderCommand>& out)const override;
-private:
-    SDL_Texture* _background=nullptr;
-    SDL_Texture* _title=nullptr;
-};
 // Artwork is supplied by the project; all interactive controls remain engine UI.
 class MoonBackdrop final:public elysia::ui::UiElement {
 public:
