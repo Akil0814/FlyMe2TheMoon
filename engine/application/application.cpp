@@ -593,7 +593,7 @@ ApplicationRunResult Application::run()
         {
             const double frame_delta = elysia::core::Time::instance()->delta();
 #if ELYSIA_ENABLE_IMGUI
-            _development_overlay_host.begin_frame(elysia::core::Time::instance()->raw_delta());
+            _development_overlay_host.begin_frame(frame_delta);
 #endif
             _scene_manager.on_update(frame_delta);
             elysia::audio::AudioService::instance()->update(frame_delta);

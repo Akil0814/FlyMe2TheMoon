@@ -31,8 +31,7 @@ void MainMenuScene::on_enter(const elysia::scene::ScenePayload&)
             static_cast<float>(context.logical_height())});
     window->set_on_cancel([this] { request_quit(); });
     window->set_style_overrides({.draw_background=false,.draw_border=false});
-    window->add_child(std::make_unique<frontend::MoonBackdrop>("menu_outpaint"));
-    window->add_child(std::make_unique<frontend::MenuArtwork>(),elysia::ui::UiLayoutChildOptions{._anchor=elysia::ui::UiLayoutAnchor::TopCenter});
+    window->add_child(std::make_unique<frontend::MoonBackdrop>("menu"));
     ELYSIA_AUDIO->play_music("fly.MoonTrip");
 
     auto content = std::make_unique<elysia::ui::UiListContainer>(

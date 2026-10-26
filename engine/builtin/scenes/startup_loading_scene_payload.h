@@ -15,6 +15,11 @@ struct StartupLogoSlot
     double fade_out_seconds = 1.0;
 };
 
+struct StartupBackgroundSlot
+{
+    std::string texture_key;
+};
+
 struct StartupLoadingScenePayload
 {
     elysia::scene::SceneRoute success_route{};
@@ -22,5 +27,7 @@ struct StartupLoadingScenePayload
     std::optional<StartupLogoSlot> project_logo{};
     bool wait_for_logo_sequence = true;
     bool wait_for_confirmation = true;
+    // Preloaded image stretched to the logical viewport after all logos finish.
+    std::optional<StartupBackgroundSlot> background{};
 };
 }

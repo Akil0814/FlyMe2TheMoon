@@ -2,6 +2,8 @@
 
 #include "startup_loading_flow.h"
 #include "startup_loading_scene_payload.h"
+#include "../resources/builtin_resource_ids.h"
+#include "../../application/application_presentation_settings.h"
 #include "../../scene/scene.h"
 #include "../../loading/game_content_loader.h"
 
@@ -11,6 +13,7 @@
 namespace elysia::ui
 {
 class UiBar;
+class UiImage;
 class UiFadeImage;
 class UiBlinkLabel;
 struct UiTextContent;
@@ -28,16 +31,9 @@ class StartupLoadingScene final : public elysia::scene::Scene
     friend class StartupLoadingSceneTestAccess;
 
 public:
-    StartupLoadingScene()
-    {
-        // The confirmation prompt deliberately accepts every button, including
-        // mouse buttons.  Shortcuts exclude pointer input by default, so this
-        // scene opts in explicitly.
-        set_shortcut_devices(
-            elysia::input::InputCapture::Keyboard
-            | elysia::input::InputCapture::Pointer
-            | elysia::input::InputCapture::Gamepad);
-    }
+    explicit StartupLoadingScene(
+        elysia::application::ApplicationEngineLogoVariant engine_logo_variant =
+            elysia::application::ApplicationEngineLogoVariant::White);
     ~StartupLoadingScene() override = default;
 
 protected:
@@ -52,6 +48,7 @@ private:
     [[nodiscard]] static elysia::ui::UiTextContent
         make_start_prompt_content();
     bool create_presentation();
+    void create_background();
     void create_loading_ui();
     void begin_logo_sequence();
     void on_engine_logo_finished();
@@ -70,10 +67,12 @@ private:
     void clear_state() noexcept;
 
 private:
+    const BuiltinTextureId _engine_logo_texture_id;
     StartupLoadingScenePayload _startup_payload;
     elysia::loading::GameContentLoader _content_loader;
 
     elysia::ui::UiBar* _loading_bar = nullptr;
+    elysia::ui::UiImage* _background = nullptr;
     elysia::ui::UiFadeImage* _engine_logo = nullptr;
     elysia::ui::UiFadeImage* _project_logo = nullptr;
     elysia::ui::UiBlinkLabel* _start_prompt = nullptr;

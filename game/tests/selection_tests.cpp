@@ -143,9 +143,9 @@ void test_menu_routes(){
     for(int target=0;target<4;++target){
         game::scene::MainMenuScene menu;Requests requests;menu.attach(&requests);scene::SceneTestAccess::bind(menu,context);
         scene::SceneTestAccess::enter(menu,{});auto& window=scene::SceneTestAccess::window(menu);window.update(0);
-        bool aligned=false;
-        for(std::size_t index=0;index<window.child_count();++index)if(auto* title=dynamic_cast<game::frontend::MenuArtwork*>(window.child_at(index)))aligned=std::abs(title->screen_rect().center().x-window.screen_rect().center().x)<.1f;
-        require(aligned,"Main title must align with the central illustration rather than the menu column");
+        bool full_background=false;
+        for(std::size_t index=0;index<window.child_count();++index)if(auto* background=dynamic_cast<game::frontend::MoonBackdrop*>(window.child_at(index)))full_background=background->screen_rect()==window.screen_rect();
+        require(full_background&&window.child_count()==2,"Main menu must use one full background plus its navigation controls");
         for(int step=0;step<target;++step)key(window,ui::UiAction::NavigateDown);
         key(window,ui::UiAction::Confirm);
         require(requests.received.size()==1&&requests.received.back().route.target==targets[target],"Every main menu entry must be reachable and activate once from the keyboard");

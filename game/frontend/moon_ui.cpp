@@ -13,6 +13,17 @@ void image(std::vector<core::UiRenderCommand>& out,SDL_Texture* source,core::Rec
     if(!source)return;
     auto command=core::make_ui_texture_command(source,rect);command.alpha=alpha;out.push_back(command);
 }
+void hud_background(std::vector<core::UiRenderCommand>& out,core::Rect rect){
+    auto* source=ELYSIA_RESOURCES->find_texture("fly.InGameUI.btn1Up");float width=0,height=0;
+    if(!source||!SDL_GetTextureSize(source,&width,&height)||rect.is_empty())return;
+    // Stretch the center while retaining the rounded end caps at the target height.
+    const float source_cap=std::floor(std::min(height*.35f,width/2)),cap=std::floor(std::min(rect.height()*.35f,rect.width()/2));
+    const std::array<core::Rect,3> sources{{{0,0,source_cap,height},{source_cap,0,width-2*source_cap,height},{width-source_cap,0,source_cap,height}}};
+    const std::array<core::Rect,3> targets{{{rect.x(),rect.y(),cap,rect.height()},{rect.x()+cap,rect.y(),rect.width()-2*cap,rect.height()},{rect.right()-cap,rect.y(),cap,rect.height()}}};
+    for(std::size_t i=0;i<3;++i)if(!targets[i].is_empty()){
+        auto command=core::make_ui_texture_command(source,targets[i]);command.use_src_rect=true;command.src_rect=sources[i];out.push_back(command);
+    }
+}
 ui::UiButtonStyleOverrides glass_button_style(){
     return {.chrome={.background={.idle=core::Color{12,49,91,90},.focused=core::Color{72,182,245,80},.active=core::Color{29,105,164,130}},
         .border={.idle=core::Color{125,216,255,75},.focused=core::Color{204,247,255,255}},.corner_radius=10.f,.draw_border=true},
@@ -30,58 +41,77 @@ void StarRating::submit_ui_render_commands(std::vector<core::UiRenderCommand>& o
     const float side=std::min(r.height(),(r.width()-gap*2)/3);
     const float x=r.center().x-(side*3+gap*2)/2,y=r.center().y-side/2;
     for(int index=0;index<3;++index){
-        auto* star=ELYSIA_RESOURCES->find_texture(index<_collected?"fly.InGameUI.starDown":"fly.frontend.starGreyY");
+        auto* star=ELYSIA_RESOURCES->find_texture(index<_collected?"fly.InGameUI.starDown":"fly.InGameUI.starUp");
         image(out,star,{x+(side+gap)*index,y,side,side});
     }
 }
-void MoonPanel::submit_ui_render_commands(std::vector<core::UiRenderCommand>& out)const {
-    const auto r=screen_rect();
-    out.push_back(core::make_ui_fill_rect_command(r,{9,30,62,242},22));
-    out.push_back(core::make_ui_draw_rect_command(r,{124,211,247,170},22));
-    out.push_back(core::make_ui_draw_line_command({r.x()+32,r.y()+12},{r.right()-32,r.y()+12},{156,233,255,80}));
+HudLabel::HudLabel(core::Rect rect,int order,ui::UiTextContent text):UiLabel(rect,order,std::move(text)){
+    set_typography_role(typography::UiTypographyRole::ButtonCompact);
+    set_style_overrides({.text=core::Color{16,46,77,255},.draw_background=false});
+    set_padding(8);set_vertical_align(ui::TextVerticalAlign::Center);set_horizontal_align(ui::TextHorizontalAlign::Center);
+    set_text_fit_mode(ui::UiLabelTextFitMode::ShrinkToFit);
+}
+void HudLabel::submit_ui_render_commands(std::vector<core::UiRenderCommand>& out)const{
+    if(!is_visible())return;
+    hud_background(out,screen_rect());UiLabel::submit_ui_render_commands(out);
+}
+void HudPanel::submit_ui_render_commands(std::vector<core::UiRenderCommand>& out)const{
+    if(!is_visible())return;
+    auto* source=ELYSIA_RESOURCES->find_texture("fly.InGameUI.btn1Up");float width=0,height=0;
+    const auto r=screen_rect();if(!source||!SDL_GetTextureSize(source,&width,&height)||r.is_empty())return;
+    // Large dialogue and modal frames retain fixed corners in both dimensions.
+    const float edge=std::floor(std::min({height/3,width/3,24.f}));
+    const float target=std::floor(std::min({r.width()/2,r.height()/2,edge}));
+    const std::array<float,4> sx{{0,edge,width-edge,width}},sy{{0,edge,height-edge,height}};
+    const std::array<float,4> dx{{r.x(),r.x()+target,r.right()-target,r.right()}},dy{{r.y(),r.y()+target,r.bottom()-target,r.bottom()}};
+    for(int row=0;row<3;++row)for(int column=0;column<3;++column){
+        const core::Rect rect{dx[column],dy[row],dx[column+1]-dx[column],dy[row+1]-dy[row]};if(rect.is_empty())continue;
+        auto command=core::make_ui_texture_command(source,rect);command.use_src_rect=true;
+        command.src_rect={sx[column],sy[row],sx[column+1]-sx[column],sy[row+1]-sy[row]};out.push_back(command);
+    }
+}
+RunStats::RunStats(core::Rect rect,int order):UiElement(rect,order){
+    for(auto& label:_labels){
+        label.set_typography_role(typography::UiTypographyRole::ButtonCompact);
+        label.set_style_overrides({.text=core::Color{16,46,77,255},.draw_background=false});
+        label.set_vertical_align(ui::TextVerticalAlign::Center);label.set_text_fit_mode(ui::UiLabelTextFitMode::ShrinkToFit);
+        label.set_padding(4);
+    }
+    set_values(0,0,0);
+}
+void RunStats::set_values(double seconds,int large_crystals,int small_crystals){
+    _large=large_crystals;_small=small_crystals;
+    _labels[0].set_text_content(ui::ui_raw_text(std::format("{:.1f} s",seconds)));
+    _labels[1].set_text_content(ui::ui_raw_text(std::format("{}",large_crystals)));
+    _labels[2].set_text_content(ui::ui_raw_text(std::format("{}",small_crystals)));
+}
+void RunStats::submit_ui_render_commands(std::vector<core::UiRenderCommand>& out)const{
+    if(!is_visible())return;
+    const auto r=screen_rect();const float gap=8,cell=std::floor((r.width()-2*gap)/3);
+    const std::array<const char*,3> keys{{"fly.InGameUI.timeIcon","fly.InGameUI.uiCrystalLarge","fly.InGameUI.uiCrystalSmall"}};
+    for(std::size_t i=0;i<3;++i){
+        const core::Rect plate{r.x()+(cell+gap)*i,r.y(),cell,r.height()};hud_background(out,plate);
+        auto* icon=ELYSIA_RESOURCES->find_texture(keys[i]);float width=0,height=0;
+        if(icon&&SDL_GetTextureSize(icon,&width,&height)){
+            const float icon_height=r.height()*(i==2?.47f:.65f),icon_width=icon_height*width/height;
+            image(out,icon,{plate.x()+34-icon_width/2,plate.center().y-icon_height/2,icon_width,icon_height});
+        }
+        _labels[i].set_screen_rect({plate.x()+62,plate.y()+4,cell-70,plate.height()-8});_labels[i].submit_ui_render_commands(out);
+    }
 }
 PauseIconButton::PauseIconButton(core::Rect rect,std::function<void()> action):UiButton(rect,12){
-    set_style_overrides({.chrome={
-        .background={.idle=core::Color{9,30,62,218},.focused=core::Color{20,57,96,235},
-            .active=core::Color{32,82,126,245},.disabled=core::Color{9,30,62,160}},
-        .corner_radius=16.f,.draw_border=false}});
+    set_style_overrides({.chrome={.draw_background=false,.draw_border=false}});
+    set_state_textures({.idle=ELYSIA_RESOURCES->find_texture("fly.InGameUI.pauseBtnUp"),.pushed=ELYSIA_RESOURCES->find_texture("fly.InGameUI.pauseBtnDown")});
     set_on_click(std::move(action));
 }
 void PauseIconButton::submit_ui_render_commands(std::vector<core::UiRenderCommand>& out)const {
     if(!is_visible())return;
-    UiButton::submit_ui_render_commands(out);const auto center=screen_rect().center();
-    const core::Color color{229,246,255,static_cast<Uint8>(is_enabled()?255:120)};
-    out.push_back(core::make_ui_fill_rect_command({center.x-10,center.y-13,6,26},color,2));
-    out.push_back(core::make_ui_fill_rect_command({center.x+4,center.y-13,6,26},color,2));
-}
-MenuArtwork::MenuArtwork():UiElement({0,0,544,816},-90),
-    _background(ELYSIA_RESOURCES->find_texture("fly.ui.mainBg2")),_title(ELYSIA_RESOURCES->find_texture("fly.ui.mainTitle2")){}
-void MenuArtwork::submit_ui_render_commands(std::vector<core::UiRenderCommand>& out)const {
-    if(!_background||!_title)return;
-    const auto r=screen_rect();const float scale=r.height()/960;
-    // Original 640x276 title is the background crop beginning at Y=539,
-    // including the character's boots. Replace that band, using the same scale
-    // and source coordinates; drawing it as a separate banner breaks alignment.
-    const auto column=[&](core::Rect clip,Uint8 alpha){
-        const auto band=[&](SDL_Texture* source,float source_y,float height,float dest_y){
-            auto command=core::make_ui_texture_command(source,{r.x(),r.y()+dest_y*scale,r.width(),height*scale});
-            command.use_src_rect=true;command.src_rect={0,source_y,640,height};command.alpha=alpha;
-            core::set_ui_command_clip_rect(command,clip);out.push_back(command);
-        };
-        band(_background,0,539,0);
-        band(_title,0,276,539);
-        band(_background,815,145,815);
-    };
-    // Clip full-width quads instead of subdividing texture geometry: fractional
-    // strip widths can leave visible raster gaps across the character.
-    constexpr float fade=40;
-    column({r.x()+fade,0,r.width()-2*fade,720},255);
-    for(int step=0;step<20;++step){
-        const auto alpha=static_cast<Uint8>((step+.5f)*255/20);
-        column({r.x()+step*2,0,2,720},alpha);
-        column({r.right()-(step+1)*2,0,2,720},alpha);
-    }
-    for(int row=0;row<60;row+=2)out.push_back(core::make_ui_fill_rect_command({0,660.f+row,1280,2},{2,9,28,static_cast<Uint8>(row*255/60)}));
+    UiButton::submit_ui_render_commands(out);const auto r=screen_rect();
+    auto* text=ELYSIA_RESOURCES->find_texture("fly.InGameUI.pauseBtnText");float width=0,height=0;
+    if(!text||!SDL_GetTextureSize(text,&width,&height))return;
+    const float extent=std::min(r.width(),r.height())*.5f,icon_width=extent*width/height;
+    auto command=core::make_ui_texture_command(text,{r.center().x-icon_width/2,r.center().y-extent/2,icon_width,extent});
+    apply_opacity(command);out.push_back(command);
 }
 MoonBackdrop::MoonBackdrop(const char* name,int shade):UiElement({0,0,1280,720},-100),_texture(texture(std::string("background_")+name)),_shade(shade){}
 void MoonBackdrop::submit_ui_render_commands(std::vector<core::UiRenderCommand>& out)const {

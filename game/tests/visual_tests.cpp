@@ -6,39 +6,158 @@
 #include "game/gameplay/laser_visual.h"
 #include "game/gameplay/homing_parameters.h"
 #include "game/frontend/moon_ui.h"
+#include "game/scene/main_menu_scene.h"
+#include "engine/ui/window/ui_window.h"
 #include "engine/io/path/path_manager.h"
 #include "engine/io/loaders/content_registry_loader.h"
 #include "engine/loading/game_content_loader.h"
 #include "engine/resources/resource_service.h"
 #include "engine/core/render/render_command_projection.h"
 #include "engine/core/render/sdl_render_command_executor.h"
+#include "engine/builtin/resources/builtin_resources.h"
+#include "engine/builtin/resources/builtin_asset_catalog.h"
+#include "engine/localization/localization_manager.h"
+#include "engine/localization/localization_service.h"
+#include "engine/typography/font_resolver.h"
+#include "engine/ui/widgets/image/ui_image.h"
 #include <SDL3_mixer/SDL_mixer.h>
 #include <SDL3_ttf/SDL_ttf.h>
 #include <iostream>
 #include <stdexcept>
 #include <set>
+#include <regex>
+
+namespace elysia::scene {
+class SceneTestAccess {
+public:
+    static void bind(Scene& scene,const SceneRuntimeContext& context){scene.bind_runtime_context(context);}
+    static void enter(Scene& scene){scene.lifecycle_enter({});}
+    static void exit(Scene& scene){scene.lifecycle_exit();}
+    static ui::UiWindow& window(Scene& scene){return dynamic_cast<ui::UiWindow&>(*scene._ui_roots.at(0));}
+};
+}
 
 namespace {
 using namespace elysia;
 void require(bool condition,const std::string& message) {
     if(!condition)throw std::runtime_error(message);
 }
+void check_run_stats(SDL_Renderer* renderer){
+    using namespace game::frontend;
+    auto* plate=ELYSIA_RESOURCES->find_texture("fly.InGameUI.btn1Up");
+    const std::array<SDL_Texture*,3> icons{{ELYSIA_RESOURCES->find_texture("fly.InGameUI.timeIcon"),ELYSIA_RESOURCES->find_texture("fly.InGameUI.uiCrystalLarge"),ELYSIA_RESOURCES->find_texture("fly.InGameUI.uiCrystalSmall")}};
+    RunStats stats({312,12,620,64});stats.set_values(123.4,12,37);
+    require(stats.large_crystals()==12&&stats.small_crystals()==37,"Run stats must retain distinct large and small crystal counts");
+    std::vector<core::UiRenderCommand> drawn;stats.submit_ui_render_commands(drawn);
+    int plates=0;std::array<int,3> icon_counts{};std::array<core::Rect,3> icon_rects{};
+    for(const auto& command:drawn){
+        require(command.type==core::UiRenderCommandType::Texture,"Run stats must use original textures without extra lines or geometric backgrounds");
+        if(command.texture==plate)++plates;
+        for(int i=0;i<3;++i)if(command.texture==icons[i]){++icon_counts[i];icon_rects[i]=command.screen_rect;}
+    }
+    require(plates==9&&icon_counts==std::array<int,3>{1,1,1},"Time and both crystal counts must each use btn1Up and their own icon");
+    require(icon_rects[0].x()<icon_rects[1].x()&&icon_rects[1].x()<icon_rects[2].x()&&icon_rects[2].height()<icon_rects[1].height(),"Time must precede the distinct large and small crystal slots");
+    stats.set_values(0,0,0);require(stats.large_crystals()==0&&stats.small_crystals()==0,"Retry stats must clear both crystal counters");
+    HudLabel label({16,12,280,64},0,ui::ui_raw_text(game::content::format("hud_stage",12,game::content::ui("paused"))));
+    std::vector<core::UiRenderCommand> label_commands;label.submit_ui_render_commands(label_commands);
+    require(label_commands.size()>3&&label.style().text.r<40,"HUD stage text must render in a readable dark color over btn1Up");
+    require(SDL_SetRenderDrawColor(renderer,12,20,35,255)&&SDL_RenderClear(renderer),SDL_GetError());
+    const auto render=[&](const ui::UiElement& element){std::vector<core::UiRenderCommand> output;element.submit_ui_render_commands(output);for(const auto& command:output)core::require_render_success(core::execute_render_command(renderer,command));};
+    stats.set_values(123.4,12,37);render(label);render(stats);
+    StarRating stars({982,24,136,40});stars.set_collected(2);render(stars);
+    PauseIconButton pause({1192,12,64,64},[]{});render(pause);
+    // A settlement preview reuses the same metrics and keeps its stars unbacked.
+    HudPanel panel({300,150,680,550});render(panel);
+    ui::UiLabel title({340,174,600,48},0,ui::ui_raw_text(game::content::format("result_success",12)));title.set_horizontal_align(ui::TextHorizontalAlign::Center);title.set_style_overrides({.text=core::Color{16,46,77,255}});render(title);
+    StarRating result_stars({532,234,216,64});result_stars.set_collected(2);render(result_stars);
+    RunStats result({340,310,600,64});result.set_values(123.4,12,37);render(result);
+    HudLabel score({340,386,600,40},0,ui::ui_raw_text(game::content::format("result_score",42500)));render(score);
+    GlassButton next(game::content::ui("next_level"),440,48,[]{});next.set_screen_rect({420,450,440,48});render(next);
+    GlassButton retry(game::content::ui("retry"),440,48,[]{});retry.set_screen_rect({420,510,440,48});render(retry);
+    GlassButton select(game::content::ui("select_level"),440,48,[]{});select.set_screen_rect({420,570,440,48});render(select);
+    std::filesystem::create_directories("out/qa");auto* preview=SDL_RenderReadPixels(renderer,nullptr);require(preview!=nullptr,SDL_GetError());
+    const bool saved=SDL_SaveBMP(preview,"out/qa/hud-original-assets-preview.bmp");SDL_DestroySurface(preview);require(saved,SDL_GetError());
+}
+void check_dialogue_and_pause(SDL_Renderer* renderer){
+    using namespace game::frontend;
+    auto* plate=ELYSIA_RESOURCES->find_texture("fly.InGameUI.btn1Up");
+    for(const auto size:{core::Vector2{1232,182},core::Vector2{156,156},core::Vector2{680,560}}){
+        HudPanel panel({24,40,size.x,size.y});std::vector<core::UiRenderCommand> drawn;panel.submit_ui_render_commands(drawn);
+        require(drawn.size()==9,"Dialogue, portrait and modal frames must use nine-slice panels");
+        float area=0;for(const auto& command:drawn){
+            require(command.type==core::UiRenderCommandType::Texture&&command.texture==plate&&command.use_src_rect,"Frames must use btn1Up without additional lines or geometric borders");
+            area+=command.screen_rect.width()*command.screen_rect.height();
+        }
+        require(std::abs(area-size.x*size.y)<.1f,"Nine-slice panels must cover their entire target rectangle without overlap");
+        panel.set_visible(false);drawn.clear();panel.submit_ui_render_commands(drawn);require(drawn.empty(),"Hidden dialogue panels must not render");
+    }
+    auto* up=ELYSIA_RESOURCES->find_texture("fly.InGameUI.pauseBtnUp");auto* down=ELYSIA_RESOURCES->find_texture("fly.InGameUI.pauseBtnDown");auto* text=ELYSIA_RESOURCES->find_texture("fly.InGameUI.pauseBtnText");
+    int clicks=0;PauseIconButton button({1192,12,64,64},[&]{++clicks;});
+    const auto check=[&](SDL_Texture* state){
+        std::vector<core::UiRenderCommand> drawn;button.submit_ui_render_commands(drawn);
+        require(drawn.size()==2&&drawn[0].texture==state&&drawn[1].texture==text,"Pause must compose exactly the selected state texture and pauseBtnText");
+        require((drawn[0].screen_rect.center()-drawn[1].screen_rect.center()).length()<.001f,"Pause text must remain centered across button states");
+    };
+    check(up);
+    ui::UiInputEvent pointer{.type=ui::UiInputEventType::PointerPressed,.device=input::InputDevice::Mouse,.control=input::RawInputControl::MouseLeft,.mouse_x=1228,.mouse_y=42};
+    require(button.on_ui_input_event(pointer),"Pause must accept a mouse press");check(down);require(clicks==0,"Pause must activate on release");
+    pointer.type=ui::UiInputEventType::PointerReleased;require(button.on_ui_input_event(pointer),"Pause must accept release");check(up);require(clicks==1,"Mouse click must activate once");
+    pointer.type=ui::UiInputEventType::PointerPressed;button.on_ui_input_event(pointer);pointer.type=ui::UiInputEventType::PointerReleased;pointer.mouse_x=1100;button.on_ui_input_event(pointer);
+    require(clicks==1,"Releasing outside the pause button must cancel activation");
+    button.set_focused(true);ui::UiInputEvent confirm{.action=ui::UiAction::Confirm,.type=ui::UiInputEventType::ActionPressed,.device=input::InputDevice::Gamepad,.control=input::RawInputControl::GamepadSouth};
+    require(button.on_ui_input_event(confirm),"Pause must accept gamepad confirmation");check(down);
+    confirm.type=ui::UiInputEventType::ActionReleased;button.on_ui_input_event(confirm);check(up);require(clicks==2,"Gamepad confirmation must activate once");
+    confirm.type=ui::UiInputEventType::ActionPressed;button.on_ui_input_event(confirm);button.cancel_input_interaction();check(up);
+    confirm.type=ui::UiInputEventType::ActionReleased;button.on_ui_input_event(confirm);require(clicks==2,"Cancelled confirmation must not click");
+
+    require(SDL_SetRenderDrawColor(renderer,12,20,35,255)&&SDL_RenderClear(renderer),SDL_GetError());
+    const auto render=[&](const ui::UiElement& element){std::vector<core::UiRenderCommand> output;element.submit_ui_render_commands(output);for(const auto& command:output)core::require_render_success(core::execute_render_command(renderer,command));};
+    HudLabel stage({16,12,280,64},0,ui::ui_raw_text(game::content::format("hud_stage",39,"")));render(stage);
+    RunStats stats({312,12,620,64});stats.set_values(32.1,2,6);render(stats);StarRating stars({982,24,136,40});stars.set_collected(1);render(stars);render(button);
+    HudLabel states({900,172,340,40},0,ui::ui_raw_text("Up / Down"));render(states);
+    PauseIconButton normal({970,232,64,64},[]{}),pressed({1120,232,64,64},[]{});render(normal);
+    pointer.type=ui::UiInputEventType::PointerPressed;pointer.mouse_x=1152;pointer.mouse_y=264;pressed.on_ui_input_event(pointer);render(pressed);
+    HudPanel dialogue({24,474,1232,182}),portrait({38,486,156,156});render(dialogue);render(portrait);
+    ui::UiImage face(ELYSIA_RESOURCES->find_texture("fly.ui.faceJingya"),core::Rect{46,494,140,140});render(face);
+    ui::UiTextBlock line({212,492,1024,144});line.set_padding(8);line.set_style_overrides({.text=core::Color{16,46,77,255}});
+    auto source=game::content::read("text/zh-Hans/strings.json").at("Level39-1").get<std::string>();source=std::regex_replace(source,std::regex("#c[0-9a-fA-F]{6}|#n"),"");line.set_text_content(ui::ui_raw_text(source));render(line);
+    auto* preview=SDL_RenderReadPixels(renderer,nullptr);require(preview!=nullptr,SDL_GetError());const bool saved=SDL_SaveBMP(preview,"out/qa/dialogue-pause-assets-preview.bmp");SDL_DestroySurface(preview);require(saved,SDL_GetError());
+}
+void check_main_menu_background(SDL_Renderer* renderer,const io::ContentRegistry& registry){
+    scene::SceneRuntimeContext context(renderer,registry,1280,720);
+    game::scene::MainMenuScene menu;scene::SceneTestAccess::bind(menu,context);scene::SceneTestAccess::enter(menu);
+    auto& window=scene::SceneTestAccess::window(menu);window.update(0);
+    std::vector<core::UiRenderCommand> drawn;window.submit_ui_render_commands(drawn);
+    auto* expected=ELYSIA_RESOURCES->find_texture("fly.frontend.background_menu");require(expected!=nullptr,"Requested main-menu background missing");
+    int backgrounds=0;
+    for(const auto& command:drawn){
+        if(command.texture==expected){++backgrounds;require(command.screen_rect==core::Rect{0,0,1280,720},"Menu background must fill the viewport");}
+        require(command.texture!=ELYSIA_RESOURCES->find_texture("fly.ui.mainBg2")&&command.texture!=ELYSIA_RESOURCES->find_texture("fly.ui.mainTitle2")&&command.texture!=ELYSIA_RESOURCES->find_texture("fly.frontend.background_menu_outpaint"),"New menu must not retain the old artwork layers");
+    }
+    require(backgrounds==1&&window.child_count()==2,"Main menu must draw one new background alongside its existing navigation");
+    require(SDL_SetRenderDrawColor(renderer,12,20,35,255)&&SDL_RenderClear(renderer),SDL_GetError());
+    for(const auto& command:drawn)core::require_render_success(core::execute_render_command(renderer,command));
+    auto* preview=SDL_RenderReadPixels(renderer,nullptr);require(preview!=nullptr,SDL_GetError());
+    std::filesystem::create_directories("out/qa");const bool saved=SDL_SaveBMP(preview,"out/qa/main-menu-background-preview.bmp");SDL_DestroySurface(preview);require(saved,SDL_GetError());
+    scene::SceneTestAccess::exit(menu);
+}
 void check_frontend_artwork(SDL_Renderer* renderer){
-    auto* gold=ELYSIA_RESOURCES->find_texture("fly.InGameUI.starDown");auto* gray=ELYSIA_RESOURCES->find_texture("fly.frontend.starGreyY");
-    require(gold&&gray,"Gold and gray collection icons must both exist");
+    auto* gold=ELYSIA_RESOURCES->find_texture("fly.InGameUI.starDown");auto* empty=ELYSIA_RESOURCES->find_texture("fly.InGameUI.starUp");
+    require(gold&&empty,"Collected and uncollected in-game star textures must both exist");
+    require(SDL_SetRenderDrawColor(renderer,12,20,35,255)&&SDL_RenderClear(renderer),SDL_GetError());
     for(int count=0;count<=3;++count)for(auto size:{core::Vector2{136,40},core::Vector2{216,64}}){
-        game::frontend::StarRating stars({0,0,size.x,size.y});stars.set_collected(count);
+        const core::Rect rect{160.f+320*count-size.x/2,size.y<50?150.f:460.f,size.x,size.y};
+        game::frontend::StarRating stars(rect);stars.set_collected(count);
         std::vector<core::UiRenderCommand> icons;stars.submit_ui_render_commands(icons);require(icons.size()==3,"HUD / modal must always display all 3 star slots");
-        for(int index=0;index<3;++index){require(icons[index].texture==(index<count?gold:gray)&&icons[index].alpha==255,"Collected stars must be gold and remaining stars gray, without translucent gold placeholders");require(icons[index].screen_rect.width()==icons[index].screen_rect.height(),"Collection icon aspect ratio changed");}
+        for(int index=0;index<3;++index){require(icons[index].texture==(index<count?gold:empty)&&icons[index].alpha==255,"Collected stars must use InGameUI.starDown and uncollected stars InGameUI.starUp");require(icons[index].screen_rect.width()==icons[index].screen_rect.height(),"Collection icon aspect ratio changed");}
+        game::frontend::HudPanel panel({rect.x()-20,rect.y()-12,rect.width()+40,rect.height()+24});
+        std::vector<core::UiRenderCommand> background;panel.submit_ui_render_commands(background);
+        for(const auto& command:background)core::require_render_success(core::execute_render_command(renderer,command));
+        for(const auto& command:icons)core::require_render_success(core::execute_render_command(renderer,command));
     }
-    game::frontend::MenuArtwork menu;std::vector<core::UiRenderCommand> art;menu.submit_ui_render_commands(art);
-    auto* original_title=ELYSIA_RESOURCES->find_texture("fly.ui.mainTitle2");int title_strips=0;
-    for(const auto& command:art)if(command.texture==original_title){
-        ++title_strips;
-        require(command.screen_rect.width()==544&&command.src_rect.width()==640,"Central artwork must use a full-width quad to avoid fractional strip gaps");
-        require(std::abs(command.screen_rect.y()-539*.85f)<.001f&&std::abs(command.screen_rect.height()-276*.85f)<.001f,"Original menu title must overlap the boots at original crop Y=539 with the same background scale");
-    }
-    require(title_strips==41,"Original menu title must cover the central image plus both clipped fade edges");
+    std::filesystem::create_directories("out/qa");
+    auto* star_preview=SDL_RenderReadPixels(renderer,nullptr);require(star_preview!=nullptr,SDL_GetError());
+    const bool star_preview_saved=SDL_SaveBMP(star_preview,"out/qa/ingame-stars-preview.bmp");SDL_DestroySurface(star_preview);require(star_preview_saved,SDL_GetError());
     require(SDL_SetRenderDrawColor(renderer,12,20,35,255)&&SDL_RenderClear(renderer),SDL_GetError());
     for(int chapter=0;chapter<4;++chapter)for(int stars=-1;stars<=3;++stars){
         const std::string color(1,"OGYP"[chapter]);
@@ -855,6 +974,7 @@ void save_mechanism_preview(SDL_Renderer* renderer) {
 }
 
 int main() {
+    typography::FontResolver font_resolver;
     SDL_Surface* surface=nullptr;
     SDL_Renderer* renderer=nullptr;
     int result=1;
@@ -868,6 +988,10 @@ int main() {
         require(surface!=nullptr,SDL_GetError());
         renderer=SDL_CreateSoftwareRenderer(surface);
         require(renderer!=nullptr,SDL_GetError());
+        const auto font_settings=typography::resolve_font_settings({});require(font_settings.has_value(),"Font settings resolution failed");
+        require(builtin::BuiltinResources::instance()->initialize(renderer,builtin::BuiltinAssetCatalog(*io::PathManager::instance()),font_settings->engine_point_sizes()).has_value(),"Built-in preview fonts failed to load");
+        require(localization::LocalizationManager::instance()->initialize(renderer,io::PathManager::instance()->configs()/"manifests/i18n_manifest.json","zh-Hans",&font_resolver).has_value(),"Preview localization initialization failed");
+        require(font_resolver.configure(*font_settings,*ELYSIA_RESOURCES,ELYSIA_LOCALIZATION->supported_languages()).has_value(),"Preview font configuration failed");
         {
             io::ContentRegistryLoader registry_loader;
             const auto registry=registry_loader.load(io::PathManager::instance()->content_registry());
@@ -879,6 +1003,9 @@ int main() {
             while(loader.is_running()&&SDL_GetTicks()<deadline){loader.update();SDL_Delay(1);}
             require(loader.is_finished(),loader.failure()?loader.failure()->diagnostic.message:"Content load timed out");
             check_frontend_artwork(renderer);
+            check_main_menu_background(renderer,*registry);
+            check_run_stats(renderer);
+            check_dialogue_and_pause(renderer);
             check_pickups_and_moon();
             check_driven_rotor_pause();
             check_role_effects(renderer);
@@ -908,6 +1035,7 @@ int main() {
     } catch(const std::exception& error) {
         std::cerr<<"FAIL: "<<error.what()<<'\n';
     }
+    localization::LocalizationManager::instance()->shutdown();font_resolver.shutdown();builtin::BuiltinResources::instance()->shutdown();
     if(renderer)SDL_DestroyRenderer(renderer);
     if(surface)SDL_DestroySurface(surface);
     MIX_Quit();TTF_Quit();SDL_Quit();

@@ -59,6 +59,9 @@ private:
     content::Json story_action(const std::string&,const content::Json&);
     void update_dialogue();
     int _level=1,_stars=0,_crystals=0,_crystal_count=0;
+    // Collected value = small + 5 * large; count = small + large.
+    int large_crystal_count()const{return (_crystals-_crystal_count)/4;}
+    int small_crystal_count()const{return _crystal_count-large_crystal_count();}
     double _elapsed=0;
     bool _finished=false,_success=false;
     bool _death_pending=false;
@@ -88,17 +91,20 @@ private:
     int _deaths=0;
     std::string _failure_reason,_pending_failure;
     elysia::ui::UiLabel* _hud=nullptr;
+    frontend::RunStats* _hud_stats=nullptr;
     elysia::ui::UiLabel* _hint=nullptr;
     frontend::StarRating* _hud_stars=nullptr;
     frontend::PauseIconButton* _pause_button=nullptr;
     elysia::ui::UiWindow* _pause_menu=nullptr;
     frontend::StarRating* _pause_stars=nullptr;
     elysia::ui::UiLabel* _pause_stats=nullptr;
+    frontend::RunStats* _pause_metrics=nullptr;
     bool _pause_menu_open=false,_pause_was_logic_paused=false;
     std::vector<elysia::core::GameObject*> _pause_updates;
     elysia::ui::UiWindow* _result=nullptr;
     elysia::ui::UiLabel* _result_title=nullptr;
     elysia::ui::UiLabel* _result_stats=nullptr;
+    frontend::RunStats* _result_metrics=nullptr;
     elysia::ui::UiLabel* _result_save=nullptr;
     elysia::ui::UiButton* _result_continue=nullptr;
     frontend::StarRating* _result_stars=nullptr;
@@ -108,8 +114,8 @@ private:
     content::Json _text;
     std::string _dialogue_key;
     elysia::ui::UiTextBlock* _dialogue=nullptr;
-    frontend::MoonPanel* _dialogue_panel=nullptr;
-    frontend::MoonPanel* _portrait_panel=nullptr;
+    frontend::HudPanel* _dialogue_panel=nullptr;
+    frontend::HudPanel* _portrait_panel=nullptr;
     elysia::ui::UiImage* _face=nullptr;
     elysia::ui::UiImage* _tutorial=nullptr;
     std::vector<elysia::audio::SoundHandle> _sounds;

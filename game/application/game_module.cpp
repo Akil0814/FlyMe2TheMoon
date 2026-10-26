@@ -30,7 +30,7 @@ namespace game::application
         descriptor.presentation.ui.default_theme =
             elysia::ui::UiBuiltinTheme::BlueGlassMoon;
         descriptor.presentation.startup.engine_logo =
-            elysia::application::ApplicationEngineLogoVariant::LightEdge;
+            elysia::application::ApplicationEngineLogoVariant::Default;
         descriptor.presentation.fonts.ui.source =
             elysia::typography::FontSource::EngineBuiltIn;
         descriptor.presentation.fonts.floating_number.source =
@@ -43,9 +43,13 @@ namespace game::application
                     .reload_mode = SceneReloadMode::Reuse
                 },
                 .failure_route = std::nullopt,
+
                 .project_logo = std::nullopt,
+
                 .wait_for_logo_sequence = false,
-                .wait_for_confirmation = true
+                .wait_for_confirmation = true,
+                .background = elysia::builtin::StartupBackgroundSlot{.texture_key = "startup.background"},
+
             },
             .reload_mode = SceneReloadMode::Reuse
         };
