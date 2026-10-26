@@ -1,0 +1,25 @@
+{
+  "name": "audio-level24-homing",
+  "level": 24,
+  "duration": 11,
+  "pilot": [
+    [
+      430,
+      1740
+    ]
+  ],
+  "events": [],
+  "expect": {
+    "level": 24
+  },
+  "observe": [
+    {
+      "field": "homing_fired",
+      "max_at_least": 2
+    },
+    {
+      "field": "audio_requests",
+      "max_at_least": 1
+    }
+  ]
+}

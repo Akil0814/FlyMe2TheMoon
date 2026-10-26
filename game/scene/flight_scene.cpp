@@ -51,8 +51,7 @@ void FlightScene::detach_development_panel() {
 }
 void FlightScene::on_enter(const elysia::scene::ScenePayload& payload) {
     detach_development_panel();
-    _audio.reset();_rotation_audio.clear();_entrance_sound_pending=false;_audio_grounded=false;_idle_audio_time=_audio.next_idle_delay();
-    physics_world().add_listener(*this);
+    _audio.reset();_rotation_audio.clear();_entrance_sound_pending=false;_role_velocity_valid=false;_idle_audio_time=_audio.next_idle_delay();
     _probe.begin();
     _deaths=0;_failure_reason.clear();_pending_failure.clear();_laser_hit=false;_death_pending=false;
     _pause_menu_open=false;_pause_was_logic_paused=false;_pause_updates.clear();
@@ -129,7 +128,7 @@ void FlightScene::on_enter(const elysia::scene::ScenePayload& payload) {
     ELYSIA_LOG_INFO("fly",std::format("Entered level {}: {} entities, {} contours",_level,_entities.size(),_data.at("edges").size()));
     attach_development_panel();
 }
-void FlightScene::on_exit(){detach_development_panel();physics_world().remove_listener(*this);_audio.clear();ELYSIA_AUDIO->stop_music();_pause_updates.clear();_pause_menu_open=false;_player=nullptr;_entities.clear();_hud=nullptr;_hud_stats=nullptr;_pause_metrics=nullptr;_result_metrics=nullptr;_hint=nullptr;_hud_stars=nullptr;_star_pickups=nullptr;_pause_menu=nullptr;_pause_button=nullptr;_dialogue=nullptr;_face=nullptr;_tutorial=nullptr;_dialogue_panel=nullptr;_portrait_panel=nullptr;clear_scene_objects();}
+void FlightScene::on_exit(){detach_development_panel();_audio.clear();ELYSIA_AUDIO->stop_music();_pause_updates.clear();_pause_menu_open=false;_player=nullptr;_entities.clear();_hud=nullptr;_hud_stats=nullptr;_pause_metrics=nullptr;_result_metrics=nullptr;_hint=nullptr;_hud_stars=nullptr;_star_pickups=nullptr;_pause_menu=nullptr;_pause_button=nullptr;_dialogue=nullptr;_face=nullptr;_tutorial=nullptr;_dialogue_panel=nullptr;_portrait_panel=nullptr;clear_scene_objects();}
 void FlightScene::on_reset(){on_exit();}
 void FlightScene::on_shortcuts(const input::RawInputFrame&,const std::vector<input::RawInputEvent>& events) {
     using C=input::RawInputControl;
@@ -197,6 +196,7 @@ void FlightScene::reached(bool success,const char* reason) {
     if(_finished||_event_pending)return;_event_pending=true;_player->thrust={};
     if(!success){
         ++_deaths;_failure_reason=reason;ELYSIA_LOG_INFO("fly.failure",_failure_reason);
+        if(std::string_view(reason)=="spike")_audio.at("12-4",_player->center());
         _death_pending=true;_entrance_sound_pending=false;_audio.role_die();_player->die();
         physics_world().set_body_enabled(_player->physics_handle(),false);pause();
         return;
@@ -205,7 +205,7 @@ void FlightScene::reached(bool success,const char* reason) {
 }
 void FlightScene::restore_player() {
     _portal_lock=nullptr;_transition={};_portal_emerging=false;_death_pending=false;
-    _audio.reset();_audio_grounded=false;_idle_audio_time=_audio.next_idle_delay();_player->idle_action_time=0;_result_animation_done=true;
+    _audio.reset();_role_velocity_valid=false;_idle_audio_time=_audio.next_idle_delay();_player->idle_action_time=0;_result_animation_done=true;
     for(auto* projectile:_projectiles)projectile->destroy();_projectiles.clear();
     physics_world().teleport_object(_player->physics_handle(),role_spawn({_data.at("born")[0],_data.at("born")[1]}),physics::TeleportVelocityMode::Clear);
     physics_world().set_body_enabled(_player->physics_handle(),true);

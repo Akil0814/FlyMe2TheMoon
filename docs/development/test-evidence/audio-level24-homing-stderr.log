@@ -1,0 +1,18 @@
+2026-10-26 07:56:16 [INFO] [application] (application.cpp:460) SDL3 GPU backend: direct3d12
+2026-10-26 07:56:16 [INFO] [scene] (scene_manager.cpp:216) Switching to SceneKey 4294901761 with reload mode 0
+2026-10-26 07:56:17 [INFO] [resource] (game_content_loader.cpp:143) Total requests built: 1228, total work units: 1438
+2026-10-26 07:56:26 [INFO] [scene] (scene_manager.cpp:216) Switching to SceneKey 2 with reload mode 2
+2026-10-26 07:56:26 [INFO] [fly.test] (replay_probe.cpp:27) Input replay started; no simulation overrides
+2026-10-26 07:56:26 [INFO] [fly] (flight_scene.cpp:128) Entered level 24: 97 entities, 2 contours
+2026-10-26 07:56:28 [INFO] [fly.camera] (flight_scene.cpp:369) Opening pan complete; role entrance started
+2026-10-26 07:56:29 [INFO] [fly.camera] (flight_scene.cpp:373) Role entrance complete; original story started
+2026-10-26 07:56:30 [INFO] [fly.homing] (flight_scene.cpp:343) launcher=7 spawn=(356.000,1841.500) angle=0.000000 velocity=(0.000,0.000) Power=2.5 MaxSpeed=-1
+2026-10-26 07:56:30 [INFO] [fly.story] (flight_scene.cpp:315) Dialogue: Level24-1
+2026-10-26 07:56:30 [INFO] [fly.story] (flight_scene.cpp:315) Dialogue: Level24-2
+2026-10-26 07:56:31 [INFO] [fly.story] (flight_scene.cpp:315) Dialogue: Level24-3
+2026-10-26 07:56:31 [INFO] [fly.homing] (flight_scene.cpp:343) launcher=0 spawn=(517.000,1841.500) angle=0.000000 velocity=(0.000,0.000) Power=2.5 MaxSpeed=-1
+2026-10-26 07:56:33 [INFO] [fly.homing] (flight_scene.cpp:343) launcher=7 spawn=(356.000,1841.500) angle=0.000000 velocity=(0.000,0.000) Power=2.5 MaxSpeed=-1
+2026-10-26 07:56:34 [INFO] [fly.homing] (flight_scene.cpp:343) launcher=0 spawn=(517.000,1841.500) angle=0.000000 velocity=(0.000,0.000) Power=2.5 MaxSpeed=-1
+2026-10-26 07:56:36 [INFO] [fly.homing] (flight_scene.cpp:343) launcher=7 spawn=(356.000,1841.500) angle=0.000000 velocity=(0.000,0.000) Power=2.5 MaxSpeed=-1
+2026-10-26 07:56:37 [INFO] [fly.test] (replay_probe.cpp:90) Replay assertions PASS
+2026-10-26 07:56:37 [INFO] [application] (application.cpp:722) Application shutdown complete

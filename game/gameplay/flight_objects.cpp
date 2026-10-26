@@ -356,7 +356,13 @@ float Entity::sound_gain()const {
     }
     if(moving()){
         // The original drives source gain from its moving-box glow opacity.
-        const float fraction=static_cast<float>(_motion.fraction(_time));
+        float fraction=static_cast<float>(_motion.fraction(_time));
+        if(_platform_joint.is_valid())if(const auto joint=physics_world()->joint_state(_platform_joint)){
+            if(const auto* slide=std::get_if<PrismaticJointState>(&joint->details)){
+                const float distance=slide->settings.upper_translation-slide->settings.lower_translation;
+                if(distance>1e-6f)fraction=std::clamp((slide->translation-slide->settings.lower_translation)/distance,0.f,1.f);
+            }
+        }
         return parameter(info,"Lock")!=0?0:std::floor(254*std::pow(2*std::min(fraction,1-fraction),.6f))/255;
     }
     return 1;

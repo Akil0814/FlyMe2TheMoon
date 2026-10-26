@@ -25,6 +25,7 @@ void policies(){
     for(int i=0;i<30;++i)sequence.pickup();require(sequence.pickup()==10,"Crystal sequence must saturate at 90-10");
     sequence.advance(.8);require(sequence.pickup()==1,"Crystal chain must reset after 0.8 seconds");
     RoleSequence role;require(role.update(2,.1)==1,"Initial flying sound missing");
+    require(!landing_voice(32,0,1./60.)&&landing_voice(8*32,0,1./60.),"Landing threshold must use native m/s², not pixel acceleration");
     require(role.update(3,.1)==0&&role.update(4,.1)==0,"Direction changes must not replay flying voices");
     require(role.update(5,.1)==2&&role.update(5,.1)==0,"Falling must sound only on state entry");
     require(role.update(2,.1)==0,"Short flight interruption must not replay a flying voice");

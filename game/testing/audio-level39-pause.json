@@ -1,0 +1,67 @@
+{
+  "name": "audio-level39-pause",
+  "level": 39,
+  "duration": 7.5,
+  "events": [
+    {
+      "time": 5,
+      "key": "P",
+      "down": true,
+      "when": {
+        "input_enabled": true,
+        "dialogue": "",
+        "paused": false,
+        "finished": false
+      }
+    },
+    {
+      "time": 5.2,
+      "key": "P",
+      "down": false,
+      "when": {
+        "paused": true
+      }
+    },
+    {
+      "time": 7,
+      "key": "P",
+      "down": true,
+      "when": {
+        "paused": true
+      }
+    },
+    {
+      "time": 7.2,
+      "key": "P",
+      "down": false,
+      "when": {
+        "paused": false
+      }
+    }
+  ],
+  "pilot": [
+    [
+      983,
+      1493
+    ]
+  ],
+  "expect": {
+    "level": 39,
+    "paused": false,
+    "finished": false
+  },
+  "observe": [
+    {
+      "field": "elapsed",
+      "max_at_least": 0.5
+    },
+    {
+      "field": "audio_requests",
+      "max_at_least": 1
+    },
+    {
+      "field": "audio_loops",
+      "max_at_least": 1
+    }
+  ]
+}

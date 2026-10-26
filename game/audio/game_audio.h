@@ -21,6 +21,7 @@ inline float distance_gain(float distance,DistanceModel model=DistanceModel::Nor
     return model==DistanceModel::Close?ratio:model==DistanceModel::Far?ratio*ratio:std::pow(ratio,1.4f);
 }
 inline float sleep_distance(DistanceModel model){return model==DistanceModel::Close?280.f:model==DistanceModel::Far?800.f:480.f;}
+inline bool landing_voice(float previous_y,float current_y,double delta){return delta>0&&(previous_y-current_y)/(32*delta)>450;}
 inline std::string sound_key(std::string name){std::replace(name.begin(),name.end(),'-','_');return "fly.voice_"+name;}
 inline void ui_click(bool accepted=true){
     if(ELYSIA_AUDIO->is_initialized())(void)ELYSIA_AUDIO->request_sound(sound_key(accepted?"6-3":"7-4"),{.group=elysia::audio::SoundGroup::Ui});
@@ -56,6 +57,7 @@ public:
     void at(const std::string& file,Vec position,float gain=1);
     void loop(int owner,const std::string& file,Vec position,float gain,bool enabled=true,DistanceModel model=DistanceModel::Normal);
     void role_state(int state,double delta);
+    int role_state()const{return _role.state;}
     void role_enter(){_role={};play("70-1");}
     void role_die(){choose({"47-1","48-1"});}
     void role_land(){choose({"40-1","40-2"});}

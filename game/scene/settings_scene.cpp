@@ -10,11 +10,17 @@
 #include "engine/ui/window/ui_window.h"
 #include "engine/ui/containers/ui_panel.h"
 #include "engine/ui/widgets/ui_button.h"
+#include "engine/ui/widgets/ui_checkbox.h"
+#include "engine/ui/widgets/ui_radio_button.h"
+#include "engine/ui/widgets/ui_slider.h"
 
 namespace game::scene {
 using namespace elysia;
 namespace {
 void style_controls(ui::UiElement& element){
+    if(auto* checkbox=dynamic_cast<ui::UiCheckbox*>(&element))checkbox->set_sounds({.toggle="fly.voice_6_3"});
+    if(auto* radio=dynamic_cast<ui::UiRadioButton*>(&element))radio->set_sounds({.select="fly.voice_6_3"});
+    if(auto* slider=dynamic_cast<ui::UiSlider*>(&element))slider->set_sounds({.on_settle="fly.voice_6_3"});
     if(auto* button=dynamic_cast<ui::UiButton*>(&element)){
         button->set_sounds({.click="fly.voice_6_3"});
         auto style=button->style_overrides();style.chrome.corner_radius=10.f;button->set_style_overrides(style);

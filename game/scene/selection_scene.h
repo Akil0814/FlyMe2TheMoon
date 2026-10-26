@@ -8,7 +8,7 @@ struct SelectionPayload {int chapter=0;};
 struct AchievementsPayload {int page=0;};
 class SelectionScene final:public elysia::scene::Scene {
     game::audio::World _audio;
-    std::vector<game::frontend::LevelNode*> _unlock_nodes;
+    std::vector<std::pair<int,game::frontend::LevelNode*>> _unlock_nodes;
     double _unlock_time=0;
 protected:
     void on_enter(const elysia::scene::ScenePayload&)override;
