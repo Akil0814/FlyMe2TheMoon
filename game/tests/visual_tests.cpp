@@ -23,7 +23,7 @@ using namespace elysia;
 void require(bool condition,const std::string& message) {
     if(!condition)throw std::runtime_error(message);
 }
-void check_frontend_artwork(){
+void check_frontend_artwork(SDL_Renderer* renderer){
     game::frontend::MenuArtwork menu;std::vector<core::UiRenderCommand> art;menu.submit_ui_render_commands(art);
     auto* original_title=ELYSIA_RESOURCES->find_texture("fly.ui.mainTitle2");int title_strips=0;
     for(const auto& command:art)if(command.texture==original_title){
@@ -32,6 +32,28 @@ void check_frontend_artwork(){
         require(std::abs(command.screen_rect.y()-539*.85f)<.001f&&std::abs(command.screen_rect.height()-276*.85f)<.001f,"Original menu title must overlap the boots at original crop Y=539 with the same background scale");
     }
     require(title_strips==41,"Original menu title must cover the central image plus both clipped fade edges");
+    require(SDL_SetRenderDrawColor(renderer,12,20,35,255)&&SDL_RenderClear(renderer),SDL_GetError());
+    for(int chapter=0;chapter<4;++chapter)for(int stars=-1;stars<=3;++stars){
+        const std::string color(1,"OGYP"[chapter]);
+        auto* full=ELYSIA_RESOURCES->find_texture("fly.frontend.starDown"+color);
+        auto* empty=ELYSIA_RESOURCES->find_texture("fly.frontend.starUp"+color);
+        auto* grey=ELYSIA_RESOURCES->find_texture("fly.frontend.starGrey"+color);
+        require(full&&empty&&grey,"Selection star state texture missing");
+        for(bool open:{true,false}){
+            game::frontend::LevelNode node(chapter*15+stars+2,chapter,stars,open,[]{});
+            node.set_screen_rect({50.f+(stars+1)*240,100.f+chapter*140,210,94});
+            std::vector<core::UiRenderCommand> drawn;node.submit_ui_render_commands(drawn);int index=0;
+            for(const auto& command:drawn)if(command.texture==full||command.texture==empty||command.texture==grey){
+                require(command.texture==(!open||stars<0?grey:index<stars?full:empty),"Selection earned/empty/unplayed star texture is wrong");
+                require(command.alpha==(open?255:85),"Selection star lock opacity changed");++index;
+            }
+            require(index==3,"Each level must retain three rating stars");
+            if(open)for(const auto& command:drawn)core::require_render_success(core::execute_render_command(renderer,command));
+        }
+    }
+    std::filesystem::create_directories("out/qa/selection-stars-audit");
+    auto* preview=SDL_RenderReadPixels(renderer,nullptr);require(preview!=nullptr,SDL_GetError());
+    const bool saved=SDL_SaveBMP(preview,"out/qa/selection-stars-audit/preview.bmp");SDL_DestroySurface(preview);require(saved,SDL_GetError());
     const auto achievements=game::content::read("text/en/gcDescriptions.json").at("achievements");
     for(const auto& [key,description]:achievements.items()){
         auto* badge=ELYSIA_RESOURCES->find_texture("fly.frontend.achv"+key);require(badge!=nullptr,"Original achievement badge is missing: "+key);
@@ -807,7 +829,7 @@ int main() {
             const auto deadline=SDL_GetTicks()+30000;
             while(loader.is_running()&&SDL_GetTicks()<deadline){loader.update();SDL_Delay(1);}
             require(loader.is_finished(),loader.failure()?loader.failure()->diagnostic.message:"Content load timed out");
-            check_frontend_artwork();
+            check_frontend_artwork(renderer);
             check_pickups_and_moon();
             check_driven_rotor_pause();
             check_role_effects(renderer);
