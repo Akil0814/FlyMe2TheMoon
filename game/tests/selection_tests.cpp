@@ -112,6 +112,30 @@ void test_keyboard() {
     require(requests.received.size()==1 && requests.received.back().route.target==game::scene_keys::MainMenu,
         "Keyboard must reach Back across the level grid");
 }
+void test_level_scores() {
+    auto& store=game::progress::Store::instance();
+    const auto original=store.data;
+    for(int index=0;index<60;++index){
+        store.data.stars[index]=index%3==0?-1:2;
+        store.data.score_verified[index]=index%3==1;
+        store.data.scores[index]=index==1?0:10000+index;
+        store.data.legacy_scores[index]=999999;
+    }
+    for(int chapter=0;chapter<4;++chapter){
+        game::scene::SelectionScene scene;
+        scene::SceneTestAccess::enter(scene,game::scene::SelectionPayload{chapter});
+        auto& window=scene::SceneTestAccess::window(scene);
+        auto& list=dynamic_cast<ui::UiListContainer&>(*window.child_at(0));
+        auto& levels=dynamic_cast<ui::UiGridContainer&>(*list.child_at(2));
+        for(int index=0;index<15;++index){
+            const int saved_index=chapter*15+index;
+            const auto& node=dynamic_cast<const game::frontend::LevelNode&>(*levels.child_at(index));
+            const auto expected=saved_index%3==1?std::optional<int>{store.data.scores[saved_index]}:std::nullopt;
+            require(node.best_score()==expected,"Level cards must display their own verified best score, including zero; missing and legacy results need a placeholder");
+        }
+    }
+    store.data=original;
+}
 void test_menu_routes(){
     io::ContentRegistry registry;
     scene::SceneRuntimeContext context(nullptr,registry,1280,720);
@@ -161,7 +185,7 @@ int main() {
             std::to_string(std::chrono::system_clock::now().time_since_epoch().count());
         std::filesystem::create_directories(directory);
         require(ELYSIA_SAVE->initialize(directory).has_value(),"Isolated save initialize failed");
-        test_mouse(); test_keyboard();test_menu_routes();test_achievement_pages();
+        test_mouse(); test_keyboard();test_menu_routes();test_achievement_pages();test_level_scores();
         ELYSIA_SAVE->shutdown();
         std::cout<<"PASS: selection mouse/keyboard, main menu routes, all 17 achievements and all album page / Back buttons\n";
         return 0;

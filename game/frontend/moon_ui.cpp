@@ -110,14 +110,22 @@ void mark_selected(ui::UiButton& button){
     // Overrides replace the full record; keep geometry and interaction colors.
     button.set_style_overrides(style);
 }
-LevelNode::LevelNode(int id,int chapter,int stars,bool open,std::function<void()> action):UiButton({0,0,210,94}),_chapter(chapter),_stars(stars),_open(open){
+LevelNode::LevelNode(int id,int chapter,int stars,bool open,std::function<void()> action,std::optional<int> best_score):UiButton({0,0,210,94}),_chapter(chapter),_stars(stars),_open(open),_best_score(best_score){
     set_text_content(ui::ui_raw_text(std::format("{:02}",id)));set_on_click(std::move(action));set_enabled(open);
     set_typography_role(typography::UiTypographyRole::ButtonCompact);
     set_style_overrides({.chrome={.background={.idle=core::Color{5,25,64,70},.focused=core::Color{52,144,219,135},.disabled=core::Color{4,15,36,115}},
         .border={.idle=core::Color{133,209,255,30},.focused=core::Color{193,246,255,255},.disabled=core::Color{108,164,195,25}},.corner_radius=20.f},
         .text={.enabled=core::Color{241,253,255,255},.disabled=core::Color{146,166,191,255}}});
+    _score_label.set_text_content(ui::ui_raw_text(content::format("level_best_score",
+        _best_score?std::to_string(*_best_score):"--")));
+    _score_label.set_typography_role(typography::UiTypographyRole::ButtonCompact);
+    _score_label.set_horizontal_align(ui::TextHorizontalAlign::Center);
+    _score_label.set_vertical_align(ui::TextVerticalAlign::Center);
+    _score_label.set_style_overrides({.text=_open&&_best_score
+        ?core::Color{255,224,156,255}:core::Color{146,166,191,255}});
 }
 void LevelNode::submit_ui_render_commands(std::vector<core::UiRenderCommand>& out)const {
+    if(!is_visible())return;
     const auto r=screen_rect();
     UiButton::submit_ui_render_commands(out);
     const std::string color(1,"OGYP"[_chapter]);
@@ -128,7 +136,8 @@ void LevelNode::submit_ui_render_commands(std::vector<core::UiRenderCommand>& ou
         const char* state=!_open||_stars<0?"starGrey":star<_stars?"starDown":"starUp";
         image(out,texture(std::string(state)+color),{r.center().x-34+star*24,r.y()+7,22,22},_open?255:85);
     }
-    if(_stars>=0)out.push_back(core::make_ui_fill_rect_command({r.x()+72,r.y()+78,66,2},{110,226,255,190}));
+    _score_label.set_screen_rect({r.x()+12,r.y()+70,std::max(0.f,r.width()-24),18});
+    _score_label.submit_ui_render_commands(out);
 }
 ConstellationGrid::ConstellationGrid(const core::Rect& rect):UiGridContainer(rect){}
 void ConstellationGrid::submit_ui_render_commands(std::vector<core::UiRenderCommand>& out)const {
