@@ -136,6 +136,10 @@ void test_achievement_pages(){
         auto& list=dynamic_cast<ui::UiListContainer&>(*window.child_at(0));
         auto& cards=dynamic_cast<ui::UiGridContainer&>(*list.child_at(2));
         auto& pages=dynamic_cast<ui::UiGridContainer&>(*list.child_at(3));
+        key(window,ui::UiAction::Confirm);
+        require(requests.received.size()==1,"Current achievement page must retain keyboard focus after rebuilding");
+        const auto* focused_page=scene::try_scene_payload<game::scene::AchievementsPayload>(requests.received.back().route.payload);
+        require(focused_page&&focused_page->page==page,"Keyboard focus must follow the selected achievement page");requests.received.clear();
         require(cards.child_count()==(page==2?5:6),"Achievement album must contain all 17 original descriptions across 3 pages");total+=static_cast<int>(cards.child_count());
         for(int target=0;target<3;++target){
             require(dynamic_cast<ui::UiButton&>(*pages.child_at(target)).style().chrome.corner_radius>0,"Achievement tabs must retain rounded geometry when selected");

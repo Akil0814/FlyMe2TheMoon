@@ -1,0 +1,138 @@
+{
+  "checks": {
+    "scene": {
+      "actual": 1,
+      "expected": 1,
+      "passed": true
+    }
+  },
+  "passed": true,
+  "samples": [
+    {
+      "scene": 1,
+      "wall_time": 0.014
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.12
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.224
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.328
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.432
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.536
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.641
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.745
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.849
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.953
+    },
+    {
+      "scene": 1,
+      "wall_time": 1.057
+    },
+    {
+      "scene": 1,
+      "wall_time": 1.161
+    },
+    {
+      "scene": 1,
+      "wall_time": 1.265
+    },
+    {
+      "scene": 1,
+      "wall_time": 1.37
+    },
+    {
+      "scene": 1,
+      "wall_time": 1.474
+    },
+    {
+      "scene": 1,
+      "wall_time": 1.577
+    },
+    {
+      "scene": 1,
+      "wall_time": 1.682
+    },
+    {
+      "scene": 1,
+      "wall_time": 1.786
+    },
+    {
+      "scene": 1,
+      "wall_time": 1.89
+    },
+    {
+      "scene": 1,
+      "wall_time": 1.994
+    },
+    {
+      "scene": 1,
+      "wall_time": 2.099
+    },
+    {
+      "scene": 1,
+      "wall_time": 2.202
+    },
+    {
+      "scene": 1,
+      "wall_time": 2.307
+    },
+    {
+      "scene": 1,
+      "wall_time": 2.41
+    },
+    {
+      "scene": 1,
+      "wall_time": 2.514
+    },
+    {
+      "scene": 1,
+      "wall_time": 2.618
+    },
+    {
+      "scene": 1,
+      "wall_time": 2.723
+    },
+    {
+      "scene": 1,
+      "wall_time": 2.827
+    },
+    {
+      "scene": 1,
+      "wall_time": 2.931
+    }
+  ],
+  "scenario": {
+    "duration": 3,
+    "events": [],
+    "expect": {
+      "scene": 1
+    },
+    "language": "zh-Hans",
+    "level": -1,
+    "name": "frontend-menu03"
+  }
+}

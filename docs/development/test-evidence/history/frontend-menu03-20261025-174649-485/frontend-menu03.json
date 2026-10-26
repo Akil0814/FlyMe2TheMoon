@@ -1,0 +1,138 @@
+{
+  "checks": {
+    "scene": {
+      "actual": 1,
+      "expected": 1,
+      "passed": true
+    }
+  },
+  "passed": true,
+  "samples": [
+    {
+      "scene": 1,
+      "wall_time": 0.014
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.12
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.224
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.328
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.432
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.537
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.641
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.745
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.849
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.953
+    },
+    {
+      "scene": 1,
+      "wall_time": 1.057
+    },
+    {
+      "scene": 1,
+      "wall_time": 1.16
+    },
+    {
+      "scene": 1,
+      "wall_time": 1.265
+    },
+    {
+      "scene": 1,
+      "wall_time": 1.37
+    },
+    {
+      "scene": 1,
+      "wall_time": 1.474
+    },
+    {
+      "scene": 1,
+      "wall_time": 1.578
+    },
+    {
+      "scene": 1,
+      "wall_time": 1.682
+    },
+    {
+      "scene": 1,
+      "wall_time": 1.786
+    },
+    {
+      "scene": 1,
+      "wall_time": 1.889
+    },
+    {
+      "scene": 1,
+      "wall_time": 1.993
+    },
+    {
+      "scene": 1,
+      "wall_time": 2.098
+    },
+    {
+      "scene": 1,
+      "wall_time": 2.203
+    },
+    {
+      "scene": 1,
+      "wall_time": 2.306
+    },
+    {
+      "scene": 1,
+      "wall_time": 2.411
+    },
+    {
+      "scene": 1,
+      "wall_time": 2.515
+    },
+    {
+      "scene": 1,
+      "wall_time": 2.619
+    },
+    {
+      "scene": 1,
+      "wall_time": 2.723
+    },
+    {
+      "scene": 1,
+      "wall_time": 2.827
+    },
+    {
+      "scene": 1,
+      "wall_time": 2.932
+    }
+  ],
+  "scenario": {
+    "duration": 3,
+    "events": [],
+    "expect": {
+      "scene": 1
+    },
+    "language": "zh-Hans",
+    "level": -1,
+    "name": "frontend-menu03"
+  }
+}

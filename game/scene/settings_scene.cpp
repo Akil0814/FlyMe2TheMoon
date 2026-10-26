@@ -6,10 +6,21 @@
 #include "engine/config/user_config_service.h"
 #include "engine/localization/localization_service.h"
 #include "engine/ui/window/ui_window.h"
+#include "engine/ui/containers/ui_panel.h"
+#include "engine/ui/widgets/ui_button.h"
 
 namespace game::scene {
 using namespace elysia;
 namespace {
+void style_controls(ui::UiElement& element){
+    if(auto* button=dynamic_cast<ui::UiButton*>(&element)){
+        auto style=button->style_overrides();style.chrome.corner_radius=10.f;button->set_style_overrides(style);
+    }
+    if(auto* panel=dynamic_cast<ui::UiPanel*>(&element)){
+        auto style=panel->style_overrides();style.background=core::Color{9,27,62,224};panel->set_style_overrides(style);
+    }
+    if(auto* host=dynamic_cast<ui::UiChildHost*>(&element))for(std::size_t index=0;index<host->child_count();++index)style_controls(*host->child_at(index));
+}
 ui::SettingsPanelDraft draft(const config::UserConfigData& data){
     return {.window_mode=data.window.mode==config::WindowMode::Windowed?ui::SettingsWindowMode::Windowed:ui::SettingsWindowMode::BorderlessFullscreen,
         .window_size={data.window.windowed_size.width,data.window.windowed_size.height},.target_fps=data.target_fps,.vsync=data.vsync,
@@ -22,9 +33,7 @@ void SettingsScene::on_enter(const elysia::scene::ScenePayload&){
     window->set_style_overrides({.draw_background=false,.draw_border=false});
     window->set_on_cancel([this]{request_scene_switch(scene_keys::MainMenu);});
     window->add_child(std::make_unique<frontend::MoonBackdrop>("settings",35));
-    auto heading=frontend::label(content::ui("settings"),350,64);heading->set_typography_role(typography::UiTypographyRole::Heading);
-    window->add_child(std::move(heading),ui::UiLayoutChildOptions{._margin={.left=56,.top=62}});
-    window->add_child(frontend::label(content::ui("settings_intro"),350,66),ui::UiLayoutChildOptions{._margin={.left=58,.top=130}});
+    window->add_child(frontend::label(content::ui("settings_intro"),350,66),ui::UiLayoutChildOptions{._margin={.left=58,.top=62}});
     auto panel=std::make_unique<ui::SettingsPanel>(core::Rect{0,0,732,660});_panel=panel.get();
     std::optional<ui::SettingsWindowSize> usable;
     if(auto* native=SDL_GetRenderWindow(runtime_context().renderer())){
@@ -37,7 +46,7 @@ void SettingsScene::on_enter(const elysia::scene::ScenePayload&){
     _panel->set_on_save([this](const ui::SettingsPanelDraft& value){save(value);});
     _panel->set_on_back([this]{request_scene_switch(scene_keys::MainMenu);});
     window->add_child(std::move(panel),ui::UiLayoutChildOptions{._anchor=ui::UiLayoutAnchor::CenterRight,._margin={.right=28}});
-    _panel->register_with_window(*window);window->register_focus_scope(*_panel);window->focus_first_available_scope();
+    _panel->register_with_window(*window);style_controls(*_panel);window->register_focus_scope(*_panel);window->focus_first_available_scope();
     if(_baseline.restart_required)_panel->set_status_content(ui::ui_text_key("engine.settings.status.restart_required"),false);
 }
 void SettingsScene::save(const ui::SettingsPanelDraft& value){
