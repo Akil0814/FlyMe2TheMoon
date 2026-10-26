@@ -313,22 +313,40 @@ void check_frontend_artwork(SDL_Renderer* renderer){
     auto* star_preview=SDL_RenderReadPixels(renderer,nullptr);require(star_preview!=nullptr,SDL_GetError());
     const bool star_preview_saved=SDL_SaveBMP(star_preview,"out/qa/ingame-stars-preview.bmp");SDL_DestroySurface(star_preview);require(star_preview_saved,SDL_GetError());
     require(SDL_SetRenderDrawColor(renderer,12,20,35,255)&&SDL_RenderClear(renderer),SDL_GetError());
-    for(int chapter=0;chapter<4;++chapter)for(int stars=-1;stars<=3;++stars){
-        const std::string color(1,"OGYP"[chapter]);
+    std::vector<SDL_Texture*> selection_icons;
+    for(char suffix:std::string("PYOG"))for(const char* prefix:{"point","lock","starDown","starUp","starGrey"}){
+        auto* icon=ELYSIA_RESOURCES->find_texture(std::string("fly.frontend.")+prefix+suffix);
+        require(icon!=nullptr,"Selection color/state texture missing");selection_icons.push_back(icon);
+    }
+    const auto& level_colors=game::content::catalog().at("selection").at("levels");
+    constexpr char first_page_colors[]="OOOGGGYYYGGGGPP";
+    for(int id=1;id<=60;++id){
+        const int type=level_colors.at(std::to_string(id)).at(2).get<int>();
+        std::string color;
+        switch(type){case 1:color="P";break;case 2:color="Y";break;case 3:color="O";break;case 4:color="G";break;default:require(false,"Unknown original level color type");}
+        if(id<=15)require(color[0]==first_page_colors[id-1],"First page must retain the original per-level color sequence");
+        auto* point=ELYSIA_RESOURCES->find_texture("fly.frontend.point"+color);
+        auto* lock=ELYSIA_RESOURCES->find_texture("fly.frontend.lock"+color);
         auto* full=ELYSIA_RESOURCES->find_texture("fly.frontend.starDown"+color);
         auto* empty=ELYSIA_RESOURCES->find_texture("fly.frontend.starUp"+color);
         auto* grey=ELYSIA_RESOURCES->find_texture("fly.frontend.starGrey"+color);
-        require(full&&empty&&grey,"Selection star state texture missing");
-        for(bool open:{true,false}){
-            game::frontend::LevelNode node(chapter*15+stars+2,chapter,stars,open,[]{});
-            node.set_screen_rect({50.f+(stars+1)*240,100.f+chapter*140,210,94});
-            std::vector<core::UiRenderCommand> drawn;node.submit_ui_render_commands(drawn);int index=0;
-            for(const auto& command:drawn)if(command.texture==full||command.texture==empty||command.texture==grey){
-                require(command.texture==(!open||stars<0?grey:index<stars?full:empty),"Selection earned/empty/unplayed star texture is wrong");
-                require(command.alpha==(open?255:85),"Selection star lock opacity changed");++index;
+        for(int stars=-1;stars<=3;++stars)for(bool open:{true,false}){
+            game::frontend::LevelNode node(id,stars,open,[]{});
+            node.set_screen_rect({50.f+((id-1)%5)*240,130.f+((id-1)/5)*170,210,94});
+            std::vector<core::UiRenderCommand> drawn;node.submit_ui_render_commands(drawn);int index=0,points=0,locks=0,icons=0;
+            for(const auto& command:drawn){
+                if(std::find(selection_icons.begin(),selection_icons.end(),command.texture)!=selection_icons.end())++icons;
+                if(command.texture==point){++points;require(command.alpha==(open?255:65),"Selection point lock opacity changed");}
+                if(command.texture==lock)++locks;
+                if(command.texture==full||command.texture==empty||command.texture==grey){
+                    require(command.texture==(!open||stars<0?grey:index<stars?full:empty),"Selection earned/empty/unplayed star texture is wrong");
+                    require(command.alpha==(open?255:85),"Selection star lock opacity changed");++index;
+                }
             }
             require(index==3,"Each level must retain three rating stars");
-            if(open)for(const auto& command:drawn)core::require_render_success(core::execute_render_command(renderer,command));
+            require(points==1&&locks==(open?0:1)&&icons==(open?4:5),"Point, lock and stars must all use this level's configured color");
+            if(id<=15&&stars==(id-1)%5-1&&open==(id%3!=0))
+                for(const auto& command:drawn)core::require_render_success(core::execute_render_command(renderer,command));
         }
     }
     std::filesystem::create_directories("out/qa/selection-stars-audit");

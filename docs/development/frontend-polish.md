@@ -71,3 +71,11 @@ Use case: precise-object-edit. Asset type: widescreen background for a 2D game m
 Debug 主程序及游戏测试目标构建通过。针对本次修改执行 `fly_idle_visuals` 和 `fly_selection_input`，两项均通过（36.23 秒）；新增视觉检查覆盖四章、未通关及 0..3 星、锁定/解锁状态的纹理绑定、三颗星数量与透明度。测试预览 `out/qa/selection-stars-audit/preview.bmp` 已查看：四行对应四章，五列依次为未通关、0、1、2、3 星。它是实际 SDL 软件绘制，不包含完整场景交互或原生窗口截图；本轮未另跑窗口回放。日志为同目录 `ctest01.log`，原方法摘录为 `initSprites.asm`、`refreshSprites.asm`。
 
 首轮构建发现新预览代码误调用 UiButton 不存在的 update 方法；移除该调用后重新构建、运行上述测试通过，没有跳过相关检查。
+
+## 选关节点按关卡类型取色（2026-10-26）
+
+圆点、星星和独立锁图标统一读取 `catalog.selection.levels[id][2]`，使用原 `LevelSelectData.json` 的关卡类型：1 紫色（P）、2 黄色（Y）、3 橙色（O）、4 绿色（G）。颜色在节点创建时确定，不再按章节整页取色；卡片布局、星数状态、解锁逻辑和锁定透明度保持现有行为。
+
+原版依据为 `LevelsDataV2.typeOfLevel:`（0xea41c）读取配置第三项，`LevelSelectPageV2.initWithPageID:` 将其传给 `LevelSelectButtonV2.initWithLevelID:levelType:`，后者与 `initSprites` 完成上述类型到贴图后缀的映射。首章序列为 1–3 橙、4–6 绿、7–9 黄、10–13 绿、14–15 紫。
+
+`fly_idle_visuals` 检查全部 60 关、未通关及 0–3 星、锁定/解锁状态的实际绘制命令，要求圆点、锁和三颗星均使用该关颜色，并保留原星级贴图与透明度。`out/qa/selection-stars-audit/preview.bmp` 现在展示首章 15 关，混合星级与锁定状态。

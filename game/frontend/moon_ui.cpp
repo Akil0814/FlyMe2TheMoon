@@ -10,6 +10,11 @@ namespace game::frontend {
 using namespace elysia;
 namespace {
 SDL_Texture* texture(const std::string& key){return ELYSIA_RESOURCES->find_texture("fly.frontend."+key);}
+std::string level_color(int id){
+    // Original LevelSelectData stores [x, y, type]; type 1/2/3/4 is P/Y/O/G.
+    const int type=content::catalog().at("selection").at("levels").at(std::to_string(id)).at(2).get<int>();
+    return std::string(1,std::array{'P','Y','O','G'}.at(type-1));
+}
 void image(std::vector<core::UiRenderCommand>& out,SDL_Texture* source,core::Rect rect,Uint8 alpha=255){
     if(!source)return;
     auto command=core::make_ui_texture_command(source,rect);command.alpha=alpha;out.push_back(command);
@@ -156,7 +161,7 @@ void mark_selected(ui::UiButton& button){
     // Overrides replace the full record; keep geometry and interaction colors.
     button.set_style_overrides(style);
 }
-LevelNode::LevelNode(int id,int chapter,int stars,bool open,std::function<void()> action,std::optional<int> best_score):UiButton({0,0,210,94}),_chapter(chapter),_stars(stars),_open(open),_best_score(best_score){
+LevelNode::LevelNode(int id,int stars,bool open,std::function<void()> action,std::optional<int> best_score):UiButton({0,0,210,94}),_color(level_color(id)),_stars(stars),_open(open),_best_score(best_score){
     set_sounds({.click="fly.voice_6_3"});
     set_text_content(ui::ui_raw_text(std::format("{:02}",id)));set_on_click(std::move(action));set_enabled(open);
     set_typography_role(typography::UiTypographyRole::ButtonCompact);
@@ -176,7 +181,7 @@ void LevelNode::submit_ui_render_commands(std::vector<core::UiRenderCommand>& ou
     const auto r=screen_rect();
     UiButton::submit_ui_render_commands(out);
     if(_unlock_time>0)out.push_back(core::make_ui_fill_rect_command(r,{255,225,130,static_cast<Uint8>(100*_unlock_time/.6)}));
-    const std::string color(1,"OGYP"[_chapter]);
+    const auto& color=_color;
     image(out,texture("point"+color),{r.x()+16,r.y()+30,40,40},_open?255:65);
     if(!_open){
         // levelBtnLock is the original marker plate; lock<Color> is the standalone padlock.

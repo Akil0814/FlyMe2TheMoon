@@ -56,7 +56,7 @@ void SelectionScene::on_enter(const elysia::scene::ScenePayload& payload) {
         const bool open=store.data.unlocked(id,content::catalog().at("dependencies"));const int stars=store.data.stars[id-1];
         const auto score=stars>=0&&store.data.score_verified[id-1]
             ?std::optional<int>{store.data.scores[id-1]}:std::nullopt;
-        auto node=std::make_unique<frontend::LevelNode>(id,chapter,stars,open,[this,id]{request_scene_switch(scene_keys::Flight,FlightPayload{id},elysia::scene::SceneReloadMode::Recreate);},score);
+        auto node=std::make_unique<frontend::LevelNode>(id,stars,open,[this,id]{request_scene_switch(scene_keys::Flight,FlightPayload{id},elysia::scene::SceneReloadMode::Recreate);},score);
         if(open&&store.pending_unlocks.contains(id))_unlock_nodes.emplace_back(id,node.get());
         levels->add_child(std::move(node));
     }

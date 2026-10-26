@@ -65,7 +65,7 @@ std::unique_ptr<elysia::ui::UiLabel> label(std::string text,float width,float he
 void mark_selected(elysia::ui::UiButton& button);
 class LevelNode final:public elysia::ui::UiButton,public elysia::core::Updatable {
 public:
-    LevelNode(int id,int chapter,int stars,bool open,std::function<void()> action,
+    LevelNode(int id,int stars,bool open,std::function<void()> action,
         std::optional<int> best_score=std::nullopt);
     [[nodiscard]] std::optional<int> best_score()const{return _best_score;}
     bool unlocked()const{return _open;}
@@ -73,7 +73,8 @@ public:
     void update(double delta)override{_unlock_time=std::max(0.,_unlock_time-std::max(0.,delta));}
     void submit_ui_render_commands(std::vector<elysia::core::UiRenderCommand>& out)const override;
 private:
-    int _chapter=0,_stars=-1;
+    std::string _color;
+    int _stars=-1;
     bool _open=false;
     std::optional<int> _best_score;
     mutable elysia::ui::UiLabel _score_label;
