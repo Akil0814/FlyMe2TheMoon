@@ -10,6 +10,7 @@
 #include "laser_aim.h"
 #include "wind_visual.h"
 #include "role_effect.h"
+#include "thrust_particles.h"
 #include "laser_visual.h"
 #include "engine/physics/joint_definition.h"
 #include "engine/camera/camera.h"
@@ -71,6 +72,13 @@ public:
     double look_time=0;
 private:
     std::array<elysia::physics::Collider,3> _colliders;
+    bool show_thrust()const{
+        const auto pose=effect_pose();
+        return !dead&&!_presentation_hidden&&!_presentation&&pose.body_visible&&pose.image==BallImage::None&&thrust.y<0;
+    }
+    ThrustParticles _thrust_particles;
+    // Follow the displayed sprite's feet rather than moving the pivot with analog power.
+    Vec thrust_attachment()const{return _action=="charLeft"?Vec{.6875f,.875f}:_action=="charRight"?Vec{.3125f,.875f}:Vec{.5f,.9375f};}
     std::map<std::string,std::unique_ptr<elysia::animation::Animation>> _animations;
     std::string _action="charIdle";
     RoleEffect _effect=RoleEffect::None;

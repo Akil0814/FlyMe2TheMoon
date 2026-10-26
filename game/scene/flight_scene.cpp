@@ -141,12 +141,12 @@ void FlightScene::on_shortcuts(const input::RawInputFrame&,const std::vector<inp
         _using_gamepad=e.device==input::InputDevice::Gamepad;
         if(_pause_menu_open){
             if(e.control==C::KeyP||e.control==C::KeyEscape||e.control==C::GamepadStart){consume_input(e);close_pause_menu();}
-            else if(e.control==C::KeyR||e.control==C::GamepadWest){consume_input(e);retry_level();}
+            else if(e.control==C::KeyR){consume_input(e);retry_level();}
             return;
         }
-        if(e.control==C::KeyEscape||e.control==C::KeyP||e.control==C::GamepadStart){consume_input(e);open_pause_menu();return;}
+        if(e.control==C::KeyEscape||e.control==C::KeyP||e.control==C::GamepadStart||e.control==C::GamepadEast){consume_input(e);open_pause_menu();return;}
         if(!_death_pending&&_story_started&&_story.dialogue()&&(e.control==C::KeyEnter||e.control==C::MouseLeft||e.control==C::KeyTab||e.control==C::GamepadSouth||e.control==C::GamepadNorth)){consume_input(e);_story.advance(e.control==C::KeyTab||e.control==C::GamepadNorth);update_dialogue();return;}
-        if(e.control==C::KeyR||e.control==C::GamepadWest){consume_input(e);request_scene_switch(scene_keys::Flight,FlightPayload{_level,true},elysia::scene::SceneReloadMode::Recreate);return;}
+        if(e.control==C::KeyR){consume_input(e);request_scene_switch(scene_keys::Flight,FlightPayload{_level,true},elysia::scene::SceneReloadMode::Recreate);return;}
         if(e.control==C::KeyEnter&&_finished){consume_input(e);
             continue_from_result();return;}
     }

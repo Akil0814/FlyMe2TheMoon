@@ -127,12 +127,14 @@ void Player::update(double delta) {
     _action=dead?"charDeath":look_time>0?"charLookLeftRight":thrust.y<-.1f?(thrust.x<-.2f?"charLeft":thrust.x>.2f?"charRight":"charUp"):
         std::abs(v.y)>35?"charFree":idle_enabled?"charIdle":"charStand";
     _animations.at(_action)->update(delta);
+    _thrust_particles.update(delta,render_rect(),thrust,thrust_attachment(),show_thrust());
 }
 void Player::play_effect(RoleEffect effect){_effect=effect;_effect_time=0;}
 void Player::die(){if(dead)return;play_effect(RoleEffect::Death);present_at(std::nullopt);dead=true;thrust={};_action="charDeath";_animations.at(_action)->reset();_animations.at(_action)->set_loop(false);set_update_when_paused(true);}
 void Player::submit_render_commands(std::vector<RenderCommand>& out) const {
     if(_presentation_hidden)return;
     const auto pose=effect_pose();
+    if(show_thrust())_thrust_particles.submit(out);
     RenderCommand cmd;if(pose.body_visible&&_animations.at(_action)->build_render_command(render_rect(),0,SpriteFlip::None,cmd))out.push_back(cmd);
     if(pose.image!=BallImage::None) {
         const auto* frame=_effect_frames[pose.image==BallImage::Ball?0:(pose.image==BallImage::Disappear?1:5)+pose.frame];

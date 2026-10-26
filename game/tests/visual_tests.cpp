@@ -135,6 +135,48 @@ void check_pickups_and_moon() {
         }
     }
 }
+void check_thrust_particles(SDL_Renderer* renderer){
+    using namespace game::play;
+    Player player({100,300});
+    require(commands(player).size()==1,"Idle role must not draw particles");
+    auto* fire=ELYSIA_RESOURCES->find_texture("fly.role_fire");SDL_BlendMode blend{};
+    require(fire&&SDL_GetTextureBlendMode(fire,&blend)&&blend==SDL_BLENDMODE_ADD,"Role particles must use their dedicated additive fire texture");
+    player.thrust={0,-1};player.update(.1);const auto drawn=commands(player);
+    require(drawn.size()==31,"A tenth of a second must emit 30 particles before the role sprite");
+    for(std::size_t i=0;i+1<drawn.size();++i)require(drawn[i].texture==fire&&drawn[i].texture_color_modulation.has_value(),"Particles must render with the source sprite and lifetime color");
+    require(drawn.front().alpha<drawn[drawn.size()-2].alpha,"Older particles must fade below newborn particle opacity");
+    const auto repeated=commands(player);require(repeated.size()==drawn.size()&&repeated.front().command_rect==drawn.front().command_rect,"Rendering must not advance particle simulation");
+    player.thrust={};require(commands(player).size()==1,"Releasing thrust must hide particles immediately");player.update(.1);
+    player.thrust={0,-1};player.update(1./60.);require(commands(player).size()==6,"A new burst must start without stale particles");
+    player.update(.1);player.present_at(Vec{500,500});require(commands(player).size()==1,"Portal and moon presentation must hide particles");
+    player.present_at(std::nullopt);player.die();require(commands(player).size()==1,"Death must hide particles");
+
+    const Vec fly_left{-.7660444f,-.6427876f},fly_right{.7660444f,-.6427876f};
+    for(const auto thrust:{Vec{0,-1},fly_left,fly_right,Vec{.19f,-.8f}}){
+        Player sample({100,300});sample.thrust=thrust;sample.update(1./60.);
+        const auto particles=commands(sample);const auto role=sample.render_rect();
+        const auto birth=particles[particles.size()-2].command_rect.center();
+        const bool tilted=std::abs(thrust.x)>.2f;
+        const Vec expected{role.center().x+(tilted?(thrust.x<0?9.f:-9.f):0.f),role.bottom()-(tilted?8.f:4.f)};
+        require((birth-expected).length()<.001f,"Newborn particles must follow the feet of the actual straight or side-flight sprite");
+        if(tilted)require((particles.front().command_rect.center().x-birth.x)*thrust.x<0,"Side-flight particles must travel opposite to thrust");
+    }
+
+    require(SDL_SetRenderDrawColor(renderer,24,36,54,255)&&SDL_RenderClear(renderer),SDL_GetError());
+    const std::array<Vec,4> thrusts{{{0,-1},{-.7660444f,-.6427876f},{.7660444f,-.6427876f},{0,-.25f}}};
+    for(int row=0;row<2;++row)for(int column=0;column<4;++column){
+        Player sample({0,0});sample.thrust=thrusts[column];
+        for(int i=0;i<(row==0?18:3);++i)sample.update(1./60.);
+        const camera::Camera preview(sample.render_rect().center(),{1280,720},2);
+        for(const auto& command:commands(sample)){
+            auto screen=core::project_render_command_to_screen(command,preview);
+            screen.screen_rect=screen.screen_rect.translated({160.f+320*column-640,110.f+360*row-360});
+            core::require_render_success(core::execute_render_command(renderer,screen));
+        }
+    }
+    auto* captured=SDL_RenderReadPixels(renderer,nullptr);require(captured!=nullptr,SDL_GetError());
+    std::filesystem::create_directories("out/qa");const bool saved=SDL_SaveBMP(captured,"out/qa/role-particles-preview.bmp");SDL_DestroySurface(captured);require(saved,SDL_GetError());
+}
 void check_role_effects(SDL_Renderer* renderer) {
     using namespace game::play;
     Player player({100,300});
@@ -840,6 +882,7 @@ int main() {
             check_pickups_and_moon();
             check_driven_rotor_pause();
             check_role_effects(renderer);
+            check_thrust_particles(renderer);
             check_moon_highlight(renderer);
             check_decoration_anchors();
             save_decor_preview(renderer);
