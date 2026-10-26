@@ -153,8 +153,9 @@ private:
     elysia::physics::PrismaticJointSettings _platform_settings;
     LaserAim _laser_aim;
     double _time=0;
-    std::vector<Vec> _spike_positions;
-    SDL_Texture* _spike_texture=nullptr;
+    struct SpikeSprite {Vec anchor;float rotation;};
+    std::vector<SpikeSprite> _spike_sprites;
+    const elysia::resources::FrameInfo* _spike_frame=nullptr;
     Entity* _carrier=nullptr;
     Vec _carrier_offset{};
     float _carrier_angle=0;

@@ -748,6 +748,79 @@ void check_platforms_and_rods() {
         }
     }
 }
+void check_platform_spikes(SDL_Renderer* renderer){
+    using namespace game::play;
+    const auto anchor_of=[](const core::RenderCommand& c){return c.command_rect.position()+core::Vector2{c.rotation_origin.x*c.command_rect.width(),c.rotation_origin.y*c.command_rect.height()};};
+    const auto verify=[&](const Entity& platform,const std::string& flags){
+        const int blocks=platform.kind-104;
+        const auto drawn=commands(platform);const auto& body=drawn.at(0);
+        const auto* frame=ELYSIA_RESOURCES->find_atlas("fly.DynamicObjectsLite.DynamicObject_"+std::to_string(platform.kind)+".S01")->frame_at(0);
+        std::vector<std::pair<core::Vector2,float>> expected;
+        // Independent native E/N/W/S attachment points, with 32-unit pitch.
+        const float end=std::array<float,3>{18,34,50}[blocks-1];
+        if(flags[0]=='1')expected.push_back({{end,0},90.f});
+        if(flags[1]=='1')for(int i=0;i<blocks;++i)expected.push_back({{16.f*(blocks-1)-32.f*i,-18},0.f});
+        if(flags[2]=='1')expected.push_back({{-end,0},270.f});
+        if(flags[3]=='1')for(int i=0;i<blocks;++i)expected.push_back({{16.f*(blocks-1)-32.f*i,18},180.f});
+        require(drawn.size()==1+expected.size(),"Platform must use one strip per end and one per block on top/bottom");
+        const float radians=body.rotation_degrees*std::numbers::pi_v<float>/180;
+        for(std::size_t i=0;i<expected.size();++i){
+            const auto& spike=drawn[i+1];
+            require(spike.texture==frame->_texture&&spike.use_src_rect==frame->_source_rect.has_value()&&(!spike.use_src_rect||spike.src_rect==*frame->_source_rect),"Platform spikes must use their own S01 frame and atlas rectangle");
+            require(std::abs(spike.command_rect.width()-27.5f)<.001f&&std::abs(spike.command_rect.height()-18)<.001f,"Spike strips must retain the original HD half-size instead of a 16x16 square");
+            require((spike.rotation_origin-core::Vector2{.5f,2.f/3}).length()<.001f,"Spike strips must rotate about the original bottom-third anchor");
+            require((anchor_of(spike)-(body.command_rect.center()+rotate_vector(expected[i].first,radians))).length()<.002f,"Spike anchor must follow the same interpolated position and angle as the platform");
+            require(std::abs(spike.rotation_degrees-body.rotation_degrees-expected[i].second)<.001f,"Spike strips must add their own outward-facing side rotation");
+        }
+    };
+    for(int kind:{105,106,107})for(int mask=0;mask<16;++mask)for(float angle:{0.f,45.f,90.f,180.f,270.f}){
+        std::string flags="0000";for(int side=0;side<4;++side)if(mask&(1<<side))flags[side]='1';
+        auto data=mechanism(kind);data["info"]["Spikes"]=flags;data["rotation"]=angle;
+        Entity platform(data);verify(platform,flags);
+    }
+    int fixtures=0;
+    for(int level=1;level<=60;++level){
+        const auto level_data=game::content::level(level);
+        for(const auto& data:level_data.at("entities")){
+            const int kind=data.at("kind");const auto flags=data.at("info").value("Spikes",std::string("0000"));
+            if(kind>=105&&kind<=107&&flags.find('1')!=std::string::npos){Entity platform(data);verify(platform,flags);++fixtures;}
+        }
+    }
+    require(fixtures==146,"All 146 shipped spiked platforms must retain their side assignments");
+    {
+        auto data=mechanism(106);data["info"]["Spikes"]="1111";
+        Entity platform(data);physics::PhysicsWorld world({.gravity={0,0}});
+        const auto body=world.register_object(platform,platform.body_definition(),platform.collider_definitions());
+        require(body.is_valid(),"Spiked platform interpolation fixture failed");platform.bind_physics(world,body);
+        require(world.set_velocity(body,{60,20})&&world.set_angular_velocity(body,1),"Spiked platform motion fixture failed");
+        world.step(1./60);world.finalize_frame(.35);verify(platform,"1111");
+        const auto pose=world.render_pose(body);require(pose&&(commands(platform)[0].command_rect.center()-pose->position).length()<.001f,"Spiked platform must use its physics presentation pose");
+        // Original sensor centers coincide with the four attachment lines.
+        const auto colliders=platform.collider_definitions();require(colliders.size()==5,"Spiked platform must retain all four lethal side sensors");
+        const std::array<core::Vector2,4> centers{{{34,0},{0,-18},{-34,0},{0,18}}};
+        for(int i=0;i<4;++i)require(platform.lethal(platform.physics_collider(i+1))&&std::get<physics::BoxShape>(colliders[i+1].shape).local_center==centers[i],"Side-facing artwork must retain the original lethal sensor attachment");
+        platform.unbind_physics();require(world.unregister_object(body),"Spiked platform fixture cleanup failed");
+    }
+    require(SDL_SetRenderDrawColor(renderer,16,25,38,255)&&SDL_RenderClear(renderer),SDL_GetError());
+    const std::array<std::string,6> flags{{"1000","0100","0010","0001","1111","1111"}};
+    const std::array<const char*,6> headings{{"右侧","上侧","左侧","下侧","四侧","旋转 45°"}};
+    for(int column=0;column<6;++column){
+        const float x=110.f+210*column;
+        game::frontend::HudLabel heading({x-85,16,170,40},0,ui::ui_raw_text(headings[column]));
+        std::vector<core::UiRenderCommand> label;heading.submit_ui_render_commands(label);for(const auto& command:label)core::require_render_success(core::execute_render_command(renderer,command));
+        for(int row=0;row<3;++row){
+            auto data=mechanism(105+row);data["info"]["Spikes"]=flags[column];if(column==5)data["rotation"]=45;
+            Entity platform(data);const camera::Camera view(platform.position(),{1280,720},1.5f);
+            for(const auto& command:commands(platform)){
+                auto projected=core::project_render_command_to_screen(command,view);
+                projected.screen_rect=projected.screen_rect.translated(core::Vector2{x,160.f+220*row}-core::Vector2{640,360});
+                core::require_render_success(core::execute_render_command(renderer,projected));
+            }
+        }
+    }
+    auto* preview=SDL_RenderReadPixels(renderer,nullptr);require(preview!=nullptr,SDL_GetError());
+    const bool saved=SDL_SaveBMP(preview,"out/qa/platform-spikes-preview.bmp");SDL_DestroySurface(preview);require(saved,SDL_GetError());
+}
 void check_tracking_flower() {
     auto data=mechanism(113);data["info"]["Seq"]="0.1,2";data["info"]["Lag"]="0";
     game::play::Entity flower(data);
@@ -1240,6 +1313,7 @@ int main(int argc,char** argv) {
             check_decoration_anchors();
             save_decor_preview(renderer);
             check_platforms_and_rods();
+            check_platform_spikes(renderer);
             check_tracking_flower();
             check_homing_launch_and_motion(renderer);
             check_thrower_head(renderer);

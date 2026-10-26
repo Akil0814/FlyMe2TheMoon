@@ -220,10 +220,14 @@ Entity::Entity(const content::Json& d):GameObject(d.at("item").get<bool>()?Depth
             if(side==2)spike.shape=BoxShape::from_rect({-w/2,14,w,8});
             if(side==3)spike.shape=BoxShape::from_rect({-w/2-6,-16,8,32});
             _colliders.push_back(spike);
-            const float length=(side%2==0)?w:h;
-            for(float at=8;at<length;at+=16)_spike_positions.push_back(side==0?Vec{-w/2+at,-h/2-4}:side==1?Vec{w/2+4,-h/2+at}:side==2?Vec{-w/2+at,h/2+4}:Vec{-w/2-4,-h/2+at});
+            // DynamicBox.initSpikes: one S01 strip on each end, and one per
+            // 32-unit block along the top/bottom. Coordinates are local Y-down.
+            if(side==1)_spike_sprites.push_back({{w/2+2,0},90});
+            else if(side==3)_spike_sprites.push_back({{-w/2-2,0},270});
+            else for(int strip=0;strip<kind-104;++strip)
+                _spike_sprites.push_back({{(kind-105)*16.f-strip*32.f,side==0?-18.f:18.f},side==0?0.f:180.f});
         }
-        _spike_texture=ELYSIA_RESOURCES->find_texture("fly.DynamicObjectsLite.DynamicObject_111.first");
+        if(!_spike_sprites.empty())_spike_frame=mechanism_frame(key+".S01",0);
     }
 }
 BodyDefinition Entity::body_definition()const {
@@ -460,8 +464,10 @@ void Entity::submit_render_commands(std::vector<RenderCommand>& out) const {
         const Vec local{leaf.position.x-_visual_size.x/2,_visual_size.y/2-leaf.position.y};
         append_component(out,*_leaf_frames[part],c+rotate_vector(local,rad),{0,1},rotation+leaf.rotation);
     }
-    for(Vec point:_spike_positions){const Vec p=c+Vec{point.x*std::cos(rad)-point.y*std::sin(rad),point.x*std::sin(rad)+point.y*std::cos(rad)};
-        RenderCommand s;s.texture=_spike_texture;s.command_rect={p.x-8,p.y-8,16,16};s.rotation_degrees=rotation;if(s.texture)out.push_back(s);}
+    // Original anchor is (0.5, 1/3) in Y-up; rotate around that same attachment
+    // point after applying the platform's interpolated position and angle.
+    for(const auto& spike:_spike_sprites)
+        append_component(out,*_spike_frame,c+rotate_vector(spike.anchor,rad),{.5f,2.f/3},rotation+spike.rotation);
 }
 Pivot::Pivot(Vec p):GameObject(DepthLayer::Terrain){set_world_rect({p.x,p.y,1,1});_colliders[0].shape=CircleShape{{0,0},1};_colliders[0].filter={.category=0,.mask=0};_colliders[0].response=CollisionResponse::Ignore;}
 }
