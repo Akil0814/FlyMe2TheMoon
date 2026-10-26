@@ -2,6 +2,8 @@
 
 日期：2026-10-26。对象：`assets/audio/fly/sounds`；对照仓库内 `reference/Fly2theMoon_1.1_ios_3.2` 的原作资源、60 关 Lua 和原程序 ARM 静态反汇编。
 
+此报告保留接入前的使用统计。后续接入情况见 [audio-integration.md](audio-integration.md)。
+
 ## 结论与口径
 
 - 当前目录有 **69 个 WAV，全部登记在 audio_manifest.json**，逐个比较 PCM 参数、帧数与采样数据哈希，全部与原作对应文件一致。
@@ -47,7 +49,7 @@
 
 | 文件 | 原作用途 | 原方法地址 |
 |---|---|---|
-| 12-4 | 撞击，onHitAt: | 0x9cbc0 |
+| 12-4 | 尖刺命中，onHitAt:；调用来源为 Spike.hitRole / DynamicBox.spikeHitRole | 0x9cbc0 |
 | 13-2 | 动态箱体循环声，createDynamicBoxAt: | 0x9c824 |
 | 14-3 | 跷跷板/转杆转动，onSeesawRotateAt: | 0x9cc40 |
 | 15-3 | 激光循环声，createLaserAt: | 0x9c784 |

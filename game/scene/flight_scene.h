@@ -22,11 +22,11 @@
 namespace game::scene_keys {inline constexpr elysia::scene::SceneKey Flight=2;}
 namespace game::scene {
 struct FlightPayload {int level=1;bool restart=false;};
-class FlightScene final : public elysia::scene::Scene, public elysia::physics::ICollisionListener {
+class FlightScene final : public elysia::scene::Scene {
+    friend class AudioTestAccess;
 public:
     FlightScene();
     ~FlightScene() override;
-    void on_collision_event(const elysia::physics::CollisionEvent& event)override;
 protected:
     void on_enter(const elysia::scene::ScenePayload&) override;
     void on_exit() override;
@@ -133,7 +133,9 @@ private:
     frontend::GlassButton* _skip_button=nullptr;
     bool _dialogue_pointer_pressed=false;
     game::audio::World _audio;
-    bool _entrance_sound_pending=false,_audio_grounded=false;
+    bool _entrance_sound_pending=false;
+    bool _role_velocity_valid=false;
+    play::Vec _role_previous_velocity{};
     double _idle_audio_time=0;
     struct RotationAudio {float angle=0,accumulated=0;bool initialized=false;};
     std::map<int,RotationAudio> _rotation_audio;

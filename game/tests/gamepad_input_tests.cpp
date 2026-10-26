@@ -361,8 +361,8 @@ void test_original_tutorial_sequence(SDL_Renderer* renderer,const io::ContentReg
     }
     require(diagram.type()==2,"Seen-story mouse skip fixture must reach the direction tutorial");
     for(bool down:{true,false}){
-        system.begin_frame();SDL_Event motion{};motion.type=SDL_EVENT_MOUSE_MOTION;motion.motion.x=1160;motion.motion.y=448;system.process_event(motion);
-        SDL_Event event{};event.type=down?SDL_EVENT_MOUSE_BUTTON_DOWN:SDL_EVENT_MOUSE_BUTTON_UP;event.button.button=SDL_BUTTON_LEFT;event.button.down=down;event.button.x=1160;event.button.y=448;system.process_event(event);
+        system.begin_frame();SDL_Event motion{};motion.type=SDL_EVENT_MOUSE_MOTION;motion.motion.x=1160;motion.motion.y=686;system.process_event(motion);
+        SDL_Event event{};event.type=down?SDL_EVENT_MOUSE_BUTTON_DOWN:SDL_EVENT_MOUSE_BUTTON_UP;event.button.button=SDL_BUTTON_LEFT;event.button.down=down;event.button.x=1160;event.button.y=686;system.process_event(event);
         scene::SceneTestAccess::input(seen,system.snapshot());
     }
     for(int i=0;i<120&&diagram.type()!=0;++i)scene::SceneTestAccess::update(seen,1./60.);

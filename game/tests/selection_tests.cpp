@@ -145,8 +145,7 @@ void test_menu_routes(){
         scene::SceneTestAccess::enter(menu,{});auto& window=scene::SceneTestAccess::window(menu);window.update(0);
         bool full_background=false;
         for(std::size_t index=0;index<window.child_count();++index)if(auto* background=dynamic_cast<game::frontend::MoonBackdrop*>(window.child_at(index)))full_background=background->screen_rect()==window.screen_rect();
-        int visible_children=0;for(std::size_t i=0;i<window.child_count();++i)visible_children+=window.child_at(i)->is_visible();
-        require(full_background&&visible_children==2,"Main menu must use one full background plus its navigation controls");
+        require(full_background&&window.child_count()==2,"Main menu must use one full background plus its navigation controls");
         for(int step=0;step<target;++step)key(window,ui::UiAction::NavigateDown);
         key(window,ui::UiAction::Confirm);
         require(requests.received.size()==1&&requests.received.back().route.target==targets[target],"Every main menu entry must be reachable and activate once from the keyboard");

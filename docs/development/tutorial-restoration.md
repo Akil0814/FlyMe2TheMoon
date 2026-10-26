@@ -33,4 +33,8 @@
 - `fly_visual_tests`：UTF-8 逐字、颜色与稳定位置，两个教学图的组合和完整 80 帧状态，Demo 手指与文字提示的显示/清除；生成 `out/qa/tutorial-restoration-preview.bmp`。
 - 原生输入：`game/testing/tutorial-original-opening.json`、`tutorial-original-up.json`、`tutorial-original-direction.json`、`tutorial-original-demo.json`。对应截图与结构化结果保存在 `out/qa/`；回放采用 dummy 音频设备，音效听感不在此次截图验收范围。
 
+最终 Debug 主程序与相关测试目标构建通过。合入同期音频改动并解决三处冲突后，7 项游戏回归全部通过（54.02 秒）：音频、场景/输入、视觉、选关、评分存档、原 Lua 和机关，日志为 `out/qa/tutorial-ctest-merged.log`。四条原生回放的画面断言均通过且进程退出码为 0；开场、上下教学、方向教学和 Demo 截图已检查。没有据此宣称所有引擎测试或 60 关人工验收完成。
+
+最后将鼠标跳过按钮移至底部提示栏右侧，并在注册前设置绘制/输入顺序，避免与教学气泡重叠或被提示栏遮挡。调整后场景输入与原 Lua 两项复测通过（14.21 秒），第一关开场和上下教学两条原生回放再次通过并正常退出；截图已重新检查。
+
 第二关原 Lua 没有调用自动飞行 Demo，本次没有添加。桌面字体排版、横屏视野与角色跟随策略仍为当前项目适配，未运行原 iOS 应用做逐帧视觉等价比较。

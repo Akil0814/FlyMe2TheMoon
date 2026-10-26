@@ -17,7 +17,8 @@ using namespace elysia;
 void SelectionScene::on_after_update(double delta){
     _audio.advance(delta);_unlock_time-=std::max(0.,delta);
     if(!_unlock_nodes.empty()&&_unlock_time<=0){
-        _unlock_nodes.front()->show_unlock();_unlock_nodes.erase(_unlock_nodes.begin());_unlock_time=.5;_audio.play("108-1",1,true);
+        _unlock_nodes.front().second->show_unlock();progress::Store::instance().pending_unlocks.erase(_unlock_nodes.front().first);
+        _unlock_nodes.erase(_unlock_nodes.begin());_unlock_time=.5;_audio.play("108-1",1,true);
     }
     const auto& store=progress::Store::instance();
     if(testing::ReplayProbe::shared().update(runtime_context().renderer(),{{"scene",3},{"cleared",std::count_if(store.data.stars.begin(),store.data.stars.end(),[](int s){return s>=0;})},{"stars_level1",store.data.stars[0]},{"score_level1",store.data.scores[0]},{"score_verified_level1",store.data.score_verified[0]},{"achievement101",store.data.achievements.contains(101)},{"save_error",store.error}}))request_quit();
@@ -56,7 +57,7 @@ void SelectionScene::on_enter(const elysia::scene::ScenePayload& payload) {
         const auto score=stars>=0&&store.data.score_verified[id-1]
             ?std::optional<int>{store.data.scores[id-1]}:std::nullopt;
         auto node=std::make_unique<frontend::LevelNode>(id,chapter,stars,open,[this,id]{request_scene_switch(scene_keys::Flight,FlightPayload{id},elysia::scene::SceneReloadMode::Recreate);},score);
-        if(open&&store.pending_unlocks.erase(id))_unlock_nodes.push_back(node.get());
+        if(open&&store.pending_unlocks.contains(id))_unlock_nodes.emplace_back(id,node.get());
         levels->add_child(std::move(node));
     }
     auto* levels_scope=levels.get();list->add_back(std::move(levels));

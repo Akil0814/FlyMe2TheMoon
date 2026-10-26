@@ -123,7 +123,7 @@ void FlightScene::update_result_animation(double delta){
     const double score_time=std::max(0.,_result_animation_time-_stars*.5-1);
     while(_result_tick_time+1./60.<=score_time&&_result_display_score<_result_score){
         _result_tick_time+=1./60.;
-        const int before=_result_display_score;_result_display_score=std::min(_result_score,before+1199);
+        const int before=_result_display_score;_result_display_score=before+std::min(1199,_result_score-before);
         if(_result_display_score/6000>before/6000)_audio.play("107-1",1,true);
     }
     _result_stats->set_text_content(ui::ui_raw_text(content::format("result_score",_result_display_score)));

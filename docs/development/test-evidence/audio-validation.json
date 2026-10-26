@@ -1,0 +1,88 @@
+{
+  "date": "2026-10-26",
+  "sound_files": 69,
+  "wired_files": 61,
+  "unconfirmed_files": [
+    "46-2",
+    "51-3",
+    "55-1",
+    "56-1",
+    "60-3",
+    "62-1",
+    "63-1",
+    "64-1"
+  ],
+  "registered_44_1_alias": true,
+  "ctest": {
+    "passed": 9,
+    "failed": 0,
+    "log": "audio-ctest03.log"
+  },
+  "final_executable_sha256": "3E005F378F3C08CEA58624C7A0B9A1A929231907BD12EAC0B3BB35A60DC52C8B",
+  "replays": [
+    {
+      "name": "audio-level39-pause",
+      "passed": true,
+      "executable_sha256": "A0EF2376D3C3BC2632013F31A9EE3769B9BAE09A49C04CEDB20285BA0647ECBE",
+      "trigger_counts": {
+        "70-1": 1,
+        "15-3": 4,
+        "40-2": 1,
+        "14-3": 2,
+        "50-1": 1,
+        "42-2": 1
+      },
+      "peak_allocated_loops": 4
+    },
+    {
+      "name": "audio-level24-homing",
+      "passed": true,
+      "executable_sha256": "A0EF2376D3C3BC2632013F31A9EE3769B9BAE09A49C04CEDB20285BA0647ECBE",
+      "trigger_counts": {
+        "70-1": 1,
+        "40-2": 1,
+        "17-4": 5,
+        "42-1": 1,
+        "53-1": 1,
+        "34-1": 4,
+        "42-2": 1
+      },
+      "peak_allocated_loops": 0
+    },
+    {
+      "name": "audio-level31-bomb",
+      "passed": true,
+      "executable_sha256": "3E005F378F3C08CEA58624C7A0B9A1A929231907BD12EAC0B3BB35A60DC52C8B",
+      "trigger_counts": {
+        "23-2": 5,
+        "70-1": 1,
+        "13-2": 3,
+        "15-3": 4,
+        "55-2": 1,
+        "42-1": 1,
+        "90-1": 1,
+        "90-2": 1,
+        "18-1": 1,
+        "19-2": 1,
+        "47-1": 1
+      },
+      "peak_allocated_loops": 6
+    },
+    {
+      "name": "audio-level9-laser",
+      "passed": true,
+      "executable_sha256": "A0EF2376D3C3BC2632013F31A9EE3769B9BAE09A49C04CEDB20285BA0647ECBE",
+      "trigger_counts": {
+        "70-1": 1,
+        "13-2": 2,
+        "15-3": 5,
+        "45-2": 1,
+        "40-1": 1,
+        "51-1": 1,
+        "42-1": 1
+      },
+      "peak_allocated_loops": 6
+    }
+  ],
+  "limits": "Runtime status/gain/sample-position verification; not a full 60-level subjective listening acceptance."
+}

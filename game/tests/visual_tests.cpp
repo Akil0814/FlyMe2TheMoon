@@ -44,9 +44,13 @@ public:
     static void bind(Scene& scene,const SceneRuntimeContext& context){scene.bind_runtime_context(context);}
     static void enter(Scene& scene,const ScenePayload& payload={}){scene.lifecycle_enter(payload);}
     static void exit(Scene& scene){scene.lifecycle_exit();}
+    static void update(Scene& scene,double delta){scene.lifecycle_update(delta);}
     static ui::UiWindow& window(Scene& scene){return dynamic_cast<ui::UiWindow&>(*scene._ui_roots.at(0));}
 };
 }
+
+#include "game/progress/progress.h"
+#include "game/tests/audio_scene_checks.h"
 
 namespace {
 using namespace elysia;
@@ -280,8 +284,7 @@ void check_main_menu_background(SDL_Renderer* renderer,const io::ContentRegistry
         if(command.texture==expected){++backgrounds;require(command.screen_rect==core::Rect{0,0,1280,720},"Menu background must fill the viewport");}
         require(command.texture!=ELYSIA_RESOURCES->find_texture("fly.ui.mainBg2")&&command.texture!=ELYSIA_RESOURCES->find_texture("fly.ui.mainTitle2")&&command.texture!=ELYSIA_RESOURCES->find_texture("fly.frontend.background_menu_outpaint"),"New menu must not retain the old artwork layers");
     }
-    int visible_children=0;for(std::size_t i=0;i<window.child_count();++i)visible_children+=window.child_at(i)->is_visible();
-    require(backgrounds==1&&visible_children==2,"Main menu must draw one new background alongside its existing navigation");
+    require(backgrounds==1&&window.child_count()==3&&!window.child_at(2)->is_visible(),"Main menu must draw its background/navigation with the exit confirmation initially hidden");
     require(SDL_SetRenderDrawColor(renderer,12,20,35,255)&&SDL_RenderClear(renderer),SDL_GetError());
     for(const auto& command:drawn)core::require_render_success(core::execute_render_command(renderer,command));
     auto* preview=SDL_RenderReadPixels(renderer,nullptr);require(preview!=nullptr,SDL_GetError());
@@ -1171,6 +1174,7 @@ void save_mechanism_preview(SDL_Renderer* renderer) {
 
 int main(int argc,char** argv) {
     const bool level_music_only=argc==2&&std::string_view(argv[1])=="--level-music-only";
+    const bool audio_only=argc==2&&std::string_view(argv[1])=="--audio-only";
     typography::FontResolver font_resolver;
     SDL_Surface* surface=nullptr;
     SDL_Renderer* renderer=nullptr;
@@ -1200,7 +1204,9 @@ int main(int argc,char** argv) {
             const auto deadline=SDL_GetTicks()+30000;
             while(loader.is_running()&&SDL_GetTicks()<deadline){loader.update();SDL_Delay(1);}
             require(loader.is_finished(),loader.failure()?loader.failure()->diagnostic.message:"Content load timed out");
-            if(level_music_only){
+            if(audio_only){
+                game::testing::check_scene_audio(renderer,*registry);
+            }else if(level_music_only){
                 check_level_music_playback(renderer,*registry);
             }else{
             check_frontend_music(renderer,*registry);

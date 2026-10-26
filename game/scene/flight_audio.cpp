@@ -3,14 +3,6 @@
 
 namespace game::scene {
 using namespace play;
-void FlightScene::on_collision_event(const elysia::physics::CollisionEvent& event){
-    if(!_player||_finished||_death_pending||_event_pending||event.phase!=elysia::physics::CollisionEventPhase::Begin||
-        event.contact.response!=elysia::physics::CollisionResponse::Block)return;
-    const auto& contact=event.contact;
-    if(!_player->owns_collider(contact.pair.first.collider)&&!_player->owns_collider(contact.pair.second.collider))return;
-    // Contacts persist while resting; only a new impact may request the sound.
-    if(contact.normal_impulse>2)_audio.at("12-4",contact.manifold.contact_point_count?contact.manifold.contact_points[0]:_player->center());
-}
 void FlightScene::update_audio(double delta){
     _audio.set_listener(camera().center());
     _audio.advance(_pause_menu_open||is_paused()?0:delta);
@@ -32,9 +24,14 @@ void FlightScene::update_audio(double delta){
 void FlightScene::update_role_audio(double delta){
     if(_finished||_death_pending||_event_pending||_transition.active())return;
     const bool grounded=physics_world().contact_state(_player->physics_handle()).grounded;
-    if(grounded&&!_audio_grounded)_audio.role_land();
-    _audio_grounded=grounded;
-    const int state=_player->thrust.y<-.1f?(_player->thrust.x<-.2f?3:_player->thrust.x>.2f?4:2):!grounded&&_player->velocity().y>6.1f*32?5:0;
+    const Vec velocity=_player->velocity();
+    const bool flying=_player->thrust.y<-.1f;
+    // RoleBodyComponent stores native Box2D velocity/acceleration in meters.
+    // RoleView checks upward acceleration >450 m/s²,
+    // rather than emitting a landing voice for every persistent floor contact.
+    if(!flying&&_role_velocity_valid&&game::audio::landing_voice(_role_previous_velocity.y,velocity.y,delta))_audio.role_land();
+    _role_previous_velocity=velocity;_role_velocity_valid=true;
+    const int state=flying?(_player->thrust.x<-.2f?3:_player->thrust.x>.2f?4:2):!grounded&&(velocity.y>6.1f*32||_audio.role_state()==5)?5:0;
     _audio.role_state(state,delta);
     if(grounded&&_player->idle_enabled&&_player->thrust.length_squared()<.01f&&_player->look_time<=0){
         _idle_audio_time-=delta;
