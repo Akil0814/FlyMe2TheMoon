@@ -262,6 +262,52 @@ void test_flight_scene(SDL_Renderer* renderer,const io::ContentRegistry& registr
     require(payload&&payload->level==39&&payload->restart,"Menu Retry must retain the current level and restart flag");
     system.shutdown();scene::SceneTestAccess::exit(flight);
 }
+void test_airborne_animation(){
+    game::play::Player player({100,100});
+    physics::PhysicsWorld world({.units_per_meter=32,.gravity={0,320}});
+    const auto role=world.register_object(player,player.body_definition(),player.collider_definitions());
+    require(role.is_valid(),"Airborne animation player registration failed");player.bind_physics(world,role);
+    const auto shows=[&](const char* action){
+        const auto* atlas=ELYSIA_RESOURCES->find_atlas(std::string("fly.CharActions.")+action);
+        std::vector<core::RenderCommand> drawn;player.submit_render_commands(drawn);
+        if(!atlas||drawn.empty())return false;
+        const auto& body=drawn.back();
+        for(std::size_t i=0;i<atlas->size();++i){const auto* frame=atlas->frame_at(i);
+            if(body.texture==frame->_texture&&body.use_src_rect==frame->_source_rect.has_value()&&(!body.use_src_rect||body.src_rect==*frame->_source_rect))return true;
+        }
+        return false;
+    };
+    player.thrust={0,-1};player.set_velocity({0,-120});player.update(1./60.);
+    require(shows("charUp"),"Powered ascent must retain its upward flight animation");
+    player.thrust={};
+    // Include both sides of the old threshold and an exact zero-speed apex.
+    for(float speed:{-120.f,-35.f,-.1f,0.f,.1f,35.f,120.f}){
+        player.set_velocity({0,speed});player.update(1./60.);
+        require(shows("charFree"),"Coasting in the air must never switch to standing near zero vertical velocity");
+    }
+    player.idle_action_time=1;player.idle_action=3;player.update(1./60.);
+    require(shows("charFree"),"A leftover idle timer must not override an airborne animation");player.idle_action_time=0;
+    core::GameObject floor(core::DepthLayer::Terrain);floor.set_world_rect({0,0,1,1});
+    physics::Collider support;support.shape=physics::BoxShape::from_rect({-1000,300,2000,20});support.filter={.category=2,.mask=1};
+    const auto platform=world.register_object(floor,physics::BodyDefinition{.type=physics::BodyType::Kinematic},std::span(&support,1));
+    require(platform.is_valid(),"Airborne animation support registration failed");
+    player.set_velocity({0,-120});bool rising=false,apex=false,falling=false,landed=false;
+    for(int frame=0;frame<240&&!landed;++frame){
+        world.step(1./60.);player.update(1./60.);
+        landed=world.contact_state(role).grounded;
+        if(!landed){rising|=player.velocity().y< -35;apex|=std::abs(player.velocity().y)<5;falling|=player.velocity().y>35;
+            require(shows("charFree"),"A complete unpowered arc must keep the airborne pose through its apex");
+        }else require(shows("charStand"),"Actual floor contact must restore the standing animation");
+    }
+    require(rising&&apex&&falling&&landed,"Animation regression must cover ascent, apex, descent and landing");
+    require(world.set_velocity(platform,{0,-80}),"Moving support fixture failed");bool riding=false;
+    for(int frame=0;frame<20;++frame){world.step(1./60.);player.update(1./60.);
+        if(world.contact_state(role).grounded&&player.velocity().y< -35){riding=true;require(shows("charStand"),"Riding a vertically moving platform must retain standing despite world velocity");}
+    }
+    require(riding,"Moving platform regression must establish supported vertical motion");
+    player.thrust={0,-1};player.update(1./60.);require(shows("charUp"),"Thrust input must still override the grounded pose for takeoff");
+    player.unbind_physics();require(world.unregister_object(role)&&world.unregister_object(platform),"Airborne animation fixture cleanup failed");
+}
 void test_pickup_scene(SDL_Renderer* renderer,const io::ContentRegistry& registry){
     using Access=scene::SceneTestAccess;
     scene::SceneRuntimeContext context(renderer,registry,1280,720);
@@ -461,6 +507,7 @@ int main(){
         while(loader.is_running()&&SDL_GetTicks()<deadline){loader.update();SDL_Delay(1);}
         require(loader.is_finished(),loader.failure()?loader.failure()->diagnostic.message.c_str():"Game content load timed out");
         test_flight_scene(renderer,*registry);
+        test_airborne_animation();
         test_original_tutorial_sequence(renderer,*registry);
         test_pickup_scene(renderer,*registry);
         test_tutorial_flight_animation(renderer,*registry);

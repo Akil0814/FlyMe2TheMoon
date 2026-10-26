@@ -123,11 +123,13 @@ Rect Player::render_rect()const noexcept {const auto p=_presentation.value_or(Ga
 bool Player::owns_collider(ColliderId id)const noexcept {for(size_t i=0;i<_colliders.size();++i)if(physics_collider(i)==id)return true;return false;}
 void Player::update(double delta) {
     _effect_time+=std::max(0.,delta);
-    const Vec v=velocity();
+    // A near-zero vertical velocity also occurs at the apex of an airborne arc.
+    // Only a blocking support contact permits standing or grounded idle actions.
+    const bool grounded=!physics_world()||physics_world()->contact_state(physics_handle()).grounded;
     look_time=std::max(0.,look_time-delta);
     idle_action_time=std::max(0.,idle_action_time-delta);
     const std::string action=dead?"charDeath":look_time>0?"charLookLeftRight":thrust.y<-.1f?(thrust.x<-.2f?"charLeft":thrust.x>.2f?"charRight":"charUp"):
-        std::abs(v.y)>35?"charFree":idle_action_time>0?(idle_action==0?"charLookLeft":idle_action==1?"charLookRight":idle_action==2?"charLookLeftRight":"charIdle"):"charStand";
+        !grounded?"charFree":idle_action_time>0?(idle_action==0?"charLookLeft":idle_action==1?"charLookRight":idle_action==2?"charLookLeftRight":"charIdle"):"charStand";
     if(action!=_action){_action=action;_animations.at(_action)->reset();}
     _animations.at(_action)->update(delta);
     _thrust_particles.update(delta,render_rect(),thrust,thrust_attachment(),show_thrust());
