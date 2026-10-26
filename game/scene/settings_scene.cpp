@@ -33,7 +33,6 @@ void SettingsScene::on_enter(const elysia::scene::ScenePayload&){
     window->set_style_overrides({.draw_background=false,.draw_border=false});
     window->set_on_cancel([this]{request_scene_switch(scene_keys::MainMenu);});
     window->add_child(std::make_unique<frontend::MoonBackdrop>("settings",35));
-    window->add_child(frontend::label(content::ui("settings_intro"),350,66),ui::UiLayoutChildOptions{._margin={.left=58,.top=62}});
     auto panel=std::make_unique<ui::SettingsPanel>(core::Rect{0,0,732,660});_panel=panel.get();
     std::optional<ui::SettingsWindowSize> usable;
     if(auto* native=SDL_GetRenderWindow(runtime_context().renderer())){

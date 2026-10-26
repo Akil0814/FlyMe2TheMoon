@@ -47,3 +47,17 @@ Use case: precise-object-edit. Asset type: widescreen background for a 2D game m
 新增鼠标回放只向 SDL 事件队列发送逻辑坐标转换后的移动和按键事件，不直接调用按钮回调或修改界面状态。保存测试点击真实保存按钮，要求引擎配置事务返回成功；该测试保存当前设置，不改用户偏好。
 
 最终验证结果见本文件后续记录与 `test-evidence/incremental-validation.md`。成就界面的完整展示不等于全部 17 项成就已经在实际游戏中触发；本次不扩大该验收结论。
+
+## 已执行的界面验证
+
+- `build-frontend08.log` 编译成功，`frontend-ctest09.log` 5/5 通过，包含菜单键盘路由、章节标签圆角、17 项成就三页路由及当前页焦点、原徽章资源与遮罩、标题与底图对齐。
+- `frontend-menu03`、`menu-artwork-en`：中英文主菜单实际运行通过，原版人物脚部与标题接合，竖线问题已消除。
+- `frontend-selection03`、`frontend-chapter2`：实际点击选关、切至第 2 章通过，截图确认当前章节的圆角与焦点。
+- `frontend-achievements03`、`frontend-achievements-page2`、`frontend-achievements-page3`：三页实际点击通过，第 3 页末次复测确认数字没有拆行、当前页持有焦点。
+- `menu-selection`、`achievement-page01`：键盘入口回放通过。后者仍要求存档中成就 101 已获得，没有削弱旧断言。
+- `frontend-settings-save03`：真实保存按钮点击后，配置服务返回成功，记录 `settings_saved=true`；`frontend-settings-back03` 实际回到 scene=1。设置测试保存当前值，不更改用户偏好。
+- `frontend-protected-check.json`：644 项只读基线检查，changed=0。当前引擎、公共 API、原引擎文档相对 HEAD 无差异。
+
+各次增量构建的 EXE / 场景 SHA256 以对应 `*-run.json` 为准。最后一次焦点修复后重跑完整 CTest、中文菜单、第 2 章、第 3 页成就；其余界面保留此前成功记录。
+
+用户随后要求去除“60 个关卡 · 一段月光下的旅程”“让旅程更合心意”等额外文案。主菜单副标题、页脚、成就页引导语和设置页引导语已从界面及五种语言表中移除；导入脚本也不再重新生成这些文案。`build-frontend09.log` 记录合并后视觉测试漏引头文件的编译失败；补回引用后，`build-frontend10.log` 成功，`frontend-ctest10.log` 5/5 通过。中文菜单、成就第 3 页和设置页均重新实际运行通过，截图逐页确认文案已消失。旧截图保留在同名场景的 history 中。

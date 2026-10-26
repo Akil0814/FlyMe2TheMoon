@@ -34,16 +34,18 @@ def main():
         manifest['textures'][f'fly.frontend.{name}'] = {'path': f'fly/frontend/{name}.png'}
     manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     translations = {
-        'en': ['A little magic. A long way to the moon.', '60 stages · A journey beneath the moon', 'Every badge holds a little starlight.', 'Album {}', 'Make the journey your own.'],
-        'zh-Hans': ['带着一点魔法，向月亮出发。', '60 个关卡 · 一段月光下的旅程', '每一枚徽章，记录一次闪光。', '星册 {}', '让旅程更合心意。'],
-        'zh-Hant': ['帶著一點魔法，向月亮出發。', '60 個關卡 · 一段月光下的旅程', '每一枚徽章，記錄一次閃光。', '星冊 {}', '讓旅程更合心意。'],
-        'ja': ['小さな魔法で、月へ。', '60 ステージ · 月明かりの旅', 'バッジに残る、小さな輝き。', 'アルバム {}', 'あなたらしい旅のために。'],
-        'ko': ['작은 마법과 함께 달을 향해.', '60 스테이지 · 달빛 아래의 여행', '배지에 담긴 빛나는 순간들.', '앨범 {}', '나만의 여행을 위한 설정.'],
+        'en': 'Album {}',
+        'zh-Hans': '星册 {}',
+        'zh-Hant': '星冊 {}',
+        'ja': 'アルバム {}',
+        'ko': '앨범 {}',
     }
     for language, values in translations.items():
         path = ROOT / f'assets/i18n/{language}/base.json'
         data = json.loads(path.read_text(encoding='utf-8'))
-        data['fly'].update(dict(zip(['menu_tagline', 'menu_journey', 'achievements_intro', 'album_page', 'settings_intro'], values)))
+        for key in ['menu_tagline','menu_journey','achievements_intro','settings_intro']:
+            data['fly'].pop(key,None)
+        data['fly']['album_page']=values
         path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     print(f'Imported {len(sources)} original / supplied frontend images')
 

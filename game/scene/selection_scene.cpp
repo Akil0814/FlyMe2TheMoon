@@ -68,7 +68,7 @@ void AchievementsScene::on_enter(const elysia::scene::ScenePayload& payload) {
     window->set_style_overrides({.draw_background=false,.draw_border=false});
     auto list=std::make_unique<ui::UiListContainer>(core::Rect{0,0,1160,652});list->set_item_spacing(16);list->set_cross_align(ui::UiLayoutAlign::Center);
     title(*list,content::format("achievements_title",store.data.achievements.size()));
-    list->add_back(frontend::label(content::ui("achievements_intro"),1120,30,true));
+    list->add_back(std::make_unique<ui::UiElement>(core::Rect{0,0,1120,30}));
     auto grid=std::make_unique<ui::UiGridContainer>(core::Rect{0,0,1160,374});grid->set_column_count(3);grid->set_cell_spacing({20,18});
     const auto descriptions=content::read("text/"+content::language()+"/gcDescriptions.json");
     int index=0;
