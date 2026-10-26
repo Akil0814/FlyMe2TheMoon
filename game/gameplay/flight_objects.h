@@ -71,6 +71,7 @@ public:
     bool owns_collider(elysia::physics::ColliderId id)const noexcept;
     bool idle_enabled=true,dead=false;
     double look_time=0;
+    void look_around(){look_time=3.5;_animations.at("charLookLeftRight")->reset();}
     double idle_action_time=0;
     int idle_action=0;
 private:

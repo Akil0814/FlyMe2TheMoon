@@ -16,6 +16,8 @@
 #include "game/frontend/pickup_effects.h"
 #include "engine/tools/development_overlay.h"
 #include "game/audio/game_audio.h"
+#include "game/frontend/tutorial_ui.h"
+#include "game/frontend/story_text.h"
 
 namespace game::scene_keys {inline constexpr elysia::scene::SceneKey Flight=2;}
 namespace game::scene {
@@ -61,6 +63,7 @@ private:
     void apply_pointer(play::Vec point);
     content::Json story_action(const std::string&,const content::Json&);
     void update_dialogue();
+    void advance_dialogue(bool skip=false);
     void update_audio(double delta);
     void update_role_audio(double delta);
     void start_entrance_sound(){_entrance_sound_pending=true;}
@@ -77,7 +80,7 @@ private:
     bool _restart=false,_input_enabled=true,_demo=false,_demo_paused=false,_event_pending=false,_follow_role=true;
     play::Vec _story_camera{};
     play::CameraMove _camera_move;
-    enum class OpeningPhase { Ready, Pan, Spawn };
+    enum class OpeningPhase { Ready, Pan };
     OpeningPhase _opening_phase=OpeningPhase::Ready;
     bool opening()const{return _opening_phase!=OpeningPhase::Ready;}
     bool _story_started=false;
@@ -122,11 +125,13 @@ private:
     play::TutorialReplay _tutorial_replay;
     content::Json _text;
     std::string _dialogue_key;
-    elysia::ui::UiTextBlock* _dialogue=nullptr;
+    frontend::StoryText* _dialogue=nullptr;
     frontend::HudPanel* _dialogue_panel=nullptr;
     frontend::HudPanel* _portrait_panel=nullptr;
     elysia::ui::UiImage* _face=nullptr;
-    elysia::ui::UiImage* _tutorial=nullptr;
+    frontend::TutorialUi* _tutorial=nullptr;
+    frontend::GlassButton* _skip_button=nullptr;
+    bool _dialogue_pointer_pressed=false;
     game::audio::World _audio;
     bool _entrance_sound_pending=false,_audio_grounded=false;
     double _idle_audio_time=0;

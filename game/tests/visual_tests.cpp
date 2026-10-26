@@ -7,6 +7,8 @@
 #include "game/gameplay/homing_parameters.h"
 #include "game/frontend/moon_ui.h"
 #include "game/frontend/pickup_effects.h"
+#include "game/frontend/tutorial_ui.h"
+#include "game/frontend/story_text.h"
 #include "game/scene/main_menu_scene.h"
 #include "game/scene/selection_scene.h"
 #include "game/scene/settings_scene.h"
@@ -138,6 +140,53 @@ void check_frontend_music(SDL_Renderer* renderer,const io::ContentRegistry& regi
     ELYSIA_AUDIO->shutdown();ELYSIA_SAVE->shutdown();
     std::cout<<"PASS: menu music position survives all frontend scene exits/entries, page recreation and mute; cold/gameplay returns restore MoonTrip\n";
 }
+void check_original_tutorial_ui(SDL_Renderer* renderer){
+    using namespace game::frontend;
+    StoryText text({212,492,1024,144});text.set_padding(8);text.set_style_overrides({.text=core::Color{16,46,77,255}});
+    text.set_story_text("A#cffc600中#nB");
+    require(text.glyph_count()==3&&text.text_content().value=="A中B"&&!text.complete(),"Story parsing must retain UTF-8 glyphs and consume color controls without displaying them");
+    text.advance(1./60.);std::vector<core::UiRenderCommand> partial;text.submit_ui_render_commands(partial);
+    require(partial.size()==1&&text.visible_count()==1,"Typewriter must reveal whole Unicode glyphs at the original 60 Hz cadence");
+    text.reveal();std::vector<core::UiRenderCommand> full;text.submit_ui_render_commands(full);
+    require(full.size()==3&&full[0].screen_rect==partial[0].screen_rect,"Completing a line must preserve its existing glyph positions");
+    localization::LocalizedTextStyle gold{.typography_role=typography::UiTypographyRole::DialogBody,.color={255,198,0,255}};
+    require(full[1].texture==ELYSIA_LOCALIZATION->get_raw_text_texture("中",gold),"Original color-coded teaching text lost its highlight");
+    text.set_story_text("\xF0\x9F\x8C\x99");require(text.glyph_count()==1&&!text.complete(),"Four-byte UTF-8 must be revealed as one glyph");
+    TutorialUi tutorial;
+    const auto texture=[](const char* key){return ELYSIA_RESOURCES->find_texture(std::string("fly.TutorialUI.")+key);};
+    const auto contains=[](const auto& commands,SDL_Texture* expected){return std::any_of(commands.begin(),commands.end(),[&](const auto& c){return c.texture==expected;});};
+    tutorial.set_type(1);std::vector<core::UiRenderCommand> up;tutorial.submit_ui_render_commands(up);
+    require(contains(up,texture("tutBubble"))&&contains(up,texture("tutUp"))&&contains(up,texture("tutCharStand"))&&!contains(up,texture("tutArrow")),"First tutorial must begin with its bubble, raised finger and standing doll");
+    tutorial.advance(1);std::vector<core::UiRenderCommand> down;tutorial.submit_ui_render_commands(down);
+    require(contains(down,texture("tutDown"))&&contains(down,texture("tutCharUp"))&&contains(down,texture("tutArrow")),"First tutorial must show press, upward flight and the direction arrow together");
+    tutorial.advance(1);require(tutorial.frame()==0,"First tutorial cycle must last two seconds");
+    tutorial.set_type(2);const auto frames=game::content::read("tutorial_visual.json").at("direction_frames");
+    constexpr const char* dolls[]{"tutCharStand","tutCharLeft","tutCharRight","tutCharFall","tutCharUp"};
+    for(int index=0;index<80;++index){
+        std::vector<core::UiRenderCommand> commands;tutorial.submit_ui_render_commands(commands);
+        require(tutorial.frame()==index&&contains(commands,texture(dolls[frames[index].at("doll").get<int>()])),"Second tutorial doll does not match the original eighty-frame lookup");
+        for(const auto& [name,key]:std::array<std::pair<const char*,const char*>,3>{{{"up","tutUp"},{"down","tutDown"},{"blank","tutBlank"}}}){
+            const auto& point=frames[index].at(name);
+            require(contains(commands,texture(key))==(point[0]!=0||point[1]!=0),"Second tutorial finger/mask visibility does not match its original frame");
+        }
+        tutorial.advance(.1);
+    }
+    require(tutorial.frame()==0,"Second tutorial cycle must last eight seconds");
+    tutorial.set_type(0);tutorial.set_demo(true);tutorial.set_pointer({640,380},true);
+    std::vector<core::UiRenderCommand> demo;tutorial.submit_ui_render_commands(demo);
+    const auto language=game::content::language()=="zh-Hans"?std::string("zh"):game::content::language();
+    require(contains(demo,ELYSIA_RESOURCES->find_texture("fly.InGameUI.fingerDown"))&&contains(demo,ELYSIA_RESOURCES->find_texture("fly.frontend.tutorial_demo_"+language)),"Automatic demonstration needs its recorded finger and original localized Demo indicator");
+    tutorial.set_pointer({640,380},false);demo.clear();tutorial.submit_ui_render_commands(demo);
+    require(contains(demo,ELYSIA_RESOURCES->find_texture("fly.InGameUI.fingerUp")),"Releasing recorded input must change the demonstration finger");
+    tutorial.set_demo(false);demo.clear();tutorial.submit_ui_render_commands(demo);require(demo.empty(),"Player handoff must remove all demonstration overlays");
+    require(SDL_SetRenderDrawColor(renderer,12,20,35,255)&&SDL_RenderClear(renderer),SDL_GetError());
+    const auto draw=[&](const auto& element){std::vector<core::UiRenderCommand> commands;element.submit_ui_render_commands(commands);for(const auto& command:commands)core::require_render_success(core::execute_render_command(renderer,command));};
+    HudPanel panel({24,474,1232,182});draw(panel);
+    tutorial.set_type(2);tutorial.advance(1);draw(tutorial);
+    text.set_story_text(game::content::read("text/zh-Hans/strings.json").at("Level2-5"));text.reveal();draw(text);
+    std::filesystem::create_directories("out/qa");auto* image=SDL_RenderReadPixels(renderer,nullptr);require(image!=nullptr,SDL_GetError());
+    const bool saved=SDL_SaveBMP(image,"out/qa/tutorial-restoration-preview.bmp");SDL_DestroySurface(image);require(saved,SDL_GetError());
+}
 void check_run_stats(SDL_Renderer* renderer){
     using namespace game::frontend;
     auto* plate=ELYSIA_RESOURCES->find_texture("fly.InGameUI.btn1Up");
@@ -231,7 +280,8 @@ void check_main_menu_background(SDL_Renderer* renderer,const io::ContentRegistry
         if(command.texture==expected){++backgrounds;require(command.screen_rect==core::Rect{0,0,1280,720},"Menu background must fill the viewport");}
         require(command.texture!=ELYSIA_RESOURCES->find_texture("fly.ui.mainBg2")&&command.texture!=ELYSIA_RESOURCES->find_texture("fly.ui.mainTitle2")&&command.texture!=ELYSIA_RESOURCES->find_texture("fly.frontend.background_menu_outpaint"),"New menu must not retain the old artwork layers");
     }
-    require(backgrounds==1&&window.child_count()==2,"Main menu must draw one new background alongside its existing navigation");
+    int visible_children=0;for(std::size_t i=0;i<window.child_count();++i)visible_children+=window.child_at(i)->is_visible();
+    require(backgrounds==1&&visible_children==2,"Main menu must draw one new background alongside its existing navigation");
     require(SDL_SetRenderDrawColor(renderer,12,20,35,255)&&SDL_RenderClear(renderer),SDL_GetError());
     for(const auto& command:drawn)core::require_render_success(core::execute_render_command(renderer,command));
     auto* preview=SDL_RenderReadPixels(renderer,nullptr);require(preview!=nullptr,SDL_GetError());
@@ -1155,6 +1205,7 @@ int main(int argc,char** argv) {
             }else{
             check_frontend_music(renderer,*registry);
             check_frontend_artwork(renderer);
+            check_original_tutorial_ui(renderer);
             check_main_menu_background(renderer,*registry);
             check_run_stats(renderer);
             check_dialogue_and_pause(renderer);

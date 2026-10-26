@@ -4,6 +4,7 @@ import json, math, shutil, struct, re, collections
 from PIL import Image
 from analyze_reference import ROOT, REF, OUT, loose_json, original_file, ET
 from import_tutorial import main as import_tutorial
+from import_tutorial_visual import main as import_tutorial_visual
 
 ASSETS=ROOT/'assets'
 TEXTURES=ASSETS/'textures/fly'
@@ -38,8 +39,12 @@ def main():
             key=group+'.'+'.'.join(path.relative_to(folder).parts)
             target=TEXTURES/'animation'/key;target.mkdir(parents=True,exist_ok=True)
             for index,p in enumerate(frames):shutil.copyfile(p,target/f'frame_{index:03}.png')
+            # RoleView frame-rate table at 0x1ac9a8; mechanism rates are separate.
+            role_fps={'charStand':25,'charFree':25,'charUp':25,'charLeft':25,'charRight':25,'charDown':25,
+                      'charIdle':10,'charLookLeft':10,'charLookRight':10,'charLookLeftRight':10,'charDeath':25}
+            fps=role_fps.get(path.name,12) if group=='CharActions' else 12
             animations.append({'key':'fly.'+key,'path':target.relative_to(ASSETS/'textures').as_posix(),
-                'frame_prefix':'frame','frame_count':len(frames),'fps':12,'loop':True})
+                'frame_prefix':'frame','frame_count':len(frames),'fps':fps,'loop':True})
             w,h=Image.open(frames[0]).size;sizes[key]=[w/2,h/2]
             texture(key+'.first',frames[0])
     single=REF/'08_PNG解析/01_独立图片'
@@ -128,6 +133,7 @@ def main():
     write_json(manifest/'textures_manifest.json',old)
     old=loose_json(manifest/'animations_manifest.json');old['animations']=[x for x in old['animations'] if not x['key'].startswith('fly.')]+animations
     write_json(manifest/'animations_manifest.json',old)
+    import_tutorial_visual()
     report={'levels':len(levels),'textures':len(textures),'animations':len(animations),'unresolved_decor':unresolved}
     write_json(OUT/'test-evidence/content-import.json',report)
     print(json.dumps(report,ensure_ascii=False)[:2500])
