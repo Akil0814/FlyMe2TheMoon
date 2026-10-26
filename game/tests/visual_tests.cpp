@@ -58,7 +58,7 @@ void check_run_stats(SDL_Renderer* renderer){
     require(plates==9&&icon_counts==std::array<int,3>{1,1,1},"Time and both crystal counts must each use btn1Up and their own icon");
     require(icon_rects[0].x()<icon_rects[1].x()&&icon_rects[1].x()<icon_rects[2].x()&&icon_rects[2].height()<icon_rects[1].height(),"Time must precede the distinct large and small crystal slots");
     stats.set_values(0,0,0);require(stats.large_crystals()==0&&stats.small_crystals()==0,"Retry stats must clear both crystal counters");
-    HudLabel label({16,12,280,64},0,ui::ui_raw_text(game::content::format("hud_stage",12,game::content::ui("paused"))));
+    HudLabel label({16,12,280,64},0,ui::ui_raw_text(game::content::format("hud_stage",12)));
     std::vector<core::UiRenderCommand> label_commands;label.submit_ui_render_commands(label_commands);
     require(label_commands.size()>3&&label.style().text.r<40,"HUD stage text must render in a readable dark color over btn1Up");
     require(SDL_SetRenderDrawColor(renderer,12,20,35,255)&&SDL_RenderClear(renderer),SDL_GetError());
@@ -112,7 +112,7 @@ void check_dialogue_and_pause(SDL_Renderer* renderer){
 
     require(SDL_SetRenderDrawColor(renderer,12,20,35,255)&&SDL_RenderClear(renderer),SDL_GetError());
     const auto render=[&](const ui::UiElement& element){std::vector<core::UiRenderCommand> output;element.submit_ui_render_commands(output);for(const auto& command:output)core::require_render_success(core::execute_render_command(renderer,command));};
-    HudLabel stage({16,12,280,64},0,ui::ui_raw_text(game::content::format("hud_stage",39,"")));render(stage);
+    HudLabel stage({16,12,280,64},0,ui::ui_raw_text(game::content::format("hud_stage",39)));render(stage);
     RunStats stats({312,12,620,64});stats.set_values(32.1,2,6);render(stats);StarRating stars({982,24,136,40});stars.set_collected(1);render(stars);render(button);
     HudLabel states({900,172,340,40},0,ui::ui_raw_text("Up / Down"));render(states);
     PauseIconButton normal({970,232,64,64},[]{}),pressed({1120,232,64,64},[]{});render(normal);

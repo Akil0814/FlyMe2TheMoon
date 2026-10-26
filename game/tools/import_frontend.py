@@ -24,7 +24,7 @@ def main():
     for name in ['levelBtnUp', 'levelBtnRing', 'levelBtnLock']:
         sources[name] = levels / f'{name}.png'
     for color in 'OGYP':
-        for prefix in ['starDown', 'starUp', 'starGrey', 'point']:
+        for prefix in ['starDown', 'starUp', 'starGrey', 'point', 'lock']:
             name = prefix + color
             sources[name] = levels / f'{name}.png'
     for name, source in sources.items():

@@ -390,7 +390,7 @@ void FlightScene::on_after_update(double delta) {
     }
     }
     _hud_stars->set_collected(_stars);
-    _hud->set_text_content(ui::ui_raw_text(content::format("hud_stage",_level,_finished?content::ui(_success?"done":"failed"):_demo?content::ui("demo"):is_paused()?content::ui("paused"):"")));
+    _hud->set_text_content(ui::ui_raw_text(content::format("hud_stage",_level)));
     _hud_stats->set_values(_elapsed,large_crystal_count(),small_crystal_count());
     _hint->set_visible(!_pause_menu_open&&!_finished&&!_death_pending);
     if(opening())_hint->set_text_content(ui::ui_raw_text(content::ui("wait")));

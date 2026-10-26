@@ -171,7 +171,15 @@ void LevelNode::submit_ui_render_commands(std::vector<core::UiRenderCommand>& ou
     UiButton::submit_ui_render_commands(out);
     const std::string color(1,"OGYP"[_chapter]);
     image(out,texture("point"+color),{r.x()+16,r.y()+30,40,40},_open?255:65);
-    if(!_open)image(out,texture("levelBtnLock"),{r.x()+170,r.y()+39,20,25},160);
+    if(!_open){
+        // levelBtnLock is the original marker plate; lock<Color> is the standalone padlock.
+        auto* lock=texture("lock"+color);float width=0,height=0;
+        if(lock&&SDL_GetTextureSize(lock,&width,&height)&&width>0&&height>0){
+            constexpr float icon_height=28.f;
+            const float icon_width=icon_height*width/height;
+            image(out,lock,{r.right()-20-icon_width,r.center().y-icon_height/2,icon_width,icon_height},160);
+        }
+    }
     for(int star=0;star<3;++star){
         // Original LevelSelectButtonV2: starDown is full, starUp is empty.
         const char* state=!_open||_stars<0?"starGrey":star<_stars?"starDown":"starUp";
