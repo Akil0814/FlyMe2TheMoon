@@ -4,6 +4,7 @@
 #include "../scene/flight_scene.h"
 #include "../scene/selection_scene.h"
 #include "../scene/credits_scene.h"
+#include "../scene/settings_scene.h"
 #include "../testing/replay_probe.h"
 
 #include "../../engine/builtin/builtin_scene_keys.h"
@@ -64,6 +65,7 @@ namespace game::application
         scene_manager.register_game_scene<game::scene::SelectionScene>(game::scene_keys::Selection);
         scene_manager.register_game_scene<game::scene::CreditsScene>(game::scene_keys::Credits);
         scene_manager.register_game_scene<game::scene::AchievementsScene>(game::scene_keys::Achievements);
+        scene_manager.register_game_scene<game::scene::SettingsScene>(game::scene_keys::Settings);
     }
 
     std::unique_ptr<elysia::tools::IDevelopmentOverlay>

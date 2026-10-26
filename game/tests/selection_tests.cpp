@@ -1,8 +1,12 @@
 #include "game/scene/selection_scene.h"
 #include "game/scene/flight_scene.h"
 #include "game/scene/main_menu_scene.h"
+#include "game/scene/settings_scene.h"
+#include "game/scene/credits_scene.h"
+#include "game/frontend/moon_ui.h"
 #include "game/progress/progress.h"
 #include "engine/io/path/path_manager.h"
+#include "engine/io/loaders/asset_config_types.h"
 #include "engine/save/save_service.h"
 #include "engine/ui/containers/ui_list_container.h"
 #include "engine/ui/containers/ui_grid_container.h"
@@ -15,6 +19,7 @@ namespace elysia::scene {
 class SceneTestAccess {
 public:
     static void enter(Scene& scene, const ScenePayload& payload) { scene.lifecycle_enter(payload); }
+    static void bind(Scene& scene,const SceneRuntimeContext& context){scene.bind_runtime_context(context);}
     static ui::UiWindow& window(Scene& scene) {
         return dynamic_cast<ui::UiWindow&>(*scene._ui_roots.at(0));
     }
@@ -74,6 +79,7 @@ void test_mouse() {
         click(window,*levels.child_at(1));
         require(requests.received.empty(),"Locked level must not produce a scene request");
         for (int target=0;target<4;++target) {
+            require(dynamic_cast<ui::UiButton&>(*chapters.child_at(target)).style().chrome.corner_radius>0,"Chapter tabs must retain rounded geometry when selected");
             click(window,*chapters.child_at(target));
             require(requests.received.size()==1,"Every chapter button must respond once, including locked chapters");
             const auto& request=requests.received.back();
@@ -106,6 +112,42 @@ void test_keyboard() {
     require(requests.received.size()==1 && requests.received.back().route.target==game::scene_keys::MainMenu,
         "Keyboard must reach Back across the level grid");
 }
+void test_menu_routes(){
+    io::ContentRegistry registry;
+    scene::SceneRuntimeContext context(nullptr,registry,1280,720);
+    const std::array<scene::SceneKey,4> targets{game::scene_keys::Selection,game::scene_keys::Achievements,game::scene_keys::Settings,game::scene_keys::Credits};
+    for(int target=0;target<4;++target){
+        game::scene::MainMenuScene menu;Requests requests;menu.attach(&requests);scene::SceneTestAccess::bind(menu,context);
+        scene::SceneTestAccess::enter(menu,{});auto& window=scene::SceneTestAccess::window(menu);window.update(0);
+        bool aligned=false;
+        for(std::size_t index=0;index<window.child_count();++index)if(auto* title=dynamic_cast<game::frontend::MenuArtwork*>(window.child_at(index)))aligned=std::abs(title->screen_rect().center().x-window.screen_rect().center().x)<.1f;
+        require(aligned,"Main title must align with the central illustration rather than the menu column");
+        for(int step=0;step<target;++step)key(window,ui::UiAction::NavigateDown);
+        key(window,ui::UiAction::Confirm);
+        require(requests.received.size()==1&&requests.received.back().route.target==targets[target],"Every main menu entry must be reachable and activate once from the keyboard");
+    }
+}
+void test_achievement_pages(){
+    int total=0;
+    for(int page=0;page<3;++page){
+        game::scene::AchievementsScene album;Requests requests;album.attach(&requests);
+        scene::SceneTestAccess::enter(album,game::scene::AchievementsPayload{page});
+        auto& window=scene::SceneTestAccess::window(album);window.update(0);
+        auto& list=dynamic_cast<ui::UiListContainer&>(*window.child_at(0));
+        auto& cards=dynamic_cast<ui::UiGridContainer&>(*list.child_at(2));
+        auto& pages=dynamic_cast<ui::UiGridContainer&>(*list.child_at(3));
+        require(cards.child_count()==(page==2?5:6),"Achievement album must contain all 17 original descriptions across 3 pages");total+=static_cast<int>(cards.child_count());
+        for(int target=0;target<3;++target){
+            require(dynamic_cast<ui::UiButton&>(*pages.child_at(target)).style().chrome.corner_radius>0,"Achievement tabs must retain rounded geometry when selected");
+            click(window,*pages.child_at(target));
+            require(requests.received.size()==1,"Every achievement page must be clickable exactly once");
+            const auto& request=requests.received.back();const auto* payload=scene::try_scene_payload<game::scene::AchievementsPayload>(request.route.payload);
+            require(request.route.target==game::scene_keys::Achievements&&payload&&payload->page==target&&request.route.reload_mode==scene::SceneReloadMode::Recreate,"Achievement page route must retain its selected page");requests.received.clear();
+        }
+        click(window,*list.child_at(4));require(requests.received.size()==1&&requests.received.back().route.target==game::scene_keys::MainMenu,"Achievement Back must remain available on every page");
+    }
+    require(total==17,"Achievement album lost original content");
+}
 }
 
 int main() {
@@ -115,9 +157,9 @@ int main() {
             std::to_string(std::chrono::system_clock::now().time_since_epoch().count());
         std::filesystem::create_directories(directory);
         require(ELYSIA_SAVE->initialize(directory).has_value(),"Isolated save initialize failed");
-        test_mouse(); test_keyboard();
+        test_mouse(); test_keyboard();test_menu_routes();test_achievement_pages();
         ELYSIA_SAVE->shutdown();
-        std::cout<<"PASS: SelectionScene mouse, keyboard, chapter routes, locked levels and Back\n";
+        std::cout<<"PASS: selection mouse/keyboard, main menu routes, all 17 achievements and all album page / Back buttons\n";
         return 0;
     } catch (const std::exception& error) {
         std::cerr<<"FAIL: "<<error.what()<<'\n'; return 1;

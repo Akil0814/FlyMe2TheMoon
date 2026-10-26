@@ -2,6 +2,8 @@
 #include "flight_scene.h"
 #include "credits_scene.h"
 #include "selection_scene.h"
+#include "settings_scene.h"
+#include "game/frontend/moon_ui.h"
 #include "engine/builtin/builtin_scene_keys.h"
 #include "engine/builtin/scenes/settings_scene_payload.h"
 #include "engine/ui/widgets/image/ui_image.h"
@@ -28,43 +30,34 @@ void MainMenuScene::on_enter(const elysia::scene::ScenePayload&)
             static_cast<float>(context.logical_width()),
             static_cast<float>(context.logical_height())});
     window->set_on_cancel([this] { request_quit(); });
-    window->set_style_overrides({.draw_border=false,.background=elysia::core::Color{5,13,32,255}});
-    window->add_child(std::make_unique<elysia::ui::UiImage>(ELYSIA_RESOURCES->find_texture("fly.ui.mainBg2"),elysia::core::Rect{0,0,480,720}),
-        elysia::ui::UiLayoutChildOptions{._anchor=elysia::ui::UiLayoutAnchor::CenterLeft});
+    window->set_style_overrides({.draw_background=false,.draw_border=false});
+    window->add_child(std::make_unique<frontend::MoonBackdrop>("menu_outpaint"));
+    window->add_child(std::make_unique<frontend::MenuArtwork>(),elysia::ui::UiLayoutChildOptions{._anchor=elysia::ui::UiLayoutAnchor::TopCenter});
     ELYSIA_AUDIO->play_music("fly.MoonTrip");
 
     auto content = std::make_unique<elysia::ui::UiListContainer>(
-        elysia::core::Rect{0, 0, 600, 650});
+        elysia::core::Rect{0, 0, 316, 430});
     content->set_cross_align(elysia::ui::UiLayoutAlign::Center);
-    content->set_item_spacing(16);
+    content->set_item_spacing(14);
 
-    auto title = std::make_unique<elysia::ui::UiImage>(
-        ELYSIA_RESOURCES->find_texture("fly.ui.mainTitle2"),elysia::core::Rect{0,0,480,207});
-    content->add_back(std::move(title));
-
-    auto play = std::make_unique<elysia::ui::UiButton>(elysia::core::Rect{0,0,360,56});
-    play->set_text_content(elysia::ui::ui_raw_text(game::content::ui("play")));
-    play->set_on_click([this] {request_scene_switch(game::scene_keys::Selection);});
+    content->add_back(frontend::label(game::content::ui("menu_tagline"),316,28,true));
+    auto play = std::make_unique<frontend::GlassButton>(game::content::ui("play"),300,58,[this] {request_scene_switch(game::scene_keys::Selection);});
     content->add_back(std::move(play));
-    auto achievements=std::make_unique<elysia::ui::UiButton>(elysia::core::Rect{0,0,360,56});
-    achievements->set_text_content(elysia::ui::ui_raw_text(game::content::ui("achievements")));achievements->set_on_click([this]{request_scene_switch(game::scene_keys::Achievements);});content->add_back(std::move(achievements));
-    auto settings=std::make_unique<elysia::ui::UiButton>(elysia::core::Rect{0,0,360,56});
-    settings->set_text_content(elysia::ui::ui_raw_text(game::content::ui("settings")));settings->set_on_click([this]{request_scene_switch(elysia::builtin::SceneKeys::Settings,elysia::builtin::SettingsScenePayload{.return_route={.target=game::scene_keys::MainMenu}});});content->add_back(std::move(settings));
+    content->add_back(std::make_unique<frontend::GlassButton>(game::content::ui("achievements"),300,58,[this]{request_scene_switch(game::scene_keys::Achievements);}));
+    content->add_back(std::make_unique<frontend::GlassButton>(game::content::ui("settings"),300,58,[this]{request_scene_switch(game::scene_keys::Settings);}));
 
-    auto credits=std::make_unique<elysia::ui::UiButton>(elysia::core::Rect{0,0,360,56});
-    credits->set_text_content(elysia::ui::ui_raw_text(game::content::ui("credits")));credits->set_on_click([this]{request_scene_switch(game::scene_keys::Credits);});content->add_back(std::move(credits));
+    content->add_back(std::make_unique<frontend::GlassButton>(game::content::ui("credits"),300,58,[this]{request_scene_switch(game::scene_keys::Credits);}));
 
-    auto exit = std::make_unique<elysia::ui::UiButton>(
-        elysia::core::Rect{0, 0, 360, 56});
-    exit->set_text_content(elysia::ui::ui_raw_text(game::content::ui("exit")));
-    exit->set_on_click([this] { request_quit(); });
+    auto exit = std::make_unique<frontend::GlassButton>(game::content::ui("exit"),300,48,[this] { request_quit(); });
     content->add_back(std::move(exit));
 
     auto* focus_scope = content.get();
     window->add_child(std::move(content),
-        elysia::ui::UiLayoutChildOptions{._anchor = elysia::ui::UiLayoutAnchor::CenterRight,._margin={.right=70}});
+        elysia::ui::UiLayoutChildOptions{._anchor = elysia::ui::UiLayoutAnchor::CenterRight,._margin={.right=48}});
     window->register_focus_scope(*focus_scope);
     window->focus_first_available_scope();
+    window->add_child(frontend::label(game::content::ui("menu_journey"),360,36),
+        elysia::ui::UiLayoutChildOptions{._anchor=elysia::ui::UiLayoutAnchor::BottomLeft,._margin={.left=40,.bottom=32}});
 }
 
 void MainMenuScene::on_exit()

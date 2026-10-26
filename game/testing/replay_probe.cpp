@@ -37,7 +37,18 @@ bool ReplayProbe::update(SDL_Renderer* renderer,const content::Json& state) {
             bool ready=true;for(auto it=pending["when"].begin();it!=pending["when"].end();++it)ready&=state.contains(it.key())&&state[it.key()]==it.value();
             if(!ready)break;
         }
-        const auto& entry=_scenario["events"][_next++];const std::string key=entry.at("key");
+        const auto& entry=_scenario["events"][_next++];
+        if(entry.contains("mouse")){
+            float x=0,y=0;
+            if(!SDL_RenderCoordinatesToWindow(renderer,entry.at("mouse")[0],entry.at("mouse")[1],&x,&y))throw std::runtime_error("QA mouse coordinate conversion failed");
+            SDL_Event move{};move.type=SDL_EVENT_MOUSE_MOTION;move.motion.windowID=window_id;move.motion.x=x;move.motion.y=y;
+            if(!SDL_PushEvent(&move))throw std::runtime_error("Could not enqueue QA mouse motion");
+            SDL_Event click{};click.type=entry.at("down").get<bool>()?SDL_EVENT_MOUSE_BUTTON_DOWN:SDL_EVENT_MOUSE_BUTTON_UP;
+            click.button.windowID=window_id;click.button.button=SDL_BUTTON_LEFT;click.button.down=entry.at("down");click.button.x=x;click.button.y=y;
+            if(!SDL_PushEvent(&click))throw std::runtime_error("Could not enqueue QA mouse button");
+            ELYSIA_LOG_INFO("fly.test.input",std::to_string(t)+" pointer "+std::to_string(x)+","+std::to_string(y));continue;
+        }
+        const std::string key=entry.at("key");
         const auto scancode=SDL_GetScancodeFromName(key.c_str());
         if(scancode==SDL_SCANCODE_UNKNOWN)throw std::runtime_error("Unknown QA input key "+key);
         const bool down=entry.at("down");
