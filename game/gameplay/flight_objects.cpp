@@ -194,7 +194,8 @@ Entity::Entity(const content::Json& d):GameObject(d.at("item").get<bool>()?Depth
     if(kind==116){_bomb_leaf_frame=mechanism_frame(key+".S02",0);_bomb_center_frame=mechanism_frame(key+".S01",0);_bomb_armed=ELYSIA_ANIMATIONS->create_animation(key+".S03");_bomb_blast=ELYSIA_ANIMATIONS->create_animation(key+".S04");}
     Collider c;c.filter={.category=item||kind==101?4u:8u,.mask=1};
     c.response=item||kind==101||kind==111||kind==115||kind==116||kind==8||kind==24||kind==25?CollisionResponse::Overlap:CollisionResponse::Block;
-    if(item||kind==101)c.shape=CircleShape{{0,0},kind==101?26.f:kind==3?18.f:10.f};
+    // Original Moon.createInPhysicalWorld: uses a 1.5 m circle (32 game units/m).
+    if(item||kind==101)c.shape=CircleShape{{0,0},kind==101?48.f:kind==3?18.f:10.f};
     else c.shape=BoxShape::from_rect({-w/2+2,-h/2+2,std::max(1.f,w-4),std::max(1.f,h-4)});
     if(c.response==CollisionResponse::Block)c.filter.mask=1|2|8;
     if(platform)c=platform_collider(kind);

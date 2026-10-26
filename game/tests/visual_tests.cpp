@@ -1,4 +1,5 @@
 #include "game/gameplay/flight_objects.h"
+#include "game/gameplay/role_geometry.h"
 #include "game/gameplay/projectile.h"
 #include "game/gameplay/seesaw_parameters.h"
 #include "game/gameplay/launcher_visual.h"
@@ -398,6 +399,18 @@ void check_pickups_and_moon() {
             [kind](const auto& data){return data.at("kind")==kind;});
         require(found!=level.at("entities").end(),"First-level visual fixture missing");
         game::play::Entity entity(*found);
+        if(kind==101){
+            physics::PhysicsWorld world({.units_per_meter=32,.gravity={0,0}});
+            const auto moon=world.register_object(entity,entity.body_definition(),entity.collider_definitions());
+            require(moon.is_valid(),"Moon trigger fixture registration failed");
+            for(const auto [distance,expected_overlap]:std::array<std::pair<float,bool>,3>{{{50.f,true},{62.f,true},{64.f,false}}}){
+                std::vector<physics::CollisionOverlapQueryHit> hits;
+                world.overlap_shape({.shape=game::play::role_sensor_shape(),.pose={entity.center()+core::Vector2{-distance,13},0},
+                    .filter={.collision={.category=1,.mask=4}}},hits);
+                require((!hits.empty())==expected_overlap,"Moon must accept the original expanded trigger range and reject points beyond it");
+            }
+            require(world.unregister_object(moon),"Moon trigger fixture cleanup failed");
+        }
         const auto expected=ELYSIA_RESOURCES->find_texture(found->at("key").template get<std::string>()+".first");
         require(expected!=nullptr,"Normal-state texture missing");
         for(int frame=0;frame<180;++frame) {

@@ -1,0 +1,813 @@
+Moon.createInPhysicalWorld: 0xbb800
+000bb800  push      {r4, r5, r6, r7, lr}                   ;
+000bb804  add       r7, sp, #0xc                           ;
+000bb808  push      {r8, sl, fp}                           ;
+000bb80c  vpush     {d8, d9, d10, d11, d12, d13, d14, d15} ;
+000bb810  sub       sp, sp, #0xb8                          ;
+000bb814  bic       sp, sp, #7                             ;
+000bb818  ldr       r1, [pc, #0x210]                       ; [0xbba30]=0x125ea0 float=1.686984e-39 
+000bb81c  str       r0, [sp]                               ;
+000bb820  mov       r0, r2                                 ;
+000bb824  ldr       r1, [pc, r1]                           ; [0x1e16cc]=0x1729d6 float=2.1272243e-39 world
+000bb828  bl        #0x1ade64                              ; _objc_msgSend
+000bb82c  ldr       r2, [pc, #0x200]                       ; [0xbba34]=0xf3354 float=1.3959455e-39 
+000bb830  ldr       r1, [pc, #0x200]                       ; [0xbba38]=0xf1894 float=1.3863494e-39 
+000bb834  str       r0, [sp, #4]                           ;
+000bb838  ldr       r0, [pc, r2]                           ; [0x1aeb94]=0x0 float=0 
+000bb83c  add       r1, pc, r1                             ; address=0x1ad0d8 
+000bb840  str       r1, [sp, #0x9c]                        ;
+000bb844  add       r1, sp, #0x80                          ;
+000bb848  str       r0, [sp, #0x98]                        ;
+000bb84c  add       r0, r1, #0x20                          ;
+000bb850  mov       r1, #0                                 ;
+000bb854  str       r7, [sp, #0xa0]                        ;
+000bb858  str       sp, [sp, #0xa8]                        ;
+000bb85c  add       r1, pc, #8                             ;
+000bb860  str       r1, [r0, #4]                           ;
+000bb864  mov       r0, #0                                 ;
+000bb868  add       pc, pc, #0                             ;
+000bb86c  mov       r0, #1                                 ;
+000bb870  cmp       r0, #0                                 ;
+000bb874  bne       #0xbba20                               ;
+000bb878  add       r0, sp, #0x80                          ;
+000bb87c  bl        #0x1adb64                              ; __Unwind_SjLj_Register
+000bb880  ldr       r4, [sp]                               ;
+000bb884  add       r8, sp, #0x22                          ;
+000bb888  cmp       r4, #0                                 ;
+000bb88c  beq       #0xbb8b0                               ;
+000bb890  ldr       r1, [pc, #0x1a4]                       ; [0xbba3c]=0x124520 float=1.6778363e-39 
+000bb894  mvn       r0, #0                                 ;
+000bb898  ldr       r2, [pc, r1]                           ; [0x1dfdc0]=0x165a0e float=2.0526865e-39 position
+000bb89c  str       r0, [sp, #0x84]                        ;
+000bb8a0  add       r0, sp, #0x78                          ;
+000bb8a4  mov       r1, r4                                 ;
+000bb8a8  bl        #0x1ade70                              ; _objc_msgSend_stret
+000bb8ac  b         #0xbb8bc                               ;
+000bb8b0  mov       r0, #0                                 ;
+000bb8b4  str       r0, [sp, #0x7c]                        ;
+000bb8b8  str       r0, [sp, #0x78]                        ;
+000bb8bc  ldr       r0, [pc, #0x17c]                       ; [0xbba40]=0xf334c float=1.3959343e-39 
+000bb8c0  ldr       r1, [sp, #0x7c]                        ;
+000bb8c4  ldr       r2, [pc, r0]                           ; [0x1aec18]=0x1f5314 float=2.8767032e-39 
+000bb8c8  ldr       r0, [sp, #0x78]                        ;
+000bb8cc  ldrb      r2, [r2]                               ;
+000bb8d0  cmp       r2, #0                                 ;
+000bb8d4  bne       #0xbb8e4                               ;
+000bb8d8  vmov      s16, r1                                ;
+000bb8dc  vmov      s17, r0                                ;
+000bb8e0  b         #0xbb908                               ;
+000bb8e4  ldr       r2, [pc, #0x158]                       ; [0xbba44]=0xf3324 float=1.3958782e-39 
+000bb8e8  vldr      s0, [pc, #0x158]                       ; [0xbba48]=0x3f800000 float=1 
+000bb8ec  vmov      s2, r1                                 ;
+000bb8f0  ldr       r2, [pc, r2]                           ; [0x1aec1c]=0x1f3d48 float=2.868884e-39 
+000bb8f4  vldr      s1, [r2]                               ; [0x1f3d48]=0x3f800000 float=1 
+000bb8f8  vdiv.f32  s0, s0, s1                             ;
+000bb8fc  vmov      s1, r0                                 ;
+000bb900  vmul.f32  s16, s2, s0                            ;
+000bb904  vmul.f32  s17, s1, s0                            ;
+000bb908  add       sl, sp, #0x40                          ;
+000bb90c  orr       r0, sl, #4                             ;
+000bb910  mov       r1, #0                                 ;
+000bb914  mov       r2, #0x20                              ;
+000bb918  bl        #0x1ade40                              ; _memset
+000bb91c  vldr      s0, [pc, #0x128]                       ; [0xbba4c]=0x3d000000 float=0.03125 
+000bb920  mov       r5, #1                                 ;
+000bb924  mov       r6, #0                                 ;
+000bb928  mov       r0, #0x3f800000                        ;
+000bb92c  vmul.f32  s1, s17, s0                            ;
+000bb930  vmul.f32  s0, s16, s0                            ;
+000bb934  mvn       fp, #0                                 ;
+000bb938  strb      r5, [sp, #0x64]                        ;
+000bb93c  strb      r5, [sp, #0x65]                        ;
+000bb940  strb      r6, [sp, #0x66]                        ;
+000bb944  strb      r6, [sp, #0x67]                        ;
+000bb948  strb      r5, [sp, #0x68]                        ;
+000bb94c  str       r0, [sp, #0x70]                        ;
+000bb950  str       r6, [sp, #0x40]                        ;
+000bb954  vstr      s1, [sp, #0x44]                        ;
+000bb958  vstr      s0, [sp, #0x48]                        ;
+000bb95c  str       r4, [sp, #0x6c]                        ;
+000bb960  str       fp, [sp, #0x84]                        ;
+000bb964  mov       r1, sl                                 ;
+000bb968  ldr       r0, [sp, #4]                           ;
+000bb96c  bl        #0x6e3b8                               ; 
+000bb970  ldr       r1, [pc, #0xd8]                        ; [0xbba50]=0xf31f4 float=1.3954522e-39 
+000bb974  ldr       r2, [pc, #0xd8]                        ; [0xbba54]=0xf31e0 float=1.3954242e-39 
+000bb978  ldr       sb, [pc, #0xd8]                        ; [0xbba58]=0x13763c float=1.7872889e-39 
+000bb97c  add       sl, sp, #0x28                          ;
+000bb980  ldr       r1, [pc, r1]                           ; [0x1aeb7c]=0x1ea354 float=2.813656e-39 GameObject.body_
+000bb984  ldr       r3, [pc, r2]                           ; [0x1aeb6c]=0x1f4310 float=2.8709579e-39 
+000bb988  ldr       r2, [r1]                               ; [0x1ea354]=0x1c0 float=6.2778171e-43 GameObject.body_
+000bb98c  str       r0, [r4, r2]                           ;
+000bb990  add       r0, r3, #8                             ;
+000bb994  str       r0, [sp, #0x28]                        ;
+000bb998  mov       r0, #0x3fc00000                        ;
+000bb99c  str       r6, [sp, #0x2c]                        ;
+000bb9a0  str       r6, [sp, #0x34]                        ;
+000bb9a4  str       r6, [sp, #0x38]                        ;
+000bb9a8  str       r0, [sp, #0x30]                        ;
+000bb9ac  add       r0, pc, sb                             ; address=0x1f2ff0 
+000bb9b0  add       r0, r0, #8                             ;
+000bb9b4  str       r0, [sp, #8]                           ;
+000bb9b8  strh      r5, [r8]                               ;
+000bb9bc  strh      fp, [r8, #2]                           ;
+000bb9c0  strh      r6, [r8, #4]                           ;
+000bb9c4  str       sl, [sp, #0xc]                         ;
+000bb9c8  str       r6, [sp, #0x1c]                        ;
+000bb9cc  str       r6, [sp, #0x14]                        ;
+000bb9d0  str       r6, [sp, #0x18]                        ;
+000bb9d4  ldr       r6, [r1]                               ; [0x1ea354]=0x1c0 float=6.2778171e-43 GameObject.body_
+000bb9d8  mov       r8, #2                                 ;
+000bb9dc  strb      r5, [sp, #0x20]                        ;
+000bb9e0  str       r8, [sp, #0x10]                        ;
+000bb9e4  ldr       r0, [r4, r6]                           ;
+000bb9e8  str       r5, [sp, #0x84]                        ;
+000bb9ec  add       r1, sp, #8                             ;
+000bb9f0  bl        #0x6c17c                               ; 
+000bb9f4  add       r0, sp, #0x80                          ;
+000bb9f8  bl        #0x1adb6c                              ; __Unwind_SjLj_Unregister
+000bb9fc  sub       sp, r7, #0x58                          ;
+000bba00  vpop      {d8, d9, d10, d11, d12, d13, d14, d15} ;
+000bba04  pop       {r8, sl, fp}                           ;
+000bba08  pop       {r4, r5, r6, r7, pc}                   ;
+000bba0c  ldr       r0, [sp, #0x88]                        ;
+000bba10  ldr       r1, [sp, #0x8c]                        ;
+000bba14  mvn       r1, #0                                 ;
+000bba18  str       r1, [sp, #0x84]                        ;
+000bba1c  bl        #0x1adb68                              ; __Unwind_SjLj_Resume
+000bba20  ldr       r0, [sp, #0x84]                        ;
+000bba24  cmp       r0, #0                                 ;
+000bba28  beq       #0xbba0c                               ;
+000bba2c  trap                                             ;
+000bba30  andseq    r5, r2, r0, lsr #29                    ;
+000bba34  andeq     r3, pc, r4, asr r3                     ;
+000bba38  muleq     pc, r4, r8                             ;
+000bba3c  andseq    r4, r2, r0, lsr #10                    ;
+000bba40  andeq     r3, pc, ip, asr #6                     ;
+000bba44  andeq     r3, pc, r4, lsr #6                     ;
+000bba48  svclo     #0x800000                              ;
+000bba4c  stclo     p0, c0, [r0, #-0]                      ;
+000bba50  strdeq    r3, r4, [pc], -r4                      ; [0xbba58]=0x13763c float=1.7872889e-39 
+000bba54  andeq     r3, pc, r0, ror #3                     ;
+000bba58  andseq    r7, r3, ip, lsr r6                     ;
+
+Moon.postRoleEnter: 0xbb7e8
+000bb7e8  ldr       r1, [pc, #0xc]                         ; [0xbb7fc]=0x12ed20 float=1.7381034e-39 
+000bb7ec  mov       r2, #1                                 ;
+000bb7f0  ldr       r1, [pc, r1]                           ; [0x1ea518]=0x1c4 float=6.3338691e-43 Moon.flagRoleTouching_
+000bb7f4  strb      r2, [r0, r1]                           ;
+000bb7f8  bx        lr                                     ;
+000bb7fc  andseq    lr, r2, r0, lsr #26                    ;
+
+Moon.update: 0xbb66c
+000bb66c  push      {r4, r5, r6, r7, lr}                   ;
+000bb670  add       r7, sp, #0xc                           ;
+000bb674  str       r8, [sp, #-4]!                         ;
+000bb678  ldr       r1, [pc, #0x128]                       ; [0xbb7a8]=0x12ee8c float=1.7386134e-39 
+000bb67c  mov       r5, r0                                 ;
+000bb680  mov       r8, r2                                 ;
+000bb684  ldr       r0, [pc, r1]                           ; [0x1ea518]=0x1c4 float=6.3338691e-43 Moon.flagRoleTouching_
+000bb688  ldrb      r0, [r5, r0]                           ;
+000bb68c  cmp       r0, #0                                 ;
+000bb690  beq       #0xbb788                               ;
+000bb694  ldr       r0, [pc, #0x110]                       ; [0xbb7ac]=0xf34d0 float=1.396478e-39 
+000bb698  ldr       r1, [pc, #0x110]                       ; [0xbb7b0]=0x125da8 float=1.6866365e-39 
+000bb69c  ldr       r0, [pc, r0]                           ; [0x1aeb74]=0x1ea364 float=2.8136784e-39 GameObject.game_
+000bb6a0  ldr       r1, [pc, r1]                           ; [0x1e1450]=0x171fa1 float=2.1235627e-39 gameController
+000bb6a4  ldr       r0, [r0]                               ; [0x1ea364]=0x1b8 float=6.1657132e-43 GameObject.game_
+000bb6a8  ldr       r0, [r5, r0]                           ;
+000bb6ac  bl        #0x1ade64                              ; _objc_msgSend
+000bb6b0  cmp       r0, #0                                 ;
+000bb6b4  beq       #0xbb6f0                               ;
+000bb6b8  ldr       r0, [pc, #0xf4]                        ; [0xbb7b4]=0xf34ac float=1.3964276e-39 
+000bb6bc  ldr       r1, [pc, #0xf4]                        ; [0xbb7b8]=0x125d84 float=1.686586e-39 
+000bb6c0  ldr       r0, [pc, r0]                           ; [0x1aeb74]=0x1ea364 float=2.8136784e-39 GameObject.game_
+000bb6c4  ldr       r1, [pc, r1]                           ; [0x1e1450]=0x171fa1 float=2.1235627e-39 gameController
+000bb6c8  ldr       r0, [r0]                               ; [0x1ea364]=0x1b8 float=6.1657132e-43 GameObject.game_
+000bb6cc  ldr       r0, [r5, r0]                           ;
+000bb6d0  bl        #0x1ade64                              ; _objc_msgSend
+000bb6d4  ldr       r1, [pc, #0xe0]                        ; [0xbb7bc]=0x126194 float=1.6880434e-39 
+000bb6d8  mov       r2, r5                                 ;
+000bb6dc  ldr       r1, [pc, r1]                           ; [0x1e1878]=0x17194a float=2.1212884e-39 onRoleEnterMoon:
+000bb6e0  bl        #0x1ade64                              ; _objc_msgSend
+000bb6e4  uxtb      r0, r0                                 ;
+000bb6e8  cmp       r0, #1                                 ;
+000bb6ec  bne       #0xbb778                               ;
+000bb6f0  ldr       r0, [pc, #0xc8]                        ; [0xbb7c0]=0x126180 float=1.6880153e-39 
+000bb6f4  ldr       r1, [pc, r0]                           ; [0x1e187c]=0x17383b float=2.1323881e-39 startAnimate
+000bb6f8  mov       r0, r5                                 ;
+000bb6fc  bl        #0x1ade64                              ; _objc_msgSend
+000bb700  ldr       r0, [pc, #0xbc]                        ; [0xbb7c4]=0xf3464 float=1.3963267e-39 
+000bb704  ldr       r1, [pc, #0xbc]                        ; [0xbb7c8]=0x125b50 float=1.6857957e-39 
+000bb708  ldr       r4, [pc, r0]                           ; [0x1aeb74]=0x1ea364 float=2.8136784e-39 GameObject.game_
+000bb70c  ldr       r1, [pc, r1]                           ; [0x1e1264]=0x170fdf float=2.1179099e-39 role
+000bb710  ldr       r0, [r4]                               ; [0x1ea364]=0x1b8 float=6.1657132e-43 GameObject.game_
+000bb714  ldr       r0, [r5, r0]                           ;
+000bb718  bl        #0x1ade64                              ; _objc_msgSend
+000bb71c  ldr       r1, [pc, #0xa8]                        ; [0xbb7cc]=0x126150 float=1.6879481e-39 
+000bb720  mov       r6, r0                                 ;
+000bb724  mov       r0, r6                                 ;
+000bb728  ldr       r1, [pc, r1]                           ; [0x1e1880]=0x173848 float=2.1324063e-39 destroyBody
+000bb72c  bl        #0x1ade64                              ; _objc_msgSend
+000bb730  ldr       r0, [pc, #0x98]                        ; [0xbb7d0]=0x126148 float=1.6879369e-39 
+000bb734  ldr       r1, [pc, r0]                           ; [0x1e1884]=0x173854 float=2.1324231e-39 fullfillManaGradually
+000bb738  mov       r0, r6                                 ;
+000bb73c  bl        #0x1ade64                              ; _objc_msgSend
+000bb740  ldr       r1, [pc, #0x8c]                        ; [0xbb7d4]=0x126138 float=1.6879144e-39 
+000bb744  ldr       r0, [r4]                               ; [0x1ea364]=0x1b8 float=6.1657132e-43 GameObject.game_
+000bb748  ldr       r1, [pc, r1]                           ; [0x1e1888]=0x17242a float=2.1251896e-39 pauseGameTiming
+000bb74c  ldr       r0, [r5, r0]                           ;
+000bb750  bl        #0x1ade64                              ; _objc_msgSend
+000bb754  ldr       r1, [pc, #0x7c]                        ; [0xbb7d8]=0x125af4 float=1.6856668e-39 
+000bb758  ldr       r0, [r4]                               ; [0x1ea364]=0x1b8 float=6.1657132e-43 GameObject.game_
+000bb75c  ldr       r1, [pc, r1]                           ; [0x1e1258]=0x170fc5 float=2.1178735e-39 roleLayer
+000bb760  ldr       r0, [r5, r0]                           ;
+000bb764  bl        #0x1ade64                              ; _objc_msgSend
+000bb768  ldr       r1, [pc, #0x6c]                        ; [0xbb7dc]=0x126114 float=1.687864e-39 
+000bb76c  mov       r2, r5                                 ;
+000bb770  ldr       r1, [pc, r1]                           ; [0x1e188c]=0x172ae6 float=2.1276055e-39 roleGotoMoon:
+000bb774  bl        #0x1ade64                              ; _objc_msgSend
+000bb778  ldr       r0, [pc, #0x60]                        ; [0xbb7e0]=0x12ed90 float=1.7382603e-39 
+000bb77c  mov       r1, #0                                 ;
+000bb780  ldr       r0, [pc, r0]                           ; [0x1ea518]=0x1c4 float=6.3338691e-43 Moon.flagRoleTouching_
+000bb784  strb      r1, [r5, r0]                           ;
+000bb788  ldr       r0, [pc, #0x54]                        ; [0xbb7e4]=0x125fa4 float=1.6873483e-39 
+000bb78c  mov       r2, r8                                 ;
+000bb790  vmov      s0, r8                                 ;
+000bb794  ldr       r1, [pc, r0]                           ; [0x1e1740]=0x172f34 float=2.1291497e-39 updateAnimation:
+000bb798  mov       r0, r5                                 ;
+000bb79c  bl        #0x1ade64                              ; _objc_msgSend
+000bb7a0  pop       {r8}                                   ;
+000bb7a4  pop       {r4, r5, r6, r7, pc}                   ;
+000bb7a8  andseq    lr, r2, ip, lsl #29                    ;
+000bb7ac  ldrdeq    r3, r4, [pc], -r0                      ; [0xbb7b4]=0xf34ac float=1.3964276e-39 
+000bb7b0  andseq    r5, r2, r8, lsr #27                    ;
+000bb7b4  andeq     r3, pc, ip, lsr #9                     ;
+000bb7b8  andseq    r5, r2, r4, lsl #27                    ;
+000bb7bc  mulseq    r2, r4, r1                             ;
+000bb7c0  andseq    r6, r2, r0, lsl #3                     ;
+000bb7c4  andeq     r3, pc, r4, ror #8                     ;
+000bb7c8  andseq    r5, r2, r0, asr fp                     ;
+000bb7cc  andseq    r6, r2, r0, asr r1                     ;
+000bb7d0  andseq    r6, r2, r8, asr #2                     ;
+000bb7d4  andseq    r6, r2, r8, lsr r1                     ;
+000bb7d8  ldrsheq   r5, [r2], -r4                          ;
+000bb7dc  andseq    r6, r2, r4, lsl r1                     ;
+000bb7e0  mulseq    r2, r0, sp                             ;
+000bb7e4  andseq    r5, r2, r4, lsr #31                    ;
+
+GameController.onRoleEnterMoon: 0x9ee9c
+0009ee9c  mov       r0, #1                                 ;
+0009eea0  bx        lr                                     ;
+
+PhysicalWorld.world 0xab2c0
+000ab2c0  ldr       r1, [pc, #8]                           ; [0xab2d0]=0x13f038 float=1.8310487e-39 
+000ab2c4  ldr       r1, [pc, r1]                           ; [0x1ea304]=0xec float=3.3070644e-43 PhysicalWorld.world_
+000ab2c8  ldr       r0, [r0, r1]                           ;
+000ab2cc  bx        lr                                     ;
+000ab2d0  andseq    pc, r3, r8, lsr r0                     ;
+000ab2d4  bx        lr                                     ;
+000ab2d8  push      {r7, lr}                               ;
+000ab2dc  mov       r7, sp                                 ;
+000ab2e0  bl        #0x1adb74                              ; __ZdlPv
+000ab2e4  pop       {r7, pc}                               ;
+000ab2e8  push      {r4, r5, r7, lr}                       ;
+000ab2ec  ldr       r3, [r1, #0x30]                        ;
+000ab2f0  add       r7, sp, #8                             ;
+000ab2f4  ldr       r2, [r3, #0x34]                        ;
+000ab2f8  cmp       r2, #0                                 ;
+000ab2fc  beq       #0xab398                               ;
+000ab300  ldr       r4, [r1, #0x34]                        ;
+000ab304  ldr       r0, [r4, #0x34]                        ;
+000ab308  cmp       r0, #0                                 ;
+000ab30c  beq       #0xab398                               ;
+000ab310  cmp       r2, #1                                 ;
+000ab314  beq       #0xab328                               ;
+000ab318  cmp       r0, #1                                 ;
+000ab31c  mov       r4, r3                                 ;
+000ab320  mov       r0, r2                                 ;
+000ab324  bne       #0xab398                               ;
+000ab328  ldrb      r1, [r1, #4]                           ;
+000ab32c  tst       r1, #2                                 ;
+000ab330  beq       #0xab398                               ;
+000ab334  cmp       r0, #0x19                              ;
+000ab338  bhi       #0xab398                               ;
+000ab33c  ldr       r1, [pc, #0x58]                        ; [0xab39c]=0x3fa07bc float=1.4695455e-36 
+000ab340  mov       r2, #1                                 ;
+000ab344  tst       r1, r2, lsl r0                         ;
+000ab348  beq       #0xab398                               ;
+000ab34c  ldr       r0, [r4, #0x18]                        ;
+000ab350  ldr       r1, [pc, #0x48]                        ; [0xab3a0]=0x1355bc float=1.7756301e-39 
+000ab354  ldr       r2, [pc, #0x48]                        ; [0xab3a4]=0x136328 float=1.780445e-39 
+000ab358  ldr       r5, [r0, #0x94]                        ;
+000ab35c  ldr       r1, [pc, r1]                           ; [0x1e0920]=0x1673d3 float=2.0619308e-39 respondsToSelector:
+000ab360  ldr       r2, [pc, r2]                           ; [0x1e1690]=0x172a67 float=2.1274275e-39 postRoleEnter:
+000ab364  mov       r0, r5                                 ;
+000ab368  bl        #0x1ade64                              ; _objc_msgSend
+000ab36c  tst       r0, #0xff                              ;
+000ab370  beq       #0xab38c                               ;
+000ab374  ldr       r0, [pc, #0x2c]                        ; [0xab3a8]=0x13630c float=1.7804058e-39 
+000ab378  mov       r2, r4                                 ;
+000ab37c  ldr       r1, [pc, r0]                           ; [0x1e1690]=0x172a67 float=2.1274275e-39 postRoleEnter:
+000ab380  mov       r0, r5                                 ;
+000ab384  bl        #0x1ade64                              ; _objc_msgSend
+000ab388  pop       {r4, r5, r7, pc}                       ;
+000ab38c  ldr       r0, [pc, #0x18]                        ; [0xab3ac]=0x141e54 float=1.8475896e-39 
+000ab390  add       r0, pc, r0                             ; address=0x1ed1ec 'WARNING obj not response to postRoleEnter:'
+000ab394  bl        #0x1adaf4                              ; _NSLog
+000ab398  pop       {r4, r5, r7, pc}                       ;
+
+RoleBodyShaper.createBodyFixturesForRoleBody: 0xcd27c
+000cd27c  push      {r4, r5, r6, r7, lr}                   ;
+000cd280  add       r7, sp, #0xc                           ;
+000cd284  push      {r8, sl, fp}                           ;
+000cd288  vpush     {d8, d9, d10, d11, d12, d13, d14, d15} ;
+000cd28c  sub       sp, sp, #0x1e8                         ;
+000cd290  bic       sp, sp, #7                             ;
+000cd294  ldr       r1, [pc, #0x200]                       ; [0xcd49c]=0xe18c0 float=1.2945756e-39 
+000cd298  ldr       r3, [pc, #0x200]                       ; [0xcd4a0]=0xe18d8 float=1.2946092e-39 
+000cd29c  str       r2, [sp, #4]                           ;
+000cd2a0  ldr       r2, [pc, #0x1f0]                       ; [0xcd498]=0xffff8000 float=nan 
+000cd2a4  ldr       r5, [pc, r1]                           ; [0x1aeb6c]=0x1f4310 float=2.8709579e-39 
+000cd2a8  ldr       r1, [pc, #0x1f8]                       ; [0xcd4a8]=0x125d24 float=1.6864515e-39 
+000cd2ac  ldr       r6, [pc, #0x1f0]                       ; [0xcd4a4]=0x3fa2f987 float=1.27324 
+000cd2b0  ldr       lr, [pc, #0x1f4]                       ; [0xcd4ac]=0x3f0f5c29 float=0.56 
+000cd2b4  ldr       r4, [pc, r3]                           ; [0x1aeb94]=0x0 float=0 
+000cd2b8  add       r3, r5, #8                             ;
+000cd2bc  str       r3, [sp, #0x198]                       ;
+000cd2c0  mov       r3, #0                                 ;
+000cd2c4  add       r1, pc, r1                             ; address=0x1f2ff0 
+000cd2c8  add       r0, sp, #0x194                         ;
+000cd2cc  ldr       sb, [pc, #0x1c0]                       ; [0xcd494]=0xdfe7c float=1.2851532e-39 
+000cd2d0  mov       ip, #0x3f800000                        ;
+000cd2d4  add       r8, r1, #8                             ;
+000cd2d8  str       r3, [sp, #0x19c]                       ;
+000cd2dc  str       r3, [sp, #0x1a4]                       ;
+000cd2e0  str       r3, [sp, #0x1a8]                       ;
+000cd2e4  str       lr, [sp, #0x1a0]                       ;
+000cd2e8  add       r1, sp, #0x198                         ;
+000cd2ec  mvn       lr, #0                                 ;
+000cd2f0  add       r5, sp, #0x17c                         ;
+000cd2f4  str       r8, [sp, #0x178]                       ;
+000cd2f8  strh      lr, [r0]                               ;
+000cd2fc  strh      r3, [r0, #2]                           ;
+000cd300  strb      r3, [sp, #0x190]                       ;
+000cd304  str       r6, [sp, #0x18c]                       ;
+000cd308  str       r3, [sp, #0x188]                       ;
+000cd30c  stm       r5, {r1, r3, ip}                       ;
+000cd310  add       r1, sp, #0x1b0                         ;
+000cd314  strh      r2, [r0, #-2]                          ;
+000cd318  add       r2, pc, sb                             ; address=0x1ad19c 
+000cd31c  add       r0, r1, #0x20                          ;
+000cd320  str       r2, [sp, #0x1cc]                       ;
+000cd324  str       r4, [sp, #0x1c8]                       ;
+000cd328  str       r7, [sp, #0x1d0]                       ;
+000cd32c  str       sp, [sp, #0x1d8]                       ;
+000cd330  add       r3, pc, #8                             ;
+000cd334  str       r3, [r0, #4]                           ;
+000cd338  mov       r0, #0                                 ;
+000cd33c  add       pc, pc, #0                             ;
+000cd340  mov       r0, #1                                 ;
+000cd344  cmp       r0, #0                                 ;
+000cd348  bne       #0xcd474                               ;
+000cd34c  add       r0, sp, #0x1b0                         ;
+000cd350  bl        #0x1adb64                              ; __Unwind_SjLj_Register
+000cd354  mov       r0, #1                                 ;
+000cd358  str       r0, [sp, #0x1b4]                       ;
+000cd35c  ldr       r4, [sp, #4]                           ;
+000cd360  add       r1, sp, #0x178                         ;
+000cd364  mov       r0, r4                                 ;
+000cd368  bl        #0x6c17c                               ; 
+000cd36c  add       sl, sp, #0xe0                          ;
+000cd370  mvn       r8, #0                                 ;
+000cd374  mov       r0, sl                                 ;
+000cd378  str       r8, [sp, #0x1b4]                       ;
+000cd37c  bl        #0xccc68                               ; 
+000cd380  ldr       r2, [pc, #0x128]                       ; [0xcd4b0]=0x125c5c float=1.6861712e-39 
+000cd384  ldr       r0, [pc, #0x10c]                       ; [0xcd498]=0xffff8000 float=nan 
+000cd388  ldr       r1, [pc, #0x124]                       ; [0xcd4b4]=0x3e4ccccd float=0.2 
+000cd38c  add       r2, pc, r2                             ; address=0x1f2ff0 
+000cd390  add       r5, sp, #0x22                          ;
+000cd394  add       r2, r2, #8                             ;
+000cd398  mov       r6, #0                                 ;
+000cd39c  str       r2, [sp, #0xc0]                        ;
+000cd3a0  strh      r8, [r5, #0xba]                        ;
+000cd3a4  strh      r6, [r5, #0xbc]                        ;
+000cd3a8  strb      r6, [sp, #0xd8]                        ;
+000cd3ac  str       sl, [sp, #0xc4]                        ;
+000cd3b0  str       r6, [sp, #0xd4]                        ;
+000cd3b4  str       r1, [sp, #0xcc]                        ;
+000cd3b8  str       r6, [sp, #0xd0]                        ;
+000cd3bc  str       r6, [sp, #0xc8]                        ;
+000cd3c0  strh      r0, [r5, #0xb8]                        ;
+000cd3c4  mov       r0, #2                                 ;
+000cd3c8  str       r0, [sp, #0x1b4]                       ;
+000cd3cc  add       r1, sp, #0xc0                          ;
+000cd3d0  mov       r0, r4                                 ;
+000cd3d4  bl        #0x6c17c                               ; 
+000cd3d8  add       sl, sp, #0x28                          ;
+000cd3dc  mov       r0, sl                                 ;
+000cd3e0  str       r8, [sp, #0x1b4]                       ;
+000cd3e4  bl        #0xccf9c                               ; 
+000cd3e8  ldr       r1, [pc, #0xc8]                        ; [0xcd4b8]=0x125bf8 float=1.6860311e-39 
+000cd3ec  ldr       r0, [pc, #0xa4]                        ; [0xcd498]=0xffff8000 float=nan 
+000cd3f0  add       r1, pc, r1                             ; address=0x1f2ff0 
+000cd3f4  add       r1, r1, #8                             ;
+000cd3f8  str       r1, [sp, #8]                           ;
+000cd3fc  strh      r8, [r5, #2]                           ;
+000cd400  mov       r8, #0x3f800000                        ;
+000cd404  mov       r1, #1                                 ;
+000cd408  strh      r6, [r5, #4]                           ;
+000cd40c  str       sl, [sp, #0xc]                         ;
+000cd410  str       r6, [sp, #0x1c]                        ;
+000cd414  str       r8, [sp, #0x14]                        ;
+000cd418  str       r6, [sp, #0x18]                        ;
+000cd41c  strb      r1, [sp, #0x20]                        ;
+000cd420  str       r1, [sp, #0x10]                        ;
+000cd424  strh      r0, [r5]                               ;
+000cd428  mov       r0, #3                                 ;
+000cd42c  str       r0, [sp, #0x1b4]                       ;
+000cd430  add       r1, sp, #8                             ;
+000cd434  mov       r0, r4                                 ;
+000cd438  bl        #0x6c17c                               ; 
+000cd43c  add       r0, sp, #0x1b0                         ;
+000cd440  bl        #0x1adb6c                              ; __Unwind_SjLj_Unregister
+000cd444  sub       sp, r7, #0x58                          ;
+000cd448  vpop      {d8, d9, d10, d11, d12, d13, d14, d15} ;
+000cd44c  pop       {r8, sl, fp}                           ;
+000cd450  pop       {r4, r5, r6, r7, pc}                   ;
+000cd454  b         #0xcd45c                               ;
+000cd458  b         #0xcd45c                               ;
+000cd45c  ldr       r2, [sp, #0x1b8]                       ;
+000cd460  mvn       r0, #0                                 ;
+000cd464  ldr       r3, [sp, #0x1bc]                       ;
+000cd468  str       r0, [sp, #0x1b4]                       ;
+000cd46c  mov       r0, r2                                 ;
+000cd470  bl        #0x1adb68                              ; __Unwind_SjLj_Resume
+000cd474  ldr       r0, [sp, #0x1b4]                       ;
+000cd478  cmp       r0, #0                                 ;
+000cd47c  beq       #0xcd454                               ;
+000cd480  cmp       r0, #1                                 ;
+000cd484  beq       #0xcd458                               ;
+000cd488  cmp       r0, #2                                 ;
+000cd48c  beq       #0xcd45c                               ;
+000cd490  trap                                             ;
+000cd494  andeq     pc, sp, ip, ror lr                     ;
+
+GameObject.initMultiFrameObjectWithTypeID:seqID:ObjID:numFrames:x:y:rotation: 0xae388
+000ae388  push      {r4, r5, r6, r7, lr}                   ;
+000ae38c  add       r7, sp, #0xc                           ;
+000ae390  push      {r8, sl, fp}                           ;
+000ae394  vpush     {d8, d9}                               ;
+000ae398  sub       sp, sp, #0x20                          ;
+000ae39c  bic       sp, sp, #7                             ;
+000ae3a0  ldr       r1, [pc, #0x244]                       ; [0xae5ec]=0x13bf9c float=1.8136109e-39 
+000ae3a4  mov       r5, r2                                 ;
+000ae3a8  mov       fp, r0                                 ;
+000ae3ac  ldr       r0, [pc, #0x23c]                       ; [0xae5f0]=0x135278 float=1.7744586e-39 
+000ae3b0  ldr       r1, [pc, r1]                           ; [0x1ea354]=0x1c0 float=6.2778171e-43 GameObject.body_
+000ae3b4  ldr       r2, [pc, #0x238]                       ; [0xae5f4]=0x131988 float=1.7540333e-39 
+000ae3b8  mov       r4, #0                                 ;
+000ae3bc  str       r3, [sp, #0xc]                         ;
+000ae3c0  str       r4, [fp, r1]                           ;
+000ae3c4  ldr       r1, [pc, r2]                           ; [0x1dfd54]=0x165824 float=2.0519998e-39 alloc
+000ae3c8  ldr       r0, [pc, r0]                           ; [0x1e3648]=0x0 float=0 
+000ae3cc  bl        #0x1ade64                              ; _objc_msgSend
+000ae3d0  ldr       r1, [pc, #0x220]                       ; [0xae5f8]=0x131c80 float=1.7550983e-39 
+000ae3d4  ldr       r6, [r7, #0xc]                         ;
+000ae3d8  ldr       r1, [pc, r1]                           ; [0x1e0060]=0x16713a float=2.060999e-39 initWithCapacity:
+000ae3dc  mov       r2, r6                                 ;
+000ae3e0  bl        #0x1ade64                              ; _objc_msgSend
+000ae3e4  ldr       r1, [pc, #0x210]                       ; [0xae5fc]=0x13bf60 float=1.8135268e-39 -[SBJsonTokeniser match:length:retval:]
+000ae3e8  mov       sl, r6                                 ;
+000ae3ec  cmp       r6, #1                                 ;
+000ae3f0  ldr       r1, [pc, r1]                           ; [0x1ea358]=0x1bc float=6.2217652e-43 GameObject.frames_
+000ae3f4  str       r0, [fp, r1]                           ;
+000ae3f8  blt       #0xae480                               ; 
+000ae3fc  ldr       r0, [pc, #0x204]                       ; [0xae608]=0x1006d8 float=1.471823e-39 
+000ae400  ldr       r8, [pc, r0]                           ; [0x1aeae0]=0x1f2ee4 float=2.8637216e-39 
+000ae404  ldr       r0, [pc, #0x1f4]                       ; [0xae600]=0x132170 float=1.7568695e-39 
+000ae408  ldr       r2, [pc, #0x1f4]                       ; [0xae604]=0x135264 float=1.7744306e-39 
+000ae40c  add       r4, r4, #1                             ;
+000ae410  ldr       r1, [pc, r0]                           ; [0x1e0588]=0x16a57b float=2.0797441e-39 sharedSpriteFrameCache
+000ae414  ldr       r0, [pc, r2]                           ; [0x1e3680]=0x1e5cc0 float=2.7883373e-39 
+000ae418  bl        #0x1ade64                              ; _objc_msgSend
+000ae41c  ldr       r2, [pc, #0x1ec]                       ; [0xae610]=0x135194 float=1.7741391e-39 
+000ae420  ldr       r1, [pc, #0x1e4]                       ; [0xae60c]=0x131928 float=1.7538988e-39 
+000ae424  ldr       sb, [pc, #0x1e8]                       ; [0xae614]=0x13ee24 float=1.8303032e-39 
+000ae428  mov       r6, r0                                 ;
+000ae42c  ldr       r0, [pc, r2]                           ; [0x1e35c8]=0x0 float=0 
+000ae430  ldr       r2, [sp, #0xc]                         ;
+000ae434  ldr       r3, [r8, r5, lsl #2]                   ;
+000ae438  ldr       r1, [pc, r1]                           ; [0x1dfd68]=0x165849 float=2.0520517e-39 stringWithFormat:
+000ae43c  stm       sp, {r2, r4}                           ;
+000ae440  add       r2, pc, sb                             ; address=0x1ed26c '%s_%03d/%03d.png'
+000ae444  bl        #0x1ade64                              ; _objc_msgSend
+000ae448  ldr       r3, [pc, #0x1c8]                       ; [0xae618]=0x132130 float=1.7567799e-39 
+000ae44c  mov       r2, r0                                 ;
+000ae450  mov       r0, r6                                 ;
+000ae454  ldr       r1, [pc, r3]                           ; [0x1e058c]=0x16a592 float=2.0797764e-39 spriteFrameByName:
+000ae458  bl        #0x1ade64                              ; _objc_msgSend
+000ae45c  ldr       r1, [pc, #0x1b8]                       ; [0xae61c]=0x13beec float=1.8133643e-39 
+000ae460  mov       r2, r0                                 ;
+000ae464  ldr       r0, [pc, r1]                           ; [0x1ea358]=0x1bc float=6.2217652e-43 GameObject.frames_
+000ae468  ldr       r1, [pc, #0x1b0]                       ; [0xae620]=0x131b20 float=1.754605e-39 
+000ae46c  ldr       r0, [fp, r0]                           ;
+000ae470  ldr       r1, [pc, r1]                           ; [0x1dff98]=0x166a13 float=2.0584332e-39 addObject:
+000ae474  bl        #0x1ade64                              ; _objc_msgSend
+000ae478  cmp       sl, r4                                 ;
+000ae47c  bne       #0xae404                               ;
+000ae480  ldr       r0, [pc, #0x19c]                       ; [0xae624]=0x13bec0 float=1.8133026e-39 
+000ae484  ldr       r1, [pc, #0x19c]                       ; [0xae628]=0x131a38 float=1.7542799e-39 
+000ae488  mov       r2, #0                                 ;
+000ae48c  vldr      s18, [r7, #0x18]                       ;
+000ae490  ldr       r0, [pc, r0]                           ; [0x1ea358]=0x1bc float=6.2217652e-43 GameObject.frames_
+000ae494  ldr       r1, [pc, r1]                           ; [0x1dfed4]=0x166475 float=2.0564181e-39 objectAtIndex:
+000ae498  vldr      s19, [pc, #0x190]                      ; [0xae630]=0x43b40000 float=360 
+000ae49c  ldr       r4, [r7, #8]                           ;
+000ae4a0  ldr       r0, [fp, r0]                           ;
+000ae4a4  bl        #0x1ade64                              ; _objc_msgSend
+000ae4a8  ldr       r1, [pc, #0x17c]                       ; [0xae62c]=0x1320c4 float=1.7566285e-39 
+000ae4ac  mov       r2, r0                                 ;
+000ae4b0  mov       r0, fp                                 ;
+000ae4b4  vldr      s16, [r7, #0x14]                       ;
+000ae4b8  ldr       r1, [pc, r1]                           ; [0x1e0584]=0x16a566 float=2.0797147e-39 initWithSpriteFrame:
+000ae4bc  bl        #0x1ade64                              ; _objc_msgSend
+000ae4c0  vdiv.f32  s0, s18, s19                           ;
+000ae4c4  mov       r5, r0                                 ;
+000ae4c8  ldr       r0, [pc, #0x164]                       ; [0xae634]=0x13be7c float=1.8132073e-39 
+000ae4cc  ldr       r1, [pc, #0x164]                       ; [0xae638]=0x13be78 float=1.8132017e-39 
+000ae4d0  ldr       r2, [sp, #0xc]                         ;
+000ae4d4  vldr      s17, [r7, #0x10]                       ;
+000ae4d8  ldr       r0, [pc, r0]                           ; [0x1ea35c]=0x1b0 float=6.0536094e-43 GameObject.seqID_
+000ae4dc  str       r2, [fp, r0]                           ;
+000ae4e0  ldr       r1, [pc, r1]                           ; [0x1ea360]=0x1b4 float=6.1096613e-43 GameObject.objID_
+000ae4e4  vmov      r0, s0                                 ;
+000ae4e8  str       r4, [fp, r1]                           ;
+000ae4ec  bl        #0x1adcd4                              ; _floorf
+000ae4f0  vmov      s0, r0                                 ;
+000ae4f4  ldr       r0, [pc, #0x140]                       ; [0xae63c]=0x1319f4 float=1.7541847e-39 
+000ae4f8  ldr       r1, [pc, r0]                           ; [0x1dfef4]=0x16652f float=2.0566787e-39 setRotation:
+000ae4fc  mov       r0, fp                                 ;
+000ae500  vmul.f32  s0, s0, s19                            ;
+000ae504  vsub.f32  s18, s18, s0                           ;
+000ae508  vmov      r2, s18                                ;
+000ae50c  bl        #0x1ade64                              ; _objc_msgSend
+000ae510  ldr       r0, [pc, #0x128]                       ; [0xae640]=0x131b38 float=1.7546387e-39 +[TJCVGUtil red:]
+000ae514  mov       r1, fp                                 ;
+000ae518  ldr       r2, [pc, r0]                           ; [0x1e0058]=0x16703e float=2.0606458e-39 contentSize
+000ae51c  add       r0, sp, #0x18                          ;
+000ae520  bl        #0x1ade70                              ; _objc_msgSend_stret
+000ae524  ldr       r0, [pc, #0x118]                       ; [0xae644]=0x1006e4 float=1.4718398e-39 +[TJCUtil initWithBase64EncodedString:]
+000ae528  vldr      s0, [sp, #0x18]                        ;
+000ae52c  ldr       r0, [pc, r0]                           ; [0x1aec18]=0x1f5314 float=2.8767032e-39 
+000ae530  ldrb      r1, [r0]                               ;
+000ae534  ldr       r0, [sp, #0x1c]                        ;
+000ae538  cmp       r1, #0                                 ;
+000ae53c  bne       #0xae548                               ;
+000ae540  vmov      s1, r0                                 ;
+000ae544  b         #0xae560                               ;
+000ae548  ldr       r1, [pc, #0xf8]                        ; [0xae648]=0x1006c4 float=1.471795e-39 
+000ae54c  vmov      s1, r0                                 ;
+000ae550  ldr       r0, [pc, r1]                           ; [0x1aec1c]=0x1f3d48 float=2.868884e-39 
+000ae554  vldr      s2, [r0]                               ; [0x1f3d48]=0x3f800000 float=1 
+000ae558  vdiv.f32  s1, s1, s2                             ;
+000ae55c  vdiv.f32  s0, s0, s2                             ;
+000ae560  vldr      s3, [pc, #0xe4]                        ; [0xae64c]=0x3f000000 float=0.5 
+000ae564  vmov      r1, s17                                ;
+000ae568  vmov      r2, s16                                ;
+000ae56c  add       r0, sp, #0x10                          ;
+000ae570  vmul.f32  s2, s0, s3                             ;
+000ae574  vmul.f32  s0, s1, s3                             ;
+000ae578  vmov      r3, s2                                 ;
+000ae57c  vstr      s0, [sp]                               ;
+000ae580  vstr      s18, [sp, #4]                          ;
+000ae584  bl        #0xadb84                               ; 
+000ae588  ldr       r0, [pc, #0xc0]                        ; [0xae650]=0x10067c float=1.4716941e-39 
+000ae58c  ldr       r2, [sp, #0x10]                        ;
+000ae590  ldr       r3, [sp, #0x14]                        ;
+000ae594  ldr       r0, [pc, r0]                           ; [0x1aec18]=0x1f5314 float=2.8767032e-39 
+000ae598  ldrb      r0, [r0]                               ;
+000ae59c  cmp       r0, #0                                 ;
+000ae5a0  beq       #0xae5c8                               ;
+000ae5a4  ldr       r0, [pc, #0xa8]                        ; [0xae654]=0x100664 float=1.4716605e-39 
+000ae5a8  vmov      s1, r3                                 ;
+000ae5ac  vmov      s0, r2                                 ;
+000ae5b0  ldr       r0, [pc, r0]                           ; [0x1aec1c]=0x1f3d48 float=2.868884e-39 
+000ae5b4  vldr      s2, [r0]                               ; [0x1f3d48]=0x3f800000 float=1 
+000ae5b8  vmul.f32  s1, s1, s2                             ;
+000ae5bc  vmul.f32  s0, s0, s2                             ;
+000ae5c0  vmov      r3, s1                                 ;
+000ae5c4  vmov      r2, s0                                 ;
+000ae5c8  ldr       r0, [pc, #0x88]                        ; [0xae658]=0x1317f0 float=1.7534616e-39 
+000ae5cc  ldr       r1, [pc, r0]                           ; [0x1dfdc4]=0x165a17 float=2.0526991e-39 setPosition:
+000ae5d0  mov       r0, fp                                 ;
+000ae5d4  bl        #0x1ade64                              ; _objc_msgSend
+000ae5d8  mov       r0, r5                                 ;
+000ae5dc  sub       sp, r7, #0x28                          ;
+000ae5e0  vpop      {d8, d9}                               ;
+000ae5e4  pop       {r8, sl, fp}                           ;
+000ae5e8  pop       {r4, r5, r6, r7, pc}                   ;
+000ae5ec  mulseq    r3, ip, pc                             ;
+000ae5f0  andseq    r5, r3, r8, ror r2                     ;
+000ae5f4  andseq    r1, r3, r8, lsl #19                    ;
+000ae5f8  andseq    r1, r3, r0, lsl #25                    ;
+000ae5fc  andseq    fp, r3, r0, ror #30                    ;
+000ae600  andseq    r2, r3, r0, ror r1                     ;
+000ae604  andseq    r5, r3, r4, ror #4                     ;
+000ae608  ldrsbeq   r0, [r0], -r8                          ;
+000ae60c  andseq    r1, r3, r8, lsr #18                    ;
+000ae610  mulseq    r3, r4, r1                             ;
+000ae614  andseq    lr, r3, r4, lsr #28                    ;
+000ae618  andseq    r2, r3, r0, lsr r1                     ;
+000ae61c  andseq    fp, r3, ip, ror #29                    ;
+000ae620  andseq    r1, r3, r0, lsr #22                    ;
+000ae624  andseq    fp, r3, r0, asr #29                    ;
+000ae628  andseq    r1, r3, r8, lsr sl                     ;
+000ae62c  andseq    r2, r3, r4, asr #1                     ;
+
+Role sensor polygon builder 0xccf9c
+000ccf9c  push      {r4, r5, r6, r7, lr}                   ;
+000ccfa0  add       r7, sp, #0xc                           ;
+000ccfa4  push      {r8, sl, fp}                           ;
+000ccfa8  vpush     {d8, d9, d10, d11, d12, d13, d14, d15} ;
+000ccfac  sub       sp, sp, #0x80                          ;
+000ccfb0  bic       sp, sp, #7                             ;
+000ccfb4  ldr       r3, [pc, #0x13c]                       ; [0xcd0f8]=0xe1bb4 float=1.295635e-39 
+000ccfb8  ldr       r1, [pc, #0x140]                       ; [0xcd100]=0xe1bb8 float=1.2956406e-39 
+000ccfbc  mov       r6, r0                                 ;
+000ccfc0  ldr       r2, [pc, #0x134]                       ; [0xcd0fc]=0xbecfd893 float=-0.40594921 
+000ccfc4  ldr       r4, [pc, r3]                           ; [0x1aeb80]=0x1f4350 float=2.8710476e-39 
+000ccfc8  ldr       r0, [pc, #0x134]                       ; [0xcd104]=0x3fa3f625 float=1.2809492 
+000ccfcc  ldr       r3, [pc, #0x134]                       ; [0xcd108]=0x3c23d70a float=0.0099999998 
+000ccfd0  mov       r5, #1                                 ;
+000ccfd4  ldr       lr, [pc, r1]                           ; [0x1aeb94]=0x0 float=0 
+000ccfd8  mov       r1, #0                                 ;
+000ccfdc  add       r4, r4, #8                             ;
+000ccfe0  mov       ip, #0xf600000                         ;
+000ccfe4  str       r1, [r6, #0x94]                        ;
+000ccfe8  stm       r6, {r4, r5}                           ;
+000ccfec  mov       r5, #0xef00000                         ;
+000ccff0  str       r3, [r6, #8]                           ;
+000ccff4  orr       r3, r5, #0x30000000                    ;
+000ccff8  orr       ip, ip, #0x30000000                    ;
+000ccffc  mov       r4, #0xe700000                         ;
+000cd000  str       r1, [r6, #0xc]                         ;
+000cd004  str       r1, [r6, #0x10]                        ;
+000cd008  str       r1, [sp, #0xc]                         ;
+000cd00c  str       r3, [sp, #8]                           ;
+000cd010  str       ip, [sp, #0x14]                        ;
+000cd014  str       r3, [sp, #0x10]                        ;
+000cd018  orr       r3, r4, #0x30000000                    ;
+000cd01c  mov       r4, #0xe700000                         ;
+000cd020  str       r0, [sp, #0x1c]                        ;
+000cd024  str       r3, [sp, #0x18]                        ;
+000cd028  str       r0, [sp, #0x24]                        ;
+000cd02c  orr       r0, r4, #0xb0000000                    ;
+000cd030  mov       r4, #0xef00000                         ;
+000cd034  ldr       sb, [pc, #0xb8]                        ; [0xcd0f4]=0xe0120 float=1.2861005e-39 
+000cd038  orr       r4, r4, #0xb0000000                    ;
+000cd03c  add       r5, sp, #0x38                          ;
+000cd040  str       r0, [sp, #0x20]                        ;
+000cd044  str       ip, [sp, #0x2c]                        ;
+000cd048  str       r4, [sp, #0x28]                        ;
+000cd04c  str       r1, [sp, #0x34]                        ;
+000cd050  str       r4, [sp, #0x30]                        ;
+000cd054  str       r6, [sp, #4]                           ;
+000cd058  str       r2, [sp, #0x44]                        ;
+000cd05c  stm       r5, {r0, r2, r3}                       ;
+000cd060  add       r2, sp, #0x48                          ;
+000cd064  add       r3, pc, sb                             ; address=0x1ad18c 
+000cd068  add       r0, r2, #0x20                          ;
+000cd06c  str       r3, [sp, #0x64]                        ;
+000cd070  str       lr, [sp, #0x60]                        ;
+000cd074  str       r7, [sp, #0x68]                        ;
+000cd078  str       sp, [sp, #0x70]                        ;
+000cd07c  add       r1, pc, #8                             ;
+000cd080  str       r1, [r0, #4]                           ;
+000cd084  mov       r0, #0                                 ;
+000cd088  add       pc, pc, #0                             ;
+000cd08c  mov       r0, #1                                 ;
+000cd090  cmp       r0, #0                                 ;
+000cd094  bne       #0xcd0e4                               ;
+000cd098  add       r0, sp, #0x48                          ;
+000cd09c  bl        #0x1adb64                              ; __Unwind_SjLj_Register
+000cd0a0  mov       r0, #1                                 ;
+000cd0a4  str       r0, [sp, #0x4c]                        ;
+000cd0a8  add       r1, sp, #8                             ;
+000cd0ac  ldr       r0, [sp, #4]                           ;
+000cd0b0  mov       r2, #8                                 ;
+000cd0b4  bl        #0x6aecc                               ; 
+000cd0b8  add       r0, sp, #0x48                          ;
+000cd0bc  bl        #0x1adb6c                              ; __Unwind_SjLj_Unregister
+000cd0c0  sub       sp, r7, #0x58                          ;
+000cd0c4  vpop      {d8, d9, d10, d11, d12, d13, d14, d15} ;
+000cd0c8  pop       {r8, sl, fp}                           ;
+000cd0cc  pop       {r4, r5, r6, r7, pc}                   ;
+000cd0d0  ldr       r0, [sp, #0x50]                        ;
+000cd0d4  ldr       r1, [sp, #0x54]                        ;
+000cd0d8  mvn       r1, #0                                 ;
+000cd0dc  str       r1, [sp, #0x4c]                        ;
+000cd0e0  bl        #0x1adb68                              ; __Unwind_SjLj_Resume
+000cd0e4  ldr       r0, [sp, #0x4c]                        ;
+000cd0e8  cmp       r0, #0                                 ;
+000cd0ec  beq       #0xcd0d0                               ;
+000cd0f0  trap                                             ;
+000cd0f4  andeq     r0, lr, r0, lsr #2                     ;
+000cd0f8  strheq    r1, [lr], -r4                          ;
+000cd0fc  mcrlt     p8, #6, sp, c15, c3, #4                ;
+000cd100  strheq    r1, [lr], -r8                          ;
+000cd104  svclo     #0xa3f625                              ;
+000cd108  stclo     p7, c13, [r3], #-0x28                  ;
+000cd10c  push      {r4, r5, r6, r7, lr}                   ;
+000cd110  add       r7, sp, #0xc                           ;
+000cd114  push      {r8, sl, fp}                           ;
+000cd118  vpush     {d8, d9, d10, d11, d12, d13, d14, d15} ;
+000cd11c  sub       sp, sp, #0x80                          ;
+000cd120  bic       sp, sp, #7                             ;
+000cd124  ldr       r3, [pc, #0x13c]                       ; [0xcd268]=0xe1a44 float=1.2951193e-39 
+000cd128  ldr       r1, [pc, #0x140]                       ; [0xcd270]=0xe1a48 float=1.2951249e-39 
+000cd12c  mov       r6, r0                                 ;
+000cd130  ldr       r2, [pc, #0x134]                       ; [0xcd26c]=0xbe4fd893 float=-0.2029746 
+000cd134  ldr       r4, [pc, r3]                           ; [0x1aeb80]=0x1f4350 float=2.8710476e-39 
+000cd138  ldr       r0, [pc, #0x134]                       ; [0xcd274]=0x3f23f625 float=0.64047462 
+000cd13c  ldr       r3, [pc, #0x134]                       ; [0xcd278]=0x3c23d70a float=0.0099999998 
+000cd140  mov       r5, #1                                 ;
+000cd144  ldr       lr, [pc, r1]                           ; [0x1aeb94]=0x0 float=0 
+000cd148  mov       r1, #0                                 ;
+000cd14c  add       r4, r4, #8                             ;
+000cd150  mov       ip, #0xee00000                         ;
+000cd154  str       r1, [r6, #0x94]                        ;
+000cd158  stm       r6, {r4, r5}                           ;
+000cd15c  mov       r5, #0xe700000                         ;
+000cd160  str       r3, [r6, #8]                           ;
+000cd164  orr       r3, r5, #0x30000000                    ;
+000cd168  orr       ip, ip, #0x30000000                    ;
+000cd16c  mov       r4, #0xdf00000                         ;
+000cd170  str       r1, [r6, #0xc]                         ;
+000cd174  str       r1, [r6, #0x10]                        ;
+000cd178  str       r1, [sp, #0xc]                         ;
+000cd17c  str       r3, [sp, #8]                           ;
+000cd180  str       ip, [sp, #0x14]                        ;
+000cd184  str       r3, [sp, #0x10]                        ;
+000cd188  orr       r3, r4, #0x30000000                    ;
+000cd18c  mov       r4, #0xdf00000                         ;
+000cd190  str       r0, [sp, #0x1c]                        ;
+000cd194  str       r3, [sp, #0x18]                        ;
+000cd198  str       r0, [sp, #0x24]                        ;
+000cd19c  orr       r0, r4, #0xb0000000                    ;
+000cd1a0  mov       r4, #0xe700000                         ;
+000cd1a4  ldr       sb, [pc, #0xb8]                        ; [0xcd264]=0xdffb8 float=1.2855961e-39 
+000cd1a8  orr       r4, r4, #0xb0000000                    ;
+000cd1ac  add       r5, sp, #0x38                          ;
+000cd1b0  str       r0, [sp, #0x20]                        ;
+000cd1b4  str       ip, [sp, #0x2c]                        ;
+000cd1b8  str       r4, [sp, #0x28]                        ;
+000cd1bc  str       r1, [sp, #0x34]                        ;
+000cd1c0  str       r4, [sp, #0x30]                        ;
+000cd1c4  str       r6, [sp, #4]                           ;
+000cd1c8  str       r2, [sp, #0x44]                        ;
+000cd1cc  stm       r5, {r0, r2, r3}                       ;
+000cd1d0  add       r2, sp, #0x48                          ;
+000cd1d4  add       r3, pc, sb                             ; address=0x1ad194 
+000cd1d8  add       r0, r2, #0x20                          ;
+000cd1dc  str       r3, [sp, #0x64]                        ;
+000cd1e0  str       lr, [sp, #0x60]                        ;
+000cd1e4  str       r7, [sp, #0x68]                        ;
+000cd1e8  str       sp, [sp, #0x70]                        ;
+000cd1ec  add       r1, pc, #8                             ;
+000cd1f0  str       r1, [r0, #4]                           ;
+000cd1f4  mov       r0, #0                                 ;
+000cd1f8  add       pc, pc, #0                             ;
+000cd1fc  mov       r0, #1                                 ;
+000cd200  cmp       r0, #0                                 ;
+000cd204  bne       #0xcd254                               ;
+000cd208  add       r0, sp, #0x48                          ;
+000cd20c  bl        #0x1adb64                              ; __Unwind_SjLj_Register
+000cd210  mov       r0, #1                                 ;
+000cd214  str       r0, [sp, #0x4c]                        ;
+000cd218  add       r1, sp, #8                             ;
+000cd21c  ldr       r0, [sp, #4]                           ;
+000cd220  mov       r2, #8                                 ;
+000cd224  bl        #0x6aecc                               ; 
+000cd228  add       r0, sp, #0x48                          ;
+000cd22c  bl        #0x1adb6c                              ; __Unwind_SjLj_Unregister
+000cd230  sub       sp, r7, #0x58                          ;
+000cd234  vpop      {d8, d9, d10, d11, d12, d13, d14, d15} ;
+000cd238  pop       {r8, sl, fp}                           ;
+000cd23c  pop       {r4, r5, r6, r7, pc}                   ;
+000cd240  ldr       r0, [sp, #0x50]                        ;
+000cd244  ldr       r1, [sp, #0x54]                        ;
+000cd248  mvn       r1, #0                                 ;
+000cd24c  str       r1, [sp, #0x4c]                        ;
+000cd250  bl        #0x1adb68                              ; __Unwind_SjLj_Resume
+000cd254  ldr       r0, [sp, #0x4c]                        ;
+000cd258  cmp       r0, #0                                 ;
+000cd25c  beq       #0xcd240                               ;
+000cd260  trap                                             ;
+000cd264  strheq    pc, [sp], -r8                          ;
+000cd268  andeq     r1, lr, r4, asr #20                    ;
+000cd26c  mcrlt     p8, #2, sp, c15, c3, #4                ;
+000cd270  andeq     r1, lr, r8, asr #20                    ;
+000cd274  svclo     #0x23f625                              ;
+000cd278  stclo     p7, c13, [r3], #-0x28                  ;
