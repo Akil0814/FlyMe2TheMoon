@@ -14,6 +14,11 @@
 #include "game/gameplay/role_geometry.h"
 #include "game/gameplay/seesaw_parameters.h"
 #include "game/gameplay/homing_parameters.h"
+#if ELYSIA_ENABLE_IMGUI
+#include "game/development/camera_controls.h"
+#include "engine/tools/imgui/imgui_development_overlay.h"
+#include <imgui.h>
+#endif
 
 namespace game::scene {
 using namespace elysia;
@@ -22,7 +27,29 @@ FlightScene::FlightScene():Scene(elysia::scene::SceneRuntimeFeatures{
     .fixed_step=elysia::scene::FixedStepConfig{},
     .physics=physics::PhysicsWorldConfig{.units_per_meter=32,.gravity={0,320}},
     .camera=elysia::scene::CameraSceneConfig{.focus_mode=elysia::scene::CameraFocusMode::ResolveEachFrame,.advance_when_paused=true}}) {}
+FlightScene::~FlightScene() { detach_development_panel(); }
+void FlightScene::attach_development_panel() {
+#if ELYSIA_ENABLE_IMGUI
+    detach_development_panel();
+    _development_panels=runtime_context().development_panels();
+    if (!_development_panels) return;
+    _development_panel=_development_panels->register_panel("fly.flight.camera", [this] {
+        if (ImGui::Begin(tools::ImGuiDevelopmentOverlay::MainPanelTitle))
+            development::draw_camera_controls(camera_runtime(), kDefaultCameraZoom);
+        ImGui::End();
+    });
+#endif
+}
+void FlightScene::detach_development_panel() {
+#if ELYSIA_ENABLE_IMGUI
+    if (_development_panels && _development_panel.is_valid())
+        (void)_development_panels->unregister_panel(_development_panel);
+    _development_panel={};
+    _development_panels=nullptr;
+#endif
+}
 void FlightScene::on_enter(const elysia::scene::ScenePayload& payload) {
+    detach_development_panel();
     _probe.begin();
     _deaths=0;_failure_reason.clear();_pending_failure.clear();_laser_hit=false;
     _pause_menu_open=false;_pause_was_logic_paused=false;_pause_updates.clear();
@@ -90,7 +117,7 @@ void FlightScene::on_enter(const elysia::scene::ScenePayload& payload) {
     build_result_panel();
     build_pause_panel();
     set_ui_interaction_mode(elysia::scene::UiInteractionMode::Pointer);
-    camera_runtime().set_zoom(camera::CameraSlot::Main,1.5f);
+    camera_runtime().set_zoom(camera::CameraSlot::Main,kDefaultCameraZoom);
     camera_runtime().set_world_bounds(camera::CameraSlot::Main,Rect{0,0,_data.at("width"),_data.at("height")});
     camera_runtime().set_follow_strategy(camera::CameraSlot::Main,std::make_unique<camera::HardFollowStrategy>());
     const auto moon=std::find_if(_entities.begin(),_entities.end(),[](const auto* e){return e->kind==101;});
@@ -104,8 +131,9 @@ void FlightScene::on_enter(const elysia::scene::ScenePayload& payload) {
     if(!ELYSIA_AUDIO->play_music(std::string("fly.")+tracks[(_level-1)/15]))ELYSIA_LOG_WARN("fly.audio","Level music rejected");
     update_dialogue();
     ELYSIA_LOG_INFO("fly",std::format("Entered level {}: {} entities, {} contours",_level,_entities.size(),_data.at("edges").size()));
+    attach_development_panel();
 }
-void FlightScene::on_exit(){for(auto h:_sounds)ELYSIA_AUDIO->stop_sound(h);_sounds.clear();ELYSIA_AUDIO->stop_music();_pause_updates.clear();_pause_menu_open=false;_player=nullptr;_entities.clear();_hud=nullptr;_hint=nullptr;_hud_stars=nullptr;_pause_menu=nullptr;_pause_button=nullptr;_dialogue=nullptr;_face=nullptr;_tutorial=nullptr;_dialogue_panel=nullptr;_portrait_panel=nullptr;clear_scene_objects();}
+void FlightScene::on_exit(){detach_development_panel();for(auto h:_sounds)ELYSIA_AUDIO->stop_sound(h);_sounds.clear();ELYSIA_AUDIO->stop_music();_pause_updates.clear();_pause_menu_open=false;_player=nullptr;_entities.clear();_hud=nullptr;_hint=nullptr;_hud_stars=nullptr;_pause_menu=nullptr;_pause_button=nullptr;_dialogue=nullptr;_face=nullptr;_tutorial=nullptr;_dialogue_panel=nullptr;_portrait_panel=nullptr;clear_scene_objects();}
 void FlightScene::on_reset(){on_exit();}
 void FlightScene::on_shortcuts(const input::RawInputFrame&,const std::vector<input::RawInputEvent>& events) {
     using C=input::RawInputControl;

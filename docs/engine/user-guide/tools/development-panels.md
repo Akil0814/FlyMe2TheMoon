@@ -20,7 +20,7 @@ cmake -S . -B build-imgui -DELYSIA_ENABLE_IMGUI=ON
 cmake --build build-imgui --config Debug
 ```
 
-开启后使用仓库固定的 Dear ImGui 1.92.9、`imgui_impl_sdl3` 与 `imgui_impl_sdlrenderer3`。不编译 `imgui_demo.cpp`，不启用 停靠、多视口或手柄导航。覆盖层隐藏时仍保留已初始化的 上下文和默认字体内存，但不向 后端发送事件，不调用 `NewFrame`、面板回调或渲染。
+开启后使用仓库固定的 Dear ImGui 1.92.9、`imgui_impl_sdl3` 与 `imgui_impl_sdlrenderer3`。不编译 `imgui_demo.cpp`，不启用停靠、多视口或手柄导航。覆盖层隐藏时仍保留已初始化的上下文和默认字体内存，不向后端发送事件，也不执行面板回调。若启用了 FPS 浮层，隐藏面板后仍会执行 ImGui 帧与浮层渲染；关闭 FPS 后，隐藏状态不再调用 `NewFrame` 或渲染。
 
 修改 `option()` 的默认值不会覆盖已经存在的 `CMakeCache.txt`；旧构建目录需要重新配置并显式传入 `-DELYSIA_ENABLE_IMGUI=ON`。
 
@@ -115,6 +115,8 @@ private:
 ## 显示与调试
 
 F2 显示或隐藏开发覆盖层。隐藏时保留已初始化上下文，但不执行面板回调。可见时鼠标和键盘可能被工具界面捕获，手柄仍交给游戏；这不等于暂停物理世界。
+
+`ImGuiDevelopmentOverlay` 自带通用开发面板，提供 DebugDraw 总开关、全部类别的选择、FPS 浮层、帧耗时曲线及模拟时间倍率。FPS 浮层不捕获输入，F2 收起面板后仍可显示。时间倍率为 0 时模拟暂停，ImGui 仍使用未缩放的真实帧时间更新，能够继续操作并恢复正常速度。所有选项仅保存在当前运行内存中。
 
 
 

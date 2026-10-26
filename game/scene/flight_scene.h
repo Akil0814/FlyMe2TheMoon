@@ -13,6 +13,7 @@
 #include "engine/ui/window/ui_window.h"
 #include "engine/ui/widgets/ui_button.h"
 #include "game/frontend/moon_ui.h"
+#include "engine/tools/development_overlay.h"
 
 namespace game::scene_keys {inline constexpr elysia::scene::SceneKey Flight=2;}
 namespace game::scene {
@@ -20,6 +21,7 @@ struct FlightPayload {int level=1;bool restart=false;};
 class FlightScene final : public elysia::scene::Scene {
 public:
     FlightScene();
+    ~FlightScene() override;
 protected:
     void on_enter(const elysia::scene::ScenePayload&) override;
     void on_exit() override;
@@ -31,6 +33,13 @@ protected:
     void on_fixed_update(std::uint64_t tick,double delta)override;
     std::optional<elysia::camera::CameraFocus> resolve_camera_focus(elysia::camera::CameraSlot) const override;
 private:
+    void attach_development_panel();
+    void detach_development_panel();
+    static constexpr float kDefaultCameraZoom = 1.5f;
+#if ELYSIA_ENABLE_IMGUI
+    elysia::tools::IDevelopmentPanelRegistry* _development_panels = nullptr;
+    elysia::tools::DevelopmentPanelHandle _development_panel{};
+#endif
     void finish(bool success);
     void build_result_panel();
     elysia::ui::UiWindow* build_modal_frame();

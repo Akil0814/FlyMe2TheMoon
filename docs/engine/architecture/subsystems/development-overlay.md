@@ -20,7 +20,7 @@ flowchart LR
 ```
 
 - `IGameModule::create_development_overlay()` 默认返回空；项目只有在启用构建中才创建具体适配器。
-- `DevelopmentOverlayHost` 独占适配器，保留 F2，控制可见性，并保证隐藏时零逐帧调用。
+- `DevelopmentOverlayHost` 独占适配器，保留 F2，通过 `set_panels_visible()` 通知面板可见性。隐藏时仅在适配器的 `has_background_content()` 返回 true 时继续逐帧调用，用于独立 FPS 浮层；默认实现返回 false。
 - `SceneRuntimeContext` 只暴露可空 `IDevelopmentPanelRegistry`，场景不知道 Host 或适配器的具体类型。
 - `ImGuiDevelopmentOverlay` 独占 ImGui 上下文、默认字体图集 和两个官方后端。
 - 关闭流程顺序为 `SceneManager`、覆盖层、资源、渲染器、窗口、SDL，保证场景能先注销捕获自身的回调。
@@ -32,7 +32,8 @@ flowchart LR
 3. `InputSystem` 使用上一完整 ImGui 帧 的 `WantCaptureKeyboard`、`WantTextInput` 和 `WantCaptureMouse` 抑制键盘、文字或指针 RawInput。
 4. 开始捕获时清理对应按住状态和鼠标增量，避免场景收到卡住的按键；结束指针捕获时刷新逻辑鼠标位置。
 5. 覆盖层不请求 手柄捕获，也不启用 ImGui 手柄导航；手柄事件始终继续交给游戏。
-6. 更新前调用 `begin_frame()`；场景、`DebugDraw` 和正式 UI 绘制后调用覆盖层 `render()`；最后才 `SDL_RenderPresent()`。
+6. 更新前以 `Time::raw_delta()` 调用 `begin_frame()`，使模拟暂停或慢放不影响工具交互与 FPS；场景、`DebugDraw` 和正式 UI 绘制后调用覆盖层 `render()`；最后才 `SDL_RenderPresent()`。
+7. 隐藏面板时清理 ImGui 的输入队列及按住状态；后台 FPS 浮层使用 `NoInputs`，不执行注册面板回调，不请求输入捕获。
 
 适配器绘制前保存 SDL Renderer 的渲染目标、逻辑呈现尺寸与模式（logical presentation）、缩放、视口、裁剪、绘制颜色和混合模式，绘制后按正确依赖顺序恢复，避免污染正式渲染。
 
