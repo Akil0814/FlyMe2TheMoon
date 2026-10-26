@@ -69,14 +69,19 @@ bool ReplayProbe::update(SDL_Renderer* renderer,const content::Json& state) {
     }
     if(_scenario.contains("observe"))for(const auto& observation:_scenario.at("observe")) {
         const auto field=observation.at("field").get<std::string>();double low=INFINITY,high=-INFINITY;
+        int matched_samples=0;
         for(const auto& sample:_samples)if(sample.contains(field)&&sample[field].is_number()){
+            bool matches=true;if(observation.contains("when"))for(const auto& [key,value]:observation.at("when").items())matches&=sample.contains(key)&&sample.at(key)==value;
+            if(!matches)continue;++matched_samples;
             const double value=sample[field];low=std::min(low,value);high=std::max(high,value);
         }
         bool ok=std::isfinite(low)&&std::isfinite(high);
         if(observation.contains("max_at_least"))ok&=high>=observation.at("max_at_least").get<double>();
         if(observation.contains("min_at_most"))ok&=low<=observation.at("min_at_most").get<double>();
         if(observation.contains("span_at_least"))ok&=high-low>=observation.at("span_at_least").get<double>();
-        checks["observe."+field]={{"requested",observation},{"minimum",low},{"maximum",high},{"passed",ok}};passed&=ok;
+        if(observation.contains("span_at_most"))ok&=high-low<=observation.at("span_at_most").get<double>();
+        if(observation.contains("samples_at_least"))ok&=matched_samples>=observation.at("samples_at_least").get<int>();
+        checks["observe."+field+"."+std::to_string(checks.size())]={{"requested",observation},{"minimum",low},{"maximum",high},{"samples",matched_samples},{"passed",ok}};passed&=ok;
     }
     std::ofstream out(_output.string()+".json");out<<content::Json{{"passed",passed},{"checks",checks},{"scenario",_scenario},{"samples",_samples}}.dump(2);
     if(auto* surface=SDL_RenderReadPixels(renderer,nullptr)){SDL_SaveBMP(surface,(_output.string()+".bmp").c_str());SDL_DestroySurface(surface);}

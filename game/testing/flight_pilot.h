@@ -13,7 +13,7 @@ public:
     size_t waypoint=0;
     void update(SDL_WindowID window,double time,const content::Json& route,const content::Json& state) {
         if(_enter_down&&time-_enter_time>.09){key(window,false);_enter_down=false;}
-        const bool finished=state.value("finished",false),dialogue=!state.value("dialogue",std::string()).empty();
+        const bool finished=state.value("finished",false),dialogue=!state.value("pause_menu_open",false)&&!state.value("dialogue",std::string()).empty();
         if(state.value("deaths",0)!=_deaths){_deaths=state.at("deaths");waypoint=0;}
         if(dialogue&&!finished&&time-_enter_time>.7){key(window,true);_enter_down=true;_enter_time=time;}
         if(finished||dialogue||state.value("paused",false)||!state.value("input_enabled",false)||state.value("demo",false)||!state.contains("pilot_view")) {_control_active=false;_zero_thrust_since=-1;button(window,false,0,0);return;}

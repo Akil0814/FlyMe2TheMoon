@@ -14,6 +14,31 @@ void image(std::vector<core::UiRenderCommand>& out,SDL_Texture* source,core::Rec
     auto command=core::make_ui_texture_command(source,rect);command.alpha=alpha;out.push_back(command);
 }
 }
+void StarRating::submit_ui_render_commands(std::vector<core::UiRenderCommand>& out)const {
+    if(!is_visible())return;
+    const auto r=screen_rect();const float gap=r.height()*.1875f;
+    const float side=std::min(r.height(),(r.width()-gap*2)/3);
+    const float x=r.center().x-(side*3+gap*2)/2,y=r.center().y-side/2;
+    for(int index=0;index<3;++index){
+        auto* star=ELYSIA_RESOURCES->find_texture(index<_collected?"fly.InGameUI.starDown":"fly.frontend.starGreyY");
+        image(out,star,{x+(side+gap)*index,y,side,side});
+    }
+}
+void MoonPanel::submit_ui_render_commands(std::vector<core::UiRenderCommand>& out)const {
+    const auto r=screen_rect();
+    out.push_back(core::make_ui_fill_rect_command(r,{9,30,62,242},22));
+    out.push_back(core::make_ui_draw_rect_command(r,{124,211,247,170},22));
+    out.push_back(core::make_ui_draw_line_command({r.x()+32,r.y()+12},{r.right()-32,r.y()+12},{156,233,255,80}));
+}
+PauseIconButton::PauseIconButton(core::Rect rect,std::function<void()> action):UiButton(rect,12){
+    set_state_textures({.idle=ELYSIA_RESOURCES->find_texture("fly.InGameUI.pauseBtnUp"),.pushed=ELYSIA_RESOURCES->find_texture("fly.InGameUI.pauseBtnDown")});
+    set_style_overrides({.chrome={.corner_radius=10.f,.draw_border=false}});set_on_click(std::move(action));
+}
+void PauseIconButton::submit_ui_render_commands(std::vector<core::UiRenderCommand>& out)const {
+    if(!is_visible())return;
+    UiButton::submit_ui_render_commands(out);const auto r=screen_rect();
+    image(out,ELYSIA_RESOURCES->find_texture("fly.InGameUI.pauseBtnText"),{r.center().x-11,r.center().y-14,22,28});
+}
 MenuArtwork::MenuArtwork():UiElement({0,0,544,816},-90),
     _background(ELYSIA_RESOURCES->find_texture("fly.ui.mainBg2")),_title(ELYSIA_RESOURCES->find_texture("fly.ui.mainTitle2")){}
 void MenuArtwork::submit_ui_render_commands(std::vector<core::UiRenderCommand>& out)const {

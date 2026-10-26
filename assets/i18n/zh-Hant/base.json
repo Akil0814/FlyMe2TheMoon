@@ -325,7 +325,7 @@
     "wait": "请稍候……",
     "continue": "Enter / 单击：继续",
     "skip": "Enter / 单击：继续      Tab：跳过已读剧情",
-    "controls": "按住 Space / W 上升 · A / D 转向 · 鼠标按住角色下方施放魔法    P 暂停    R 重试    Esc 选关",
+    "controls": "Space / W 飛行 · A / D 轉向 · 滑鼠按住角色下方噴射 · Esc / P 暫停",
     "success_hint": "到达月亮！Enter 下一关    R 重试收集星星    Esc 选关",
     "failure_hint": "挑战失败。Enter / R 重试    Esc 选关",
     "save_failure": "进度未能保存，已保留原存档。R 重试    Esc 选关",
@@ -335,8 +335,12 @@
     "select_level": "选择关卡",
     "result_success": "第 {:02} 关 · 到达月亮！",
     "result_failure": "第 {:02} 关 · 再试一次",
-    "result_stats": "星星 {3}/3    {0:.2f} 秒    水晶 {1}    得分 {2}",
+    "result_stats": "{0:.2f} 秒    水晶 {1}    得分 {2}",
     "credits_controls": "↑ / ↓ 或滚轮：滚动     空格：暂停 / 继续     Esc：菜单",
-    "album_page": "星冊 {}"
+    "album_page": "星冊 {}",
+    "hud_compact": "第 {:02} 關   水晶 {}   {:.1f} 秒{}",
+    "pause_title": "暫停",
+    "resume_level": "繼續遊戲",
+    "pause_stats": "第 {:02} 關   水晶 {}   {:.1f} 秒"
   }
 }

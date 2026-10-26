@@ -325,7 +325,7 @@
     "wait": "お待ちください…",
     "continue": "Enter / クリック：次へ",
     "skip": "Enter / クリック：次へ      Tab：既読をスキップ",
-    "controls": "Space / W：上昇 · A / D：移動 · キアナの下でマウスを押す：魔法    P 一時停止    R 再挑戦    Esc 選択",
+    "controls": "Space / W 飛行 · A / D 移動 · キャラの下を押して噴射 · Esc / P 一時停止",
     "success_hint": "月に到着！Enter 次のステージ    R 星を集め直す    Esc 選択",
     "failure_hint": "失敗！Enter / R 再挑戦    Esc ステージ選択",
     "save_failure": "進行を保存できません。以前の保存は保持されています。R 再挑戦    Esc 選択",
@@ -335,8 +335,12 @@
     "select_level": "ステージ選択",
     "result_success": "ステージ {:02} · 月に到着！",
     "result_failure": "ステージ {:02} · もう一度",
-    "result_stats": "星 {3}/3   {0:.2f} 秒   クリスタル {1}   スコア {2}",
+    "result_stats": "{0:.2f} 秒    クリスタル {1}    スコア {2}",
     "credits_controls": "↑ / ↓・ホイール：スクロール    Space：停止 / 再開    Esc：メニュー",
-    "album_page": "アルバム {}"
+    "album_page": "アルバム {}",
+    "hud_compact": "ステージ {:02}   クリスタル {}   {:.1f} 秒{}",
+    "pause_title": "一時停止",
+    "resume_level": "ゲームを続ける",
+    "pause_stats": "ステージ {:02}   クリスタル {}   {:.1f} 秒"
   }
 }

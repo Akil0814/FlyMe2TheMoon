@@ -325,7 +325,7 @@
     "wait": "Please wait…",
     "continue": "Enter / Click: continue",
     "skip": "Enter / Click: continue      Tab: skip previously read story",
-    "controls": "Hold Space / W: rise · A / D: steer · Hold mouse below Kiana: cast magic    P pause    R retry    Esc levels",
+    "controls": "Space / W 비행 · A / D 이동 · 캐릭터 아래를 눌러 추진 · Esc / P 일시 정지",
     "success_hint": "Moon reached! Enter: next level    R: retry for stars    Esc: levels",
     "failure_hint": "Kiana fell! Enter / R: retry    Esc: levels",
     "save_failure": "Progress could not be saved. Existing save retained. R: retry    Esc: levels",
@@ -335,8 +335,12 @@
     "select_level": "Select level",
     "result_success": "Level {:02} · Moon reached!",
     "result_failure": "Level {:02} · Try again",
-    "result_stats": "Stars {3}/3   {0:.2f} s   Crystals {1}   Score {2}",
+    "result_stats": "{0:.2f}초    크리스탈 {1}    점수 {2}",
     "credits_controls": "↑ / ↓ or wheel: scroll     Space: pause / resume     Esc: menu",
-    "album_page": "앨범 {}"
+    "album_page": "앨범 {}",
+    "hud_compact": "스테이지 {:02}   크리스탈 {}   {:.1f}초{}",
+    "pause_title": "일시 정지",
+    "resume_level": "계속하기",
+    "pause_stats": "스테이지 {:02}   크리스탈 {}   {:.1f}초"
   }
 }

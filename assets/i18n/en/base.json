@@ -325,7 +325,7 @@
     "wait": "Please wait…",
     "continue": "Enter / Click: continue",
     "skip": "Enter / Click: continue      Tab: skip previously read story",
-    "controls": "Hold Space / W: rise · A / D: steer · Hold mouse below Kiana: cast magic    P pause    R retry    Esc levels",
+    "controls": "Space / W fly · A / D steer · Hold below Kiana to thrust · Esc / P pause",
     "success_hint": "Moon reached! Enter: next level    R: retry for stars    Esc: levels",
     "failure_hint": "Kiana fell! Enter / R: retry    Esc: levels",
     "save_failure": "Progress could not be saved. Existing save retained. R: retry    Esc: levels",
@@ -335,8 +335,12 @@
     "select_level": "Select level",
     "result_success": "Level {:02} · Moon reached!",
     "result_failure": "Level {:02} · Try again",
-    "result_stats": "Stars {3}/3   {0:.2f} s   Crystals {1}   Score {2}",
+    "result_stats": "{0:.2f}s    Crystals {1}    Score {2}",
     "credits_controls": "↑ / ↓ or wheel: scroll     Space: pause / resume     Esc: menu",
-    "album_page": "Album {}"
+    "album_page": "Album {}",
+    "hud_compact": "Stage {:02}   Crystals {}   {:.1f}s{}",
+    "pause_title": "Paused",
+    "resume_level": "Resume",
+    "pause_stats": "Stage {:02}   Crystals {}   {:.1f}s"
   }
 }

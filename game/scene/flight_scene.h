@@ -12,6 +12,7 @@
 #include "game/gameplay/camera_move.h"
 #include "engine/ui/window/ui_window.h"
 #include "engine/ui/widgets/ui_button.h"
+#include "game/frontend/moon_ui.h"
 
 namespace game::scene_keys {inline constexpr elysia::scene::SceneKey Flight=2;}
 namespace game::scene {
@@ -32,6 +33,11 @@ protected:
 private:
     void finish(bool success);
     void build_result_panel();
+    elysia::ui::UiWindow* build_modal_frame();
+    void build_pause_panel();
+    void open_pause_menu();
+    void close_pause_menu();
+    void retry_level();
     void show_result(bool saved);
     void continue_from_result();
     void reached(bool success,const char* reason="");
@@ -72,12 +78,19 @@ private:
     std::string _failure_reason,_pending_failure;
     elysia::ui::UiLabel* _hud=nullptr;
     elysia::ui::UiLabel* _hint=nullptr;
+    frontend::StarRating* _hud_stars=nullptr;
+    frontend::PauseIconButton* _pause_button=nullptr;
+    elysia::ui::UiWindow* _pause_menu=nullptr;
+    frontend::StarRating* _pause_stars=nullptr;
+    elysia::ui::UiLabel* _pause_stats=nullptr;
+    bool _pause_menu_open=false,_pause_was_logic_paused=false;
+    std::vector<elysia::core::GameObject*> _pause_updates;
     elysia::ui::UiWindow* _result=nullptr;
     elysia::ui::UiLabel* _result_title=nullptr;
     elysia::ui::UiLabel* _result_stats=nullptr;
     elysia::ui::UiLabel* _result_save=nullptr;
     elysia::ui::UiButton* _result_continue=nullptr;
-    std::array<elysia::ui::UiImage*,3> _result_stars{};
+    frontend::StarRating* _result_stars=nullptr;
     testing::ReplayProbe& _probe=testing::ReplayProbe::shared();
     story::Runtime _story;
     play::TutorialReplay _tutorial_replay;

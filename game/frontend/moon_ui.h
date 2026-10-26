@@ -5,8 +5,28 @@
 #include "engine/ui/widgets/text/ui_text_block.h"
 #include "engine/ui/containers/ui_grid_container.h"
 #include <memory>
+#include <algorithm>
 
 namespace game::frontend {
+class StarRating final:public elysia::ui::UiElement {
+public:
+    explicit StarRating(elysia::core::Rect rect,int order=0):UiElement(rect,order){}
+    void set_collected(int count){_collected=std::clamp(count,0,3);}
+    int collected()const{return _collected;}
+    void submit_ui_render_commands(std::vector<elysia::core::UiRenderCommand>& out)const override;
+private:
+    int _collected=0;
+};
+class MoonPanel final:public elysia::ui::UiElement {
+public:
+    explicit MoonPanel(elysia::core::Rect rect,int order=0):UiElement(rect,order){}
+    void submit_ui_render_commands(std::vector<elysia::core::UiRenderCommand>& out)const override;
+};
+class PauseIconButton final:public elysia::ui::UiButton {
+public:
+    explicit PauseIconButton(elysia::core::Rect rect,std::function<void()> action);
+    void submit_ui_render_commands(std::vector<elysia::core::UiRenderCommand>& out)const override;
+};
 class MenuArtwork final:public elysia::ui::UiElement {
 public:
     MenuArtwork();
