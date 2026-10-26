@@ -97,7 +97,8 @@ private:
     content::Json _text;
     std::string _dialogue_key;
     elysia::ui::UiTextBlock* _dialogue=nullptr;
-    elysia::ui::UiLabel* _dialogue_panel=nullptr;
+    frontend::MoonPanel* _dialogue_panel=nullptr;
+    frontend::MoonPanel* _portrait_panel=nullptr;
     elysia::ui::UiImage* _face=nullptr;
     elysia::ui::UiImage* _tutorial=nullptr;
     std::vector<elysia::audio::SoundHandle> _sounds;

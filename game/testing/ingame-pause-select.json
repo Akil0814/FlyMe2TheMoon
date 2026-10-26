@@ -33,5 +33,15 @@
   ],
   "expect": {
     "scene": 3
-  }
+  },
+  "observe": [
+    {
+      "field": "elapsed",
+      "when": {
+        "pause_menu_open": true
+      },
+      "span_at_most": 0.001,
+      "samples_at_least": 4
+    }
+  ]
 }

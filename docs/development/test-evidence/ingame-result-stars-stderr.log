@@ -1,0 +1,28 @@
+2026-10-25 18:30:19 [INFO] [application] (application.cpp:460) SDL3 GPU backend: direct3d12
+2026-10-25 18:30:19 [INFO] [scene] (scene_manager.cpp:216) Switching to SceneKey 4294901761 with reload mode 0
+2026-10-25 18:30:19 [INFO] [resource] (game_content_loader.cpp:143) Total requests built: 1224, total work units: 1434
+2026-10-25 18:30:24 [INFO] [scene] (scene_manager.cpp:216) Switching to SceneKey 2 with reload mode 2
+2026-10-25 18:30:24 [INFO] [fly.test] (replay_probe.cpp:27) Input replay started; no simulation overrides
+2026-10-25 18:30:24 [INFO] [fly] (flight_scene.cpp:103) Entered level 1: 14 entities, 1 contours
+2026-10-25 18:30:26 [INFO] [fly.camera] (flight_scene.cpp:307) Opening pan complete; role entrance started
+2026-10-25 18:30:27 [INFO] [fly.camera] (flight_scene.cpp:311) Role entrance complete; original story started
+2026-10-25 18:30:27 [INFO] [fly.story] (flight_scene.cpp:263) Dialogue: Level1-1
+2026-10-25 18:30:28 [INFO] [fly.story] (flight_scene.cpp:263) Dialogue: ~~~~~~
+2026-10-25 18:30:31 [INFO] [fly.story] (flight_scene.cpp:263) Dialogue: Level1-2
+2026-10-25 18:30:31 [INFO] [fly.story] (flight_scene.cpp:263) Dialogue: Level1-3
+2026-10-25 18:30:32 [INFO] [fly.story] (flight_scene.cpp:263) Dialogue: Level1-4
+2026-10-25 18:30:32 [INFO] [fly.story] (flight_scene.cpp:263) Dialogue: Level1-5
+2026-10-25 18:30:34 [INFO] [fly.story] (flight_scene.cpp:263) Dialogue: Level1-6
+2026-10-25 18:30:35 [INFO] [fly.story] (flight_scene.cpp:263) Dialogue: Level1-7
+2026-10-25 18:30:39 [INFO] [fly.story] (flight_scene.cpp:242) Loaded original tutorial input: Rep_rd_1
+2026-10-25 18:30:39 [INFO] [fly.story] (flight_scene.cpp:263) Dialogue: Level1-8
+2026-10-25 18:30:41 [INFO] [fly.story] (flight_scene.cpp:263) Dialogue: Level1-9
+2026-10-25 18:30:44 [INFO] [fly.effect] (flight_scene.cpp:185) Moon approach started
+2026-10-25 18:30:46 [INFO] [fly.effect] (flight_scene.cpp:204) Moon effect complete; dispatch reached event
+2026-10-25 18:30:48 [INFO] [fly.story] (flight_scene.cpp:263) Dialogue: Level1-10
+2026-10-25 18:30:54 [INFO] [fly.effect] (flight_scene.cpp:185) Moon approach started
+2026-10-25 18:30:57 [INFO] [fly.effect] (flight_scene.cpp:204) Moon effect complete; dispatch reached event
+2026-10-25 18:30:57 [INFO] [fly.story] (flight_scene.cpp:263) Dialogue: Level1-11
+2026-10-25 18:30:57 [INFO] [fly] (flight_scene.cpp:150) Level 1 SUCCESS time=6.788 stars=3 crystals=22
+2026-10-25 18:30:59 [INFO] [fly.test] (replay_probe.cpp:90) Replay assertions PASS
+2026-10-25 18:30:59 [INFO] [application] (application.cpp:722) Application shutdown complete

@@ -40,5 +40,15 @@
   "expect": {
     "scene": 2,
     "pause_menu_open": false
-  }
+  },
+  "observe": [
+    {
+      "field": "elapsed",
+      "when": {
+        "pause_menu_open": true
+      },
+      "span_at_most": 0.001,
+      "samples_at_least": 4
+    }
+  ]
 }
