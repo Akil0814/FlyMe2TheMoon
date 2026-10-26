@@ -6,6 +6,7 @@
 #include "engine/ui/containers/ui_grid_container.h"
 #include <memory>
 #include <algorithm>
+#include <optional>
 
 namespace game::frontend {
 class StarRating final:public elysia::ui::UiElement {
@@ -53,11 +54,15 @@ std::unique_ptr<elysia::ui::UiLabel> label(std::string text,float width,float he
 void mark_selected(elysia::ui::UiButton& button);
 class LevelNode final:public elysia::ui::UiButton {
 public:
-    LevelNode(int id,int chapter,int stars,bool open,std::function<void()> action);
+    LevelNode(int id,int chapter,int stars,bool open,std::function<void()> action,
+        std::optional<int> best_score=std::nullopt);
+    [[nodiscard]] std::optional<int> best_score()const{return _best_score;}
     void submit_ui_render_commands(std::vector<elysia::core::UiRenderCommand>& out)const override;
 private:
     int _chapter=0,_stars=-1;
     bool _open=false;
+    std::optional<int> _best_score;
+    mutable elysia::ui::UiLabel _score_label;
 };
 class ConstellationGrid final:public elysia::ui::UiGridContainer {
 public:

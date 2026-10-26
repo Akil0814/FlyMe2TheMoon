@@ -45,7 +45,9 @@ void SelectionScene::on_enter(const elysia::scene::ScenePayload& payload) {
     auto levels=std::make_unique<frontend::ConstellationGrid>(core::Rect{0,0,1120,330});levels->set_column_count(5);levels->set_cell_spacing({16,18});
     for(int id=chapter*15+1;id<=chapter*15+15;++id) {
         const bool open=store.data.unlocked(id,content::catalog().at("dependencies"));const int stars=store.data.stars[id-1];
-        levels->add_child(std::make_unique<frontend::LevelNode>(id,chapter,stars,open,[this,id]{request_scene_switch(scene_keys::Flight,FlightPayload{id},elysia::scene::SceneReloadMode::Recreate);}));
+        const auto score=stars>=0&&store.data.score_verified[id-1]
+            ?std::optional<int>{store.data.scores[id-1]}:std::nullopt;
+        levels->add_child(std::make_unique<frontend::LevelNode>(id,chapter,stars,open,[this,id]{request_scene_switch(scene_keys::Flight,FlightPayload{id},elysia::scene::SceneReloadMode::Recreate);},score));
     }
     auto* levels_scope=levels.get();list->add_back(std::move(levels));
     const int cleared=static_cast<int>(std::count_if(store.data.stars.begin(),store.data.stars.end(),[](int s){return s>=0;}));
