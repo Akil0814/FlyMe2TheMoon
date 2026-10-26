@@ -35,6 +35,12 @@ public:
         for(auto& layer:scene._object_layers)for(auto& object:layer)if(auto* player=dynamic_cast<game::play::Player*>(object.get()))return player->thrust;
         throw std::runtime_error("Flight test player missing");
     }
+    static bool jet_visible(Scene& scene){
+        for(auto& layer:scene._object_layers)for(auto& object:layer)if(auto* player=dynamic_cast<game::play::Player*>(object.get())){
+            std::vector<core::RenderCommand> drawn;player->submit_render_commands(drawn);return drawn.size()>1;
+        }
+        throw std::runtime_error("Flight test player missing");
+    }
 };
 }
 
@@ -170,11 +176,16 @@ void test_flight_scene(SDL_Renderer* renderer,const io::ContentRegistry& registr
     change(SDL_GAMEPAD_BUTTON_SOUTH,false);
     system.begin_frame();axis(system,SDL_GAMEPAD_AXIS_RIGHT_TRIGGER,19660);send();
     require(near(scene::SceneTestAccess::thrust(flight).y,-.5f),"Actual flight must retain gradual RT thrust");
+    scene::SceneTestAccess::update(flight,1./60.);
+    require(scene::SceneTestAccess::jet_visible(flight),"Actual RT thrust must show the energy jet");
     system.begin_frame();axis(system,SDL_GAMEPAD_AXIS_RIGHT_TRIGGER,0);send();
+    require(!scene::SceneTestAccess::jet_visible(flight),"Releasing RT must hide the jet immediately");
     press(SDL_GAMEPAD_BUTTON_WEST);
     require(requests.received.empty(),"X must not restart during flight");
+    system.begin_frame();axis(system,SDL_GAMEPAD_AXIS_RIGHT_TRIGGER,32767);send();
     change(SDL_GAMEPAD_BUTTON_EAST,true);
     require(flight.is_paused()&&scene::SceneTestAccess::modal_visible(flight),"B must open the pause menu");
+    require(!scene::SceneTestAccess::jet_visible(flight),"Pausing while firing must hide the jet");
     system.begin_frame();send();
     require(scene::SceneTestAccess::modal_visible(flight),"Holding B must not close the newly opened pause menu");
     change(SDL_GAMEPAD_BUTTON_EAST,false);
@@ -185,6 +196,8 @@ void test_flight_scene(SDL_Renderer* renderer,const io::ContentRegistry& registr
     require(!flight.is_paused()&&!scene::SceneTestAccess::modal_visible(flight),"B must close the pause menu without reopening it");
     system.begin_frame();send();change(SDL_GAMEPAD_BUTTON_EAST,false);
     require(!flight.is_paused()&&!scene::SceneTestAccess::modal_visible(flight),"Holding or releasing B after resume must not reopen pause");
+    require(!scene::SceneTestAccess::jet_visible(flight),"Held RT must not leave a residual jet after resume");
+    system.begin_frame();axis(system,SDL_GAMEPAD_AXIS_RIGHT_TRIGGER,0);send();
     press(SDL_GAMEPAD_BUTTON_START);
     require(flight.is_paused()&&scene::SceneTestAccess::modal_visible(flight),"Start must still open pause");
     press(SDL_GAMEPAD_BUTTON_START);
