@@ -1,0 +1,14 @@
+**********************************************************************
+** Visual Studio 2022 Developer Command Prompt v17.14.10
+** Copyright (c) 2025 Microsoft Corporation
+**********************************************************************
+[vcvarsall.bat] Environment initialized for: 'x64'
+[0/2] Re-checking globbed directories...
+[1/8] Building CXX object game\CMakeFiles\fly_visual_tests.dir\tests\visual_tests.cpp.obj
+FAILED: game/CMakeFiles/fly_visual_tests.dir/tests/visual_tests.cpp.obj 
+"C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2544.0_x64__qbz5n2kfra8p0\python3.11.exe" C:/Code/FlyMe2TheMoon/game/tools/msvc_output.py C:\PROGRA~1\MICROS~3\2022\COMMUN~1\VC\Tools\MSVC\1444~1.352\bin\Hostx64\x64\cl.exe  /nologo /TP -DELYSIA_ENABLE_IMGUI=0 -IC:\Code\FlyMe2TheMoon -IC:\Code\FlyMe2TheMoon\out\build\release\thirdparty\SDL3\include-revision -IC:\Code\FlyMe2TheMoon\thirdparty\SDL3\include -IC:\Code\FlyMe2TheMoon\thirdparty\SDL3_image\include -IC:\Code\FlyMe2TheMoon\thirdparty\SDL3_ttf\include -IC:\Code\FlyMe2TheMoon\thirdparty\SDL3_mixer\include -IC:\Code\FlyMe2TheMoon\game\vendor\lua -external:IC:\Code\FlyMe2TheMoon\thirdparty\SDL3_gfx -external:W0 /DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++latest -MD /utf-8 /showIncludes /Fogame\CMakeFiles\fly_visual_tests.dir\tests\visual_tests.cpp.obj /Fdgame\CMakeFiles\fly_visual_tests.dir\ /FS -c C:\Code\FlyMe2TheMoon\game\tests\visual_tests.cpp
+C:\Code\FlyMe2TheMoon\game\tests\visual_tests.cpp(355): error C2039: "role_sensor_shape": 不是 "game::play" 的成员
+C:\Code\FlyMe2TheMoon\game/gameplay/camera_move.h(6): note: 参见“game::play”的声明
+C:\Code\FlyMe2TheMoon\game\tests\visual_tests.cpp(355): error C3861: “role_sensor_shape”: 找不到标识符
+[2/8] Building CXX object game\CMakeFiles\game_lib.dir\gameplay\flight_objects.cpp.obj
+ninja: build stopped: subcommand failed.

@@ -1,0 +1,1379 @@
+{
+  "date": "2026-10-26",
+  "scope": "Read-only source and local original binary comparison; geometric probes, no game logic edits",
+  "original_binary_sha256": "c7047ffe5e21be1373498787131a488ff7e65d6900352c2fa04e132a05265c83",
+  "current_radius": 26,
+  "original_radius_meters": 1.5,
+  "units_per_meter": 32,
+  "original_radius_game_units": 48,
+  "radius_difference": 22,
+  "current_radius_fraction_of_original": 0.5416666666666666,
+  "current_circle_area_fraction_of_original": 0.29340277777777773,
+  "same_center_all_60_levels": true,
+  "role_sensor_vertices": [
+    [
+      15,
+      0
+    ],
+    [
+      15,
+      -28
+    ],
+    [
+      7.5,
+      -40.990375
+    ],
+    [
+      -7.5,
+      -40.990375
+    ],
+    [
+      -15,
+      -28
+    ],
+    [
+      -15,
+      0
+    ],
+    [
+      -7.5,
+      12.990375
+    ],
+    [
+      7.5,
+      12.990375
+    ]
+  ],
+  "original_role_polygon_skin_meters": 0.01,
+  "current_role_polygon_skin_meters": 0,
+  "original_contact_method": "Role sensor fixture userData=1 contacting moon sensor fixture userData=2; native BeginContact dispatch at 0xab2e8 calls postRoleEnter, then Moon.update",
+  "current_contact_method": "FlightScene::on_after_update queries role_sensor_shape against moon collider",
+  "geometric_examples": [
+    {
+      "moon_offset_from_role_physics_anchor": [
+        40,
+        -13
+      ],
+      "distance_to_role_polygon": 25.0,
+      "current_overlap_geometric": true,
+      "original_overlap_with_polygon_skin": true
+    },
+    {
+      "moon_offset_from_role_physics_anchor": [
+        41,
+        -13
+      ],
+      "distance_to_role_polygon": 26.0,
+      "current_overlap_geometric": true,
+      "original_overlap_with_polygon_skin": true
+    },
+    {
+      "moon_offset_from_role_physics_anchor": [
+        42,
+        -13
+      ],
+      "distance_to_role_polygon": 27.0,
+      "current_overlap_geometric": false,
+      "original_overlap_with_polygon_skin": true
+    },
+    {
+      "moon_offset_from_role_physics_anchor": [
+        50,
+        -13
+      ],
+      "distance_to_role_polygon": 35.0,
+      "current_overlap_geometric": false,
+      "original_overlap_with_polygon_skin": true
+    },
+    {
+      "moon_offset_from_role_physics_anchor": [
+        60,
+        -13
+      ],
+      "distance_to_role_polygon": 45.0,
+      "current_overlap_geometric": false,
+      "original_overlap_with_polygon_skin": true
+    },
+    {
+      "moon_offset_from_role_physics_anchor": [
+        63,
+        -13
+      ],
+      "distance_to_role_polygon": 48.0,
+      "current_overlap_geometric": false,
+      "original_overlap_with_polygon_skin": true
+    },
+    {
+      "moon_offset_from_role_physics_anchor": [
+        64,
+        -13
+      ],
+      "distance_to_role_polygon": 49.0,
+      "current_overlap_geometric": false,
+      "original_overlap_with_polygon_skin": false
+    }
+  ],
+  "levels": [
+    {
+      "level": 1,
+      "original_xml_position": [
+        393.0,
+        974.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        479.0,
+        380.0
+      ],
+      "expected_center": [
+        479.0,
+        380.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 2,
+      "original_xml_position": [
+        951.0,
+        1824.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        1037.0,
+        490.0
+      ],
+      "expected_center": [
+        1037.0,
+        490.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 3,
+      "original_xml_position": [
+        752.0,
+        352.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        838.0,
+        1962.0
+      ],
+      "expected_center": [
+        838.0,
+        1962.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 4,
+      "original_xml_position": [
+        400.0,
+        1984.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        486.0,
+        330.0
+      ],
+      "expected_center": [
+        486.0,
+        330.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 5,
+      "original_xml_position": [
+        1069.0,
+        1502.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        1155.0,
+        812.0
+      ],
+      "expected_center": [
+        1155.0,
+        812.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 6,
+      "original_xml_position": [
+        544.0,
+        1200.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        630.0,
+        634.0
+      ],
+      "expected_center": [
+        630.0,
+        634.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 7,
+      "original_xml_position": [
+        355.0,
+        1445.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        441.0,
+        869.0
+      ],
+      "expected_center": [
+        441.0,
+        869.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 8,
+      "original_xml_position": [
+        912.0,
+        1616.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        998.0,
+        218.0
+      ],
+      "expected_center": [
+        998.0,
+        218.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 9,
+      "original_xml_position": [
+        880.0,
+        1616.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        966.0,
+        698.0
+      ],
+      "expected_center": [
+        966.0,
+        698.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 10,
+      "original_xml_position": [
+        551.0,
+        1854.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        637.0,
+        940.0
+      ],
+      "expected_center": [
+        637.0,
+        940.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 11,
+      "original_xml_position": [
+        1984.0,
+        2992.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        2070.0,
+        762.0
+      ],
+      "expected_center": [
+        2070.0,
+        762.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 12,
+      "original_xml_position": [
+        1866.0,
+        358.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        1952.0,
+        1956.0
+      ],
+      "expected_center": [
+        1952.0,
+        1956.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 13,
+      "original_xml_position": [
+        1552.0,
+        2064.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        1638.0,
+        730.0
+      ],
+      "expected_center": [
+        1638.0,
+        730.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 14,
+      "original_xml_position": [
+        640.0,
+        2144.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        726.0,
+        650.0
+      ],
+      "expected_center": [
+        726.0,
+        650.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 15,
+      "original_xml_position": [
+        873.0,
+        228.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        959.0,
+        2086.0
+      ],
+      "expected_center": [
+        959.0,
+        2086.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 16,
+      "original_xml_position": [
+        208.0,
+        1872.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        294.0,
+        442.0
+      ],
+      "expected_center": [
+        294.0,
+        442.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 17,
+      "original_xml_position": [
+        1495.0,
+        1680.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        1581.0,
+        634.0
+      ],
+      "expected_center": [
+        1581.0,
+        634.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 18,
+      "original_xml_position": [
+        1130.0,
+        1827.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        1216.0,
+        487.0
+      ],
+      "expected_center": [
+        1216.0,
+        487.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 19,
+      "original_xml_position": [
+        1440.0,
+        1840.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        1526.0,
+        474.0
+      ],
+      "expected_center": [
+        1526.0,
+        474.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 20,
+      "original_xml_position": [
+        324.0,
+        2016.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        410.0,
+        778.0
+      ],
+      "expected_center": [
+        410.0,
+        778.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 21,
+      "original_xml_position": [
+        1733.0,
+        1817.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        1819.0,
+        497.0
+      ],
+      "expected_center": [
+        1819.0,
+        497.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 22,
+      "original_xml_position": [
+        694.0,
+        1952.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        780.0,
+        362.0
+      ],
+      "expected_center": [
+        780.0,
+        362.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 23,
+      "original_xml_position": [
+        1204.0,
+        2432.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        1290.0,
+        362.0
+      ],
+      "expected_center": [
+        1290.0,
+        362.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 24,
+      "original_xml_position": [
+        1706.0,
+        1808.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        1792.0,
+        506.0
+      ],
+      "expected_center": [
+        1792.0,
+        506.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 25,
+      "original_xml_position": [
+        989.0,
+        1661.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        1075.0,
+        653.0
+      ],
+      "expected_center": [
+        1075.0,
+        653.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 26,
+      "original_xml_position": [
+        310.0,
+        3008.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        396.0,
+        746.0
+      ],
+      "expected_center": [
+        396.0,
+        746.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 27,
+      "original_xml_position": [
+        1088.0,
+        1104.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        1174.0,
+        730.0
+      ],
+      "expected_center": [
+        1174.0,
+        730.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 28,
+      "original_xml_position": [
+        288.0,
+        1936.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        374.0,
+        378.0
+      ],
+      "expected_center": [
+        374.0,
+        378.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 29,
+      "original_xml_position": [
+        720.0,
+        1616.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        806.0,
+        698.0
+      ],
+      "expected_center": [
+        806.0,
+        698.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 30,
+      "original_xml_position": [
+        560.0,
+        2040.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        646.0,
+        754.0
+      ],
+      "expected_center": [
+        646.0,
+        754.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 31,
+      "original_xml_position": [
+        768.0,
+        2288.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        854.0,
+        506.0
+      ],
+      "expected_center": [
+        854.0,
+        506.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 32,
+      "original_xml_position": [
+        736.0,
+        1478.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        822.0,
+        356.0
+      ],
+      "expected_center": [
+        822.0,
+        356.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 33,
+      "original_xml_position": [
+        631.0,
+        2854.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        717.0,
+        900.0
+      ],
+      "expected_center": [
+        717.0,
+        900.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 34,
+      "original_xml_position": [
+        336.0,
+        1760.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        422.0,
+        554.0
+      ],
+      "expected_center": [
+        422.0,
+        554.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 35,
+      "original_xml_position": [
+        1888.0,
+        1584.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        1974.0,
+        730.0
+      ],
+      "expected_center": [
+        1974.0,
+        730.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 36,
+      "original_xml_position": [
+        1472.0,
+        1104.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        1558.0,
+        730.0
+      ],
+      "expected_center": [
+        1558.0,
+        730.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 37,
+      "original_xml_position": [
+        352.0,
+        1816.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        438.0,
+        978.0
+      ],
+      "expected_center": [
+        438.0,
+        978.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 38,
+      "original_xml_position": [
+        400.0,
+        112.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        486.0,
+        3162.0
+      ],
+      "expected_center": [
+        486.0,
+        3162.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 39,
+      "original_xml_position": [
+        947.0,
+        1328.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        1033.0,
+        986.0
+      ],
+      "expected_center": [
+        1033.0,
+        986.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 40,
+      "original_xml_position": [
+        1456.0,
+        1600.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        1542.0,
+        714.0
+      ],
+      "expected_center": [
+        1542.0,
+        714.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 41,
+      "original_xml_position": [
+        240.0,
+        1920.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        326.0,
+        2794.0
+      ],
+      "expected_center": [
+        326.0,
+        2794.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 42,
+      "original_xml_position": [
+        528.0,
+        1344.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        614.0,
+        490.0
+      ],
+      "expected_center": [
+        614.0,
+        490.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 43,
+      "original_xml_position": [
+        384.0,
+        1086.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        470.0,
+        268.0
+      ],
+      "expected_center": [
+        470.0,
+        268.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 44,
+      "original_xml_position": [
+        976.0,
+        1424.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        1062.0,
+        890.0
+      ],
+      "expected_center": [
+        1062.0,
+        890.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 45,
+      "original_xml_position": [
+        1424.0,
+        1168.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        1510.0,
+        1146.0
+      ],
+      "expected_center": [
+        1510.0,
+        1146.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 46,
+      "original_xml_position": [
+        682.0,
+        1876.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        768.0,
+        438.0
+      ],
+      "expected_center": [
+        768.0,
+        438.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 47,
+      "original_xml_position": [
+        365.0,
+        272.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        451.0,
+        2522.0
+      ],
+      "expected_center": [
+        451.0,
+        2522.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 48,
+      "original_xml_position": [
+        1248.0,
+        1232.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        1334.0,
+        1082.0
+      ],
+      "expected_center": [
+        1334.0,
+        1082.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 49,
+      "original_xml_position": [
+        608.0,
+        1376.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        694.0,
+        458.0
+      ],
+      "expected_center": [
+        694.0,
+        458.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 50,
+      "original_xml_position": [
+        1600.0,
+        2208.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        1686.0,
+        586.0
+      ],
+      "expected_center": [
+        1686.0,
+        586.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 51,
+      "original_xml_position": [
+        1698.0,
+        1177.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        1784.0,
+        1137.0
+      ],
+      "expected_center": [
+        1784.0,
+        1137.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 52,
+      "original_xml_position": [
+        528.0,
+        1440.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        614.0,
+        394.0
+      ],
+      "expected_center": [
+        614.0,
+        394.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 53,
+      "original_xml_position": [
+        544.0,
+        2160.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        630.0,
+        634.0
+      ],
+      "expected_center": [
+        630.0,
+        634.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 54,
+      "original_xml_position": [
+        912.0,
+        2720.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        998.0,
+        554.0
+      ],
+      "expected_center": [
+        998.0,
+        554.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 55,
+      "original_xml_position": [
+        378.0,
+        1397.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        464.0,
+        437.0
+      ],
+      "expected_center": [
+        464.0,
+        437.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 56,
+      "original_xml_position": [
+        400.0,
+        274.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        486.0,
+        4440.0
+      ],
+      "expected_center": [
+        486.0,
+        4440.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 57,
+      "original_xml_position": [
+        1308.0,
+        1885.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        1394.0,
+        909.0
+      ],
+      "expected_center": [
+        1394.0,
+        909.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 58,
+      "original_xml_position": [
+        544.0,
+        3344.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        630.0,
+        410.0
+      ],
+      "expected_center": [
+        630.0,
+        410.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 59,
+      "original_xml_position": [
+        751.0,
+        2908.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        837.0,
+        846.0
+      ],
+      "expected_center": [
+        837.0,
+        846.0
+      ],
+      "matches": true
+    },
+    {
+      "level": 60,
+      "original_xml_position": [
+        1072.0,
+        3408.0
+      ],
+      "size": [
+        172.0,
+        172.0
+      ],
+      "rotation": 0.0,
+      "current_center": [
+        1158.0,
+        3706.0
+      ],
+      "expected_center": [
+        1158.0,
+        3706.0
+      ],
+      "matches": true
+    }
+  ],
+  "limitations": "Original Box2D contact tolerances and current Box2D query edge behavior can differ; probes are geometry calculations, not a native iOS runtime measurement."
+}

@@ -1,0 +1,29 @@
+**********************************************************************
+** Visual Studio 2022 Developer Command Prompt v17.14.10
+** Copyright (c) 2025 Microsoft Corporation
+**********************************************************************
+[vcvarsall.bat] Environment initialized for: 'x64'
+[0/2] Re-checking globbed directories...
+[1/7] Linking CXX static library game\game_lib.lib
+[2/7] Linking CXX executable game\fly_mechanism_tests.exe
+[3/7] Linking CXX executable game\fly_gamepad_tests.exe
+[4/7] Linking CXX executable FlyMe2TheMoon.exe
+[5/7] Building CXX object game\CMakeFiles\fly_visual_tests.dir\tests\visual_tests.cpp.obj
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\utility(274): warning C4244: “初始化”: 从“_Ty”转换到“_Ty1”，可能丢失数据
+        with
+        [
+            _Ty=int
+        ]
+        and
+        [
+            _Ty1=float
+        ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\utility(274): note: 模板实例化上下文(最早的实例化上下文)为
+C:\Code\FlyMe2TheMoon\game\tests\visual_tests.cpp(354): note: 查看对正在编译的函数 模板 实例化“std::pair<float,bool>::pair<int,bool,0>(_Other1 &&,_Other2 &&) noexcept”的引用
+        with
+        [
+            _Other1=int,
+            _Other2=bool
+        ]
+C:\Code\FlyMe2TheMoon\game\tests\visual_tests.cpp(354): note: 请参阅 "`anonymous-namespace'::check_pickups_and_moon" 中对 "std::pair<float,bool>::pair" 的第一个引用
+[6/7] Linking CXX executable game\fly_visual_tests.exe
