@@ -1,0 +1,26 @@
+{
+  "name": "death-transition",
+  "level": 30,
+  "language": "zh-Hans",
+  "duration": 20,
+  "events": [],
+  "stop_after_failure": 0.5,
+  "expect": {
+    "level": 30,
+    "finished": true,
+    "success": false,
+    "result_visible": true,
+    "deaths": 1,
+    "death_playing": false,
+    "role_body_visible": false,
+    "role_body_enabled": false,
+    "role_effect_image": 0
+  },
+  "observe": [
+    {"field":"death_time","when":{"death_playing":true,"result_visible":false,"role_body_visible":true},"samples_at_least":5,"span_at_least":0.5},
+    {"field":"role_effect_frame","when":{"death_playing":true,"result_visible":false,"role_body_visible":false,"role_effect_image":3},"samples_at_least":1},
+    {"field":"x","when":{"death_playing":true},"span_at_most":0.01},
+    {"field":"y","when":{"death_playing":true},"span_at_most":0.01},
+    {"field":"elapsed","when":{"death_playing":true},"span_at_most":0.000001}
+  ]
+}

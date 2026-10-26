@@ -61,6 +61,8 @@ private:
     int _level=1,_stars=0,_crystals=0,_crystal_count=0;
     double _elapsed=0;
     bool _finished=false,_success=false;
+    bool _death_pending=false;
+    bool _using_gamepad=false;
     bool _restart=false,_input_enabled=true,_demo=false,_demo_paused=false,_event_pending=false,_follow_role=true;
     play::Vec _story_camera{};
     play::CameraMove _camera_move;

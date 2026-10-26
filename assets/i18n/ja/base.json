@@ -300,6 +300,9 @@
     }
   },
   "fly": {
+    "gamepad_controls": "A / RT：噴射 · 左スティック / 方向キー：飛行 · Start：停止 · X：リトライ",
+    "gamepad_continue": "A：次へ",
+    "gamepad_skip": "A：次へ · Y：既読スキップ",
     "play": "ゲーム開始 · ステージ選択",
     "achievements": "実績",
     "settings": "設定",
@@ -337,7 +340,7 @@
     "result_success": "ステージ {:02} · 月に到着！",
     "result_failure": "ステージ {:02} · もう一度",
     "result_stats": "{0:.2f} 秒    クリスタル {1}    スコア {2}",
-    "credits_controls": "↑ / ↓・ホイール：スクロール    Space：停止 / 再開    Esc：メニュー",
+    "credits_controls": "左スティック / ↑↓：スクロール · Space / X：停止 / 再開 · Esc / B：戻る",
     "album_page": "アルバム {}",
     "hud_compact": "ステージ {:02}   クリスタル {}   {:.1f} 秒{}",
     "pause_title": "一時停止",

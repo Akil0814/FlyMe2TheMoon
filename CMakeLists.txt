@@ -92,6 +92,14 @@ endif()
 
 add_executable(FlyMe2TheMoon "main.cpp")
 
+if(WIN32)
+    enable_language(RC)
+    configure_file(game/platform/windows/app.rc.in generated/fly/app.rc @ONLY)
+    target_sources(FlyMe2TheMoon PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/generated/fly/app.rc")
+    set_source_files_properties("${CMAKE_CURRENT_BINARY_DIR}/generated/fly/app.rc" PROPERTIES
+        OBJECT_DEPENDS "${PROJECT_SOURCE_DIR}/game/platform/windows/app.ico")
+endif()
+
 target_link_libraries(FlyMe2TheMoon PRIVATE game_lib)
 if(FLY_DEBUG_SYMBOLS AND MSVC)
     target_compile_options(FlyMe2TheMoon PRIVATE /Z7)

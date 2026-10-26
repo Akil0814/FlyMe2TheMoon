@@ -4,7 +4,7 @@
 #include <cmath>
 
 namespace game::play {
-enum class RoleEffect { None, Enter, Moon, PortalIn };
+enum class RoleEffect { None, Enter, Moon, PortalIn, Death };
 enum class BallImage { None, Ball, Disappear, Explode };
 struct RoleEffectPose {
     BallImage image=BallImage::None;
@@ -22,6 +22,12 @@ inline RoleEffectPose role_effect_pose(RoleEffect effect,double seconds) {
         if(frame<=9)return {BallImage::Ball,0,.5f+.1f*(frame-5),false};
         if(frame<=15)return {BallImage::Explode,frame-10,.9f,true};
         return {};
+    }
+    if(effect==RoleEffect::Death) {
+        if(frame<30)return {};
+        if(frame==30)return {BallImage::Ball,0,1,false};
+        if(frame<37)return {BallImage::Explode,frame-31,1,false};
+        return {BallImage::None,0,1,false};
     }
     const int shrink=effect==RoleEffect::Moon?26:10;
     if(frame<6)return {BallImage::Explode,5-frame,1,true};
