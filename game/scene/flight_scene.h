@@ -47,7 +47,7 @@ private:
     void open_pause_menu();
     void close_pause_menu();
     void retry_level();
-    void show_result(bool saved);
+    void show_result(bool saved,bool new_record);
     void continue_from_result();
     void reached(bool success,const char* reason="");
     void restore_player();
@@ -105,7 +105,7 @@ private:
     elysia::ui::UiLabel* _result_title=nullptr;
     elysia::ui::UiLabel* _result_stats=nullptr;
     frontend::RunStats* _result_metrics=nullptr;
-    elysia::ui::UiLabel* _result_save=nullptr;
+    elysia::ui::UiLabel* _result_notice=nullptr;
     elysia::ui::UiButton* _result_continue=nullptr;
     frontend::StarRating* _result_stars=nullptr;
     testing::ReplayProbe& _probe=testing::ReplayProbe::shared();

@@ -72,6 +72,7 @@ void check_run_stats(SDL_Renderer* renderer){
     StarRating result_stars({532,234,216,64});result_stars.set_collected(2);render(result_stars);
     RunStats result({340,310,600,64});result.set_values(123.4,12,37);render(result);
     HudLabel score({340,386,600,40},0,ui::ui_raw_text(game::content::format("result_score",42500)));render(score);
+    ui::UiLabel record({340,426,600,24},0,ui::ui_raw_text(game::content::ui("result_new_record")));record.set_horizontal_align(ui::TextHorizontalAlign::Center);record.set_style_overrides({.text=core::Color{120,65,8,255}});render(record);
     GlassButton next(game::content::ui("next_level"),440,48,[]{});next.set_screen_rect({420,450,440,48});render(next);
     GlassButton retry(game::content::ui("retry"),440,48,[]{});retry.set_screen_rect({420,510,440,48});render(retry);
     GlassButton select(game::content::ui("select_level"),440,48,[]{});select.set_screen_rect({420,570,440,48});render(select);
