@@ -3,6 +3,7 @@
 #include "selection_scene.h"
 #include "game/progress/progress.h"
 #include "game/progress/scoring.h"
+#include "game/content/level_music.h"
 #include "engine/camera/follow_strategy.h"
 #include "engine/tools/logger.h"
 #include "engine/resources/resource_service.h"
@@ -120,8 +121,8 @@ void FlightScene::on_enter(const elysia::scene::ScenePayload& payload) {
     camera_runtime().snap_to_focus(camera::CameraSlot::Main);
     pause();
     _probe.begin();
-    const char* tracks[]{"SkyTunnel","SpiralofAdventure","SymphonyofRush","LifeforSpeed"};
-    if(!ELYSIA_AUDIO->play_music(std::string("fly.")+tracks[(_level-1)/15]))ELYSIA_LOG_WARN("fly.audio","Level music rejected");
+    const auto music=content::level_music(_level,_data.at("suite").get<int>());
+    if(!ELYSIA_AUDIO->play_music(music))ELYSIA_LOG_WARN("fly.audio","Level music rejected: " << music);
     update_dialogue();
     ELYSIA_LOG_INFO("fly",std::format("Entered level {}: {} entities, {} contours",_level,_entities.size(),_data.at("edges").size()));
     attach_development_panel();

@@ -1,0 +1,13 @@
+{
+  "name": "frontend-exit-confirm",
+  "level": -1,
+  "duration": 8,
+  "language": "zh-Hans",
+  "events": [
+    {"time":0.4,"mouse":[1066,504],"down":true},
+    {"time":0.5,"mouse":[1066,504],"down":false},
+    {"time":1.8,"mouse":[640,464],"down":true},
+    {"time":1.9,"mouse":[640,464],"down":false}
+  ],
+  "expect": {"scene":1,"exit_confirm_open":true}
+}

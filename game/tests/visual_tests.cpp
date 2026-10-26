@@ -89,8 +89,13 @@ void check_frontend_music(SDL_Renderer* renderer,const io::ContentRegistry& regi
     for(auto* current:std::array<scene::Scene*,5>{&menu,&settings,&achievements,&selection,&credits}){
         ELYSIA_AUDIO->stop_music();enter(*current);check_playing();
         scene::SceneTestAccess::exit(*current);
-        require(ELYSIA_AUDIO->play_music("fly.SkyTunnel"),"Gameplay music start failed");
+        require(ELYSIA_AUDIO->play_music("fly.Hectic"),"Gameplay music start failed");
         enter(*current);check_playing();scene::SceneTestAccess::exit(*current);
+    }
+    for(const auto* music:{"fly.LifeforSpeed","fly.Hectic","fly.SpiralofAdventure","fly.SymphonyofRush"}){
+        auto* audio=ELYSIA_RESOURCES->find_music(music);
+        require(audio&&ELYSIA_AUDIO->play_music(music),std::string("Original level music failed to start: ")+music);
+        require(MIX_TrackPlaying(track)&&MIX_GetTrackAudio(track)==audio,"Mixer must play the requested original level music");
     }
     ELYSIA_AUDIO->shutdown();ELYSIA_SAVE->shutdown();
     std::cout<<"PASS: menu music position survives all frontend scene exits/entries, page recreation and mute; cold/gameplay returns restore MoonTrip\n";

@@ -1,0 +1,17 @@
+{
+  "name": "frontend-exit-keyboard",
+  "level": -1,
+  "duration": 4,
+  "language": "en",
+  "events": [
+    {"time":0.4,"key":"Escape","down":true},
+    {"time":0.5,"key":"Escape","down":false},
+    {"time":1.2,"key":"Return","down":true},
+    {"time":1.3,"key":"Return","down":false},
+    {"time":2.0,"key":"Escape","down":true},
+    {"time":2.1,"key":"Escape","down":false},
+    {"time":2.8,"key":"Escape","down":true},
+    {"time":2.9,"key":"Escape","down":false}
+  ],
+  "expect": {"scene":1,"exit_confirm_open":false}
+}
