@@ -26,11 +26,11 @@ namespace game::application
         descriptor.logical_width = 1280;
         descriptor.logical_height = 720;
         descriptor.presentation.render.texture_filter =
-            elysia::application::ApplicationTextureFilter::Nearest;
+            elysia::application::ApplicationTextureFilter::Linear;
         descriptor.presentation.ui.default_theme =
             elysia::ui::UiBuiltinTheme::BlueGlassMoon;
         descriptor.presentation.startup.engine_logo =
-            elysia::application::ApplicationEngineLogoVariant::White;
+            elysia::application::ApplicationEngineLogoVariant::LightEdge;
         descriptor.presentation.fonts.ui.source =
             elysia::typography::FontSource::EngineBuiltIn;
         descriptor.presentation.fonts.floating_number.source =

@@ -1,0 +1,709 @@
+{
+  "checks": {
+    "observe.scroll_y": {
+      "maximum": 191.75364685058594,
+      "minimum": 0.0,
+      "passed": true,
+      "requested": {
+        "field": "scroll_y",
+        "max_at_least": 100
+      }
+    },
+    "scene": {
+      "actual": 5,
+      "expected": 5,
+      "passed": true
+    }
+  },
+  "passed": true,
+  "samples": [
+    {
+      "scene": 1,
+      "wall_time": 0.016
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.12
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.224
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.329
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.433
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.537
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.641
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.745
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.849
+    },
+    {
+      "scene": 1,
+      "wall_time": 0.953
+    },
+    {
+      "scene": 1,
+      "wall_time": 1.057
+    },
+    {
+      "scene": 1,
+      "wall_time": 1.161
+    },
+    {
+      "scene": 1,
+      "wall_time": 1.265
+    },
+    {
+      "scene": 1,
+      "wall_time": 1.37
+    },
+    {
+      "scene": 1,
+      "wall_time": 1.474
+    },
+    {
+      "scene": 1,
+      "wall_time": 1.578
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 0.0,
+      "wall_time": 1.682
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 0.0,
+      "wall_time": 1.786
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 0.0,
+      "wall_time": 1.89
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 0.0,
+      "wall_time": 1.995
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 0.0,
+      "wall_time": 2.099
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 0.0,
+      "wall_time": 2.203
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 0.0,
+      "wall_time": 2.307
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 0.0,
+      "wall_time": 2.411
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 0.0,
+      "wall_time": 2.515
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 0.0,
+      "wall_time": 2.619
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 0.0,
+      "wall_time": 2.723
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 0.0,
+      "wall_time": 2.827
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 0.0,
+      "wall_time": 2.932
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 0.0,
+      "wall_time": 3.036
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 0.0,
+      "wall_time": 3.14
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 0.0,
+      "wall_time": 3.244
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 0.0,
+      "wall_time": 3.348
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 0.0,
+      "wall_time": 3.452
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 0.0,
+      "wall_time": 3.556
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 1.2439019680023193,
+      "wall_time": 3.66
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 4.365942001342773,
+      "wall_time": 3.764
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 7.488905429840088,
+      "wall_time": 3.868
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 10.611909866333008,
+      "wall_time": 3.973
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 13.735810279846191,
+      "wall_time": 4.077
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 16.857948303222656,
+      "wall_time": 4.181
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 19.982614517211914,
+      "wall_time": 4.285
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 23.11180877685547,
+      "wall_time": 4.389
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 26.22747039794922,
+      "wall_time": 4.493
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 29.35468101501465,
+      "wall_time": 4.597
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 32.47535705566406,
+      "wall_time": 4.701
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 35.59885787963867,
+      "wall_time": 4.806
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 38.728389739990234,
+      "wall_time": 4.91
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 41.84845733642578,
+      "wall_time": 5.014
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 44.967262268066406,
+      "wall_time": 5.118
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 48.09209442138672,
+      "wall_time": 5.222
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 51.213653564453125,
+      "wall_time": 5.326
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 54.33900833129883,
+      "wall_time": 5.43
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 57.46342086791992,
+      "wall_time": 5.534
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 60.58443832397461,
+      "wall_time": 5.638
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 63.7071533203125,
+      "wall_time": 5.742
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 66.83016967773438,
+      "wall_time": 5.847
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 69.95233917236328,
+      "wall_time": 5.951
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 73.07230377197266,
+      "wall_time": 6.055
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 76.19908905029297,
+      "wall_time": 6.159
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 79.32730102539063,
+      "wall_time": 6.263
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 82.44573974609375,
+      "wall_time": 6.367
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 85.5708236694336,
+      "wall_time": 6.471
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 88.69348907470703,
+      "wall_time": 6.575
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 91.82828521728516,
+      "wall_time": 6.68
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 94.93852233886719,
+      "wall_time": 6.783
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 98.06210327148438,
+      "wall_time": 6.888
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 101.1899185180664,
+      "wall_time": 6.992
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 104.31587982177734,
+      "wall_time": 7.096
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 107.43321990966797,
+      "wall_time": 7.2
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 110.55791473388672,
+      "wall_time": 7.304
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 113.67830657958984,
+      "wall_time": 7.408
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 116.80171966552734,
+      "wall_time": 7.512
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 119.92411041259766,
+      "wall_time": 7.616
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 123.04693603515625,
+      "wall_time": 7.72
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 126.16925811767578,
+      "wall_time": 7.824
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 129.2975616455078,
+      "wall_time": 7.929
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 132.41671752929688,
+      "wall_time": 8.033
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 135.5408172607422,
+      "wall_time": 8.137
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 138.66383361816406,
+      "wall_time": 8.241
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 141.78677368164063,
+      "wall_time": 8.345
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 144.91143798828125,
+      "wall_time": 8.449
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 148.03729248046875,
+      "wall_time": 8.553
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 151.16004943847656,
+      "wall_time": 8.658
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 154.28826904296875,
+      "wall_time": 8.762
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 157.40377807617188,
+      "wall_time": 8.866
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 160.5308380126953,
+      "wall_time": 8.97
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 163.65615844726563,
+      "wall_time": 9.074
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 166.76954650878906,
+      "wall_time": 9.178
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 169.898193359375,
+      "wall_time": 9.282
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 173.0196990966797,
+      "wall_time": 9.386
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 176.141845703125,
+      "wall_time": 9.49
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 179.2609405517578,
+      "wall_time": 9.594
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 182.38583374023438,
+      "wall_time": 9.698
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 185.50845336914063,
+      "wall_time": 9.802
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 188.630126953125,
+      "wall_time": 9.906
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 191.75364685058594,
+      "wall_time": 10.011
+    }
+  ],
+  "scenario": {
+    "duration": 10,
+    "events": [
+      {
+        "down": true,
+        "key": "Down",
+        "time": 0.5
+      },
+      {
+        "down": false,
+        "key": "Down",
+        "time": 0.6
+      },
+      {
+        "down": true,
+        "key": "Down",
+        "time": 0.8
+      },
+      {
+        "down": false,
+        "key": "Down",
+        "time": 0.9
+      },
+      {
+        "down": true,
+        "key": "Down",
+        "time": 1.1
+      },
+      {
+        "down": false,
+        "key": "Down",
+        "time": 1.2000000000000002
+      },
+      {
+        "down": true,
+        "key": "Return",
+        "time": 1.5
+      },
+      {
+        "down": false,
+        "key": "Return",
+        "time": 1.6
+      }
+    ],
+    "expect": {
+      "scene": 5
+    },
+    "language": "zh-Hans",
+    "level": -1,
+    "name": "credits-scroll01",
+    "observe": [
+      {
+        "field": "scroll_y",
+        "max_at_least": 100
+      }
+    ]
+  }
+}

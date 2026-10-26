@@ -1,13 +1,14 @@
 {
   "checks": {
     "observe.scroll_y": {
-      "maximum": 191.75364685058594,
+      "maximum": 193.1336669921875,
       "minimum": 0.0,
       "passed": true,
       "requested": {
         "field": "scroll_y",
         "max_at_least": 100
-      }
+      },
+      "samples": 83
     },
     "scene": {
       "actual": 5,
@@ -19,23 +20,23 @@
   "samples": [
     {
       "scene": 1,
-      "wall_time": 0.016
+      "wall_time": 0.028
     },
     {
       "scene": 1,
-      "wall_time": 0.12
+      "wall_time": 0.13
     },
     {
       "scene": 1,
-      "wall_time": 0.224
+      "wall_time": 0.232
     },
     {
       "scene": 1,
-      "wall_time": 0.329
+      "wall_time": 0.333
     },
     {
       "scene": 1,
-      "wall_time": 0.433
+      "wall_time": 0.435
     },
     {
       "scene": 1,
@@ -43,610 +44,624 @@
     },
     {
       "scene": 1,
-      "wall_time": 0.641
+      "wall_time": 0.638
     },
     {
       "scene": 1,
-      "wall_time": 0.745
+      "wall_time": 0.74
     },
     {
       "scene": 1,
-      "wall_time": 0.849
+      "wall_time": 0.842
     },
     {
       "scene": 1,
-      "wall_time": 0.953
+      "wall_time": 0.943
     },
     {
       "scene": 1,
-      "wall_time": 1.057
+      "wall_time": 1.045
     },
     {
       "scene": 1,
-      "wall_time": 1.161
+      "wall_time": 1.147
     },
     {
       "scene": 1,
-      "wall_time": 1.265
+      "wall_time": 1.248
     },
     {
       "scene": 1,
-      "wall_time": 1.37
+      "wall_time": 1.35
     },
     {
       "scene": 1,
-      "wall_time": 1.474
+      "wall_time": 1.451
     },
     {
       "scene": 1,
-      "wall_time": 1.578
+      "wall_time": 1.554
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
       "scroll_y": 0.0,
-      "wall_time": 1.682
+      "wall_time": 1.657
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
       "scroll_y": 0.0,
-      "wall_time": 1.786
+      "wall_time": 1.79
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
       "scroll_y": 0.0,
-      "wall_time": 1.89
+      "wall_time": 1.892
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
       "scroll_y": 0.0,
-      "wall_time": 1.995
+      "wall_time": 1.993
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
       "scroll_y": 0.0,
-      "wall_time": 2.099
+      "wall_time": 2.095
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
       "scroll_y": 0.0,
-      "wall_time": 2.203
+      "wall_time": 2.196
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
       "scroll_y": 0.0,
-      "wall_time": 2.307
+      "wall_time": 2.298
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
       "scroll_y": 0.0,
-      "wall_time": 2.411
+      "wall_time": 2.401
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
       "scroll_y": 0.0,
-      "wall_time": 2.515
+      "wall_time": 2.503
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
       "scroll_y": 0.0,
-      "wall_time": 2.619
+      "wall_time": 2.605
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
       "scroll_y": 0.0,
-      "wall_time": 2.723
+      "wall_time": 2.707
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
       "scroll_y": 0.0,
-      "wall_time": 2.827
+      "wall_time": 2.809
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
       "scroll_y": 0.0,
-      "wall_time": 2.932
+      "wall_time": 2.911
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
       "scroll_y": 0.0,
-      "wall_time": 3.036
+      "wall_time": 3.012
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
       "scroll_y": 0.0,
-      "wall_time": 3.14
+      "wall_time": 3.115
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
       "scroll_y": 0.0,
-      "wall_time": 3.244
+      "wall_time": 3.216
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
       "scroll_y": 0.0,
-      "wall_time": 3.348
+      "wall_time": 3.318
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
       "scroll_y": 0.0,
-      "wall_time": 3.452
+      "wall_time": 3.42
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
       "scroll_y": 0.0,
-      "wall_time": 3.556
+      "wall_time": 3.522
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 1.2439019680023193,
-      "wall_time": 3.66
+      "scroll_y": 1.0180649757385254,
+      "wall_time": 3.624
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 4.365942001342773,
-      "wall_time": 3.764
+      "scroll_y": 4.072728157043457,
+      "wall_time": 3.726
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 7.488905429840088,
-      "wall_time": 3.868
+      "scroll_y": 7.11561918258667,
+      "wall_time": 3.828
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 10.611909866333008,
-      "wall_time": 3.973
+      "scroll_y": 10.179191589355469,
+      "wall_time": 3.93
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 13.735810279846191,
-      "wall_time": 4.077
+      "scroll_y": 13.221381187438965,
+      "wall_time": 4.031
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 16.857948303222656,
-      "wall_time": 4.181
+      "scroll_y": 16.265268325805664,
+      "wall_time": 4.133
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 19.982614517211914,
-      "wall_time": 4.285
+      "scroll_y": 19.320026397705078,
+      "wall_time": 4.234
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 23.11180877685547,
-      "wall_time": 4.389
+      "scroll_y": 22.38469886779785,
+      "wall_time": 4.337
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 26.22747039794922,
-      "wall_time": 4.493
+      "scroll_y": 25.431955337524414,
+      "wall_time": 4.438
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 29.35468101501465,
-      "wall_time": 4.597
+      "scroll_y": 28.48090171813965,
+      "wall_time": 4.54
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 32.47535705566406,
-      "wall_time": 4.701
+      "scroll_y": 31.5200252532959,
+      "wall_time": 4.641
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 35.59885787963867,
-      "wall_time": 4.806
+      "scroll_y": 34.5595817565918,
+      "wall_time": 4.742
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 38.728389739990234,
-      "wall_time": 4.91
+      "scroll_y": 37.624725341796875,
+      "wall_time": 4.845
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 41.84845733642578,
-      "wall_time": 5.014
+      "scroll_y": 40.659515380859375,
+      "wall_time": 4.946
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 44.967262268066406,
-      "wall_time": 5.118
+      "scroll_y": 43.70866775512695,
+      "wall_time": 5.047
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 48.09209442138672,
-      "wall_time": 5.222
+      "scroll_y": 46.76606750488281,
+      "wall_time": 5.149
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 51.213653564453125,
-      "wall_time": 5.326
+      "scroll_y": 49.818214416503906,
+      "wall_time": 5.251
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 54.33900833129883,
-      "wall_time": 5.43
+      "scroll_y": 52.86465835571289,
+      "wall_time": 5.353
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 57.46342086791992,
-      "wall_time": 5.534
+      "scroll_y": 55.92622375488281,
+      "wall_time": 5.455
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 60.58443832397461,
-      "wall_time": 5.638
+      "scroll_y": 58.969173431396484,
+      "wall_time": 5.556
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 63.7071533203125,
-      "wall_time": 5.742
+      "scroll_y": 62.01707458496094,
+      "wall_time": 5.658
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 66.83016967773438,
-      "wall_time": 5.847
+      "scroll_y": 65.079833984375,
+      "wall_time": 5.76
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 69.95233917236328,
-      "wall_time": 5.951
+      "scroll_y": 68.12580108642578,
+      "wall_time": 5.861
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 73.07230377197266,
-      "wall_time": 6.055
+      "scroll_y": 71.15851593017578,
+      "wall_time": 5.962
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 76.19908905029297,
-      "wall_time": 6.159
+      "scroll_y": 74.19671630859375,
+      "wall_time": 6.064
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 79.32730102539063,
-      "wall_time": 6.263
+      "scroll_y": 77.23452758789063,
+      "wall_time": 6.165
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 82.44573974609375,
-      "wall_time": 6.367
+      "scroll_y": 80.25847625732422,
+      "wall_time": 6.266
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 85.5708236694336,
-      "wall_time": 6.471
+      "scroll_y": 83.34925842285156,
+      "wall_time": 6.369
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 88.69348907470703,
-      "wall_time": 6.575
+      "scroll_y": 86.38603973388672,
+      "wall_time": 6.47
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 91.82828521728516,
-      "wall_time": 6.68
+      "scroll_y": 89.43236541748047,
+      "wall_time": 6.572
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 94.93852233886719,
-      "wall_time": 6.783
+      "scroll_y": 92.4730453491211,
+      "wall_time": 6.673
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 98.06210327148438,
-      "wall_time": 6.888
+      "scroll_y": 95.53104400634766,
+      "wall_time": 6.775
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 101.1899185180664,
-      "wall_time": 6.992
+      "scroll_y": 98.6029052734375,
+      "wall_time": 6.877
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 104.31587982177734,
-      "wall_time": 7.096
+      "scroll_y": 101.64795684814453,
+      "wall_time": 6.979
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 107.43321990966797,
-      "wall_time": 7.2
+      "scroll_y": 104.69937896728516,
+      "wall_time": 7.08
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 110.55791473388672,
-      "wall_time": 7.304
+      "scroll_y": 107.75751495361328,
+      "wall_time": 7.182
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 113.67830657958984,
-      "wall_time": 7.408
+      "scroll_y": 110.79671478271484,
+      "wall_time": 7.284
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 116.80171966552734,
-      "wall_time": 7.512
+      "scroll_y": 113.84146118164063,
+      "wall_time": 7.385
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 119.92411041259766,
-      "wall_time": 7.616
+      "scroll_y": 116.9031753540039,
+      "wall_time": 7.487
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 123.04693603515625,
-      "wall_time": 7.72
+      "scroll_y": 119.94658660888672,
+      "wall_time": 7.589
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 126.16925811767578,
-      "wall_time": 7.824
+      "scroll_y": 123.00228118896484,
+      "wall_time": 7.691
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 129.2975616455078,
-      "wall_time": 7.929
+      "scroll_y": 126.04733276367188,
+      "wall_time": 7.792
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 132.41671752929688,
-      "wall_time": 8.033
+      "scroll_y": 129.1118927001953,
+      "wall_time": 7.894
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 135.5408172607422,
-      "wall_time": 8.137
+      "scroll_y": 132.1708221435547,
+      "wall_time": 7.996
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 138.66383361816406,
-      "wall_time": 8.241
+      "scroll_y": 135.21481323242188,
+      "wall_time": 8.098
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 141.78677368164063,
-      "wall_time": 8.345
+      "scroll_y": 138.27638244628906,
+      "wall_time": 8.2
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 144.91143798828125,
-      "wall_time": 8.449
+      "scroll_y": 141.31619262695313,
+      "wall_time": 8.301
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 148.03729248046875,
-      "wall_time": 8.553
+      "scroll_y": 144.36109924316406,
+      "wall_time": 8.402
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 151.16004943847656,
-      "wall_time": 8.658
+      "scroll_y": 147.395263671875,
+      "wall_time": 8.504
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 154.28826904296875,
-      "wall_time": 8.762
+      "scroll_y": 150.452392578125,
+      "wall_time": 8.605
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 157.40377807617188,
-      "wall_time": 8.866
+      "scroll_y": 153.50772094726563,
+      "wall_time": 8.707
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 160.5308380126953,
-      "wall_time": 8.97
+      "scroll_y": 156.5572052001953,
+      "wall_time": 8.809
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 163.65615844726563,
-      "wall_time": 9.074
+      "scroll_y": 159.60821533203125,
+      "wall_time": 8.911
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 166.76954650878906,
-      "wall_time": 9.178
+      "scroll_y": 162.650390625,
+      "wall_time": 9.012
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 169.898193359375,
-      "wall_time": 9.282
+      "scroll_y": 165.69082641601563,
+      "wall_time": 9.114
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 173.0196990966797,
-      "wall_time": 9.386
+      "scroll_y": 168.73223876953125,
+      "wall_time": 9.215
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 176.141845703125,
-      "wall_time": 9.49
+      "scroll_y": 171.7723388671875,
+      "wall_time": 9.316
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 179.2609405517578,
-      "wall_time": 9.594
+      "scroll_y": 174.82009887695313,
+      "wall_time": 9.418
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 182.38583374023438,
-      "wall_time": 9.698
+      "scroll_y": 177.86415100097656,
+      "wall_time": 9.519
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 185.50845336914063,
-      "wall_time": 9.802
+      "scroll_y": 180.92124938964844,
+      "wall_time": 9.621
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 188.630126953125,
-      "wall_time": 9.906
+      "scroll_y": 183.97210693359375,
+      "wall_time": 9.723
     },
     {
       "auto_scroll": true,
       "scene": 5,
       "scroll_max": 2905.43603515625,
-      "scroll_y": 191.75364685058594,
-      "wall_time": 10.011
+      "scroll_y": 187.0272674560547,
+      "wall_time": 9.825
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 190.07720947265625,
+      "wall_time": 9.926
+    },
+    {
+      "auto_scroll": true,
+      "scene": 5,
+      "scroll_max": 2905.43603515625,
+      "scroll_y": 193.1336669921875,
+      "wall_time": 10.028
     }
   ],
   "scenario": {

@@ -41,12 +41,18 @@ void MoonPanel::submit_ui_render_commands(std::vector<core::UiRenderCommand>& ou
     out.push_back(core::make_ui_draw_line_command({r.x()+32,r.y()+12},{r.right()-32,r.y()+12},{156,233,255,80}));
 }
 PauseIconButton::PauseIconButton(core::Rect rect,std::function<void()> action):UiButton(rect,12){
-    set_style_overrides(glass_button_style());set_on_click(std::move(action));
+    set_style_overrides({.chrome={
+        .background={.idle=core::Color{9,30,62,218},.focused=core::Color{20,57,96,235},
+            .active=core::Color{32,82,126,245},.disabled=core::Color{9,30,62,160}},
+        .corner_radius=16.f,.draw_border=false}});
+    set_on_click(std::move(action));
 }
 void PauseIconButton::submit_ui_render_commands(std::vector<core::UiRenderCommand>& out)const {
     if(!is_visible())return;
-    draw_glass_button(*this,out);const auto r=screen_rect();
-    image(out,ELYSIA_RESOURCES->find_texture("fly.InGameUI.pauseBtnText"),{r.center().x-11,r.center().y-14,22,28});
+    UiButton::submit_ui_render_commands(out);const auto center=screen_rect().center();
+    const core::Color color{229,246,255,static_cast<Uint8>(is_enabled()?255:120)};
+    out.push_back(core::make_ui_fill_rect_command({center.x-10,center.y-13,6,26},color,2));
+    out.push_back(core::make_ui_fill_rect_command({center.x+4,center.y-13,6,26},color,2));
 }
 MenuArtwork::MenuArtwork():UiElement({0,0,544,816},-90),
     _background(ELYSIA_RESOURCES->find_texture("fly.ui.mainBg2")),_title(ELYSIA_RESOURCES->find_texture("fly.ui.mainTitle2")){}

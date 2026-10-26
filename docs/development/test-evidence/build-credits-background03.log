@@ -1,0 +1,16 @@
+**********************************************************************
+** Visual Studio 2022 Developer Command Prompt v17.14.10
+** Copyright (c) 2025 Microsoft Corporation
+**********************************************************************
+[vcvarsall.bat] Environment initialized for: 'x64'
+[0/2] Re-checking globbed directories...
+[1/4] Building CXX object game\CMakeFiles\game_lib.dir\scene\credits_scene.cpp.obj
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\memory(3630): warning C4244: “参数”: 从“_Ty”转换到“float”，可能丢失数据
+        with
+        [
+            _Ty=int
+        ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\memory(3630): note: 模板实例化上下文(最早的实例化上下文)为
+C:\Code\FlyMe2TheMoon\game\scene\credits_scene.cpp(40): note: 查看对正在编译的函数 模板 实例化“std::unique_ptr<game::frontend::GlassButton,std::default_delete<game::frontend::GlassButton>> std::make_unique<game::frontend::GlassButton,std::string,int,int,game::scene::CreditsScene::on_enter::<lambda_2>,0>(std::string &&,int &&,int &&,game::scene::CreditsScene::on_enter::<lambda_2> &&)”的引用
+[2/4] Linking CXX static library game\game_lib.lib
+[3/4] Linking CXX executable FlyMe2TheMoon.exe

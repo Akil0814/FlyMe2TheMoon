@@ -1,0 +1,19 @@
+2026-10-25 23:23:50 [INFO] [application] (application.cpp:460) SDL3 GPU backend: direct3d12
+2026-10-25 23:23:50 [INFO] [scene] (scene_manager.cpp:216) Switching to SceneKey 4294901761 with reload mode 0
+2026-10-25 23:23:50 [INFO] [resource] (game_content_loader.cpp:143) Total requests built: 1224, total work units: 1434
+2026-10-25 23:24:00 [INFO] [scene] (scene_manager.cpp:216) Switching to SceneKey 1 with reload mode 2
+2026-10-25 23:24:00 [INFO] [fly.test] (replay_probe.cpp:27) Input replay started; no simulation overrides
+2026-10-25 23:24:00 [INFO] [fly.test.input] (replay_probe.cpp:57) 0.501000 Down down
+2026-10-25 23:24:00 [INFO] [fly.test.input] (replay_probe.cpp:57) 0.602000 Down up
+2026-10-25 23:24:00 [INFO] [fly.test.input] (replay_probe.cpp:57) 0.805000 Down down
+2026-10-25 23:24:00 [INFO] [fly.test.input] (replay_probe.cpp:57) 0.905000 Down up
+2026-10-25 23:24:01 [INFO] [fly.test.input] (replay_probe.cpp:57) 1.109000 Down down
+2026-10-25 23:24:01 [INFO] [fly.test.input] (replay_probe.cpp:57) 1.210000 Down up
+2026-10-25 23:24:01 [INFO] [fly.test.input] (replay_probe.cpp:57) 1.515000 Return down
+2026-10-25 23:24:01 [INFO] [fly.test.input] (replay_probe.cpp:57) 1.617000 Return up
+2026-10-25 23:24:01 [INFO] [scene] (scene_manager.cpp:216) Switching to SceneKey 5 with reload mode 0
+2026-10-25 23:24:02 [INFO] [fly.test.input] (replay_probe.cpp:49) 2.227000 pointer 1539.000000,75.000000
+2026-10-25 23:24:02 [INFO] [fly.test.input] (replay_probe.cpp:49) 2.632000 pointer 1539.000000,450.000000
+2026-10-25 23:24:02 [INFO] [fly.test.input] (replay_probe.cpp:49) 2.700000 pointer 1539.000000,450.000000
+2026-10-25 23:24:04 [INFO] [fly.test] (replay_probe.cpp:90) Replay assertions PASS
+2026-10-25 23:24:04 [INFO] [application] (application.cpp:722) Application shutdown complete

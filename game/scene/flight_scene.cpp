@@ -102,7 +102,7 @@ void FlightScene::on_enter(const elysia::scene::ScenePayload& payload) {
     _hud_stars=create_and_add_object<frontend::StarRating>(Rect{982,24,136,40},11);
     _hud=create_and_add_object<ui::UiLabel>(Rect{32,24,466,40},11,ui::ui_raw_text(""));
     _hud->set_typography_role(typography::UiTypographyRole::ButtonCompact);_hud->set_vertical_align(ui::TextVerticalAlign::Center);
-    _pause_button=create_and_add_object<frontend::PauseIconButton>(Rect{1160,16,96,52},[this]{open_pause_menu();});
+    _pause_button=create_and_add_object<frontend::PauseIconButton>(Rect{1160,12,96,64},[this]{open_pause_menu();});
     _hint=create_and_add_object<ui::UiLabel>(Rect{24,668,1230,36},10,ui::ui_raw_text(""));
     _hint->set_text_fit_mode(ui::UiLabelTextFitMode::ShrinkToFit);
     _hud->set_style_overrides({.text=core::Color{229,246,255,255}});

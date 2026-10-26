@@ -116,3 +116,23 @@
 暂停键改为复用菜单的 mainMenuBtnUp 素材及同一套玻璃按钮绘制 / 圆角 / 交互颜色，外形调整为横向按钮；右上角星星组左移 40 个逻辑单位，保留与暂停键之间的 20 单位间距。只修改 Game Layer。
 
 按用户要求未运行全量回归，也未执行 CTest。本次仅构建 FlyMe2TheMoon Release 目标（build-hud-menu-style02.log），并运行一项已有的 ingame-icon-resume 输入回放，验证点击暂停后继续游戏，结果 PASS、进程退出 0；已查看其界面截图确认材质和布局。第一次构建命令使用正斜杠批处理路径未执行成功，记录保留于 build-hud-menu-style.log；随后使用 Windows 批处理路径完成编译。
+
+### 2026-10-25 暂停键匹配还原后的 HUD
+
+用户已还原其他 HUD 为深蓝半透明样式。本次仅调整暂停键：静态底色与信息栏 / 星星栏一致（9,30,62,218），圆角为 16，取消菜单玻璃贴图和原版暂停文字贴图，使用引擎 UI 绘制两个浅色圆角竖条。按钮仍为 96 宽，高度改为 64 并与相邻星星栏对齐；悬停和按下时轻微提亮。其他 HUD 和弹窗不改动。
+
+build-pause-flat01.log：FlyMe2TheMoon Release 增量构建成功。ingame-icon-resume 实际运行 PASS、退出 0，验证点击暂停及继续，已查看最新截图确认外观。EXE 哈希及结果见 ingame-icon-resume-run.json，旧回放证据由脚本归档至 history。本次没有运行全量回归或 CTest，未修改引擎。
+
+### 2026-10-25 制作人员页按钮与主菜单一致
+
+制作人员页“返回主菜单”按钮改为直接复用 frontend::GlassButton，与主页共用 mainMenuBtnUp 材质、圆角、文字样式及焦点 / 按下状态。保留该页原有按钮布局、滚动内容和快捷键；仅修改 Game Layer 的 credits_scene.cpp。
+
+build-credits-style01.log：Release 游戏目标构建成功。首次 credits-scroll01 在资源加载阶段正常退出但没有生成回放结果，不能计为通过，记录已归档至 history。重跑 credits-scroll01 通过并查看截图确认按钮外观；credits-style-return01 通过，实际进入 Scene 5 后点击返回按钮回到 Scene 1。回放结果及 run.json 含完整场景、输入与构建哈希；没有运行全量回归 / CTest，引擎未改动。
+
+### 2026-10-25 制作人员页背景与原生滚动条配色
+
+背景复用已导入的 background_settings.png，与用户指定 reference/generate/kiana2.png 的 SHA256 一致；通过 MoonBackdrop 等比例覆盖屏幕并叠加 100/255 暗色层，保证原版白色制作人员图片可读。使用引擎 UiScrollContainer 的公开样式设置蓝色轨道、浅蓝色滑块、悬停 / 拖动颜色及 14 宽度。
+
+首次拖动检查 credits-background-drag01 的滚动位移断言通过，但 auto_scroll=false 断言失败：原生 UI 消费按下事件后，场景 MouseLeft 快捷键不会停止自动滚动。随后曾增加游戏层显示 / 输入适配（build-credits-background02，回放通过），用户明确要求保留引擎组件、接受直角滑块，故已撤去全部自定义滚动适配及临时支持请求。最终仍为原生 UiScrollContainer，未修改引擎源码或文档，也未改变其滚动交互。
+
+最终 build-credits-background03.log Release 构建成功。独立场景 credits-background-native01 验证 Scene 5、原生拖动滚动位移超过 400，通过并查看背景 / 滑块截图；它不要求已被用户取消的手动暂停适配，原失败及中间成功回放均保留。credits-style-return01 在最终构建上通过，确认返回主菜单。证据和 run.json 记录场景及 EXE 哈希；本次没有运行全量回归或 CTest。
