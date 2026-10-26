@@ -35,14 +35,17 @@ void draw_glass_button(const ui::UiButton& button,std::vector<core::UiRenderComm
     button.ui::UiButton::submit_ui_render_commands(out);
 }
 }
-void StarRating::submit_ui_render_commands(std::vector<core::UiRenderCommand>& out)const {
-    if(!is_visible())return;
+core::Rect StarRating::slot_rect(int index)const{
     const auto r=screen_rect();const float gap=r.height()*.1875f;
     const float side=std::min(r.height(),(r.width()-gap*2)/3);
     const float x=r.center().x-(side*3+gap*2)/2,y=r.center().y-side/2;
+    return {x+(side+gap)*std::clamp(index,0,2),y,side,side};
+}
+void StarRating::submit_ui_render_commands(std::vector<core::UiRenderCommand>& out)const {
+    if(!is_visible())return;
     for(int index=0;index<3;++index){
         auto* star=ELYSIA_RESOURCES->find_texture(index<_collected?"fly.InGameUI.starDown":"fly.InGameUI.starUp");
-        image(out,star,{x+(side+gap)*index,y,side,side});
+        image(out,star,slot_rect(index));
     }
 }
 HudLabel::HudLabel(core::Rect rect,int order,ui::UiTextContent text):UiLabel(rect,order,std::move(text)){

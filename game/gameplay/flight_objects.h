@@ -117,6 +117,8 @@ public:
     bool lethal(elysia::physics::ColliderId hit)const;
     int kind=0,id=0;
     bool item=false,collected=false;
+    void begin_pickup(){if(collected)return;collected=true;_pickup_time=0;set_visible(kind!=3);}
+    void restore_pickup(){collected=false;_pickup_time=0;set_visible(true);}
     void light_moon(){if(kind==101)_moon_highlight_time=0;}
     std::uint8_t moon_highlight_alpha()const;
     content::Json info;
@@ -136,6 +138,7 @@ private:
     float _thrower_orient=1.5707963267948966f;
     std::array<const elysia::resources::FrameInfo*,2> _portal_frames{};
     double _portal_visual_time=0;
+    double _pickup_time=0;
     double _moon_highlight_time=220./60.;
     const elysia::resources::FrameInfo* _moon_highlight_frame=nullptr;
     double _shot_visual_time=1;

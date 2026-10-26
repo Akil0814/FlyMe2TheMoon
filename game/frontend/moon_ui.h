@@ -15,6 +15,7 @@ public:
     explicit StarRating(elysia::core::Rect rect,int order=0):UiElement(rect,order){}
     void set_collected(int count){_collected=std::clamp(count,0,3);}
     int collected()const{return _collected;}
+    elysia::core::Rect slot_rect(int index)const;
     void submit_ui_render_commands(std::vector<elysia::core::UiRenderCommand>& out)const override;
 private:
     int _collected=0;

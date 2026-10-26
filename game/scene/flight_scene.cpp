@@ -96,6 +96,7 @@ void FlightScene::on_enter(const elysia::scene::ScenePayload& payload) {
     _player->present_at(std::nullopt,1,true);
     create_and_add_object<Decor>(_data,true);
     _hud_stars=create_and_add_object<frontend::StarRating>(Rect{982,24,136,40},11);
+    _star_pickups=create_and_add_object<frontend::StarPickupEffects>();
     _hud=create_and_add_object<frontend::HudLabel>(Rect{16,12,280,64},11);
     _hud_stats=create_and_add_object<frontend::RunStats>(Rect{312,12,620,64},11);
     _pause_button=create_and_add_object<frontend::PauseIconButton>(Rect{1192,12,64,64},[this]{open_pause_menu();});
@@ -125,7 +126,7 @@ void FlightScene::on_enter(const elysia::scene::ScenePayload& payload) {
     ELYSIA_LOG_INFO("fly",std::format("Entered level {}: {} entities, {} contours",_level,_entities.size(),_data.at("edges").size()));
     attach_development_panel();
 }
-void FlightScene::on_exit(){detach_development_panel();for(auto h:_sounds)ELYSIA_AUDIO->stop_sound(h);_sounds.clear();ELYSIA_AUDIO->stop_music();_pause_updates.clear();_pause_menu_open=false;_player=nullptr;_entities.clear();_hud=nullptr;_hud_stats=nullptr;_pause_metrics=nullptr;_result_metrics=nullptr;_hint=nullptr;_hud_stars=nullptr;_pause_menu=nullptr;_pause_button=nullptr;_dialogue=nullptr;_face=nullptr;_tutorial=nullptr;_dialogue_panel=nullptr;_portrait_panel=nullptr;clear_scene_objects();}
+void FlightScene::on_exit(){detach_development_panel();for(auto h:_sounds)ELYSIA_AUDIO->stop_sound(h);_sounds.clear();ELYSIA_AUDIO->stop_music();_pause_updates.clear();_pause_menu_open=false;_player=nullptr;_entities.clear();_hud=nullptr;_hud_stats=nullptr;_pause_metrics=nullptr;_result_metrics=nullptr;_hint=nullptr;_hud_stars=nullptr;_star_pickups=nullptr;_pause_menu=nullptr;_pause_button=nullptr;_dialogue=nullptr;_face=nullptr;_tutorial=nullptr;_dialogue_panel=nullptr;_portrait_panel=nullptr;clear_scene_objects();}
 void FlightScene::on_reset(){on_exit();}
 void FlightScene::on_shortcuts(const input::RawInputFrame&,const std::vector<input::RawInputEvent>& events) {
     using C=input::RawInputControl;
@@ -146,8 +147,12 @@ void FlightScene::on_shortcuts(const input::RawInputFrame&,const std::vector<inp
 void FlightScene::on_routed_input(const input::InputSnapshot& snapshot) {
     for(const auto& e:snapshot.events)if(e.type==input::RawInputEventType::ControlPressed||e.type==input::RawInputEventType::MouseMoved||
         (e.type==input::RawInputEventType::AxisChanged&&std::abs(e.axis_value)>.2f))_using_gamepad=e.device==input::InputDevice::Gamepad;
-    if(!_player)return;_player->thrust={};if(is_paused()||_finished||_event_pending||_transition.active())return;
+    if(!_player)return;
+    if(is_paused()||_finished||_event_pending||_transition.active()){_player->thrust={};return;}
+    // Animation updates precede fixed steps. Keep the last replay input visible
+    // until the next recorded frame replaces it, including frames without a step.
     if(_demo)return;
+    _player->thrust={};
     if(!_input_enabled||snapshot.focus_lost)return;
     using C=input::RawInputControl;
     bool left=false,right=false,up=false,mouse=false;Vec point,pad;
@@ -173,6 +178,8 @@ void FlightScene::apply_pointer(Vec point) {
 }
 void FlightScene::finish(bool success) {
     if(_finished||_death_pending)return;_finished=true;_success=success;_player->thrust={};pause();
+    _star_pickups->clear();_hud_stars->set_collected(_stars);
+    for(auto* entity:_entities)if(entity->collected)entity->set_visible(false);
     _hint->set_text_content(ui::ui_raw_text(content::ui(success?"success_hint":"failure_hint")));
     auto& store=progress::Store::instance();
     // Compare before record_clear replaces the previous best; ties are not records.
@@ -200,7 +207,8 @@ void FlightScene::restore_player() {
     physics_world().set_body_enabled(_player->physics_handle(),true);
     _player->present_at(std::nullopt);_player->play_effect(RoleEffect::Enter);++_spawn_effects;
     _player->dead=false;_player->set_update_when_paused(true);_player->thrust={};_stars=0;_crystals=0;_crystal_count=0;_elapsed=0;_event_pending=false;_finished=false;
-    for(auto* entity:_entities)if(entity->item){entity->collected=false;entity->set_visible(true);physics_world().set_body_enabled(entity->physics_handle(),true);}
+    _star_pickups->clear();_hud_stars->set_collected(0);
+    for(auto* entity:_entities)if(entity->item){entity->restore_pickup();physics_world().set_body_enabled(entity->physics_handle(),true);}
     _result->set_visible(false);_result->set_active(false);
     _pause_button->set_visible(true);set_ui_interaction_mode(elysia::scene::UiInteractionMode::Pointer);
     resume();move_camera(_player->center());
@@ -336,6 +344,7 @@ void FlightScene::on_fixed_update(std::uint64_t,double delta) {
 void FlightScene::on_after_update(double delta) {
     if(!_player)return;
     if(!_pause_menu_open){
+    if(!_finished)_star_pickups->advance(delta);
     const bool opening_frame=opening();
     std::erase_if(_projectiles,[](auto* p){if(p->expired){p->destroy();return true;}return false;});
     if(opening()) {
@@ -378,7 +387,13 @@ void FlightScene::on_after_update(double delta) {
             if(entity->collected)continue;
             if(entity->lethal(hit.target.collider)){reached(false,"spike");continue;}
             if(hit.target.collider!=entity->physics_collider(0))continue;
-            if(entity->item){entity->collected=true;entity->set_visible(false);physics_world().set_body_enabled(entity->physics_handle(),false);if(entity->kind==3)++_stars;else {_crystals+=entity->kind==5?5:1;++_crystal_count;}}
+            if(entity->item){
+                entity->begin_pickup();physics_world().set_body_enabled(entity->physics_handle(),false);
+                if(entity->kind==3){
+                    ++_stars;
+                    _star_pickups->launch(camera().world_to_screen(entity->center()),_hud_stars->slot_rect(_stars-1).center());
+                }else {_crystals+=entity->kind==5?5:1;++_crystal_count;}
+            }
             else if(entity->kind==101){entity->light_moon();begin_moon(entity->center());}
             else if(entity->kind==115&&entity!=_portal_lock&&entity->info.contains("TargetPortalID")) {
                 const int target=static_cast<int>(parameter(entity->info,"TargetPortalID"));Entity* destination=nullptr;
@@ -393,7 +408,7 @@ void FlightScene::on_after_update(double delta) {
         if(_player->center().y>_data.at("height").get<float>()+100||_player->center().x< -100||_player->center().x>_data.at("width").get<float>()+100)reached(false,"out_of_bounds");
     }
     }
-    _hud_stars->set_collected(_stars);
+    _hud_stars->set_collected(_stars-_star_pickups->pending_count());
     _hud->set_text_content(ui::ui_raw_text(content::format("hud_stage",_level)));
     _hud_stats->set_values(_elapsed,large_crystal_count(),small_crystal_count());
     _hint->set_visible(!_pause_menu_open&&!_finished&&!_death_pending);

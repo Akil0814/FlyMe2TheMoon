@@ -7,6 +7,7 @@
 #include "engine/io/path/path_manager.h"
 #include "engine/io/loaders/content_registry_loader.h"
 #include "engine/loading/game_content_loader.h"
+#include "engine/resources/resource_service.h"
 #include "engine/save/save_service.h"
 #include "engine/ui/window/ui_window.h"
 #include <SDL3_mixer/SDL_mixer.h>
@@ -35,6 +36,25 @@ public:
     static core::Vector2 thrust(Scene& scene){
         for(auto& layer:scene._object_layers)for(auto& object:layer)if(auto* player=dynamic_cast<game::play::Player*>(object.get()))return player->thrust;
         throw std::runtime_error("Flight test player missing");
+    }
+    static game::play::Player& player(Scene& scene){
+        for(auto& layer:scene._object_layers)for(auto& object:layer)if(auto* player=dynamic_cast<game::play::Player*>(object.get()))return *player;
+        throw std::runtime_error("Flight test player missing");
+    }
+    static game::play::Entity& pickup(Scene& scene,int kind){
+        for(auto& layer:scene._object_layers)for(auto& object:layer)if(auto* e=dynamic_cast<game::play::Entity*>(object.get());e&&e->kind==kind&&!e->collected)return *e;
+        throw std::runtime_error("Pickup fixture missing");
+    }
+    static void move_player(Scene& scene,core::Vector2 position){
+        if(!scene.physics_world().teleport_object(player(scene).physics_handle(),position,physics::TeleportVelocityMode::Clear))throw std::runtime_error("Pickup test teleport failed");
+    }
+    static game::frontend::StarRating& hud_stars(Scene& scene){
+        for(auto& root:scene._ui_roots)if(auto* hud=dynamic_cast<game::frontend::StarRating*>(root.get()))return *hud;
+        throw std::runtime_error("HUD star fixture missing");
+    }
+    static game::frontend::StarPickupEffects& star_pickups(Scene& scene){
+        for(auto& root:scene._ui_roots)if(auto* effect=dynamic_cast<game::frontend::StarPickupEffects*>(root.get()))return *effect;
+        throw std::runtime_error("Star pickup fixture missing");
     }
     static bool jet_visible(Scene& scene){
         for(auto& layer:scene._object_layers)for(auto& object:layer)if(auto* player=dynamic_cast<game::play::Player*>(object.get())){
@@ -232,6 +252,79 @@ void test_flight_scene(SDL_Renderer* renderer,const io::ContentRegistry& registr
     require(payload&&payload->level==39&&payload->restart,"Menu Retry must retain the current level and restart flag");
     system.shutdown();scene::SceneTestAccess::exit(flight);
 }
+void test_pickup_scene(SDL_Renderer* renderer,const io::ContentRegistry& registry){
+    using Access=scene::SceneTestAccess;
+    scene::SceneRuntimeContext context(renderer,registry,1280,720);
+    game::scene::FlightScene flight;Access::bind(flight,context);Access::enter(flight,game::scene::FlightPayload{39,true});
+    for(int i=0;i<600&&flight.is_paused();++i)Access::update(flight,1./60.);
+    require(!flight.is_paused(),"Pickup scene must leave its opening");
+    auto& star=Access::pickup(flight,3);
+    Access::move_player(flight,star.center()+core::Vector2{0,13});Access::update(flight,0);
+    auto& effects=Access::star_pickups(flight);auto& hud=Access::hud_stars(flight);
+    require(star.collected&&!star.physics_state()->enabled&&effects.pending_count()==1&&hud.collected()==0,"Star pickup must disable collision immediately while delaying the HUD fill until arrival");
+    auto& crystal=Access::pickup(flight,5);
+    Access::move_player(flight,crystal.center()+core::Vector2{0,13});Access::update(flight,0);
+    std::vector<core::RenderCommand> before;crystal.submit_render_commands(before);
+    require(crystal.collected&&!crystal.physics_state()->enabled&&before.size()==1,"Crystal pickup must disable collision but retain its disappearing sprite");
+    Access::update(flight,0);require(effects.pending_count()==1,"Repeated overlap must not launch the same star twice");
+    input::InputSystem system;system.initialize();flight.set_ui_gamepad(input::InputSourceId::gamepad(pad_id));
+    const auto press=[&]{for(bool down:{true,false}){system.begin_frame();button(system,SDL_GAMEPAD_BUTTON_EAST,down);Access::input(flight,system.snapshot());Access::layout(flight);}};
+    press();require(flight.is_paused(),"B must pause during pickup effects");Access::update(flight,.5);
+    std::vector<core::RenderCommand> paused;crystal.submit_render_commands(paused);
+    require(effects.pending_count()==1&&hud.collected()==0&&paused.size()==1&&paused[0].command_rect==before[0].command_rect,"Pause menu must freeze both crystal and HUD star animations");
+    press();require(!flight.is_paused(),"B must resume pickup effects");
+    Access::move_player(flight,{20,20});
+    for(int i=0;i<42;++i)Access::update(flight,1./60.);
+    require(effects.pending_count()==0&&hud.collected()==1&&!crystal.is_visible(),"Resuming must finish the crystal animation and fill exactly one HUD slot");
+    Access::exit(flight);Access::enter(flight,game::scene::FlightPayload{39,true});
+    require(Access::star_pickups(flight).pending_count()==0&&Access::hud_stars(flight).collected()==0&&!Access::pickup(flight,5).collected,"Retry must start with fresh pickups and no leftover HUD flights");
+    system.shutdown();Access::exit(flight);
+}
+void test_tutorial_flight_animation(SDL_Renderer* renderer,const io::ContentRegistry& registry){
+    scene::SceneRuntimeContext context(renderer,registry,1280,720);
+    game::scene::FlightScene flight;scene::SceneTestAccess::bind(flight,context);
+    scene::SceneTestAccess::enter(flight,game::scene::FlightPayload{1});
+    input::InputSystem system;system.initialize();
+    const auto texts=game::content::read("text/"+game::content::language()+"/strings.json");
+    const auto demo_line=texts.at("Level1-8").get<std::string>();
+    bool demo_started=false;
+    // Follow the original Lua through its delays and minimum-duration tutorial.
+    for(int frame=0;frame<2400&&!demo_started;++frame){
+        system.begin_frame();
+        if(frame%12==0||frame%12==1){
+            SDL_Event event{};event.type=frame%12==0?SDL_EVENT_KEY_DOWN:SDL_EVENT_KEY_UP;
+            event.key.scancode=SDL_SCANCODE_RETURN;event.key.key=SDLK_RETURN;event.key.down=frame%12==0;
+            system.process_event(event);
+        }
+        scene::SceneTestAccess::input(flight,system.snapshot());
+        scene::SceneTestAccess::update(flight,1./60.);
+        demo_started=scene::SceneTestAccess::dialogue(flight)==demo_line&&scene::SceneTestAccess::thrust(flight).y<-.1f;
+    }
+    require(demo_started,"First-level original Lua must start its automatic flight demo");
+    auto& player=scene::SceneTestAccess::player(flight);
+    for(int frame=0;frame<120;++frame){
+        const auto recorded=player.thrust;
+        require(recorded.y<-.1f,"Tutorial regression sample must remain in the recorded powered flight");
+        system.begin_frame();
+        // Real player controls must neither erase nor replace the recorded input.
+        axis(system,SDL_GAMEPAD_AXIS_LEFTX,32767);
+        scene::SceneTestAccess::input(flight,system.snapshot());
+        require(player.thrust==recorded,"Live input routing erased the tutorial thrust before character animation");
+        scene::SceneTestAccess::update(flight,1./240.);
+        const auto action=recorded.x<-.2f?"charLeft":recorded.x>.2f?"charRight":"charUp";
+        const auto* atlas=ELYSIA_RESOURCES->find_atlas(std::string("fly.CharActions.")+action);
+        require(atlas!=nullptr,"Tutorial flight animation atlas missing");
+        std::vector<core::RenderCommand> commands;player.submit_render_commands(commands);
+        bool flying=false;
+        for(const auto& command:commands)for(std::size_t index=0;index<atlas->size();++index)
+            flying|=command.texture==atlas->frame_at(index)->_texture;
+        require(flying,"Automatic flight must render a flying pose even between fixed physics steps");
+    }
+    require(scene::SceneTestAccess::jet_visible(flight),"Automatic flight must visibly emit its thrust particles");
+    flight.pause();system.begin_frame();scene::SceneTestAccess::input(flight,system.snapshot());
+    require(player.thrust.length_squared()==0&&!scene::SceneTestAccess::jet_visible(flight),"Pausing a tutorial must still stop its jet immediately");
+    system.shutdown();scene::SceneTestAccess::exit(flight);
+}
 void test_result_records(SDL_Renderer* renderer,const io::ContentRegistry& registry){
     auto& data=game::progress::Store::instance().data;
     const auto run=[&](bool success,const std::string& expected){
@@ -279,6 +372,8 @@ int main(){
         while(loader.is_running()&&SDL_GetTicks()<deadline){loader.update();SDL_Delay(1);}
         require(loader.is_finished(),loader.failure()?loader.failure()->diagnostic.message.c_str():"Game content load timed out");
         test_flight_scene(renderer,*registry);
+        test_pickup_scene(renderer,*registry);
+        test_tutorial_flight_animation(renderer,*registry);
         test_result_records(renderer,*registry);
         std::cout<<"PASS: analog flight, input suppression, menu A/B, scene B/Start pause, no A thrust or X restart, story A and menu Retry\n";result=0;
     }catch(const std::exception& error){std::cerr<<"FAIL: "<<error.what()<<'\n';}
