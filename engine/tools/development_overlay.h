@@ -55,6 +55,10 @@ public:
     virtual void render(SDL_Renderer& renderer) = 0;
     virtual void shutdown() noexcept = 0;
 
+    // Optional presentation hooks for adapters with non-interactive background HUDs.
+    virtual void set_panels_visible(bool visible) noexcept { (void)visible; }
+    [[nodiscard]] virtual bool has_background_content() const noexcept { return false; }
+
     [[nodiscard]] virtual elysia::input::InputCapture
         captured_input() const noexcept = 0;
 };

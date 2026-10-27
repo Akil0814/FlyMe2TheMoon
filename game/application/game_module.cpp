@@ -11,7 +11,7 @@
 #include "../../engine/builtin/scenes/startup_loading_scene.h"
 #include "../../engine/scene/scene_manager.h"
 #if ELYSIA_ENABLE_IMGUI
-#include "../../engine/tools/imgui/imgui_development_overlay.h"
+#include "../development/development_overlay.h"
 #endif
 
 namespace game::application
@@ -76,7 +76,7 @@ namespace game::application
         GameModule::create_development_overlay() const
     {
 #if ELYSIA_ENABLE_IMGUI
-        return std::make_unique<elysia::tools::ImGuiDevelopmentOverlay>();
+        return std::make_unique<game::development::DevelopmentOverlay>();
 #else
         return {};
 #endif

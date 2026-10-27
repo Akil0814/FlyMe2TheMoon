@@ -1,5 +1,7 @@
 #include "engine/tools/development_overlay_host.h"
-#include "engine/tools/imgui/imgui_development_overlay.h"
+#include "game/application/game_module.h"
+#include "game/development/development_overlay.h"
+#include "game/platform/idle_cursor.h"
 #include "engine/tools/debug_draw.h"
 #include "engine/core/time.h"
 #include "engine/scene/runtime/scene_camera_runtime.h"
@@ -15,6 +17,8 @@
 #include <stdexcept>
 
 namespace {
+game::platform::CursorSample cursor_sample;
+game::platform::CursorSample sample_cursor(SDL_Window*){return cursor_sample;}
 void require(bool condition, const char* message)
 {
     if (!condition)
@@ -25,7 +29,7 @@ void check_overlay(SDL_Window& window, SDL_Renderer& renderer)
 {
     using namespace elysia::tools;
     DevelopmentOverlayHost host;
-    host.set_overlay(std::make_unique<ImGuiDevelopmentOverlay>());
+    host.set_overlay(game::application::GameModule{}.create_development_overlay());
     const auto initialized = host.initialize(window, renderer);
     require(initialized.has_value(), "Overlay initialization failed");
     using elysia::camera::CameraSlot;
@@ -39,7 +43,7 @@ void check_overlay(SDL_Window& window, SDL_Renderer& renderer)
     int callback_count = 0;
     const auto panel = host.panel_registry()->register_panel("test.lifecycle", [&] {
         ++callback_count;
-        if (ImGui::Begin(ImGuiDevelopmentOverlay::MainPanelTitle))
+        if (ImGui::Begin(game::development::DevelopmentOverlay::MainPanelTitle))
             game::development::draw_camera_controls(camera_runtime, 1.5f);
         ImGui::End();
     });
@@ -60,8 +64,8 @@ void check_overlay(SDL_Window& window, SDL_Renderer& renderer)
         event.key.repeat = repeat;
         require(host.process_event(event), "F2 must be consumed by the host");
     };
-    auto activate = [&](const char* label) {
-        auto* panel_window = ImGui::FindWindowByName("Development Panel (F2)");
+    auto activate = [&](const char* label,const char* title=game::development::DevelopmentOverlay::MainPanelTitle) {
+        auto* panel_window = ImGui::FindWindowByName(title);
         require(panel_window && panel_window->Active, "Development panel is missing");
         ImGui::ActivateItemByID(panel_window->GetID(label));
         frame();
@@ -78,6 +82,11 @@ void check_overlay(SDL_Window& window, SDL_Renderer& renderer)
     frame();
     frame();
     require(host.visible() && callback_count == 2, "F2 must show the panel and registered callbacks");
+    require(!ImGui::FindWindowByName("Flight camera (F2)"),
+        "Camera controls must append to the main developer window instead of opening a second panel");
+    ImGui::GetIO().AddMousePosEvent(200,200);frame();frame();
+    require((host.captured_input()&elysia::input::InputCapture::Pointer)!=elysia::input::InputCapture::None,
+        "Visible developer tools must capture pointer input over their window");
     activate("2x");
     require(camera_runtime.presented_camera().zoom() == 2.0f
         && camera_runtime.presented_camera().world_viewport_size().x == 640.0f,
@@ -104,6 +113,18 @@ void check_overlay(SDL_Window& window, SDL_Renderer& renderer)
     frame();
     require(ELYSIA_TIME->delta() == 0.0 && ImGui::GetIO().DeltaTime > 0.0f,
         "ImGui must keep using real frame time while simulation is paused");
+    {
+        game::platform::IdleCursor cursor(sample_cursor);cursor_sample={0,200,200,true};cursor.start(&window);
+        cursor_sample.now=2'000'000'000;cursor.update();require(!SDL_CursorVisible(),"Cursor must hide over a paused F2 panel");
+        frame();frame();require(!SDL_CursorVisible(),"ImGui's SDL backend must not reveal an idle cursor on subsequent frames");
+        require(!(ImGui::GetIO().ConfigFlags&ImGuiConfigFlags_NoMouseCursorChange),"Cursor coordination must restore the original ImGui flags");
+        ImGui::GetIO().ConfigFlags|=ImGuiConfigFlags_NoMouseCursorChange;frame();
+        require((ImGui::GetIO().ConfigFlags&ImGuiConfigFlags_NoMouseCursorChange)!=0,"Cursor coordination must preserve a pre-existing cursor override");
+        ImGui::GetIO().ConfigFlags&=~ImGuiConfigFlags_NoMouseCursorChange;
+        ++cursor_sample.x;cursor.update();frame();require(SDL_CursorVisible(),"Moving over F2 must restore the cursor despite pointer capture");
+        cursor_sample.now+=2'000'000'000;cursor.update();frame();require(!SDL_CursorVisible(),"An active F2 panel must allow repeated idle hiding");
+    }
+    frame();require(SDL_CursorVisible(),"Leaving the level must restore normal ImGui cursor management");
 
     // Exercise the same scaled/letterboxed renderer configuration as the game.
     require(SDL_SetRenderLogicalPresentation(&renderer, 640, 360, SDL_LOGICAL_PRESENTATION_LETTERBOX)
@@ -145,6 +166,8 @@ void check_overlay(SDL_Window& window, SDL_Renderer& renderer)
     };
     frame();
     save_preview("out/qa/development-panel/panel.bmp");
+    ImGui::GetIO().AddKeyEvent(ImGuiKey_Space,true);
+    ImGui::GetIO().AddMouseButtonEvent(0,true);frame();
     const int callbacks_before_hiding = callback_count;
     toggle();
     frame();
@@ -156,6 +179,8 @@ void check_overlay(SDL_Window& window, SDL_Renderer& renderer)
         && ImGui::GetDrawData()->TotalVtxCount > 0, "FPS HUD must remain visible after hiding panels");
     require(host.captured_input() == elysia::input::InputCapture::None,
         "Background FPS HUD must not capture gameplay input");
+    require(!ImGui::GetIO().KeysData[ImGuiKey_Space-ImGuiKey_NamedKey_BEGIN].Down&&!ImGui::GetIO().MouseDown[0],
+        "F2 hiding must release held keyboard and mouse input without waiting for hidden key-up events");
     save_preview("out/qa/development-panel/fps-only.bmp");
 
     toggle();

@@ -262,6 +262,41 @@ void test_flight_scene(SDL_Renderer* renderer,const io::ContentRegistry& registr
     require(payload&&payload->level==39&&payload->restart,"Menu Retry must retain the current level and restart flag");
     system.shutdown();scene::SceneTestAccess::exit(flight);
 }
+game::platform::CursorSample cursor_sample;
+game::platform::CursorSample sample_cursor(SDL_Window*){return cursor_sample;}
+void test_cursor_scene(const io::ContentRegistry& registry){
+    using Access=scene::SceneTestAccess;
+    const std::unique_ptr<SDL_Window,decltype(&SDL_DestroyWindow)> window(SDL_CreateWindow("Cursor scene fixture",1280,720,SDL_WINDOW_HIDDEN),SDL_DestroyWindow);
+    require(window!=nullptr,SDL_GetError());
+    const std::unique_ptr<SDL_Renderer,decltype(&SDL_DestroyRenderer)> renderer(SDL_CreateRenderer(window.get(),"software"),SDL_DestroyRenderer);
+    require(renderer!=nullptr,SDL_GetError());
+    scene::SceneRuntimeContext context(renderer.get(),registry,1280,720);
+    cursor_sample={0,20,20,true};game::scene::FlightScene flight(sample_cursor);Access::bind(flight,context);
+    Access::enter(flight,game::scene::FlightPayload{39});require(SDL_CursorVisible(),"Flight entry must reveal the cursor");
+    const auto check_idle=[&]{
+        cursor_sample.now+=2'000'000'000;Access::update(flight,0);
+        require(!SDL_CursorVisible(),"Every flight UI state must hide the idle cursor even with zero simulation delta");
+        ++cursor_sample.x;Access::update(flight,0);require(SDL_CursorVisible(),"Mouse movement must reveal the cursor in every flight UI state");
+    };
+    check_idle();
+    for(int i=0;i<600&&Access::dialogue(flight).empty();++i)Access::update(flight,1./60.);
+    require(!Access::dialogue(flight).empty(),"Cursor regression must reach a real story dialogue");check_idle();
+    input::InputSystem system;system.initialize();
+    const auto key=[&](SDL_Scancode scancode,SDL_Keycode code){
+        for(bool down:{true,false}){system.begin_frame();SDL_Event event{};event.type=down?SDL_EVENT_KEY_DOWN:SDL_EVENT_KEY_UP;event.key.key=code;event.key.scancode=scancode;event.key.down=down;system.process_event(event);Access::input(flight,system.snapshot());Access::layout(flight);}
+    };
+    key(SDL_SCANCODE_ESCAPE,SDLK_ESCAPE);require(Access::modal_visible(flight),"Cursor regression must open a real pause menu");check_idle();
+    key(SDL_SCANCODE_ESCAPE,SDLK_ESCAPE);
+    for(int i=0;i<40&&!Access::dialogue(flight).empty();++i){key(SDL_SCANCODE_RETURN,SDLK_RETURN);Access::update(flight,.1);}
+    require(!flight.is_paused()&&Access::dialogue(flight).empty(),"Cursor regression must resume normal flight");check_idle();
+    Access::move_to_result(flight,true);
+    for(int i=0;i<600&&!Access::modal_visible(flight);++i)Access::update(flight,1./60.);
+    require(Access::modal_visible(flight),"Cursor regression must reach the real settlement menu");check_idle();
+    cursor_sample.now+=2'000'000'000;Access::update(flight,0);require(!SDL_CursorVisible(),"Cursor must be hidden before leaving the level");
+    Access::exit(flight);require(SDL_CursorVisible(),"Returning to a non-flight page must restore the cursor");
+    Access::enter(flight,game::scene::FlightPayload{39,true});require(SDL_CursorVisible(),"Retry must restore cursor visibility and reset idle timing");
+    system.shutdown();Access::exit(flight);
+}
 void test_airborne_animation(){
     game::play::Player player({100,100});
     physics::PhysicsWorld world({.units_per_meter=32,.gravity={0,320}});
@@ -507,6 +542,7 @@ int main(){
         while(loader.is_running()&&SDL_GetTicks()<deadline){loader.update();SDL_Delay(1);}
         require(loader.is_finished(),loader.failure()?loader.failure()->diagnostic.message.c_str():"Game content load timed out");
         test_flight_scene(renderer,*registry);
+        test_cursor_scene(*registry);
         test_airborne_animation();
         test_original_tutorial_sequence(renderer,*registry);
         test_pickup_scene(renderer,*registry);

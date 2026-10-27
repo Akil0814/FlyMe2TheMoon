@@ -16,18 +16,20 @@
 #include "game/gameplay/role_geometry.h"
 #include "game/gameplay/seesaw_parameters.h"
 #include "game/gameplay/homing_parameters.h"
+#include "game/gameplay/boundary_rocks.h"
 #if ELYSIA_ENABLE_IMGUI
 #include "game/development/camera_controls.h"
+#include "game/development/development_overlay.h"
 #include <imgui.h>
 #endif
 
 namespace game::scene {
 using namespace elysia;
 using namespace play;
-FlightScene::FlightScene():Scene(elysia::scene::SceneRuntimeFeatures{
+FlightScene::FlightScene(game::platform::IdleCursor::Sampler cursor_sampler):Scene(elysia::scene::SceneRuntimeFeatures{
     .fixed_step=elysia::scene::FixedStepConfig{},
     .physics=physics::PhysicsWorldConfig{.units_per_meter=32,.gravity={0,320}},
-    .camera=elysia::scene::CameraSceneConfig{.focus_mode=elysia::scene::CameraFocusMode::ResolveEachFrame,.advance_when_paused=true}}) {}
+    .camera=elysia::scene::CameraSceneConfig{.focus_mode=elysia::scene::CameraFocusMode::ResolveEachFrame,.advance_when_paused=true}}),_idle_cursor(cursor_sampler) {}
 FlightScene::~FlightScene() { detach_development_panel(); }
 void FlightScene::attach_development_panel() {
 #if ELYSIA_ENABLE_IMGUI
@@ -35,7 +37,7 @@ void FlightScene::attach_development_panel() {
     _development_panels=runtime_context().development_panels();
     if (!_development_panels) return;
     _development_panel=_development_panels->register_panel("fly.flight.camera", [this] {
-        if (ImGui::Begin("Flight camera (F2)"))
+        if (ImGui::Begin(development::DevelopmentOverlay::MainPanelTitle))
             development::draw_camera_controls(camera_runtime(), kDefaultCameraZoom);
         ImGui::End();
     });
@@ -64,6 +66,7 @@ void FlightScene::on_enter(const elysia::scene::ScenePayload& payload) {
     _text=content::read("text/"+content::language()+"/strings.json");_input_enabled=true;_demo=false;_demo_paused=false;_event_pending=false;_follow_role=true;_dialogue_key.clear();_dialogue_pointer_pressed=false;
     _mechanism_time=0;_triggered_areas.assign(_data.at("areas").size(),false);_scheduled_actions.clear();
     create_and_add_object<Parallax>(_data,&camera());
+    create_and_add_object<BoundaryRocks>(_data);
     create_and_add_object<Decor>(_data,false);
     for(const auto& line:_data.at("edges"))for(size_t i=1;i<line.size();++i) {
         Vec a{line[i-1][0],line[i-1][1]},b{line[i][0],line[i][1]};
@@ -128,8 +131,9 @@ void FlightScene::on_enter(const elysia::scene::ScenePayload& payload) {
     update_dialogue();
     ELYSIA_LOG_INFO("fly",std::format("Entered level {}: {} entities, {} contours",_level,_entities.size(),_data.at("edges").size()));
     attach_development_panel();
+    _idle_cursor.start(SDL_GetRenderWindow(runtime_context().renderer()));
 }
-void FlightScene::on_exit(){detach_development_panel();_audio.clear();ELYSIA_AUDIO->stop_music();_pause_updates.clear();_pause_menu_open=false;_player=nullptr;_entities.clear();_hud=nullptr;_hud_stats=nullptr;_pause_metrics=nullptr;_result_metrics=nullptr;_hint=nullptr;_hud_stars=nullptr;_star_pickups=nullptr;_pause_menu=nullptr;_pause_button=nullptr;_dialogue=nullptr;_face=nullptr;_tutorial=nullptr;_dialogue_panel=nullptr;_portrait_panel=nullptr;clear_scene_objects();}
+void FlightScene::on_exit(){_idle_cursor.stop();detach_development_panel();_audio.clear();ELYSIA_AUDIO->stop_music();_pause_updates.clear();_pause_menu_open=false;_player=nullptr;_entities.clear();_hud=nullptr;_hud_stats=nullptr;_pause_metrics=nullptr;_result_metrics=nullptr;_hint=nullptr;_hud_stars=nullptr;_star_pickups=nullptr;_pause_menu=nullptr;_pause_button=nullptr;_dialogue=nullptr;_face=nullptr;_tutorial=nullptr;_dialogue_panel=nullptr;_portrait_panel=nullptr;clear_scene_objects();}
 void FlightScene::on_reset(){on_exit();}
 void FlightScene::on_shortcuts(const input::RawInputFrame&,const std::vector<input::RawInputEvent>& events) {
     using C=input::RawInputControl;
@@ -235,6 +239,7 @@ double FlightScene::move_camera(Vec destination) {
     return duration;
 }
 void FlightScene::on_before_update(double delta) {
+    _idle_cursor.update();
     _audio.set_listener(camera().center());
     if(_pause_menu_open)return;
     if(_camera_move.active()){_camera_move.advance(delta);_story_camera=_camera_move.position();}

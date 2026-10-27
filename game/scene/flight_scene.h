@@ -14,6 +14,7 @@
 #include "engine/ui/widgets/ui_button.h"
 #include "game/frontend/moon_ui.h"
 #include "game/frontend/pickup_effects.h"
+#include "game/platform/idle_cursor.h"
 #include "engine/tools/development_overlay.h"
 #include "game/audio/game_audio.h"
 #include "game/frontend/tutorial_ui.h"
@@ -25,7 +26,7 @@ struct FlightPayload {int level=1;bool restart=false;};
 class FlightScene final : public elysia::scene::Scene {
     friend class AudioTestAccess;
 public:
-    FlightScene();
+    explicit FlightScene(game::platform::IdleCursor::Sampler cursor_sampler=nullptr);
     ~FlightScene() override;
 protected:
     void on_enter(const elysia::scene::ScenePayload&) override;
@@ -38,6 +39,7 @@ protected:
     void on_fixed_update(std::uint64_t tick,double delta)override;
     std::optional<elysia::camera::CameraFocus> resolve_camera_focus(elysia::camera::CameraSlot) const override;
 private:
+    game::platform::IdleCursor _idle_cursor;
     void attach_development_panel();
     void detach_development_panel();
     static constexpr float kDefaultCameraZoom = 1.5f;
