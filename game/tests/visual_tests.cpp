@@ -303,7 +303,10 @@ void check_main_menu_background(SDL_Renderer* renderer,const io::ContentRegistry
     int backgrounds=0;
     for(const auto& command:drawn){
         if(command.texture==expected){++backgrounds;require(command.screen_rect==core::Rect{0,0,1280,720},"Menu background must fill the viewport");}
-        require(command.texture!=ELYSIA_RESOURCES->find_texture("fly.ui.mainBg2")&&command.texture!=ELYSIA_RESOURCES->find_texture("fly.ui.mainTitle2")&&command.texture!=ELYSIA_RESOURCES->find_texture("fly.frontend.background_menu_outpaint"),"New menu must not retain the old artwork layers");
+        // Pruned artwork resolves to nullptr; solid-color commands also have no texture.
+        // Only texture commands can display an obsolete artwork layer.
+        if(command.type==core::UiRenderCommandType::Texture)
+            require(command.texture&&command.texture!=ELYSIA_RESOURCES->find_texture("fly.ui.mainBg2")&&command.texture!=ELYSIA_RESOURCES->find_texture("fly.ui.mainTitle2")&&command.texture!=ELYSIA_RESOURCES->find_texture("fly.frontend.background_menu_outpaint"),"New menu must not retain the old artwork layers");
     }
     require(backgrounds==1&&window.child_count()==3&&!window.child_at(2)->is_visible(),"Main menu must draw its background/navigation with the exit confirmation initially hidden");
     require(SDL_SetRenderDrawColor(renderer,12,20,35,255)&&SDL_RenderClear(renderer),SDL_GetError());

@@ -1,4 +1,6 @@
 """Copy supplied widescreen artwork and decoded original UI; never edit reference files."""
+from asset_usage import assets_root, prune_imported
+ASSETS=assets_root()
 import json
 import shutil
 from pathlib import Path
@@ -7,11 +9,11 @@ ROOT = Path(__file__).resolve().parents[2]
 REFERENCE = ROOT / 'reference/Fly2theMoon_1.1_ios_3.2/08_PNG解析'
 
 def main():
-    manifest_path = ROOT / 'assets/configs/manifests/textures_manifest.json'
+    manifest_path = ASSETS / 'configs/manifests/textures_manifest.json'
     manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
-    outpaint=ROOT/'assets/textures/fly/frontend/background_menu_outpaint.png'
+    outpaint=ASSETS / 'textures/frontend/background_menu_outpaint.png'
     if outpaint.is_file():
-        manifest['textures']['fly.frontend.background_menu_outpaint']={'path':'fly/frontend/background_menu_outpaint.png'}
+        manifest['textures']['fly.frontend.background_menu_outpaint']={'path':'frontend/background_menu_outpaint.png'}
     sources = {f'background_{name}': ROOT / f'reference/generate/{source}.png'
                for name, source in [('menu', 'kiana'), ('settings', 'kiana2'), ('moon', 'moon')]}
     badges = REFERENCE / '01_独立图片/02_图形资源/独立图片/成就'
@@ -28,10 +30,10 @@ def main():
             name = prefix + color
             sources[name] = levels / f'{name}.png'
     for name, source in sources.items():
-        target = ROOT / f'assets/textures/fly/frontend/{name}.png'
+        target = ASSETS / f'textures/frontend/{name}.png'
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(source, target)
-        manifest['textures'][f'fly.frontend.{name}'] = {'path': f'fly/frontend/{name}.png'}
+        manifest['textures'][f'fly.frontend.{name}'] = {'path': f'frontend/{name}.png'}
     manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     translations = {
         'en': 'Album {}',
@@ -41,12 +43,13 @@ def main():
         'ko': '앨범 {}',
     }
     for language, values in translations.items():
-        path = ROOT / f'assets/i18n/{language}/base.json'
+        path = ASSETS / f'i18n/{language}/base.json'
         data = json.loads(path.read_text(encoding='utf-8'))
         for key in ['menu_tagline','menu_journey','achievements_intro','settings_intro']:
             data['fly'].pop(key,None)
         data['fly']['album_page']=values
         path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+    prune_imported(ASSETS)
     print(f'Imported {len(sources)} original / supplied frontend images')
 
 if __name__ == '__main__':

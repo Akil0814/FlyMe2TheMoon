@@ -1,9 +1,11 @@
 """Decode the original plist's variable-length input records without altering it."""
+from asset_usage import assets_root
+ASSETS=assets_root()
 import json
 import math
 import plistlib
 import struct
-from analyze_reference import ROOT, original_file
+from analyze_reference import ROOT, OUT, original_file
 
 
 def decode(raw):
@@ -29,11 +31,11 @@ def decode(raw):
 def main():
     source = original_file('tutorialRep_001.plist')
     records = {key: decode(value) for key, value in plistlib.loads(source.read_bytes()).items()}
-    target = ROOT / 'assets/configs/fly/tutorial.json'
+    target = ASSETS / 'configs/tutorial.json'
     target.write_text(json.dumps(records, indent=2), encoding='utf-8')
     report = {key: {'count': len(value['frames']), 'controlled': sum(f is not None for f in value['frames']),
                     'source_header': value['source_header']} for key, value in records.items()}
-    (ROOT/'docs/development/test-evidence/tutorial-import.json').write_text(json.dumps(report, indent=2), encoding='utf-8')
+    (OUT/'test-evidence/tutorial-import.json').write_text(json.dumps(report, indent=2), encoding='utf-8')
     print(json.dumps(report))
 
 

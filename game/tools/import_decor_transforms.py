@@ -1,4 +1,6 @@
 """Refresh only decoration transform metadata; leave gameplay data untouched."""
+from asset_usage import assets_root
+ASSETS=assets_root()
 from pathlib import Path
 import json
 from analyze_reference import ROOT, ET, original_file
@@ -7,7 +9,7 @@ from analyze_reference import ROOT, ET, original_file
 def main():
     counts={'levels':0,'decor':0,'flip_x':0,'flip_y':0,'changed_files':0}
     for index in range(1,61):
-        path=ROOT/f'assets/configs/fly/levels/{index:03}.json'
+        path=ASSETS / f'configs/levels/{index:03}.json'
         level=json.loads(path.read_text(encoding='utf8'))
         original=ET.parse(original_file(f'Level_{index:03}')).getroot()
         expected=[]

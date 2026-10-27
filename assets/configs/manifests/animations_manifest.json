@@ -2,7 +2,7 @@
   "animations": [
     {
       "key": "fly.CharActions.charDeath",
-      "path": "fly/animation/CharActions.charDeath",
+      "path": "animation/CharActions.charDeath",
       "frame_prefix": "frame",
       "frame_count": 2,
       "fps": 25,
@@ -10,7 +10,7 @@
     },
     {
       "key": "fly.CharActions.charDown",
-      "path": "fly/animation/CharActions.charDown",
+      "path": "animation/CharActions.charDown",
       "frame_prefix": "frame",
       "frame_count": 8,
       "fps": 25,
@@ -18,7 +18,7 @@
     },
     {
       "key": "fly.CharActions.charEffects.ball",
-      "path": "fly/animation/CharActions.charEffects.ball",
+      "path": "animation/CharActions.charEffects.ball",
       "frame_prefix": "frame",
       "frame_count": 1,
       "fps": 12,
@@ -26,7 +26,7 @@
     },
     {
       "key": "fly.CharActions.charEffects.ballDisapear",
-      "path": "fly/animation/CharActions.charEffects.ballDisapear",
+      "path": "animation/CharActions.charEffects.ballDisapear",
       "frame_prefix": "frame",
       "frame_count": 4,
       "fps": 12,
@@ -34,23 +34,15 @@
     },
     {
       "key": "fly.CharActions.charEffects.ballExplode",
-      "path": "fly/animation/CharActions.charEffects.ballExplode",
+      "path": "animation/CharActions.charEffects.ballExplode",
       "frame_prefix": "frame",
       "frame_count": 6,
       "fps": 12,
       "loop": true
     },
     {
-      "key": "fly.CharActions.charEffects.magicShield",
-      "path": "fly/animation/CharActions.charEffects.magicShield",
-      "frame_prefix": "frame",
-      "frame_count": 1,
-      "fps": 12,
-      "loop": true
-    },
-    {
       "key": "fly.CharActions.charFree",
-      "path": "fly/animation/CharActions.charFree",
+      "path": "animation/CharActions.charFree",
       "frame_prefix": "frame",
       "frame_count": 4,
       "fps": 25,
@@ -58,7 +50,7 @@
     },
     {
       "key": "fly.CharActions.charIdle",
-      "path": "fly/animation/CharActions.charIdle",
+      "path": "animation/CharActions.charIdle",
       "frame_prefix": "frame",
       "frame_count": 8,
       "fps": 10,
@@ -66,7 +58,7 @@
     },
     {
       "key": "fly.CharActions.charLeft",
-      "path": "fly/animation/CharActions.charLeft",
+      "path": "animation/CharActions.charLeft",
       "frame_prefix": "frame",
       "frame_count": 12,
       "fps": 25,
@@ -74,7 +66,7 @@
     },
     {
       "key": "fly.CharActions.charLookLeft",
-      "path": "fly/animation/CharActions.charLookLeft",
+      "path": "animation/CharActions.charLookLeft",
       "frame_prefix": "frame",
       "frame_count": 18,
       "fps": 10,
@@ -82,7 +74,7 @@
     },
     {
       "key": "fly.CharActions.charLookLeftRight",
-      "path": "fly/animation/CharActions.charLookLeftRight",
+      "path": "animation/CharActions.charLookLeftRight",
       "frame_prefix": "frame",
       "frame_count": 35,
       "fps": 10,
@@ -90,7 +82,7 @@
     },
     {
       "key": "fly.CharActions.charLookRight",
-      "path": "fly/animation/CharActions.charLookRight",
+      "path": "animation/CharActions.charLookRight",
       "frame_prefix": "frame",
       "frame_count": 18,
       "fps": 10,
@@ -98,7 +90,7 @@
     },
     {
       "key": "fly.CharActions.charRight",
-      "path": "fly/animation/CharActions.charRight",
+      "path": "animation/CharActions.charRight",
       "frame_prefix": "frame",
       "frame_count": 12,
       "fps": 25,
@@ -106,7 +98,7 @@
     },
     {
       "key": "fly.CharActions.charStand",
-      "path": "fly/animation/CharActions.charStand",
+      "path": "animation/CharActions.charStand",
       "frame_prefix": "frame",
       "frame_count": 1,
       "fps": 25,
@@ -114,7 +106,7 @@
     },
     {
       "key": "fly.CharActions.charUp",
-      "path": "fly/animation/CharActions.charUp",
+      "path": "animation/CharActions.charUp",
       "frame_prefix": "frame",
       "frame_count": 8,
       "fps": 25,
@@ -122,7 +114,7 @@
     },
     {
       "key": "fly.DynamicObjectsLite.DynamicObject_008",
-      "path": "fly/animation/DynamicObjectsLite.DynamicObject_008",
+      "path": "animation/DynamicObjectsLite.DynamicObject_008",
       "frame_prefix": "frame",
       "frame_count": 3,
       "fps": 12,
@@ -130,7 +122,7 @@
     },
     {
       "key": "fly.DynamicObjectsLite.DynamicObject_024",
-      "path": "fly/animation/DynamicObjectsLite.DynamicObject_024",
+      "path": "animation/DynamicObjectsLite.DynamicObject_024",
       "frame_prefix": "frame",
       "frame_count": 3,
       "fps": 12,
@@ -138,7 +130,7 @@
     },
     {
       "key": "fly.DynamicObjectsLite.DynamicObject_025",
-      "path": "fly/animation/DynamicObjectsLite.DynamicObject_025",
+      "path": "animation/DynamicObjectsLite.DynamicObject_025",
       "frame_prefix": "frame",
       "frame_count": 3,
       "fps": 12,
@@ -146,7 +138,7 @@
     },
     {
       "key": "fly.DynamicObjectsLite.DynamicObject_101",
-      "path": "fly/animation/DynamicObjectsLite.DynamicObject_101",
+      "path": "animation/DynamicObjectsLite.DynamicObject_101",
       "frame_prefix": "frame",
       "frame_count": 2,
       "fps": 12,
@@ -154,7 +146,7 @@
     },
     {
       "key": "fly.DynamicObjectsLite.DynamicObject_105",
-      "path": "fly/animation/DynamicObjectsLite.DynamicObject_105",
+      "path": "animation/DynamicObjectsLite.DynamicObject_105",
       "frame_prefix": "frame",
       "frame_count": 5,
       "fps": 12,
@@ -162,7 +154,7 @@
     },
     {
       "key": "fly.DynamicObjectsLite.DynamicObject_105.S01",
-      "path": "fly/animation/DynamicObjectsLite.DynamicObject_105.S01",
+      "path": "animation/DynamicObjectsLite.DynamicObject_105.S01",
       "frame_prefix": "frame",
       "frame_count": 1,
       "fps": 12,
@@ -170,7 +162,7 @@
     },
     {
       "key": "fly.DynamicObjectsLite.DynamicObject_106",
-      "path": "fly/animation/DynamicObjectsLite.DynamicObject_106",
+      "path": "animation/DynamicObjectsLite.DynamicObject_106",
       "frame_prefix": "frame",
       "frame_count": 5,
       "fps": 12,
@@ -178,7 +170,7 @@
     },
     {
       "key": "fly.DynamicObjectsLite.DynamicObject_106.S01",
-      "path": "fly/animation/DynamicObjectsLite.DynamicObject_106.S01",
+      "path": "animation/DynamicObjectsLite.DynamicObject_106.S01",
       "frame_prefix": "frame",
       "frame_count": 1,
       "fps": 12,
@@ -186,7 +178,7 @@
     },
     {
       "key": "fly.DynamicObjectsLite.DynamicObject_107",
-      "path": "fly/animation/DynamicObjectsLite.DynamicObject_107",
+      "path": "animation/DynamicObjectsLite.DynamicObject_107",
       "frame_prefix": "frame",
       "frame_count": 5,
       "fps": 12,
@@ -194,7 +186,7 @@
     },
     {
       "key": "fly.DynamicObjectsLite.DynamicObject_107.S01",
-      "path": "fly/animation/DynamicObjectsLite.DynamicObject_107.S01",
+      "path": "animation/DynamicObjectsLite.DynamicObject_107.S01",
       "frame_prefix": "frame",
       "frame_count": 1,
       "fps": 12,
@@ -202,7 +194,7 @@
     },
     {
       "key": "fly.DynamicObjectsLite.DynamicObject_108",
-      "path": "fly/animation/DynamicObjectsLite.DynamicObject_108",
+      "path": "animation/DynamicObjectsLite.DynamicObject_108",
       "frame_prefix": "frame",
       "frame_count": 2,
       "fps": 12,
@@ -210,7 +202,7 @@
     },
     {
       "key": "fly.DynamicObjectsLite.DynamicObject_108.S01",
-      "path": "fly/animation/DynamicObjectsLite.DynamicObject_108.S01",
+      "path": "animation/DynamicObjectsLite.DynamicObject_108.S01",
       "frame_prefix": "frame",
       "frame_count": 1,
       "fps": 12,
@@ -218,7 +210,7 @@
     },
     {
       "key": "fly.DynamicObjectsLite.DynamicObject_109",
-      "path": "fly/animation/DynamicObjectsLite.DynamicObject_109",
+      "path": "animation/DynamicObjectsLite.DynamicObject_109",
       "frame_prefix": "frame",
       "frame_count": 2,
       "fps": 12,
@@ -226,7 +218,7 @@
     },
     {
       "key": "fly.DynamicObjectsLite.DynamicObject_109.S01",
-      "path": "fly/animation/DynamicObjectsLite.DynamicObject_109.S01",
+      "path": "animation/DynamicObjectsLite.DynamicObject_109.S01",
       "frame_prefix": "frame",
       "frame_count": 1,
       "fps": 12,
@@ -234,7 +226,7 @@
     },
     {
       "key": "fly.DynamicObjectsLite.DynamicObject_110",
-      "path": "fly/animation/DynamicObjectsLite.DynamicObject_110",
+      "path": "animation/DynamicObjectsLite.DynamicObject_110",
       "frame_prefix": "frame",
       "frame_count": 2,
       "fps": 12,
@@ -242,7 +234,7 @@
     },
     {
       "key": "fly.DynamicObjectsLite.DynamicObject_110.S01",
-      "path": "fly/animation/DynamicObjectsLite.DynamicObject_110.S01",
+      "path": "animation/DynamicObjectsLite.DynamicObject_110.S01",
       "frame_prefix": "frame",
       "frame_count": 1,
       "fps": 12,
@@ -250,7 +242,7 @@
     },
     {
       "key": "fly.DynamicObjectsLite.DynamicObject_111",
-      "path": "fly/animation/DynamicObjectsLite.DynamicObject_111",
+      "path": "animation/DynamicObjectsLite.DynamicObject_111",
       "frame_prefix": "frame",
       "frame_count": 2,
       "fps": 12,
@@ -258,7 +250,7 @@
     },
     {
       "key": "fly.DynamicObjectsLite.DynamicObject_112",
-      "path": "fly/animation/DynamicObjectsLite.DynamicObject_112",
+      "path": "animation/DynamicObjectsLite.DynamicObject_112",
       "frame_prefix": "frame",
       "frame_count": 1,
       "fps": 12,
@@ -266,7 +258,7 @@
     },
     {
       "key": "fly.DynamicObjectsLite.DynamicObject_112.S01",
-      "path": "fly/animation/DynamicObjectsLite.DynamicObject_112.S01",
+      "path": "animation/DynamicObjectsLite.DynamicObject_112.S01",
       "frame_prefix": "frame",
       "frame_count": 1,
       "fps": 12,
@@ -274,7 +266,7 @@
     },
     {
       "key": "fly.DynamicObjectsLite.DynamicObject_112.S02",
-      "path": "fly/animation/DynamicObjectsLite.DynamicObject_112.S02",
+      "path": "animation/DynamicObjectsLite.DynamicObject_112.S02",
       "frame_prefix": "frame",
       "frame_count": 16,
       "fps": 12,
@@ -282,7 +274,7 @@
     },
     {
       "key": "fly.DynamicObjectsLite.DynamicObject_113",
-      "path": "fly/animation/DynamicObjectsLite.DynamicObject_113",
+      "path": "animation/DynamicObjectsLite.DynamicObject_113",
       "frame_prefix": "frame",
       "frame_count": 3,
       "fps": 12,
@@ -290,7 +282,7 @@
     },
     {
       "key": "fly.DynamicObjectsLite.DynamicObject_113.S01",
-      "path": "fly/animation/DynamicObjectsLite.DynamicObject_113.S01",
+      "path": "animation/DynamicObjectsLite.DynamicObject_113.S01",
       "frame_prefix": "frame",
       "frame_count": 16,
       "fps": 12,
@@ -298,7 +290,7 @@
     },
     {
       "key": "fly.DynamicObjectsLite.DynamicObject_114",
-      "path": "fly/animation/DynamicObjectsLite.DynamicObject_114",
+      "path": "animation/DynamicObjectsLite.DynamicObject_114",
       "frame_prefix": "frame",
       "frame_count": 1,
       "fps": 12,
@@ -306,7 +298,7 @@
     },
     {
       "key": "fly.DynamicObjectsLite.DynamicObject_114.S01",
-      "path": "fly/animation/DynamicObjectsLite.DynamicObject_114.S01",
+      "path": "animation/DynamicObjectsLite.DynamicObject_114.S01",
       "frame_prefix": "frame",
       "frame_count": 2,
       "fps": 12,
@@ -314,7 +306,7 @@
     },
     {
       "key": "fly.DynamicObjectsLite.DynamicObject_114.S02",
-      "path": "fly/animation/DynamicObjectsLite.DynamicObject_114.S02",
+      "path": "animation/DynamicObjectsLite.DynamicObject_114.S02",
       "frame_prefix": "frame",
       "frame_count": 2,
       "fps": 12,
@@ -322,7 +314,7 @@
     },
     {
       "key": "fly.DynamicObjectsLite.DynamicObject_114.S03",
-      "path": "fly/animation/DynamicObjectsLite.DynamicObject_114.S03",
+      "path": "animation/DynamicObjectsLite.DynamicObject_114.S03",
       "frame_prefix": "frame",
       "frame_count": 4,
       "fps": 12,
@@ -330,7 +322,7 @@
     },
     {
       "key": "fly.DynamicObjectsLite.DynamicObject_114.S04",
-      "path": "fly/animation/DynamicObjectsLite.DynamicObject_114.S04",
+      "path": "animation/DynamicObjectsLite.DynamicObject_114.S04",
       "frame_prefix": "frame",
       "frame_count": 20,
       "fps": 12,
@@ -338,7 +330,7 @@
     },
     {
       "key": "fly.DynamicObjectsLite.DynamicObject_115",
-      "path": "fly/animation/DynamicObjectsLite.DynamicObject_115",
+      "path": "animation/DynamicObjectsLite.DynamicObject_115",
       "frame_prefix": "frame",
       "frame_count": 1,
       "fps": 12,
@@ -346,7 +338,7 @@
     },
     {
       "key": "fly.DynamicObjectsLite.DynamicObject_115.S01",
-      "path": "fly/animation/DynamicObjectsLite.DynamicObject_115.S01",
+      "path": "animation/DynamicObjectsLite.DynamicObject_115.S01",
       "frame_prefix": "frame",
       "frame_count": 2,
       "fps": 12,
@@ -354,7 +346,7 @@
     },
     {
       "key": "fly.DynamicObjectsLite.DynamicObject_115.S02",
-      "path": "fly/animation/DynamicObjectsLite.DynamicObject_115.S02",
+      "path": "animation/DynamicObjectsLite.DynamicObject_115.S02",
       "frame_prefix": "frame",
       "frame_count": 2,
       "fps": 12,
@@ -362,7 +354,7 @@
     },
     {
       "key": "fly.DynamicObjectsLite.DynamicObject_116",
-      "path": "fly/animation/DynamicObjectsLite.DynamicObject_116",
+      "path": "animation/DynamicObjectsLite.DynamicObject_116",
       "frame_prefix": "frame",
       "frame_count": 1,
       "fps": 12,
@@ -370,7 +362,7 @@
     },
     {
       "key": "fly.DynamicObjectsLite.DynamicObject_116.S01",
-      "path": "fly/animation/DynamicObjectsLite.DynamicObject_116.S01",
+      "path": "animation/DynamicObjectsLite.DynamicObject_116.S01",
       "frame_prefix": "frame",
       "frame_count": 2,
       "fps": 12,
@@ -378,7 +370,7 @@
     },
     {
       "key": "fly.DynamicObjectsLite.DynamicObject_116.S02",
-      "path": "fly/animation/DynamicObjectsLite.DynamicObject_116.S02",
+      "path": "animation/DynamicObjectsLite.DynamicObject_116.S02",
       "frame_prefix": "frame",
       "frame_count": 1,
       "fps": 12,
@@ -386,7 +378,7 @@
     },
     {
       "key": "fly.DynamicObjectsLite.DynamicObject_116.S03",
-      "path": "fly/animation/DynamicObjectsLite.DynamicObject_116.S03",
+      "path": "animation/DynamicObjectsLite.DynamicObject_116.S03",
       "frame_prefix": "frame",
       "frame_count": 2,
       "fps": 12,
@@ -394,7 +386,7 @@
     },
     {
       "key": "fly.DynamicObjectsLite.DynamicObject_116.S04",
-      "path": "fly/animation/DynamicObjectsLite.DynamicObject_116.S04",
+      "path": "animation/DynamicObjectsLite.DynamicObject_116.S04",
       "frame_prefix": "frame",
       "frame_count": 1,
       "fps": 12,
@@ -402,7 +394,7 @@
     },
     {
       "key": "fly.DynamicObjectsLite.DynamicObject_117",
-      "path": "fly/animation/DynamicObjectsLite.DynamicObject_117",
+      "path": "animation/DynamicObjectsLite.DynamicObject_117",
       "frame_prefix": "frame",
       "frame_count": 2,
       "fps": 12,
@@ -410,7 +402,7 @@
     },
     {
       "key": "fly.DynamicObjectsLite.DynamicObject_117.S01",
-      "path": "fly/animation/DynamicObjectsLite.DynamicObject_117.S01",
+      "path": "animation/DynamicObjectsLite.DynamicObject_117.S01",
       "frame_prefix": "frame",
       "frame_count": 1,
       "fps": 12,
@@ -418,7 +410,7 @@
     },
     {
       "key": "fly.DynamicObjectsLite.Item_003",
-      "path": "fly/animation/DynamicObjectsLite.Item_003",
+      "path": "animation/DynamicObjectsLite.Item_003",
       "frame_prefix": "frame",
       "frame_count": 2,
       "fps": 12,
@@ -426,7 +418,7 @@
     },
     {
       "key": "fly.DynamicObjectsLite.Item_004",
-      "path": "fly/animation/DynamicObjectsLite.Item_004",
+      "path": "animation/DynamicObjectsLite.Item_004",
       "frame_prefix": "frame",
       "frame_count": 2,
       "fps": 12,
@@ -434,7 +426,7 @@
     },
     {
       "key": "fly.DynamicObjectsLite.Item_005",
-      "path": "fly/animation/DynamicObjectsLite.Item_005",
+      "path": "animation/DynamicObjectsLite.Item_005",
       "frame_prefix": "frame",
       "frame_count": 2,
       "fps": 12,

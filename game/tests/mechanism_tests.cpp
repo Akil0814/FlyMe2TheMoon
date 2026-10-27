@@ -56,7 +56,7 @@ int main(){try{
     check(seesaw_width(108)==64&&seesaw_width(109)==128&&seesaw_width(110)==256&&seesaw_width(117)==512,"Original plank dimensions changed");
     check(seesaw_anchor(109,Json{{"Anchor","1"}})==60&&seesaw_anchor(108,Json{{"Anchor","0"}})==-28,"Plank pivot must stay four units inside its end cap");
     check(std::abs(seesaw_speed(Json{{"Speed","-90"}})-std::numbers::pi_v<float>/2)<.001,"Original Y-up motor speed was not converted to Y-down");
-    std::ifstream catalog_file("assets/configs/fly/catalog.json");const auto config=Json::parse(catalog_file).at("role");
+    std::ifstream catalog_file("assets/configs/catalog.json");const auto config=Json::parse(catalog_file).at("role");
     const auto vertical=pointer_thrust({0,0},{0,100},config);
     check(std::abs(vertical.x)<.001&&vertical.y<-.99,"Vertical input force incorrect");
     const auto tilted=pointer_thrust({464,1182},{508,1370},config);
@@ -68,7 +68,7 @@ int main(){try{
     check(std::abs(damp_velocity({100,700},false,.1f,config).x-81)<.01&&damp_velocity({100,700},false,.1f,config).y==700,"Horizontal damping or vertical freedom changed");
     const auto left=pointer_thrust({0,0},{80,70},config),right=pointer_thrust({0,0},{-80,70},config),above=pointer_thrust({0,0},{0,-100},config);
     check(left.x<0&&right.x>0&&std::abs(left.x+right.x)<.001&&above.length_squared()==0,"Touch steering symmetry / upper rejection failed");
-    std::ifstream recording("assets/configs/fly/tutorial.json");const auto tutorial=Json::parse(recording);
+    std::ifstream recording("assets/configs/tutorial.json");const auto tutorial=Json::parse(recording);
     for(const auto& [key,record]:tutorial.items()) {
         TutorialReplay replay;replay.load(record);replay.skip_idle();
         const auto expected=record.at("frames")[replay.cursor()];const auto input=replay.next(1440);
@@ -129,7 +129,7 @@ int main(){try{
     }
     std::cout<<"PASS: all 3 platform widths, density mass, rail constraints, bounded stall force, release and reversal\n";
     int moving=0,rotating=0,actions=0,carriers=0;
-    for(int i=1;i<=60;++i){std::ifstream input(std::format("assets/configs/fly/levels/{:03}.json",i));auto data=Json::parse(input);std::set<int> targets;
+    for(int i=1;i<=60;++i){std::ifstream input(std::format("assets/configs/levels/{:03}.json",i));auto data=Json::parse(input);std::set<int> targets;
         for(const auto& e:data.at("entities"))if(!e.at("item").get<bool>()){
             targets.insert(e.at("id").get<int>());const int k=e.at("kind");
             if(k>=105&&k<=107){++moving;MotionProfile m(e.at("info"));
@@ -145,7 +145,7 @@ int main(){try{
     {
         int overrides=0;
         for(int level:{25,30,42}) {
-            std::ifstream file(std::format("assets/configs/fly/levels/{:03}.json",level));
+            std::ifstream file(std::format("assets/configs/levels/{:03}.json",level));
             for(const auto& entity:Json::parse(file).at("entities")) {
                 if(!entity.at("info").contains("Mass"))continue;
                 ++overrides;

@@ -1,4 +1,6 @@
 """Extract LaserBeam's two head pose tables and particle image; never execute it."""
+from asset_usage import assets_root
+ASSETS=assets_root()
 from pathlib import Path
 import json
 import shutil
@@ -26,10 +28,10 @@ def main():
     root = Path(__file__).resolve().parents[2]
     (root/'game/gameplay/laser_visual_poses.h').write_text('\n'.join(lines)+'\n', encoding='utf8')
     source = next((REF/'08_PNG解析/01_独立图片').rglob('stars.png'))
-    shutil.copyfile(source, root/'assets/textures/fly/laser_stars.png')
-    manifest = root/'assets/configs/manifests/textures_manifest.json'
+    shutil.copyfile(source, ASSETS/'textures/laser_stars.png')
+    manifest = ASSETS/'configs/manifests/textures_manifest.json'
     data = json.loads(manifest.read_text(encoding='utf8'))
-    data['textures']['fly.laser_stars'] = {'path': 'fly/laser_stars.png'}
+    data['textures']['fly.laser_stars'] = {'path': 'laser_stars.png'}
     manifest.write_text(json.dumps(data, ensure_ascii=False, indent=2)+'\n', encoding='utf8')
 
 

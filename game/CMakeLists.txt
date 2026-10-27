@@ -14,6 +14,12 @@ target_link_libraries(game_lib PUBLIC engine_lib fly_lua)
 target_link_libraries(game_lib)
 
 if(BUILD_TESTING)
+    find_package(Python3 COMPONENTS Interpreter QUIET)
+    if(Python3_Interpreter_FOUND)
+        add_test(NAME fly_asset_integrity COMMAND "${Python3_EXECUTABLE}"
+            "${CMAKE_CURRENT_SOURCE_DIR}/tools/asset_usage.py" --check-hd)
+        set_tests_properties(fly_asset_integrity PROPERTIES WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}")
+    endif()
     add_executable(fly_audio_tests tests/audio_tests.cpp)
     target_link_libraries(fly_audio_tests PRIVATE game_lib)
     elysia_copy_sdl_runtime(fly_audio_tests)

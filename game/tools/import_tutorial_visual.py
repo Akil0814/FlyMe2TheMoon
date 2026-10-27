@@ -1,4 +1,6 @@
 """Read original TutorialDiagram lookup tables without executing the reference."""
+from asset_usage import assets_root
+ASSETS=assets_root()
 import json
 import shutil
 from inspect_original import Original
@@ -16,17 +18,17 @@ def main():
             'arrow': binary.unpack('<3f', 0x1ac9e8 + index * 12),
             'doll': binary.data[binary.offset(0x1f3500) + index],
         })
-    target = ROOT / 'assets/configs/fly/tutorial_visual.json'
+    target = ASSETS / 'configs/tutorial_visual.json'
     target.write_text(json.dumps({'fps': 10, 'direction_frames': frames}, indent=2) + '\n', encoding='utf8')
-    manifest_path=ROOT/'assets/configs/manifests/textures_manifest.json'
+    manifest_path=ASSETS / 'configs/manifests/textures_manifest.json'
     manifest=json.loads(manifest_path.read_text(encoding='utf8'))
     manifest['textures'].pop('fly.frontend.tutorial_demo_zh-Hans',None)
     for language,folder in [('en','TextImages-hd'),('zh-Hans','TextImages_chs-hd'),('ja','TextImages_jpn-hd')]:
         source=ROOT/'reference/Fly2theMoon_1.1_ios_3.2/08_PNG解析/03_拆分帧/TextImages'/folder/'inGame/blackEdge.png'
-        destination=ROOT/'assets/textures/fly/frontend'/f'tutorial_demo_{language}.png'
+        destination=ASSETS / 'textures/frontend'/f'tutorial_demo_{language}.png'
         shutil.copyfile(source,destination)
         key='zh' if language=='zh-Hans' else language
-        manifest['textures'][f'fly.frontend.tutorial_demo_{key}']={'path':f'fly/frontend/tutorial_demo_{language}.png'}
+        manifest['textures'][f'fly.frontend.tutorial_demo_{key}']={'path':f'frontend/tutorial_demo_{language}.png'}
     manifest_path.write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
     print(target)
 
