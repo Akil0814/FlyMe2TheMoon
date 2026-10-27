@@ -1,6 +1,6 @@
 # 音效使用情况与原作差异审计
 
-日期：2026-10-26。对象：`assets/audio/fly/sounds`；对照仓库内 `reference/Fly2theMoon_1.1_ios_3.2` 的原作资源、60 关 Lua 和原程序 ARM 静态反汇编。
+日期：2026-10-26。对象：`assets/audio/sounds`；对照仓库内 `reference/Fly2theMoon_1.1_ios_3.2` 的原作资源、60 关 Lua 和原程序 ARM 静态反汇编。
 
 此报告保留接入前的使用统计。后续接入情况见 [audio-integration.md](audio-integration.md)。
 

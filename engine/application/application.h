@@ -90,9 +90,7 @@ private:
     SDL_Renderer* _renderer = nullptr;
 
     elysia::input::InputSystem _input_system;
-#if ELYSIA_ENABLE_IMGUI
     elysia::tools::DevelopmentOverlayHost _development_overlay_host;
-#endif
     elysia::scene::SceneManager _scene_manager;
     elysia::io::ContentRegistry _content_registry;
     elysia::typography::FontResolver _font_resolver;

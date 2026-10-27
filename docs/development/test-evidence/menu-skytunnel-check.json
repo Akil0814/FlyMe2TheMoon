@@ -1,0 +1,44 @@
+{
+  "date": "2026-10-26",
+  "menu_music": "fly.SkyTunnel",
+  "credits_music": "fly.MoonTrip",
+  "imgui_enabled": true,
+  "development_overlay_implementation_changed": false,
+  "scope": "Main menu/settings/selection/achievements share SkyTunnel and preserve playback; credits retain MoonTrip; F2 camera overlay and 60 original level tracks verified",
+  "tests": {
+    "fly_original_music": {
+      "passed": true,
+      "seconds": 1.51
+    },
+    "fly_development_overlay": {
+      "passed": true,
+      "seconds": 0.14
+    },
+    "fly_audio_scene": {
+      "passed": true,
+      "seconds": 2.98
+    },
+    "fly_level_music_playback": {
+      "passed": true,
+      "seconds": 9.5
+    }
+  },
+  "executable": "out/build/x64-Debug/FlyMe2TheMoon.exe",
+  "standard_executable_updated": true,
+  "build_note": "User authorized closing the running Debug game; standard executable relinked successfully with ImGui enabled. Existing four passing test results remain valid; only relinking and documentation changed.",
+  "sha256": {
+    "game/scene/main_menu_scene.cpp": "099a0423902ba879b78c98b57f5fab8703528799b802cde12bc1a028df9f17c6",
+    "game/scene/settings_scene.cpp": "dd22f08d57e563e245e3792721cc9c84639de08c63e0740687a2224cf2b0ad66",
+    "game/scene/selection_scene.cpp": "792148a6e30d7041b26d8a5db3b7f610e75c436322bad32f1be861524928554e",
+    "game/scene/credits_scene.cpp": "1b25f1b3401e43b0dd1d14d8926bfe4cd7346d4fe0d4648343e0d76ff44a2e9a",
+    "game/content/level_music.h": "5ffa6cc428470d26c9f9c9e11efbcde6c0cd02d9bcccbf34fee47fd4313adea6",
+    "game/application/game_module.cpp": "c7159b45920d0d7fb808aec5fce866a724b64a5565af6345f6a381418a664556",
+    "engine/tools/imgui/imgui_development_overlay.h": "effcbe4399766dde368747f3160b585400ef118979898d4f9de7eb5b11e90895",
+    "engine/tools/imgui/imgui_development_overlay.cpp": "a46616273fe33005e6ca5962d627d5fe6d94db12e18bf6f28ed52fdfd45818f8",
+    "game/tests/visual_tests.cpp": "fbf389fdaafea0903cf58f2820d26ab00446b74be36b7a23a6db27be63c6c3a9",
+    "game/tests/development_overlay_tests.cpp": "a2b9868d0bff3d13eb95e945e353884a1fe6df301af8b7381d9340f9b0f5ad58",
+    "out/build/x64-Debug/FlyMe2TheMoon-SkyTunnel.exe": "7af97cd326782f4de576a79704841781eb241a54599722c21ae0e9f9612e967e",
+    "out/build/x64-Debug/FlyMe2TheMoon.exe": "ab241d136db597d2aec20602a17a1621158c5b7bb78cc93e8562cbbbb23cbf70"
+  },
+  "alternate_executable": "out/build/x64-Debug/FlyMe2TheMoon-SkyTunnel.exe"
+}

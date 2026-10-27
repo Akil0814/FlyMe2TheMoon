@@ -1,0 +1,176 @@
+{
+  "date": "2026-10-26",
+  "builds": {
+    "Debug": {
+      "passed": true,
+      "executable_sha256": "9071963a59e788f5865ac70813cbc435e5bdb9cc52c5a22bf87d1073d7bb3804"
+    },
+    "Release": {
+      "passed": true,
+      "executable_sha256": "c2642665e72150813cb4638d87d6ab94cf75ab2e593829bd10d329f81d6fbb10"
+    }
+  },
+  "baseline_ctest": {
+    "Debug": {
+      "unbuilt": [
+        "fly_original_audio",
+        "fly_particles",
+        "fly_gamepad_input"
+      ],
+      "failed_stale_binary": [
+        "fly_selection_input"
+      ]
+    },
+    "Release": {
+      "unbuilt": [
+        "fly_particles"
+      ]
+    }
+  },
+  "final_ctest": {
+    "Debug": {
+      "passed_unique_tests": 13,
+      "suite": "final-debug-ctest.log",
+      "note": "Initial full run passed 12/13; obsolete artwork nullptr assertion corrected without changing game behavior; targeted visual rerun passed.",
+      "visual_recheck": "final-debug-visual-recheck.log"
+    },
+    "Release": {
+      "passed": 13,
+      "failed": 0,
+      "log": "final-release-ctest.log"
+    }
+  },
+  "resource_integrity": {
+    "passed": true,
+    "remaining_unused_files": 0,
+    "legacy_directories": 0,
+    "preserved_file_hash_checks": 1728,
+    "descriptor_changes": "paths only; retained resource IDs and animation frame order/count/fps/loop unchanged"
+  },
+  "high_resolution": {
+    "original-hd": 979,
+    "supplied-native-resolution": 3,
+    "original-native-no-hd-alternative": 2,
+    "project-custom-hd-native": 2
+  },
+  "software_previews": {
+    "compared": 16,
+    "identical": 16,
+    "report": "software-image-comparison.json"
+  },
+  "fault_detection": "fault-detection.json",
+  "import_validation": {
+    "passed": true,
+    "tools": [
+      "import_content.py",
+      "import_decor_transforms.py",
+      "import_frontend.py",
+      "import_audio.py"
+    ],
+    "output": "out/qa/assets-cleanup/import-validation",
+    "assets_and_hd_audit_errors": []
+  },
+  "replays": {
+    "baseline-replays": {
+      "standalone_root": "C:\\Users\\akil0\\AppData\\Local\\Temp\\FlyMe2TheMoon-assets-mzko6cbs",
+      "results": [
+        {
+          "scenario": "role-transition-moon",
+          "exit_code": 0,
+          "passed": true
+        },
+        {
+          "scenario": "role-transition-portal",
+          "exit_code": 0,
+          "passed": true
+        },
+        {
+          "scenario": "audio-level9-laser",
+          "exit_code": 0,
+          "passed": true
+        },
+        {
+          "scenario": "audio-level24-homing",
+          "exit_code": 0,
+          "passed": true
+        },
+        {
+          "scenario": "audio-level31-bomb",
+          "exit_code": 0,
+          "passed": true
+        },
+        {
+          "scenario": "audio-level39-pause",
+          "exit_code": 0,
+          "passed": false
+        }
+      ]
+    },
+    "final-replays": {
+      "standalone_root": "C:\\Users\\akil0\\AppData\\Local\\Temp\\FlyMe2TheMoon-assets-cyaasqo0",
+      "results": [
+        {
+          "scenario": "role-transition-moon",
+          "exit_code": 0,
+          "passed": true
+        },
+        {
+          "scenario": "role-transition-portal",
+          "exit_code": 0,
+          "passed": true
+        },
+        {
+          "scenario": "audio-level9-laser",
+          "exit_code": 0,
+          "passed": true
+        },
+        {
+          "scenario": "audio-level24-homing",
+          "exit_code": 0,
+          "passed": true
+        },
+        {
+          "scenario": "audio-level31-bomb",
+          "exit_code": 0,
+          "passed": true
+        },
+        {
+          "scenario": "audio-level39-pause",
+          "exit_code": 0,
+          "passed": false
+        }
+      ]
+    },
+    "release-smoke": {
+      "standalone_root": "C:\\Users\\akil0\\AppData\\Local\\Temp\\FlyMe2TheMoon-assets-59o36apb",
+      "results": [
+        {
+          "scenario": "frontend-menu03",
+          "exit_code": 0,
+          "passed": true
+        },
+        {
+          "scenario": "credits-scroll01",
+          "exit_code": 0,
+          "passed": true
+        },
+        {
+          "scenario": "sweeps/entry01-level060",
+          "exit_code": 0,
+          "passed": true
+        }
+      ]
+    }
+  },
+  "pause_timing": {
+    "original_case": "7.5-second replay failed elapsed>=0.5 in both baseline and final; other checks passed",
+    "supplemental_case": "Same input/expectations, 8.5-second duration; both passed",
+    "evidence": "pause-margin-comparison.json"
+  },
+  "runtime_evidence_directory": "out/qa/assets-cleanup",
+  "notes": [
+    "All native replays ran outside the repository with their own assets and test saves.",
+    "Historical evidence untouched.",
+    "Existing engine sources, reference originals and player saves were not modified."
+  ]
+}

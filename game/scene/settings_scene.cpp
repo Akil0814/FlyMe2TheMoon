@@ -37,7 +37,7 @@ ui::SettingsPanelDraft draft(const config::UserConfigData& data){
 }
 }
 void SettingsScene::on_enter(const elysia::scene::ScenePayload&){
-    ELYSIA_AUDIO->transition_music("fly.MoonTrip");
+    ELYSIA_AUDIO->transition_music("fly.SkyTunnel");
     clear_scene_objects();_saved=false;_baseline=config::UserConfigService::instance()->user_config().runtime_state();
     auto* window=create_and_add_object<ui::UiWindow>(core::Rect{0,0,1280,720});
     window->set_style_overrides({.draw_background=false,.draw_border=false});

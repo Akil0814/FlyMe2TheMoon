@@ -22,9 +22,9 @@
 
 ## 背景扩展生成记录
 
-使用 **内置 image_gen 工具**，模式为编辑 / 扩图；未使用 CLI 或外部 API 密钥。输入为 `assets/textures/fly/ui/mainBg2.png`。输出已复制至：
+使用 **内置 image_gen 工具**，模式为编辑 / 扩图；未使用 CLI 或外部 API 密钥。输入为 `assets/textures/ui/mainBg2.png`。输出已复制至：
 
-`assets/textures/fly/frontend/background_menu_outpaint.png`
+`assets/textures/frontend/background_menu_outpaint.png`
 
 SHA256：`162440824D272C187B17D10125DC8AABC159DBEA0E49D0ED818E2F291548AE2D`。
 

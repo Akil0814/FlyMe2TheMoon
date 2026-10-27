@@ -8,10 +8,10 @@
 using game::content::Json;
 void check(bool condition,const char* message){if(!condition)throw std::runtime_error(message);}
 int main(){try {
-    std::ifstream texts_file("assets/configs/fly/text/zh-Hans/strings.json");const auto texts=Json::parse(texts_file);
+    std::ifstream texts_file("assets/configs/text/zh-Hans/strings.json");const auto texts=Json::parse(texts_file);
     std::set<std::string> lines,flags,operations,expected;int success=0,restores=0;
     for(const bool passed:{false,true})for(int level=1;level<=60;++level){
-        std::ifstream file(std::format("assets/configs/fly/levels/{:03}.json",level));const auto data=Json::parse(file);
+        std::ifstream file(std::format("assets/configs/levels/{:03}.json",level));const auto data=Json::parse(file);
         const auto source=std::regex_replace(data.at("script").get<std::string>(),std::regex("--[^\\n]*"),"");
         const std::regex pattern("dialog\\.show\\w*\\(\\s*\"([^\"]+)\"");
         for(auto i=std::sregex_iterator(source.begin(),source.end(),pattern);i!=std::sregex_iterator();++i)expected.insert((*i)[1]);

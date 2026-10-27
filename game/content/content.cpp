@@ -7,7 +7,7 @@
 
 namespace game::content {
 Json read(const std::string& relative) {
-    const auto path = elysia::io::PathManager::instance()->configs() / "fly" / relative;
+    const auto path = elysia::io::PathManager::instance()->configs() / relative;
     std::ifstream stream(path);
     if (!stream) throw std::runtime_error("Missing game data: " + path.string());
     return Json::parse(stream);

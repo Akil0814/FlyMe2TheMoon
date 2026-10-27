@@ -260,7 +260,6 @@ bool Application::initialize_impl(
     if (!initialize_runtime(runtime_settings,descriptor))
         return false;
 
-#if ELYSIA_ENABLE_IMGUI
     try
     {
         _development_overlay_host.set_overlay(
@@ -307,7 +306,6 @@ bool Application::initialize_impl(
                 "Development overlay initialization failed with an unknown exception.");
         }
     }
-#endif
 
     const elysia::builtin::BuiltinAssetCatalog builtin_asset_catalog(
         *elysia::io::PathManager::instance());
@@ -555,18 +553,14 @@ ApplicationRunResult Application::run()
 
         if (!run_event_boundary("events",[this]()
         {
-#if ELYSIA_ENABLE_IMGUI
             _input_system.set_development_input_capture(
                 _development_overlay_host.captured_input());
-#endif
             _input_system.begin_frame();
             while (SDL_PollEvent(&_event))
             {
                 bool development_event_consumed = false;
-#if ELYSIA_ENABLE_IMGUI
                 development_event_consumed =
                     _development_overlay_host.process_event(_event);
-#endif
                 if (!development_event_consumed)
                     _input_system.process_event(_event);
                 if (_event.type == SDL_EVENT_QUIT)
@@ -592,9 +586,7 @@ ApplicationRunResult Application::run()
         if (!run_event_boundary("update",[this]()
         {
             const double frame_delta = elysia::core::Time::instance()->delta();
-#if ELYSIA_ENABLE_IMGUI
             _development_overlay_host.begin_frame(frame_delta);
-#endif
             _scene_manager.on_update(frame_delta);
             elysia::audio::AudioService::instance()->update(frame_delta);
         }))
@@ -616,9 +608,7 @@ ApplicationRunResult Application::run()
         if (!run_event_boundary("render",[this]()
         {
             _scene_manager.on_render(_renderer);
-#if ELYSIA_ENABLE_IMGUI
             _development_overlay_host.render(*_renderer);
-#endif
         }))
         {
             stop_after_boundary_failure();
@@ -675,9 +665,7 @@ bool Application::shutdown() noexcept
     cleanup("application_shutdown",[&] { _scene_manager.detach(this); });
     if (!_scene_manager.shutdown())
         _shutdown_succeeded = false;
-#if ELYSIA_ENABLE_IMGUI
     cleanup("application_shutdown",[&] { _development_overlay_host.shutdown(); });
-#endif
     cleanup("application_shutdown",[&] { _scene_runtime_context.reset(); });
     cleanup("application_shutdown",[&] { ELYSIA_SAVE->shutdown(); });
 

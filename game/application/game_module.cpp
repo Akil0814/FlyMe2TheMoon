@@ -10,9 +10,7 @@
 #include "../../engine/builtin/builtin_scene_keys.h"
 #include "../../engine/builtin/scenes/startup_loading_scene.h"
 #include "../../engine/scene/scene_manager.h"
-#if ELYSIA_ENABLE_IMGUI
 #include "../development/development_overlay.h"
-#endif
 
 namespace game::application
 {
@@ -75,11 +73,7 @@ namespace game::application
     std::unique_ptr<elysia::tools::IDevelopmentOverlay>
         GameModule::create_development_overlay() const
     {
-#if ELYSIA_ENABLE_IMGUI
         return std::make_unique<game::development::DevelopmentOverlay>();
-#else
-        return {};
-#endif
     }
 
 }

@@ -3,6 +3,9 @@
 #include "game/scene/flight_scene.h"
 #include "game/scene/main_menu_scene.h"
 #include "game/progress/progress.h"
+#include "game/development/development_overlay.h"
+#include "game/scene/settings_scene.h"
+#include "engine/tools/development_overlay_host.h"
 #include "engine/input/input_system.h"
 #include "engine/io/path/path_manager.h"
 #include "engine/io/loaders/content_registry_loader.h"
@@ -271,12 +274,15 @@ void test_cursor_scene(const io::ContentRegistry& registry){
     const std::unique_ptr<SDL_Renderer,decltype(&SDL_DestroyRenderer)> renderer(SDL_CreateRenderer(window.get(),"software"),SDL_DestroyRenderer);
     require(renderer!=nullptr,SDL_GetError());
     scene::SceneRuntimeContext context(renderer.get(),registry,1280,720);
-    cursor_sample={0,20,20,true};game::scene::FlightScene flight(sample_cursor);Access::bind(flight,context);
+    cursor_sample={0,20,20,true};
+    tools::DevelopmentOverlayHost host;host.set_overlay(std::make_unique<game::development::DevelopmentOverlay>(sample_cursor));
+    require(host.initialize(*window,*renderer).has_value(),"Global cursor host must initialize");
+    game::scene::FlightScene flight;Access::bind(flight,context);
     Access::enter(flight,game::scene::FlightPayload{39});require(SDL_CursorVisible(),"Flight entry must reveal the cursor");
     const auto check_idle=[&]{
-        cursor_sample.now+=2'000'000'000;Access::update(flight,0);
+        cursor_sample.now+=2'000'000'000;host.begin_frame(0);Access::update(flight,0);host.render(*renderer);
         require(!SDL_CursorVisible(),"Every flight UI state must hide the idle cursor even with zero simulation delta");
-        ++cursor_sample.x;Access::update(flight,0);require(SDL_CursorVisible(),"Mouse movement must reveal the cursor in every flight UI state");
+        ++cursor_sample.x;host.begin_frame(0);Access::update(flight,0);host.render(*renderer);require(SDL_CursorVisible(),"Mouse movement must reveal the cursor in every flight UI state");
     };
     check_idle();
     for(int i=0;i<600&&Access::dialogue(flight).empty();++i)Access::update(flight,1./60.);
@@ -292,10 +298,21 @@ void test_cursor_scene(const io::ContentRegistry& registry){
     Access::move_to_result(flight,true);
     for(int i=0;i<600&&!Access::modal_visible(flight);++i)Access::update(flight,1./60.);
     require(Access::modal_visible(flight),"Cursor regression must reach the real settlement menu");check_idle();
-    cursor_sample.now+=2'000'000'000;Access::update(flight,0);require(!SDL_CursorVisible(),"Cursor must be hidden before leaving the level");
-    Access::exit(flight);require(SDL_CursorVisible(),"Returning to a non-flight page must restore the cursor");
-    Access::enter(flight,game::scene::FlightPayload{39,true});require(SDL_CursorVisible(),"Retry must restore cursor visibility and reset idle timing");
+    cursor_sample.now+=2'000'000'000;host.begin_frame(0);require(!SDL_CursorVisible(),"Cursor must be hidden before leaving the level");
+    Access::exit(flight);require(!SDL_CursorVisible(),"Leaving a level must retain the global cursor state");
+    const auto check_page=[&](scene::Scene& page){
+        Access::bind(page,context);Access::enter(page);host.begin_frame(0);
+        require(!SDL_CursorVisible(),"Switching pages must not reset the global idle deadline");
+        ++cursor_sample.x;host.begin_frame(0);require(SDL_CursorVisible(),"Menu mouse movement must restore the cursor");
+        cursor_sample.now+=2'000'000'000;host.begin_frame(0);Access::update(page,0);host.render(*renderer);
+        require(!SDL_CursorVisible(),"Non-flight pages must also hide the cursor after two seconds");Access::exit(page);
+    };
+    game::scene::MainMenuScene menu;check_page(menu);
+    game::scene::SelectionScene selection;check_page(selection);
+    game::scene::SettingsScene settings;check_page(settings);
+    Access::enter(flight,game::scene::FlightPayload{39,true});require(!SDL_CursorVisible(),"Retry must preserve the global cursor policy");
     system.shutdown();Access::exit(flight);
+    host.shutdown();require(SDL_CursorVisible(),"Application shutdown must restore cursor visibility");
 }
 void test_airborne_animation(){
     game::play::Player player({100,100});

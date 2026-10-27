@@ -1,8 +1,11 @@
 #include "game/platform/idle_cursor.h"
+#include "game/development/development_overlay.h"
+#include "engine/tools/development_overlay_host.h"
 #include "engine/core/time.h"
 #include <iostream>
 #include <stdexcept>
 #include <string_view>
+#include <memory>
 #ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
@@ -17,7 +20,7 @@ CursorSample sample;
 CursorSample injected_sample(SDL_Window*){return sample;}
 void check_policy(SDL_Window* window){
     IdleCursor cursor(injected_sample);sample={0,50,60,true};cursor.start(window);
-    require(SDL_CursorVisible()&&!cursor.hidden(),"Entering a level must show its cursor");
+    require(SDL_CursorVisible()&&!cursor.hidden(),"Starting the cursor controller must show its cursor");
     sample.now=1'999'999'999;cursor.update();require(SDL_CursorVisible(),"Cursor must remain visible before two seconds");
     sample.now=2'000'000'000;cursor.update();require(!SDL_CursorVisible()&&IdleCursor::hides_cursor(),"Cursor must hide at the exact two-second boundary");
     sample.x+=.25f;cursor.update();require(SDL_CursorVisible(),"Even a small actual mouse movement must reveal the cursor");
@@ -33,19 +36,35 @@ void check_policy(SDL_Window* window){
     sample.now+=10'000'000'000;cursor.update();require(SDL_CursorVisible(),"Inactive windows must never hide the desktop cursor");
     sample.focused=true;cursor.update();require(SDL_CursorVisible(),"Focus regain must reveal and restart the timer");
     sample.now+=2'000'000'000;cursor.update();require(cursor.hidden(),"Focus regain must receive a new two-second deadline");
-    cursor.stop();require(SDL_CursorVisible()&&!IdleCursor::hides_cursor(),"Leaving a level must restore the cursor");
-    cursor.start(window);require(SDL_CursorVisible(),"Retry must start visible without a stale deadline");
-    sample.now+=2'000'000'000;cursor.update();require(cursor.hidden(),"Retry must independently become idle");
+    cursor.stop();require(SDL_CursorVisible()&&!IdleCursor::hides_cursor(),"Stopping the cursor controller must restore the cursor");
+    cursor.start(window);require(SDL_CursorVisible(),"Restarting the controller must start visible without a stale deadline");
+    sample.now+=2'000'000'000;cursor.update();require(cursor.hidden(),"A restarted controller must independently become idle");
     {
         IdleCursor replacement(injected_sample);replacement.start(window);
-        require(SDL_CursorVisible(),"Switching levels must restore cursor visibility");
+        require(SDL_CursorVisible(),"Replacing the controller must restore cursor visibility");
         sample.now+=2'000'000'000;replacement.update();cursor.stop();
-        require(replacement.hidden()&&!SDL_CursorVisible(),"An old scene must not override its replacement's cursor ownership");
+        require(replacement.hidden()&&!SDL_CursorVisible(),"An old controller must not override its replacement's cursor ownership");
     }
-    require(SDL_CursorVisible()&&!IdleCursor::hides_cursor(),"Destruction must restore the cursor even without an explicit scene exit");
+    require(SDL_CursorVisible()&&!IdleCursor::hides_cursor(),"Destruction must restore the cursor even without an explicit stop");
     ELYSIA_TIME->reset();
 }
 void pump(){SDL_Event event;while(SDL_PollEvent(&event)){};}
+void check_global_application(SDL_Window* window){
+    const std::unique_ptr<SDL_Renderer,decltype(&SDL_DestroyRenderer)> renderer(SDL_CreateRenderer(window,"software"),SDL_DestroyRenderer);
+    require(renderer!=nullptr,SDL_GetError());
+    sample={0,20,30,true};elysia::tools::DevelopmentOverlayHost host;
+    host.set_overlay(std::make_unique<game::development::DevelopmentOverlay>(injected_sample));
+    require(host.initialize(*window,*renderer).has_value(),"Global cursor runtime initialization failed");
+    const auto frame=[&]{host.begin_frame(0);host.render(*renderer);};
+    require(!host.visible()&&SDL_CursorVisible(),"Application startup must show the cursor without developer UI");
+    sample.now=2'000'000'000;frame();require(!SDL_CursorVisible(),"Global cursor sampling must run while all developer UI is hidden");
+    sample.now+=1'000'000'000;frame();require(!SDL_CursorVisible(),"Page-independent frames must retain the global idle state");
+    ++sample.x;frame();require(SDL_CursorVisible(),"Global mouse motion must reveal the cursor with zero simulation delta");
+    sample.focused=false;sample.now+=5'000'000'000;frame();require(SDL_CursorVisible(),"Application focus loss must restore the desktop cursor");
+    sample.focused=true;frame();sample.now+=2'000'000'000;frame();require(!SDL_CursorVisible(),"Global idle hiding must resume after focus returns");
+    require(host.captured_input()==elysia::input::InputCapture::None,"Cursor-only background processing must not capture gameplay input");
+    host.shutdown();require(SDL_CursorVisible(),"Application shutdown must restore the cursor");
+}
 bool platform_cursor_visible(){
 #ifdef _WIN32
     CURSORINFO info{sizeof(CURSORINFO)};
@@ -118,7 +137,7 @@ int main(int argc,char** argv){
         require(SDL_Init(SDL_INIT_VIDEO),SDL_GetError());
         window=SDL_CreateWindow("FlyMe cursor visibility test",640,360,native?0:SDL_WINDOW_HIDDEN);
         require(window!=nullptr,SDL_GetError());
-        if(native)check_native_window(window);else check_policy(window);
+        if(native)check_native_window(window);else {check_policy(window);check_global_application(window);}
         std::cout<<(native?"PASS: native Windows/SDL cursor idle, real movement, zero time scale and minimize restoration\n":"PASS: two-second boundary, movement, held input, focus, retry and cursor ownership\n");result=0;
     }catch(const std::exception& error){std::cerr<<"FAIL: "<<error.what()<<'\n';}
     SDL_ShowCursor();SDL_DestroyWindow(window);SDL_Quit();return result;

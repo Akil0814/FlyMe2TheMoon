@@ -1,4 +1,5 @@
 """Convert supplied reference into game data, never modifying source files."""
+from asset_usage import assets_root, prune_imported, digest, read
 from pathlib import Path
 import json, math, shutil, struct, re, collections
 from PIL import Image
@@ -6,9 +7,9 @@ from analyze_reference import ROOT, REF, OUT, loose_json, original_file, ET
 from import_tutorial import main as import_tutorial
 from import_tutorial_visual import main as import_tutorial_visual
 
-ASSETS=ROOT/'assets'
-TEXTURES=ASSETS/'textures/fly'
-CONFIG=ASSETS/'configs/fly'
+ASSETS=assets_root()
+TEXTURES=ASSETS/'textures'
+CONFIG=ASSETS/'configs'
 SPRITES=REF/'08_PNG解析/03_拆分帧'
 
 def write_json(path,data):
@@ -18,11 +19,15 @@ def write_json(path,data):
 def main():
     import_tutorial()
     textures={}; sizes={}; animations=[]
+    custom_hd={entry['path']:entry for entry in read(ROOT/'game/tools/custom_hd_assets.json')}
     def texture(key,p,scale=0.5):
         target=TEXTURES/(key.replace('.','/')+'.png');target.parent.mkdir(parents=True,exist_ok=True)
-        shutil.copyfile(p,target)
+        custom=custom_hd.get(target.relative_to(ASSETS).as_posix())
+        if not (custom and target.is_file() and digest(target)==custom['sha256']):
+            shutil.copyfile(p,target)
         textures['fly.'+key]={'path':target.relative_to(ASSETS/'textures').as_posix()}
-        w,h=Image.open(p).size;sizes[key]=[w*scale,h*scale]
+        with Image.open(target) as image:w,h=image.size
+        sizes[key]=[w*scale,h*scale]
         return key
     for suite in range(1,5):
         for group,prefix in [(f'TextureS{suite}',f'terrain{suite}'),(f'FargroundsS{suite}',f'far{suite}')]:
@@ -129,11 +134,12 @@ def main():
             txt=re.sub(r',\s*([}\]])',r'\1',txt)
             write_json(CONFIG/'text'/lang/p.name,json.loads(txt))
     manifest=ASSETS/'configs/manifests'
-    old=loose_json(manifest/'textures_manifest.json');old['textures']={k:v for k,v in old['textures'].items() if not k.startswith('fly.')};old['textures'].update(textures)
+    old=loose_json(manifest/'textures_manifest.json');old['textures'].update(textures)
     write_json(manifest/'textures_manifest.json',old)
-    old=loose_json(manifest/'animations_manifest.json');old['animations']=[x for x in old['animations'] if not x['key'].startswith('fly.')]+animations
+    old=loose_json(manifest/'animations_manifest.json');old['animations']=list({x['key']:x for x in old['animations']+animations}.values())
     write_json(manifest/'animations_manifest.json',old)
     import_tutorial_visual()
+    prune_imported(ASSETS)
     report={'levels':len(levels),'textures':len(textures),'animations':len(animations),'unresolved_decor':unresolved}
     write_json(OUT/'test-evidence/content-import.json',report)
     print(json.dumps(report,ensure_ascii=False)[:2500])

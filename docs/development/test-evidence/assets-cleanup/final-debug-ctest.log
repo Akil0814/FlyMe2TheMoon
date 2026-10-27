@@ -1,0 +1,41 @@
+Test project C:/Code/FlyMe2TheMoon/out/build/x64-Debug
+      Start  1: fly_asset_integrity
+ 1/13 Test  #1: fly_asset_integrity ..............   Passed    2.21 sec
+      Start  2: fly_original_audio
+ 2/13 Test  #2: fly_original_audio ...............   Passed    0.29 sec
+      Start  3: fly_original_music
+ 3/13 Test  #3: fly_original_music ...............   Passed    4.01 sec
+      Start  4: fly_particles
+ 4/13 Test  #4: fly_particles ....................   Passed    0.11 sec
+      Start  5: fly_gamepad_input
+ 5/13 Test  #5: fly_gamepad_input ................   Passed   59.05 sec
+      Start  6: fly_development_overlay
+ 6/13 Test  #6: fly_development_overlay ..........   Passed    0.38 sec
+      Start  7: fly_idle_visuals
+ 7/13 Test  #7: fly_idle_visuals .................***Failed   13.15 sec
+2026-10-26 17:23:50 [INFO] [resource] (game_content_loader.cpp:143) Total requests built: 900, total work units: 1110
+2026-10-26 17:24:01 [WARN] [audio] (audio_service.cpp:185) Music transition rejected: service uninitialized or missing music: fly.SkyTunnel
+2026-10-26 17:24:01 [WARN] [resource] (texture_manager.cpp:92) Find texture failed: resource does not exist: fly.ui.mainBg2
+PASS: SkyTunnel survives menu/settings/selection/achievement transitions, every page and mute; credits retain MoonTrip; cold/gameplay returns restore each scene's track
+FAIL: New menu must not retain the old artwork layers
+
+      Start  8: fly_audio_scene
+ 8/13 Test  #8: fly_audio_scene ..................   Passed   15.14 sec
+      Start  9: fly_level_music_playback
+ 9/13 Test  #9: fly_level_music_playback .........   Passed   44.67 sec
+      Start 10: fly_selection_input
+10/13 Test #10: fly_selection_input ..............   Passed    0.95 sec
+      Start 11: fly_game_rules_and_save
+11/13 Test #11: fly_game_rules_and_save ..........   Passed    0.28 sec
+      Start 12: fly_original_story
+12/13 Test #12: fly_original_story ...............   Passed   14.15 sec
+      Start 13: fly_mechanisms
+13/13 Test #13: fly_mechanisms ...................   Passed    2.46 sec
+
+92% tests passed, 1 tests failed out of 13
+
+Total Test time (real) = 157.97 sec
+
+The following tests FAILED:
+	  7 - fly_idle_visuals (Failed)
+Errors while running CTest

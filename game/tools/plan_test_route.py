@@ -11,7 +11,7 @@ ROOT=Path(__file__).resolve().parents[2]
 STEP=8
 
 def plan(level,destination=None):
-    data=json.loads((ROOT/f'assets/configs/fly/levels/{level:03}.json').read_text(encoding='utf8'))
+    data=json.loads((ROOT/f'assets/configs/levels/{level:03}.json').read_text(encoding='utf8'))
     width,height=math.ceil(data['width']/STEP),math.ceil(data['height']/STEP)
     mask=Image.new('L',(width,height));draw=ImageDraw.Draw(mask)
     for line in data['edges']:

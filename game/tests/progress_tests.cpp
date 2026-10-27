@@ -9,7 +9,7 @@ void require(bool condition,const char* message){if(!condition)throw std::runtim
 int main() {
     try {
         using game::progress::Progress;
-        std::ifstream input("assets/configs/fly/catalog.json");const auto catalog=game::content::Json::parse(input);
+        std::ifstream input("assets/configs/catalog.json");const auto catalog=game::content::Json::parse(input);
         Progress p;const auto& deps=catalog.at("dependencies");
         const game::content::Json reference{{"1",10},{"30",20},{"60",999}};
         require(game::progress::original_score(1,0,0,20,reference)==10000,"Slow time score incorrect");

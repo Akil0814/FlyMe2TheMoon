@@ -1,10 +1,11 @@
 """Read-only reference inventory; reproducible evidence for the recreation."""
 from pathlib import Path
+import os
 import collections, csv, hashlib, json, re, xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[2]
 REF = ROOT / 'reference/Fly2theMoon_1.1_ios_3.2'
-OUT = ROOT / 'docs/development'
+OUT = Path(os.environ.get('FLY_IMPORT_REPORT_ROOT', ROOT / 'docs/development'))
 
 def loose_json(path):
     text = path.read_text(encoding='utf-8-sig')

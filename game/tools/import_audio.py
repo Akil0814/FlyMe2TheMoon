@@ -1,7 +1,9 @@
 """Normalize the supplied original audio with installed FFmpeg; retain sources."""
+from asset_usage import assets_root, prune_imported
+ASSETS=assets_root()
 from analyze_reference import ROOT,REF,OUT
 import shutil,subprocess,json,struct,wave
-manifest=ROOT/'assets/configs/manifests/audio_manifest.json'
+manifest=ASSETS / 'configs/manifests/audio_manifest.json'
 data=json.loads(manifest.read_text(encoding='utf-8'))
 for group in ['sounds','music']:
     data[group]={k:v for k,v in data[group].items() if not k.startswith('fly.')}
@@ -11,7 +13,7 @@ report=[]
 for path in sorted((REF/'03_音频').rglob('*')):
     if path.suffix.lower() not in ['.wav','.caf']:continue
     group='music' if path.suffix.lower()=='.caf' else 'sounds'
-    target=ROOT/'assets/audio/fly'/group/(path.stem+'.wav')
+    target=ASSETS / 'audio'/group/(path.stem+'.wav')
     target.parent.mkdir(parents=True,exist_ok=True)
     source=path;repair=None
     if path.suffix.lower()=='.caf':
@@ -38,10 +40,11 @@ for path in sorted((REF/'03_音频').rglob('*')):
             with wave.open(str(path),'rb') as original:
                 assert frames==original.getnframes() and rate==original.getframerate() and channels==original.getnchannels()
     key='fly.'+('voice_'+path.stem.replace('-','_') if group=='sounds' else path.stem)
-    data[group][key]={'path':target.relative_to(ROOT/'assets/audio').as_posix()}
-    report.append({'source':str(path.relative_to(REF)),'output':str(target.relative_to(ROOT)),'bytes':target.stat().st_size,'container_repair':repair,'frames':frames,'rate':rate,'channels':channels,'diagnostics':conversion.stderr})
+    data[group][key]={'path':target.relative_to(ASSETS / 'audio').as_posix()}
+    report.append({'source':str(path.relative_to(REF)),'output':'assets/'+target.relative_to(ASSETS).as_posix(),'bytes':target.stat().st_size,'container_repair':repair,'frames':frames,'rate':rate,'channels':channels,'diagnostics':conversion.stderr})
 # 44-1 is an original filename archived in 99_重复文件; its content equals 42-1.
-data['sounds']['fly.voice_44_1']={'path':'fly/sounds/42-1.wav'}
+data['sounds']['fly.voice_44_1']={'path':'sounds/42-1.wav'}
 manifest.write_text(json.dumps(data,ensure_ascii=False,indent=2),encoding='utf-8')
 (OUT/'test-evidence/audio-import.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
+prune_imported(ASSETS)
 print(f'Imported {len(report)} original audio files')

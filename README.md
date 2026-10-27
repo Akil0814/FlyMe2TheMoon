@@ -48,3 +48,21 @@ MSVC Debug 使用 `/Z7` 内嵌调试信息，避免编译器 PDB 服务引发的
 - 关卡内还会显示 `Camera`：`Zoom` 可在 0.1–10 倍之间实时调整世界相机缩放，并提供 0.5/1/2 倍快捷按钮；`Reset zoom` 恢复关卡默认的 1.5 倍。游戏 HUD 大小保持不变，重新进入关卡会恢复默认缩放。
 
 这些选项仅在本次运行中有效。开发构建可直接运行 `game\tools\build-development.cmd`，然后启动 `out\build\x64-Debug\FlyMe2TheMoon.exe`。现有发布/诊断构建脚本会显式关闭 ImGui；需要面板时请使用开发构建。
+
+## 资源目录
+
+游戏资源按类型放在 `assets/` 中，不再包含 `fly` 目录层：
+
+- `textures/`：角色、机关、地形、前端界面及动画；保留原有分类目录。
+- `audio/music/`、`audio/sounds/`：配乐与音效；`audio/system/` 为默认 UI 音效。
+- `configs/`：关卡、剧情文本、教程、catalog、全局配置及资源清单。
+- `fonts/`、`i18n/`、`preload/`：游戏字体、本地化及启动图片。
+- `engine/`：引擎内置资源及必需标记，保持独立。
+
+`fly.*` 是稳定的资源键名，与磁盘目录无关。检查资源引用及高清来源：
+
+```bat
+python game/tools/asset_usage.py --check-hd --report out/qa/assets-audit.json
+```
+
+导入工具共享闲置资源清理规则。设置 `FLY_ASSETS_ROOT` 可在临时资源副本中验证导入；设置 `FLY_IMPORT_REPORT_ROOT` 可重定向导入报告。不要直接用重新导入来覆盖定制素材。整理清单与验证说明见 [资源整理记录](docs/development/assets-cleanup.md)。

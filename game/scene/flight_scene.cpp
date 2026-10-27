@@ -26,10 +26,10 @@
 namespace game::scene {
 using namespace elysia;
 using namespace play;
-FlightScene::FlightScene(game::platform::IdleCursor::Sampler cursor_sampler):Scene(elysia::scene::SceneRuntimeFeatures{
+FlightScene::FlightScene():Scene(elysia::scene::SceneRuntimeFeatures{
     .fixed_step=elysia::scene::FixedStepConfig{},
     .physics=physics::PhysicsWorldConfig{.units_per_meter=32,.gravity={0,320}},
-    .camera=elysia::scene::CameraSceneConfig{.focus_mode=elysia::scene::CameraFocusMode::ResolveEachFrame,.advance_when_paused=true}}),_idle_cursor(cursor_sampler) {}
+    .camera=elysia::scene::CameraSceneConfig{.focus_mode=elysia::scene::CameraFocusMode::ResolveEachFrame,.advance_when_paused=true}}) {}
 FlightScene::~FlightScene() { detach_development_panel(); }
 void FlightScene::attach_development_panel() {
 #if ELYSIA_ENABLE_IMGUI
@@ -131,9 +131,8 @@ void FlightScene::on_enter(const elysia::scene::ScenePayload& payload) {
     update_dialogue();
     ELYSIA_LOG_INFO("fly",std::format("Entered level {}: {} entities, {} contours",_level,_entities.size(),_data.at("edges").size()));
     attach_development_panel();
-    _idle_cursor.start(SDL_GetRenderWindow(runtime_context().renderer()));
 }
-void FlightScene::on_exit(){_idle_cursor.stop();detach_development_panel();_audio.clear();ELYSIA_AUDIO->stop_music();_pause_updates.clear();_pause_menu_open=false;_player=nullptr;_entities.clear();_hud=nullptr;_hud_stats=nullptr;_pause_metrics=nullptr;_result_metrics=nullptr;_hint=nullptr;_hud_stars=nullptr;_star_pickups=nullptr;_pause_menu=nullptr;_pause_button=nullptr;_dialogue=nullptr;_face=nullptr;_tutorial=nullptr;_dialogue_panel=nullptr;_portrait_panel=nullptr;clear_scene_objects();}
+void FlightScene::on_exit(){detach_development_panel();_audio.clear();ELYSIA_AUDIO->stop_music();_pause_updates.clear();_pause_menu_open=false;_player=nullptr;_entities.clear();_hud=nullptr;_hud_stats=nullptr;_pause_metrics=nullptr;_result_metrics=nullptr;_hint=nullptr;_hud_stars=nullptr;_star_pickups=nullptr;_pause_menu=nullptr;_pause_button=nullptr;_dialogue=nullptr;_face=nullptr;_tutorial=nullptr;_dialogue_panel=nullptr;_portrait_panel=nullptr;clear_scene_objects();}
 void FlightScene::on_reset(){on_exit();}
 void FlightScene::on_shortcuts(const input::RawInputFrame&,const std::vector<input::RawInputEvent>& events) {
     using C=input::RawInputControl;
@@ -239,7 +238,6 @@ double FlightScene::move_camera(Vec destination) {
     return duration;
 }
 void FlightScene::on_before_update(double delta) {
-    _idle_cursor.update();
     _audio.set_listener(camera().center());
     if(_pause_menu_open)return;
     if(_camera_move.active()){_camera_move.advance(delta);_story_camera=_camera_move.position();}

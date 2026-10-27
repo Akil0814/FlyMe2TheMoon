@@ -1,0 +1,106 @@
+[
+  {
+    "label": "baseline-replays",
+    "passed": true,
+    "exit_code": 0,
+    "checks": {
+      "finished": {
+        "actual": false,
+        "expected": false,
+        "passed": true
+      },
+      "level": {
+        "actual": 39,
+        "expected": 39,
+        "passed": true
+      },
+      "observe.audio_loops": {
+        "maximum": 4.0,
+        "minimum": 0.0,
+        "passed": true,
+        "requested": {
+          "field": "audio_loops",
+          "max_at_least": 1
+        },
+        "samples": 79
+      },
+      "observe.audio_requests": {
+        "maximum": 10.0,
+        "minimum": 0.0,
+        "passed": true,
+        "requested": {
+          "field": "audio_requests",
+          "max_at_least": 1
+        },
+        "samples": 79
+      },
+      "observe.elapsed": {
+        "maximum": 1.4792353,
+        "minimum": 0.0,
+        "passed": true,
+        "requested": {
+          "field": "elapsed",
+          "max_at_least": 0.5
+        },
+        "samples": 79
+      },
+      "paused": {
+        "actual": false,
+        "expected": false,
+        "passed": true
+      }
+    }
+  },
+  {
+    "label": "final-replays",
+    "passed": true,
+    "exit_code": 0,
+    "checks": {
+      "finished": {
+        "actual": false,
+        "expected": false,
+        "passed": true
+      },
+      "level": {
+        "actual": 39,
+        "expected": 39,
+        "passed": true
+      },
+      "observe.audio_loops": {
+        "maximum": 4.0,
+        "minimum": 0.0,
+        "passed": true,
+        "requested": {
+          "field": "audio_loops",
+          "max_at_least": 1
+        },
+        "samples": 79
+      },
+      "observe.audio_requests": {
+        "maximum": 10.0,
+        "minimum": 0.0,
+        "passed": true,
+        "requested": {
+          "field": "audio_requests",
+          "max_at_least": 1
+        },
+        "samples": 79
+      },
+      "observe.elapsed": {
+        "maximum": 1.4582487000000006,
+        "minimum": 0.0,
+        "passed": true,
+        "requested": {
+          "field": "elapsed",
+          "max_at_least": 0.5
+        },
+        "samples": 79
+      },
+      "paused": {
+        "actual": false,
+        "expected": false,
+        "passed": true
+      }
+    }
+  }
+]

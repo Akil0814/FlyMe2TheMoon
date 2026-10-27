@@ -1,5 +1,6 @@
-#if ELYSIA_ENABLE_IMGUI
 #include "development_overlay.h"
+#include <utility>
+#if ELYSIA_ENABLE_IMGUI
 #include "engine/tools/debug_draw.h"
 #include "engine/core/time.h"
 #include "game/platform/idle_cursor.h"
@@ -7,9 +8,10 @@
 #include <algorithm>
 #include <cfloat>
 #include <cmath>
-#include <utility>
+#endif
 
 namespace game::development {
+#if ELYSIA_ENABLE_IMGUI
 namespace {
 struct CursorChangeGuard {
     ImGuiIO* io=nullptr;
@@ -22,16 +24,27 @@ struct CursorChangeGuard {
     ~CursorChangeGuard(){if(io&&!previously_disabled)io->ConfigFlags&=~ImGuiConfigFlags_NoMouseCursorChange;}
 };
 }
+#endif
 std::expected<void,std::string> DevelopmentOverlay::initialize(SDL_Window& window,SDL_Renderer& renderer){
-    if(_context)return {};
+    if(_initialized)return {};
+#if ELYSIA_ENABLE_IMGUI
     if(auto result=_overlay.initialize(window,renderer);!result)return result;
     _context=ImGui::GetCurrentContext();
     const auto tools=_overlay.register_panel("fly.development.tools",[this]{if(_panels_visible)draw_tools();});
     const auto fps=_overlay.register_panel("fly.development.fps",[this]{if(_show_fps)draw_fps();});
     if(!tools.is_valid()||!fps.is_valid()){shutdown();return std::unexpected("Developer tool registration failed");}
+#else
+    (void)renderer;
+#endif
+    _idle_cursor.start(&window);_initialized=true;
     return {};
 }
 void DevelopmentOverlay::begin_frame(double delta){
+    if(!_initialized)return;
+    _idle_cursor.update();
+#if ELYSIA_ENABLE_IMGUI
+    // Global cursor sampling continues while all developer UI is hidden.
+    if(!_panels_visible&&!_show_fps)return;
     {
         if(_context)ImGui::SetCurrentContext(_context);
         CursorChangeGuard cursor(_context&&game::platform::IdleCursor::hides_cursor());
@@ -42,26 +55,64 @@ void DevelopmentOverlay::begin_frame(double delta){
         _frame_offset=(_frame_offset+1)%static_cast<int>(_frame_times.size());
         _frame_count=std::min(_frame_count+1,static_cast<int>(_frame_times.size()));
     }
+#else
+    (void)delta;
+#endif
+}
+void DevelopmentOverlay::process_event(const SDL_Event& event){
+#if ELYSIA_ENABLE_IMGUI
+    _overlay.process_event(event);
+#else
+    (void)event;
+#endif
+}
+void DevelopmentOverlay::render(SDL_Renderer& renderer){
+#if ELYSIA_ENABLE_IMGUI
+    if(_initialized&&(_panels_visible||_show_fps))_overlay.render(renderer);
+#else
+    (void)renderer;
+#endif
 }
 void DevelopmentOverlay::set_panels_visible(bool visible)noexcept{
     _panels_visible=visible;
+#if ELYSIA_ENABLE_IMGUI
     if(_context&&!visible){
         ImGui::SetCurrentContext(_context);
         // A hidden panel will not receive releases for previously held input.
         auto& io=ImGui::GetIO();io.ClearEventsQueue();io.ClearInputKeys();io.ClearInputMouse();
     }
+#endif
 }
 elysia::input::InputCapture DevelopmentOverlay::captured_input()const noexcept{
+#if ELYSIA_ENABLE_IMGUI
     return _panels_visible?_overlay.captured_input():elysia::input::InputCapture::None;
+#else
+    return elysia::input::InputCapture::None;
+#endif
 }
 elysia::tools::DevelopmentPanelHandle DevelopmentOverlay::register_panel(std::string stable_id,DrawCallback draw){
+#if ELYSIA_ENABLE_IMGUI
     if(!draw)return elysia::tools::InvalidDevelopmentPanelHandle;
     return _overlay.register_panel(std::move(stable_id),[this,draw=std::move(draw)]{if(_panels_visible)draw();});
+#else
+    (void)stable_id;(void)draw;return elysia::tools::InvalidDevelopmentPanelHandle;
+#endif
+}
+bool DevelopmentOverlay::unregister_panel(elysia::tools::DevelopmentPanelHandle handle){
+#if ELYSIA_ENABLE_IMGUI
+    return _overlay.unregister_panel(handle);
+#else
+    (void)handle;return false;
+#endif
 }
 void DevelopmentOverlay::shutdown()noexcept{
+    _idle_cursor.stop();_initialized=false;_panels_visible=false;
+#if ELYSIA_ENABLE_IMGUI
     _overlay.shutdown();_context=nullptr;_panels_visible=false;_show_fps=false;
     _frame_times.fill(0);_frame_offset=0;_frame_count=0;
+#endif
 }
+#if ELYSIA_ENABLE_IMGUI
 void DevelopmentOverlay::draw_tools(){
     using namespace elysia::tools;
     ImGui::SetNextWindowPos({16,88},ImGuiCond_FirstUseEver);
@@ -122,5 +173,5 @@ void DevelopmentOverlay::draw_fps(){
     }
     ImGui::End();
 }
-}
 #endif
+}

@@ -21,7 +21,7 @@ def add_unlocked_save(stage):
                 'score_verified': [False] * 60, 'legacy_scores': [0] * 60,
                 'deaths': [0] * 60, 'best_time': [0.0] * 60, 'crystals': 0,
                 'achievements': [], 'story_flags': [], 'no_pickup_clear': False}
-    dependencies = json.loads((stage / 'assets/configs/fly/catalog.json').read_text(
+    dependencies = json.loads((stage / 'assets/configs/catalog.json').read_text(
         encoding='utf8'))['dependencies']
     for level in range(1, 61):
         if not all(progress['stars'][dependency - 1] >= 0

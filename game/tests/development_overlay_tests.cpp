@@ -29,7 +29,8 @@ void check_overlay(SDL_Window& window, SDL_Renderer& renderer)
 {
     using namespace elysia::tools;
     DevelopmentOverlayHost host;
-    host.set_overlay(game::application::GameModule{}.create_development_overlay());
+    cursor_sample={0,200,200,true};
+    host.set_overlay(std::make_unique<game::development::DevelopmentOverlay>(sample_cursor));
     const auto initialized = host.initialize(window, renderer);
     require(initialized.has_value(), "Overlay initialization failed");
     using elysia::camera::CameraSlot;
@@ -114,17 +115,16 @@ void check_overlay(SDL_Window& window, SDL_Renderer& renderer)
     require(ELYSIA_TIME->delta() == 0.0 && ImGui::GetIO().DeltaTime > 0.0f,
         "ImGui must keep using real frame time while simulation is paused");
     {
-        game::platform::IdleCursor cursor(sample_cursor);cursor_sample={0,200,200,true};cursor.start(&window);
-        cursor_sample.now=2'000'000'000;cursor.update();require(!SDL_CursorVisible(),"Cursor must hide over a paused F2 panel");
+        cursor_sample.now=2'000'000'000;frame();require(!SDL_CursorVisible(),"Cursor must hide over a paused F2 panel");
         frame();frame();require(!SDL_CursorVisible(),"ImGui's SDL backend must not reveal an idle cursor on subsequent frames");
         require(!(ImGui::GetIO().ConfigFlags&ImGuiConfigFlags_NoMouseCursorChange),"Cursor coordination must restore the original ImGui flags");
         ImGui::GetIO().ConfigFlags|=ImGuiConfigFlags_NoMouseCursorChange;frame();
         require((ImGui::GetIO().ConfigFlags&ImGuiConfigFlags_NoMouseCursorChange)!=0,"Cursor coordination must preserve a pre-existing cursor override");
         ImGui::GetIO().ConfigFlags&=~ImGuiConfigFlags_NoMouseCursorChange;
-        ++cursor_sample.x;cursor.update();frame();require(SDL_CursorVisible(),"Moving over F2 must restore the cursor despite pointer capture");
-        cursor_sample.now+=2'000'000'000;cursor.update();frame();require(!SDL_CursorVisible(),"An active F2 panel must allow repeated idle hiding");
+        ++cursor_sample.x;frame();require(SDL_CursorVisible(),"Moving over F2 must restore the cursor despite pointer capture");
+        cursor_sample.now+=2'000'000'000;frame();require(!SDL_CursorVisible(),"An active F2 panel must allow repeated idle hiding");
     }
-    frame();require(SDL_CursorVisible(),"Leaving the level must restore normal ImGui cursor management");
+    ++cursor_sample.x;frame();require(SDL_CursorVisible(),"Moving must restore normal ImGui cursor management");
 
     // Exercise the same scaled/letterboxed renderer configuration as the game.
     require(SDL_SetRenderLogicalPresentation(&renderer, 640, 360, SDL_LOGICAL_PRESENTATION_LETTERBOX)
@@ -193,7 +193,13 @@ void check_overlay(SDL_Window& window, SDL_Renderer& renderer)
     frame();
     require(ImGui::GetFrameCount() == last_frame, "Hiding with FPS disabled must stop ImGui frames");
     require(host.panel_registry()->unregister_panel(panel), "Panel cleanup failed");
+    const int callbacks_after_unregistering=callback_count;
+    toggle();frame();
+    require(callback_count==callbacks_after_unregistering,"Unregistered scene panels must no longer invoke their callbacks");
+    cursor_sample.now+=2'000'000'000;frame();
+    require(!SDL_CursorVisible(),"Global idle hiding must keep running after scene callbacks are unregistered");
     host.shutdown();
+    require(SDL_CursorVisible(),"Application shutdown must restore the cursor");
     ELYSIA_DEBUG_DRAW->set_enabled(false);
     ELYSIA_DEBUG_DRAW->set_enabled_categories(DebugDrawCategory::Default);
     ELYSIA_TIME->reset();
