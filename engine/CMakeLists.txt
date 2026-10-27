@@ -8,6 +8,9 @@ add_library(engine_lib ${ENGINE})
 
 target_include_directories(engine_lib PUBLIC ${PROJECT_SOURCE_DIR})
 target_link_libraries(engine_lib PUBLIC ${ELYSIA_SDL_LIBRARIES} PRIVATE box2d enet)
+if(ANDROID)
+    target_link_libraries(engine_lib PRIVATE log)
+endif()
 
 if(ELYSIA_ENABLE_IMGUI)
     target_link_libraries(engine_lib PUBLIC imgui_lib)

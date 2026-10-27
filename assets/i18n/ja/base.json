@@ -331,11 +331,11 @@
     "demo": "    飛行のお手本",
     "paused": "    一時停止",
     "wait": "お待ちください…",
-    "continue": "Enter / クリック：次へ",
-    "skip": "Enter / クリック：次へ      Tab：既読をスキップ",
-    "controls": "Space / W 飛行 · A / D 移動 · キャラの下を押して噴射 · Esc / P 一時停止",
-    "success_hint": "月に到着！Enter 次のステージ    R 星を集め直す    Esc 選択",
-    "failure_hint": "失敗！Enter / R 再挑戦    Esc ステージ選択",
+    "continue": "タップして続ける",
+    "skip": "タップして続ける",
+    "controls": "キャラの下を押し続けて噴射 · 離して停止 · 戻る：一時停止",
+    "success_hint": "月に到着！リザルトのボタンで続けます。",
+    "failure_hint": "リザルトのボタンでもう一度挑戦します。",
     "save_failure": "進行状況を保存できませんでした。再挑戦するか、ステージ選択へ戻ってください。",
     "credits": "スタッフ",
     "next_level": "次へ",
@@ -345,11 +345,12 @@
     "result_failure": "ステージ {:02} · もう一度",
     "result_score": "スコア {}",
     "result_new_record": "新記録！",
-    "credits_controls": "左スティック / ↑↓：スクロール · Space / X：停止 / 再開 · Esc / B：戻る",
+    "credits_controls": "スクロールバーかボタンで移動 · 戻る：メニュー",
     "album_page": "アルバム {}",
     "hud_stage": "ステージ {:02}",
     "pause_title": "一時停止",
     "resume_level": "ゲームを続ける",
-    "pause_stage": "ステージ {:02}"
+    "pause_stage": "ステージ {:02}",
+    "credits_toggle": "一時停止 / 再開"
   }
 }

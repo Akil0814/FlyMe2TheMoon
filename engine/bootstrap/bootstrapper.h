@@ -2,12 +2,14 @@
 
 #include "app_config_loader.h"
 #include "bootstrap_types.h"
+#include "../io/path/path_manager.h"
 #include "startup_preload_loader.h"
 #include "../tools/singleton.h"
 
 #include <SDL3/SDL.h>
 
 #include <expected>
+#include <optional>
 #include <filesystem>
 #include <string_view>
 
@@ -19,7 +21,8 @@ class Bootstrapper : public elysia::tools::Singleton<Bootstrapper>
 
 public:
     [[nodiscard]] std::expected<BootstrapOutput,BootstrapFailure>
-        parse_runtime_settings(const std::filesystem::path& executable_path);
+        parse_runtime_settings(const std::filesystem::path& executable_path,
+            const std::optional<io::RuntimePaths>& runtime_paths = std::nullopt);
 
     [[nodiscard]] std::expected<void,BootstrapFailure>
         preload_startup_resources(SDL_Renderer* renderer);

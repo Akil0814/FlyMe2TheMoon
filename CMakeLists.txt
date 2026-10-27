@@ -8,6 +8,11 @@ if(POLICY CMP0141)
 endif()
 
 project(FlyMe2TheMoon LANGUAGES C CXX)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+if(ANDROID)
+    set(BUILD_TESTING OFF CACHE BOOL "" FORCE)
+    set(ELYSIA_ENABLE_IMGUI OFF CACHE BOOL "" FORCE)
+endif()
 include(CTest)
 
 if(MSVC)
@@ -90,7 +95,12 @@ if(ELYSIA_ENABLE_ASAN AND MSVC)
 endif()
 
 
-add_executable(FlyMe2TheMoon "main.cpp")
+if(ANDROID)
+    add_library(FlyMe2TheMoon SHARED "main.cpp")
+    set_target_properties(FlyMe2TheMoon PROPERTIES OUTPUT_NAME main)
+else()
+    add_executable(FlyMe2TheMoon "main.cpp")
+endif()
 
 if(WIN32)
     enable_language(RC)

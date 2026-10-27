@@ -88,6 +88,10 @@ void InputSystem::begin_frame()
 
 void InputSystem::process_event(const SDL_Event& event)
 {
+    if (event.type >= SDL_EVENT_FINGER_DOWN && event.type <= SDL_EVENT_FINGER_CANCELED) {
+        process_touch(event);
+        return;
+    }
     _gamepad_devices.handle_event(event);
 
     if (event.type == SDL_EVENT_GAMEPAD_REMOVED)
@@ -105,6 +109,7 @@ void InputSystem::process_event(const SDL_Event& event)
     }
     if (should_clear_state_for_event(event))
     {
+        cancel_pointer();
         _focus_lost = true;
         _events.clear();
         // Keep physical state until release so scene suppression can require neutral.
@@ -127,6 +132,52 @@ void InputSystem::process_event(const SDL_Event& event)
         _connected.push_back(_translating_source);
     _sources[_translating_source].device = event_device;
     translate_event(event, event_device);
+}
+
+void InputSystem::cancel_pointer()
+{
+    _touch.reset();
+    _sources[InputSourceId::mouse()].physical = {};
+    _sources[InputSourceId::mouse()].initial = {};
+    _events.clear();
+    _focus_lost = true;
+}
+
+void InputSystem::process_touch(const SDL_Event& event)
+{
+    if (!_renderer) return;
+    int width=0,height=0;
+    SDL_GetWindowSize(SDL_GetRenderWindow(_renderer),&width,&height);
+    float x=0,y=0;
+    if (!SDL_RenderCoordinatesFromWindow(_renderer,event.tfinger.x*width,event.tfinger.y*height,&x,&y)) return;
+    int logical_width=0,logical_height=0;
+    SDL_RendererLogicalPresentation mode;
+    SDL_GetRenderLogicalPresentation(_renderer,&logical_width,&logical_height,&mode);
+    const TouchPhase phase = event.type == SDL_EVENT_FINGER_DOWN ? TouchPhase::Down :
+        event.type == SDL_EVENT_FINGER_UP ? TouchPhase::Up :
+        event.type == SDL_EVENT_FINGER_CANCELED ? TouchPhase::Cancel : TouchPhase::Move;
+    const auto point = _touch.process(event.tfinger.touchID,event.tfinger.fingerID,phase,x,y,
+        static_cast<float>(logical_width),static_cast<float>(logical_height));
+    if (!point) return;
+    if (point->action == PointerAction::Cancel) {
+        // Reset the UI capture instead of delivering a release that could click.
+        _sources[InputSourceId::mouse()].physical = {};
+        _events.clear(); _focus_lost = true;
+        return;
+    }
+    RawInputEvent translated;
+    translated.source = InputSourceId::mouse();
+    translated.device = InputDevice::Mouse;
+    translated.mouse_x = static_cast<int>(std::lround(point->x));
+    translated.mouse_y = static_cast<int>(std::lround(point->y));
+    translated.type = point->action == PointerAction::Move ? RawInputEventType::MouseMoved :
+        point->action == PointerAction::Press ? RawInputEventType::ControlPressed : RawInputEventType::ControlReleased;
+    if (point->action != PointerAction::Move) {
+        translated.control = RawInputControl::MouseLeft;
+        translated.mouse_button = SDL_BUTTON_LEFT;
+    }
+    _sources[translated.source].device = InputDevice::Mouse;
+    append_event(normalize_mouse_event(translated));
 }
 
 void InputSystem::set_renderer(SDL_Renderer* renderer)
@@ -242,6 +293,7 @@ void InputSystem::update_mouse_frame_cache(const RawInputEvent& event)
 
 void InputSystem::refresh_mouse_position()
 {
+    if (_touch.active()) return;
     RawInputEvent mouse_event;
     mouse_event.type = RawInputEventType::MouseMoved;
     mouse_event.device = InputDevice::Mouse;
@@ -322,6 +374,7 @@ InputSnapshot InputSystem::snapshot() const
 
 void InputSystem::reset_input_lifecycle()
 {
+    _touch.reset();
     _events.clear();
     _sources.clear();
     _sources.emplace(InputSourceId::keyboard(), SourceState{});

@@ -38,7 +38,13 @@ void CreditsScene::on_enter(const elysia::scene::ScenePayload&) {
     scroll->set_content(std::move(images));window->add_child(std::move(scroll),ui::UiLayoutChildOptions{._anchor=ui::UiLayoutAnchor::TopCenter,._margin={.top=18}});
     auto controls=std::make_unique<ui::UiListContainer>(core::Rect{0,0,760,90});controls->set_cross_align(ui::UiLayoutAlign::Center);controls->set_item_spacing(8);
     auto hint=std::make_unique<ui::UiLabel>(core::Rect{0,0,760,30},0,ui::ui_raw_text(content::ui("credits_controls")));hint->set_horizontal_align(ui::TextHorizontalAlign::Center);controls->add_back(std::move(hint));
-    controls->add_back(std::make_unique<frontend::GlassButton>(content::ui("back"),360,48,[this]{request_scene_switch(scene_keys::MainMenu);}));
+    auto buttons=std::make_unique<ui::UiListContainer>(core::Rect{0,0,760,48});
+    buttons->set_direction(ui::UiListDirection::Horizontal);buttons->set_item_spacing(12);
+    buttons->add_back(std::make_unique<frontend::GlassButton>("↑",88,48,[this]{_auto_scroll=false;_scroll->scroll_by({0,-180.f});}));
+    buttons->add_back(std::make_unique<frontend::GlassButton>("↓",88,48,[this]{_auto_scroll=false;_scroll->scroll_by({0,180.f});}));
+    buttons->add_back(std::make_unique<frontend::GlassButton>(content::ui("credits_toggle"),220,48,[this]{_auto_scroll=!_auto_scroll;}));
+    buttons->add_back(std::make_unique<frontend::GlassButton>(content::ui("back"),300,48,[this]{request_scene_switch(scene_keys::MainMenu);}));
+    controls->add_back(std::move(buttons));
     auto* scope=controls.get();window->add_child(std::move(controls),ui::UiLayoutChildOptions{._anchor=ui::UiLayoutAnchor::BottomCenter,._margin={.bottom=16}});window->register_focus_scope(*scope);window->focus_first_available_scope();
     ELYSIA_AUDIO->transition_music("fly.MoonTrip");
 }

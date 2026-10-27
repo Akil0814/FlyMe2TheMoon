@@ -151,6 +151,7 @@ std::optional<RawInputControl> KeyboardMouseInputTranslator::control_from_key(SD
     case SDLK_RETURN: return RawInputControl::KeyEnter;
     case SDLK_KP_ENTER: return RawInputControl::KeyNumpadEnter;
     case SDLK_ESCAPE: return RawInputControl::KeyEscape;
+    case SDLK_AC_BACK: return RawInputControl::KeyEscape;
     case SDLK_SPACE: return RawInputControl::KeySpace;
     case SDLK_INSERT: return RawInputControl::KeyInsert;
     case SDLK_PAGEUP: return RawInputControl::KeyPageUp;

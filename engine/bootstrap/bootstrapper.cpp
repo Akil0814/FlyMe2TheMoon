@@ -14,7 +14,8 @@ constexpr const char* USER_CONFIG_FILE_NAME = "user_config.json";
 }
 
 std::expected<BootstrapOutput,BootstrapFailure>
-Bootstrapper::parse_runtime_settings(const std::filesystem::path& executable_path)
+Bootstrapper::parse_runtime_settings(const std::filesystem::path& executable_path,
+    const std::optional<io::RuntimePaths>& runtime_paths)
 {
     // Reset state left over from a previous initialization attempt.
     _startup_preload_loader.reset();
@@ -23,7 +24,8 @@ Bootstrapper::parse_runtime_settings(const std::filesystem::path& executable_pat
     // Later stages depend on these paths to locate assets and configuration
     elysia::io::PathManager* path_manager = elysia::io::PathManager::instance();
 
-    if (auto path_result = path_manager->initialize(executable_path); !path_result)
+    if (auto path_result = runtime_paths ? path_manager->initialize(*runtime_paths)
+                                        : path_manager->initialize(executable_path); !path_result)
     {
         // Translate a low-level filesystem error into a bootstrap-level error
         BootstrapFailure::Code code = BootstrapFailure::Code::PathAccess;

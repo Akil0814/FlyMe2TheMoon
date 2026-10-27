@@ -8,6 +8,9 @@
 #include <ctime>
 #include <iomanip>
 #include <iostream>
+#if defined(__ANDROID__)
+#include <android/log.h>
+#endif
 #if defined(_WIN32)
 #include <io.h>
 #include <process.h>
@@ -305,8 +308,15 @@ void Logger::log(LogLevel level,std::string_view category,std::string_view messa
                     disable_file_sink();
             }
         }
-        if (_config.console_enabled)
+        if (_config.console_enabled) {
+#if defined(__ANDROID__)
+            const int priority = level_rank(level) >= level_rank(LogLevel::Error) ? ANDROID_LOG_ERROR :
+                level == LogLevel::Warn ? ANDROID_LOG_WARN : ANDROID_LOG_INFO;
+            __android_log_write(priority,"FlyMe2TheMoon",line.c_str());
+#else
             write_console_line(level,line,_console_colors_enabled);
+#endif
+        }
     }
     catch (...)
     {

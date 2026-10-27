@@ -24,12 +24,15 @@ bool AudioService::initialize(const AudioSettings& settings)
     _sound_scheduler.reset();
     _sound_group_volumes.fill(100);
     _initialized = true;
+    _suspend_device.store(static_cast<SDL_AudioDeviceID>(SDL_GetNumberProperty(
+        MIX_GetMixerProperties(detail::mixer_backend().mixer),MIX_PROP_MIXER_DEVICE_NUMBER,0)));
     apply_volumes();
     return true;
 }
 
 void AudioService::shutdown()
 {
+    _suspend_device.store(0);
     if (!_initialized)
         return;
 
@@ -37,6 +40,15 @@ void AudioService::shutdown()
     stop_all_sounds();
     _sound_scheduler.reset();
     _initialized = false;
+}
+
+void AudioService::set_suspended(bool suspended)
+{
+    // Device pause preserves the playing/paused state of individual tracks.
+    if (const auto device = _suspend_device.load()) {
+        if (suspended) SDL_PauseAudioDevice(device);
+        else SDL_ResumeAudioDevice(device);
+    }
 }
 
 bool AudioService::play_sound(const std::string_view& key, int loops)

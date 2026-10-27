@@ -331,11 +331,11 @@
     "demo": "    飞行示范",
     "paused": "    暂停",
     "wait": "请稍候……",
-    "continue": "Enter / 单击：继续",
-    "skip": "Enter / 单击：继续      Tab：跳过已读剧情",
-    "controls": "Space / W 飞行 · A / D 转向 · 鼠标按住角色下方喷射 · Esc / P 暂停",
-    "success_hint": "到达月亮！Enter 下一关    R 重试收集星星    Esc 选关",
-    "failure_hint": "挑战失败。Enter / R 重试    Esc 选关",
+    "continue": "点按屏幕继续",
+    "skip": "点按屏幕继续",
+    "controls": "按住角色下方喷射 · 松手停止推力 · 系统返回键暂停",
+    "success_hint": "到达月亮！点按结算按钮继续旅程。",
+    "failure_hint": "挑战失败，点按结算按钮重新挑战。",
     "save_failure": "进度未能保存，请重新挑战或返回选关。",
     "credits": "制作人员",
     "next_level": "继续旅程",
@@ -345,11 +345,12 @@
     "result_failure": "第 {:02} 关 · 再试一次",
     "result_score": "得分 {}",
     "result_new_record": "新纪录！",
-    "credits_controls": "左摇杆 / ↑↓：滚动 · 空格 / X：暂停 / 继续 · Esc / B：菜单",
+    "credits_controls": "拖动滚动条或点按按钮滚动 · 系统返回键回到菜单",
     "album_page": "星册 {}",
     "hud_stage": "第 {:02} 关",
     "pause_title": "暂停",
     "resume_level": "继续游戏",
-    "pause_stage": "第 {:02} 关"
+    "pause_stage": "第 {:02} 关",
+    "credits_toggle": "暂停 / 继续"
   }
 }

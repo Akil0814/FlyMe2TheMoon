@@ -143,6 +143,11 @@ void FlightScene::on_shortcuts(const input::RawInputFrame&,const std::vector<inp
             return;
         }
         if(e.type!=input::RawInputEventType::ControlPressed)continue;
+        if(_finished && e.control==C::KeyEscape) {
+            consume_input(e);
+            request_scene_switch(scene_keys::Selection,SelectionPayload{(_level-1)/15});
+            return;
+        }
         _using_gamepad=e.device==input::InputDevice::Gamepad;
         if(_pause_menu_open){
             if(e.control==C::KeyP||e.control==C::KeyEscape||e.control==C::GamepadStart){consume_input(e);game::audio::ui_click();close_pause_menu();}
@@ -192,6 +197,11 @@ void FlightScene::on_routed_input(const input::InputSnapshot& snapshot) {
 }
 void FlightScene::apply_pointer(Vec point) {
     _player->thrust=pointer_thrust(_player->position(),point,content::catalog().at("role"));
+}
+void FlightScene::on_application_suspended() {
+    if (_player) _player->thrust = {};
+    _dialogue_pointer_pressed = false;
+    if (!_finished && !_death_pending) open_pause_menu();
 }
 void FlightScene::finish(bool success) {
     if(_finished||_death_pending)return;_audio.set_paused(true);_finished=true;_success=success;_player->thrust={};pause();

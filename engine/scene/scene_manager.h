@@ -62,6 +62,8 @@ public:
     void on_input(const elysia::input::InputSnapshot& input);
     void on_update(double delta);
     void on_render(SDL_Renderer* renderer);
+    void on_application_suspended();
+    void on_application_resumed();
     void on_scene_request(const SceneRequest& request) override;
 
     [[nodiscard]] SceneManagerState state() const noexcept { return _state; }

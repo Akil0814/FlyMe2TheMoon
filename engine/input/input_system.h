@@ -1,6 +1,7 @@
 #pragma once
 
 #include "input_snapshot.h"
+#include "touch_pointer.h"
 #include "input_suppression.h"
 #include <map>
 #include "input_capture.h"
@@ -32,8 +33,11 @@ public:
     }
     InputSnapshot snapshot() const;
     void set_renderer(SDL_Renderer* renderer);
+    void cancel_pointer();
 
 private:
+    TouchPointer _touch;
+    void process_touch(const SDL_Event& event);
     void translate_event(const SDL_Event& event, InputDevice event_device);
     InputTranslator* select_translator(InputDevice device);
     RawInputEvent normalize_mouse_event(const RawInputEvent& event) const;

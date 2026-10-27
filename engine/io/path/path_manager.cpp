@@ -26,7 +26,19 @@ PathFailure make_path_failure(
 
 std::expected<void,PathFailure> PathManager::initialize()
 {
-    return initialize({});
+    return initialize(std::filesystem::path{});
+}
+
+std::expected<void,PathFailure> PathManager::initialize(const RuntimePaths& paths)
+{
+    if (!paths.content_root.is_absolute() || !paths.writable_root.is_absolute())
+        return std::unexpected(make_path_failure(PathError::ProjectRoot,
+            "Android content and writable roots must be absolute paths."));
+    if (auto result = validate_core_asset_dirs(paths.content_root); !result) return result;
+    _root = paths.content_root.lexically_normal();
+    _writable_root = paths.writable_root.lexically_normal();
+    _initialized = true;
+    return {};
 }
 
 std::expected<void,PathFailure> PathManager::initialize(
@@ -56,6 +68,7 @@ std::expected<void,PathFailure> PathManager::initialize(
         return directories_result;
 
     _root = std::move(*root_result);
+    _writable_root = _root;
     _initialized = true;
     return {};
 }
@@ -123,9 +136,9 @@ std::filesystem::path PathManager::fonts() const { return assets() / "fonts"; }
 std::filesystem::path PathManager::preload() const { return assets() / "preload"; }
 std::filesystem::path PathManager::audio() const { return assets() / "audio"; }
 std::filesystem::path PathManager::textures() const { return assets() / "textures"; }
-std::filesystem::path PathManager::player_data() const { return _root / "player_data"; }
+std::filesystem::path PathManager::player_data() const { return _writable_root / "player_data"; }
 std::filesystem::path PathManager::saves() const { return player_data() / "saves"; }
-std::filesystem::path PathManager::logs() const { return _root / "logs"; }
+std::filesystem::path PathManager::logs() const { return _writable_root / "logs"; }
 std::filesystem::path PathManager::content_registry() const { return assets() / "content_registry.json"; }
 
 std::filesystem::path PathManager::to_project_path(const std::filesystem::path& path) const

@@ -1,0 +1,95 @@
+import java.security.MessageDigest
+import java.util.zip.ZipEntry
+import java.util.zip.ZipOutputStream
+import groovy.json.JsonOutput
+
+plugins { id 'com.android.application' }
+
+def signingFile = file(providers.gradleProperty('flySigningProperties').getOrElse(
+    System.getenv('FLY_SIGNING_PROPERTIES') ?: rootProject.file('signing.properties').absolutePath))
+def signing = new Properties()
+if (signingFile.exists()) signingFile.withInputStream { signing.load(it) }
+def releaseRequested = gradle.startParameter.taskNames.any { it.toLowerCase().contains('release') }
+def signingKeys = ['storeFile', 'storePassword', 'keyAlias', 'keyPassword']
+
+android {
+    namespace 'com.akil0814.flyme2themoon'
+    compileSdk 36
+    buildToolsVersion '35.0.0'
+    ndkVersion '28.2.13676358'
+    defaultConfig {
+        applicationId 'com.akil0814.flyme2themoon'
+        minSdk 26
+        targetSdk 36
+        versionCode 1
+        versionName '1.0.0'
+        ndk { abiFilters 'arm64-v8a' }
+        externalNativeBuild { cmake {
+            arguments '-DANDROID_STL=c++_shared', '-DBUILD_TESTING=OFF', '-DELYSIA_ENABLE_IMGUI=OFF'
+            targets 'FlyMe2TheMoon'
+            cppFlags '-std=c++23'
+        } }
+    }
+    signingConfigs {
+        release {
+            if (signingKeys.every { signing.getProperty(it) }) {
+                storeFile file(signing.getProperty('storeFile'))
+                storePassword signing.getProperty('storePassword')
+                keyAlias signing.getProperty('keyAlias')
+                keyPassword signing.getProperty('keyPassword')
+            }
+        }
+    }
+    buildTypes {
+        debug { debuggable true; jniDebuggable true }
+        release {
+            debuggable false
+            minifyEnabled false
+            signingConfig signingConfigs.release
+            ndk { debugSymbolLevel 'FULL' }
+        }
+    }
+    externalNativeBuild { cmake { path '../../CMakeLists.txt'; version '3.31.6' } }
+    sourceSets.main {
+        java.srcDir '../../thirdparty/SDL3/android-project/app/src/main/java'
+        assets.srcDir layout.buildDirectory.dir('generated/gameAssets')
+    }
+    compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
+    packaging { jniLibs { useLegacyPackaging false } }
+    androidResources { noCompress += ['zip'] }
+}
+
+if (releaseRequested && signingKeys.any { !signing.getProperty(it) }) {
+    throw new GradleException('Release signing missing. Run tools/new-release-key.ps1 or supply android/signing.properties.')
+}
+
+def assetsRoot = file('../../assets')
+def generatedAssets = layout.buildDirectory.dir('generated/gameAssets')
+tasks.register('prepareGameAssets') {
+    inputs.dir assetsRoot
+    outputs.dir generatedAssets
+    doLast {
+        def output = generatedAssets.get().asFile
+        output.mkdirs()
+        def files = fileTree(assetsRoot).files.findAll { it.isFile() }.sort {
+            assetsRoot.toPath().relativize(it.toPath()).toString()
+        }
+        def entries = files.collect { source ->
+            [path: 'assets/' + assetsRoot.toPath().relativize(source.toPath()).toString().replace('\\', '/'),
+             size: source.length(), sha256: MessageDigest.getInstance('SHA-256').digest(source.bytes).encodeHex().toString()]
+        }
+        def contentHash = MessageDigest.getInstance('SHA-256').digest(JsonOutput.toJson(entries).getBytes('UTF-8')).encodeHex().toString()
+        new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(new File(output, 'game-assets.zip')))).withCloseable { zip ->
+            files.eachWithIndex { source, index ->
+                def entry = new ZipEntry(entries[index].path)
+                entry.time = 0
+                zip.putNextEntry(entry)
+                source.withInputStream { it.transferTo(zip) }
+                zip.closeEntry()
+            }
+        }
+        new File(output, 'game-assets.json').setText(JsonOutput.toJson([
+            hash: contentHash, totalBytes: entries.sum { it.size }, files: entries]), 'UTF-8')
+    }
+}
+tasks.named('preBuild').configure { dependsOn 'prepareGameAssets' }

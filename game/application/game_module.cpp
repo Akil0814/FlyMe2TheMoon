@@ -73,7 +73,11 @@ namespace game::application
     std::unique_ptr<elysia::tools::IDevelopmentOverlay>
         GameModule::create_development_overlay() const
     {
+#if defined(__ANDROID__)
+        return {};
+#else
         return std::make_unique<game::development::DevelopmentOverlay>();
+#endif
     }
 
 }

@@ -27,6 +27,7 @@ class FlightScene final : public elysia::scene::Scene {
 public:
     FlightScene();
     ~FlightScene() override;
+    void on_application_suspended() override;
 protected:
     void on_enter(const elysia::scene::ScenePayload&) override;
     void on_exit() override;

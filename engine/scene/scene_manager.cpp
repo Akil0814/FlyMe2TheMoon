@@ -121,6 +121,15 @@ void SceneManager::on_update(double delta)
     process_pending_request();
 }
 
+void SceneManager::on_application_suspended()
+{
+    if (_state == SceneManagerState::Running && _current_scene) _current_scene->on_application_suspended();
+}
+void SceneManager::on_application_resumed()
+{
+    if (_state == SceneManagerState::Running && _current_scene) _current_scene->on_application_resumed();
+}
+
 void SceneManager::on_render(SDL_Renderer* renderer)
 {
     if (_state != SceneManagerState::Running || !_current_scene)

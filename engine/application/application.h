@@ -18,6 +18,7 @@
 #include <SDL3/SDL.h>
 
 #include <expected>
+#include <atomic>
 #include <optional>
 #include <source_location>
 #include <string>
@@ -57,6 +58,7 @@ public:
 
 private:
     Application() = default;
+    static bool SDLCALL watch_lifecycle(void* userdata, SDL_Event* event);
 
     bool initialize_impl(int argc,char** argv,const IGameModule& game_module);
     bool initialize_runtime(
@@ -83,6 +85,11 @@ private:
     bool startup_fail(const elysia::localization::LocalizationFailure& failure);
 
 private:
+    std::atomic<bool> _in_background{false};
+    std::atomic<bool> _suspend_pending{false};
+    std::atomic<bool> _resume_pending{false};
+    std::atomic<bool> _terminate_pending{false};
+    bool _watching_lifecycle = false;
     double _target_fps = 60.0;
 
     SDL_Event _event{};

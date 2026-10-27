@@ -7,11 +7,18 @@
 
 namespace elysia::io
 {
+struct RuntimePaths
+{
+    std::filesystem::path content_root;
+    std::filesystem::path writable_root;
+};
+
 class PathManager : public elysia::tools::Singleton<PathManager>
 {
     friend elysia::tools::Singleton<PathManager>;
 
 public:
+    [[nodiscard]] std::expected<void,PathFailure> initialize(const RuntimePaths& paths);
     [[nodiscard]] std::expected<void,PathFailure> initialize();
     [[nodiscard]] std::expected<void,PathFailure> initialize(
         const std::filesystem::path& start_path);
@@ -54,6 +61,7 @@ private:
 
 private:
     std::filesystem::path _root;
+    std::filesystem::path _writable_root;
     bool _initialized = false;
 };
 

@@ -9,6 +9,7 @@
 
 #include <SDL3_mixer/SDL_mixer.h>
 #include <array>
+#include <atomic>
 #include <string_view>
 
 
@@ -23,6 +24,7 @@ class AudioService : public elysia::tools::Singleton<AudioService>
 public:
     bool initialize(const AudioSettings& settings);
     void shutdown();
+    void set_suspended(bool suspended);
     [[nodiscard]] bool is_initialized() const noexcept { return _initialized; }
 
     bool play_sound(const std::string_view& key, int loops = 0);
@@ -51,6 +53,7 @@ public:
     const AudioSettings& settings() const;
 
 private:
+    std::atomic<SDL_AudioDeviceID> _suspend_device{0};
     bool channel_playing(int channel) const;
     void halt_channel(int channel);
     static bool play_track(MIX_Track* track,MIX_Audio* audio,int loops);

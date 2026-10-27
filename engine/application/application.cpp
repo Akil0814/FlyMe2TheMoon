@@ -227,9 +227,18 @@ bool Application::initialize_impl(
         argc > 0 && argv && argv[0]
             ? std::filesystem::path(argv[0])
             : std::filesystem::path{};
+    std::optional<elysia::io::RuntimePaths> runtime_paths;
+#if defined(__ANDROID__)
+    runtime_paths.emplace();
+    for (int i = 1; i < argc; ++i) {
+        const std::string_view argument(argv[i]);
+        if (argument.starts_with("--content-root=")) runtime_paths->content_root = argument.substr(15);
+        if (argument.starts_with("--data-root=")) runtime_paths->writable_root = argument.substr(12);
+    }
+#endif
     auto parse_result =
         elysia::bootstrap::Bootstrapper::instance()->parse_runtime_settings(
-            executable_path);
+            executable_path,runtime_paths);
 
     if (!parse_result)
         return startup_fail(parse_result.error());
@@ -400,7 +409,27 @@ bool Application::initialize_impl(
             return route;
         });
 
-    return enter_initial_scene(game_module,descriptor);
+    if (!enter_initial_scene(game_module,descriptor)) return false;
+    _in_background = false; _suspend_pending = false; _resume_pending = false; _terminate_pending = false;
+    _watching_lifecycle = SDL_AddEventWatch(watch_lifecycle,this);
+    return _watching_lifecycle || startup_fail("platform","Cannot register Android lifecycle callback");
+}
+
+bool SDLCALL Application::watch_lifecycle(void* userdata, SDL_Event* event)
+{
+    auto* app = static_cast<Application*>(userdata);
+    if (event->type == SDL_EVENT_WILL_ENTER_BACKGROUND) {
+        app->_in_background.store(true);
+        app->_suspend_pending.store(true);
+        elysia::audio::AudioService::instance()->set_suspended(true);
+    } else if (event->type == SDL_EVENT_DID_ENTER_FOREGROUND) {
+        app->_in_background.store(false);
+        app->_resume_pending.store(true);
+    } else if (event->type == SDL_EVENT_TERMINATING) {
+        app->_terminate_pending.store(true);
+        elysia::audio::AudioService::instance()->set_suspended(true);
+    }
+    return true;
 }
 
 bool Application::initialize_runtime(
@@ -439,10 +468,13 @@ bool Application::initialize_runtime(
 
 
 
-    _window = SDL_CreateWindow(settings.window_title.c_str(), user_settings.window.windowed_size.width, user_settings.window.windowed_size.height, 0);
+    SDL_SetHint(SDL_HINT_TOUCH_MOUSE_EVENTS,"0");
+    SDL_SetHint(SDL_HINT_MOUSE_TOUCH_EVENTS,"0");
+    _window = SDL_CreateWindow(settings.window_title.c_str(), descriptor.logical_width, descriptor.logical_height, 0);
     if (!check_startup_step(_window != nullptr,"platform","SDL_CreateWindow Error"))
         return false;
 
+#if !defined(__ANDROID__)
     const auto startup_window = detail::apply_startup_window_settings(
         user_settings.window,detail::make_sdl_window_operations(_window));
     if (!startup_window)
@@ -451,11 +483,12 @@ bool Application::initialize_runtime(
     if (*startup_window)
         elysia::tools::Logger::instance()->warn("application",elysia::core::format_failure_diagnostic(
             **startup_window,"STARTUP-WINDOW","platform"),(**startup_window).origin);
+#endif
 
-    _renderer = SDL_CreateGPURenderer(nullptr,_window);
-    if (!check_startup_step(_renderer != nullptr,"platform","SDL GPU renderer creation failed"))
+    _renderer = SDL_CreateRenderer(_window,"opengles2");
+    if (!check_startup_step(_renderer != nullptr,"platform","OpenGL ES renderer creation failed"))
         return false;
-    ELYSIA_LOG("application","SDL3 GPU backend: " << SDL_GetGPUDeviceDriver(SDL_GetGPURendererDevice(_renderer)));
+    ELYSIA_LOG("application","SDL renderer: " << SDL_GetRendererName(_renderer));
     if (!check_startup_step(SDL_SetRenderVSync(_renderer,user_settings.vsync ? 1 : 0),"platform","SDL VSync configuration failed"))
         return false;
     if (auto filter_result = detail::configure_sdl_texture_filter(_renderer,descriptor.presentation.render); !filter_result)
@@ -545,6 +578,7 @@ ApplicationRunResult Application::run()
 
     while (_active)
     {
+        const auto previous_scene = _scene_manager.current_scene_key();
         const std::uint64_t frame_start = SDL_GetPerformanceCounter();
         const double delta =
             static_cast<double>(frame_start - last_frame_start) / counter_freq;
@@ -575,6 +609,24 @@ ApplicationRunResult Application::run()
         if (resolve_exit())
             break;
 
+        if (_terminate_pending.exchange(false)) { _normal_exit_requested = true; continue; }
+        if (_suspend_pending.exchange(false)) {
+            if (!run_event_boundary("suspend",[this] {
+                _input_system.cancel_pointer();
+                _scene_manager.on_application_suspended();
+            })) { stop_after_boundary_failure(); break; }
+        }
+        if (_in_background.load()) { SDL_Delay(50); continue; }
+        if (_resume_pending.exchange(false)) {
+            last_frame_start = SDL_GetPerformanceCounter();
+            elysia::core::Time::instance()->begin_frame(0);
+            if (!run_event_boundary("resume",[this] {
+                _input_system.cancel_pointer();
+                _scene_manager.on_application_resumed();
+                elysia::audio::AudioService::instance()->set_suspended(false);
+            })) { stop_after_boundary_failure(); break; }
+        }
+
         if (!run_event_boundary("input", [this]() { _scene_manager.on_input(_input_system.snapshot()); }))
         {
             stop_after_boundary_failure();
@@ -604,6 +656,8 @@ ApplicationRunResult Application::run()
             stop_after_boundary_failure();
             break;
         }
+
+        if (previous_scene != _scene_manager.current_scene_key()) _input_system.cancel_pointer();
 
         if (!run_event_boundary("render",[this]()
         {
@@ -649,6 +703,10 @@ ApplicationRunResult Application::run()
 
 bool Application::shutdown() noexcept
 {
+    if (_watching_lifecycle) {
+        SDL_RemoveEventWatch(watch_lifecycle,this);
+        _watching_lifecycle = false;
+    }
     if (_has_shutdown)
         return _shutdown_succeeded;
 

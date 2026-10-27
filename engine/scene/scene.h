@@ -79,6 +79,8 @@ public:
     void consume_input(const elysia::input::RawInputEvent& event);
 
     void pause();
+    virtual void on_application_suspended() {}
+    virtual void on_application_resumed() {}
     void resume();
     [[nodiscard]] bool is_paused() const noexcept { return _paused; }
 
