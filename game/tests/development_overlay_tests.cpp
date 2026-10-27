@@ -1,6 +1,5 @@
 #include "engine/tools/development_overlay_host.h"
 #include "engine/tools/imgui/imgui_development_overlay.h"
-#include "engine/tools/debug_draw.h"
 #include "engine/core/time.h"
 #include "engine/scene/runtime/scene_camera_runtime.h"
 #include "game/development/camera_controls.h"
@@ -15,6 +14,7 @@
 #include <stdexcept>
 
 namespace {
+constexpr const char* panel_title = "Flight camera (F2)";
 void require(bool condition, const char* message)
 {
     if (!condition)
@@ -39,7 +39,7 @@ void check_overlay(SDL_Window& window, SDL_Renderer& renderer)
     int callback_count = 0;
     const auto panel = host.panel_registry()->register_panel("test.lifecycle", [&] {
         ++callback_count;
-        if (ImGui::Begin(ImGuiDevelopmentOverlay::MainPanelTitle))
+        if (ImGui::Begin(panel_title))
             game::development::draw_camera_controls(camera_runtime, 1.5f);
         ImGui::End();
     });
@@ -61,7 +61,7 @@ void check_overlay(SDL_Window& window, SDL_Renderer& renderer)
         require(host.process_event(event), "F2 must be consumed by the host");
     };
     auto activate = [&](const char* label) {
-        auto* panel_window = ImGui::FindWindowByName("Development Panel (F2)");
+        auto* panel_window = ImGui::FindWindowByName(panel_title);
         require(panel_window && panel_window->Active, "Development panel is missing");
         ImGui::ActivateItemByID(panel_window->GetID(label));
         frame();
@@ -90,17 +90,9 @@ void check_overlay(SDL_Window& window, SDL_Renderer& renderer)
     activate("Reset zoom");
     require(camera_runtime.presented_camera().zoom() == 1.5f, "Reset must restore the level's 1.5x zoom");
 
-    activate("Enable debug draw");
-    require(ELYSIA_DEBUG_DRAW->enabled(), "Debug checkbox did not enable DebugDraw");
-    activate("None");
-    require(ELYSIA_DEBUG_DRAW->enabled_categories() == DebugDrawCategory::None, "None must disable all categories");
-    activate("All");
-    require(ELYSIA_DEBUG_DRAW->enabled_categories() == DebugDrawCategory::All, "All must enable every category");
-    activate("Defaults");
-    require(ELYSIA_DEBUG_DRAW->enabled_categories() == DebugDrawCategory::Default, "Defaults must restore category defaults");
-    activate("Show FPS overlay");
-    activate("Pause");
-    require(ELYSIA_TIME->time_scale() == 0.0, "Pause must stop simulation time");
+    // Current overlays render registered panels; engine-wide debug/FPS controls
+    // are no longer part of ImGuiDevelopmentOverlay's public contract.
+    ELYSIA_TIME->set_time_scale(0.0);
     frame();
     require(ELYSIA_TIME->delta() == 0.0 && ImGui::GetIO().DeltaTime > 0.0f,
         "ImGui must keep using real frame time while simulation is paused");
@@ -129,16 +121,16 @@ void check_overlay(SDL_Window& window, SDL_Renderer& renderer)
     auto save_preview = [&](const char* path) {
         auto* surface = SDL_RenderReadPixels(&renderer, nullptr);
         require(surface != nullptr, SDL_GetError());
-        int hud_pixels = 0;
-        for (int y = 10; y < 50; ++y)
-            for (int x = 1100; x < 1270; ++x)
+        int panel_pixels = 0;
+        for (int y = 0; y < surface->h; y += 4)
+            for (int x = 0; x < surface->w; x += 4)
             {
                 Uint8 red = 0, green = 0, blue = 0, alpha = 0;
                 require(SDL_ReadSurfacePixel(surface, x, y, &red, &green, &blue, &alpha), SDL_GetError());
                 if (red != 15 || green != 23 || blue != 36)
-                    ++hud_pixels;
+                    ++panel_pixels;
             }
-        require(hud_pixels > 100, "FPS HUD produced no visible pixels");
+        require(panel_pixels > 100, "Camera panel produced no visible pixels");
         const bool saved = SDL_SaveBMP(surface, path);
         SDL_DestroySurface(surface);
         require(saved, SDL_GetError());
@@ -146,31 +138,31 @@ void check_overlay(SDL_Window& window, SDL_Renderer& renderer)
     frame();
     save_preview("out/qa/development-panel/panel.bmp");
     const int callbacks_before_hiding = callback_count;
+    const int frames_before_hiding = ImGui::GetFrameCount();
     toggle();
     frame();
     frame();
     require(!host.visible() && callback_count == callbacks_before_hiding,
         "Hidden panels must not invoke scene callbacks");
-    require(!ImGui::FindWindowByName("Development Panel (F2)")->Active
-        && ImGui::FindWindowByName("FPS##development-hud")->Active
-        && ImGui::GetDrawData()->TotalVtxCount > 0, "FPS HUD must remain visible after hiding panels");
+    require(ImGui::GetFrameCount() == frames_before_hiding,
+        "Hidden overlay must not advance ImGui frames");
     require(host.captured_input() == elysia::input::InputCapture::None,
-        "Background FPS HUD must not capture gameplay input");
-    save_preview("out/qa/development-panel/fps-only.bmp");
+        "Hidden overlay must not capture gameplay input");
 
     toggle();
     frame();
-    activate("Normal speed");
-    require(ELYSIA_TIME->time_scale() == 1.0, "Simulation must resume from the panel");
-    activate("Show FPS overlay");
-    toggle();
-    const int last_frame = ImGui::GetFrameCount();
-    frame();
-    require(ImGui::GetFrameCount() == last_frame, "Hiding with FPS disabled must stop ImGui frames");
+    require(host.visible() && callback_count > callbacks_before_hiding,
+        "F2 must reopen the registered camera panel");
+    activate("1x");
+    require(camera_runtime.presented_camera().zoom() == 1.0f,
+        "Reopened panel must retain working camera controls");
+    ELYSIA_TIME->set_time_scale(1.0);
     require(host.panel_registry()->unregister_panel(panel), "Panel cleanup failed");
+    const int callbacks_after_unregistering = callback_count;
+    frame();
+    require(callback_count == callbacks_after_unregistering,
+        "Unregistered panels must no longer invoke scene callbacks");
     host.shutdown();
-    ELYSIA_DEBUG_DRAW->set_enabled(false);
-    ELYSIA_DEBUG_DRAW->set_enabled_categories(DebugDrawCategory::Default);
     ELYSIA_TIME->reset();
 }
 }

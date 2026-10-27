@@ -105,45 +105,62 @@ void check_frontend_music(SDL_Renderer* renderer,const io::ContentRegistry& regi
     game::scene::SettingsScene settings;
     game::scene::CreditsScene credits;
     auto* track=audio::detail::mixer_backend().music;
+    auto* sky_tunnel=ELYSIA_RESOURCES->find_music("fly.SkyTunnel");
     auto* moon_trip=ELYSIA_RESOURCES->find_music("fly.MoonTrip");
-    require(moon_trip!=nullptr,"Menu music resource missing");
+    require(sky_tunnel&&moon_trip,"Menu/credits music resource missing");
     const auto check_playing=[&]{
-        require(MIX_TrackPlaying(track)&&MIX_GetTrackAudio(track)==moon_trip,"Every menu scene must play MoonTrip");
+        require(MIX_TrackPlaying(track)&&MIX_GetTrackAudio(track)==sky_tunnel,"Main menu, settings, achievements and selection must play SkyTunnel");
+    };
+    const auto check_credits=[&]{
+        require(MIX_TrackPlaying(track)&&MIX_GetTrackAudio(track)==moon_trip,"Credits must retain MoonTrip");
     };
     constexpr Sint64 position=240000;
     const auto check_position=[&]{
         check_playing();
         require(MIX_GetTrackPlaybackPosition(track)>=position,"Menu scene transition must preserve music position");
     };
-    const auto enter=[&](scene::Scene& current){
-        scene::SceneTestAccess::bind(current,context);scene::SceneTestAccess::enter(current);
+    const auto enter=[&](scene::Scene& current,const scene::ScenePayload& payload={}){
+        scene::SceneTestAccess::bind(current,context);scene::SceneTestAccess::enter(current,payload);
     };
     enter(menu);check_playing();
     require(MIX_SetTrackPlaybackPosition(track,position),SDL_GetError());
     scene::SceneTestAccess::exit(menu);check_position();
-    // Include repeated selection/achievement entries to cover page recreation.
-    for(auto* current:std::array<scene::Scene*,6>{&settings,&achievements,&selection,&credits,&selection,&achievements}){
-        enter(*current);check_position();
-        scene::SceneTestAccess::exit(*current);check_position();
+    const auto visit=[&](scene::Scene& current,const scene::ScenePayload& payload={}){
+        enter(current,payload);check_position();
+        scene::SceneTestAccess::exit(current);check_position();
         enter(menu);check_position();
         scene::SceneTestAccess::exit(menu);check_position();
-    }
+    };
+    visit(settings);
+    for(int chapter=0;chapter<4;++chapter)visit(selection,game::scene::SelectionPayload{chapter});
+    for(int page=0;page<3;++page)visit(achievements,game::scene::AchievementsPayload{page});
     ELYSIA_AUDIO->set_music_volume(0);check_position();
     ELYSIA_AUDIO->set_music_volume(100);check_position();
+    enter(credits);check_credits();
+    require(MIX_SetTrackPlaybackPosition(track,position),SDL_GetError());
+    scene::SceneTestAccess::exit(credits);check_credits();
+    enter(credits);check_credits();
+    require(MIX_GetTrackPlaybackPosition(track)>=position,"Reentering credits must not restart MoonTrip");
+    scene::SceneTestAccess::exit(credits);
+    enter(menu);check_playing();scene::SceneTestAccess::exit(menu);
     // Each scene must also recover the menu track after gameplay or stopped audio.
-    for(auto* current:std::array<scene::Scene*,5>{&menu,&settings,&achievements,&selection,&credits}){
+    for(auto* current:std::array<scene::Scene*,4>{&menu,&settings,&achievements,&selection}){
         ELYSIA_AUDIO->stop_music();enter(*current);check_playing();
         scene::SceneTestAccess::exit(*current);
         require(ELYSIA_AUDIO->play_music("fly.Hectic"),"Gameplay music start failed");
         enter(*current);check_playing();scene::SceneTestAccess::exit(*current);
     }
+    ELYSIA_AUDIO->stop_music();enter(credits);check_credits();scene::SceneTestAccess::exit(credits);
+    require(ELYSIA_AUDIO->play_music("fly.Hectic"),"Gameplay music start failed");
+    enter(credits);check_credits();scene::SceneTestAccess::exit(credits);
+    enter(menu);check_playing();scene::SceneTestAccess::exit(menu);
     for(const auto* music:{"fly.LifeforSpeed","fly.Hectic","fly.SpiralofAdventure","fly.SymphonyofRush"}){
         auto* audio=ELYSIA_RESOURCES->find_music(music);
         require(audio&&ELYSIA_AUDIO->play_music(music),std::string("Original level music failed to start: ")+music);
         require(MIX_TrackPlaying(track)&&MIX_GetTrackAudio(track)==audio,"Mixer must play the requested original level music");
     }
     ELYSIA_AUDIO->shutdown();ELYSIA_SAVE->shutdown();
-    std::cout<<"PASS: menu music position survives all frontend scene exits/entries, page recreation and mute; cold/gameplay returns restore MoonTrip\n";
+    std::cout<<"PASS: SkyTunnel survives menu/settings/selection/achievement transitions, every page and mute; credits retain MoonTrip; cold/gameplay returns restore each scene's track\n";
 }
 void check_original_tutorial_ui(SDL_Renderer* renderer){
     using namespace game::frontend;
@@ -1313,6 +1330,7 @@ int main(int argc,char** argv) {
             require(loader.is_finished(),loader.failure()?loader.failure()->diagnostic.message:"Content load timed out");
             if(audio_only){
                 game::testing::check_scene_audio(renderer,*registry);
+                check_frontend_music(renderer,*registry);
             }else if(level_music_only){
                 check_level_music_playback(renderer,*registry);
             }else{
