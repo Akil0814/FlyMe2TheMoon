@@ -1,43 +1,47 @@
 # FlyMe2TheMoon
 
-本项目是基于自研 [ElysiaEngine](https://github.com/Akil0814/ElysiaEngine) 的 **2D 飞行闯关复刻项目**，使用 **C++23、SDL3、Box2D 与 Lua** 开发。
+English | [简体中文](README.zh-CN.md) | [日本語](README.ja.md)
 
-项目以米哈游早期作品《FlyMe2TheMoon》的关卡数据、剧情脚本和视听素材为参考，在桌面端重新实现飞行控制、物理机关、收集、剧情演出与菜单系统。玩家通过向下或斜向喷射获得推力，在重力与惯性之间调整飞行路线，避开障碍、收集星星和宝石，最终抵达月亮。
+This is a **level-based 2D flight game recreation** built on the independently developed [ElysiaEngine](https://github.com/Akil0814/ElysiaEngine), using **C++23, SDL3, Box2D, and Lua**.
 
-本项目仅用于游戏开发学习与原作机制研究，是**非官方复刻项目**。
+Using the level data, story scripts, and audiovisual assets from miHoYo's early title *FlyMe2TheMoon* as references, this project reimplements flight controls, physics-based mechanisms, collectibles, story sequences, and menus for desktop. Players generate thrust by jetting downward or diagonally, balance gravity and inertia to adjust their flight path, avoid obstacles, collect stars and gems, and ultimately reach the moon.
 
-原本打算采用 **WDD（Wish-Driven Development，许愿驱动开发）**，试试把需求、引擎和素材交给 AI，让它自己把游戏做完。但由于过高的 Token 消耗，以及生成代码的质量和可读性问题，最终还是人工介入了。
+This project is an **unofficial recreation**, intended solely for learning game development and studying the original game's mechanics.
 
-而且即使人工介入了 Game Layer 中相当一部分代码的可读性还是很屎。（
+The original plan was to try **WDD (Wish-Driven Development)**: hand the requirements, engine, and assets over to AI and let it finish the game on its own. But excessive token consumption, along with problems with the quality and readability of the generated code, eventually led to manual intervention.
 
-如果你喜欢这个项目，可以去给 [miHoYo](https://www.mihoyo.com/) 氪金（
+And even after that intervention, a fair amount of the Game Layer code is still pretty shit to read
 
-## 项目内容
+If you like this project, go spend some money in [miHoYo](https://www.mihoyo.com/)'s games
 
-- **飞行与物理**：支持键盘、鼠标和手柄输入，包含渐进推力、转向、重力、惯性与碰撞；手柄可在运行中连接或拔出。
-- **关卡与机关**：导入 60 关地形与对象数据，实现移动平台、旋转机关、尖刺、风场、传送门、激光、发射器和炸弹等机制。
-- **剧情与演出**：通过 Lua 驱动关卡事件、对白、教程和镜头移动，接入角色动作、出生与死亡、传送、终点和收集特效。
-- **收集与进度**：每关三颗星，区分大小宝石；记录关卡成绩、最佳时间、死亡次数、剧情标记与本地成就，按关卡依赖解锁后续内容。
-- **桌面界面**：包含主菜单、选关、成就图册、设置和制作名单，以及局内 HUD、暂停、结算与新纪录提示。界面结合原作素材适配横屏布局。
-- **设置与音频**：支持窗口模式、分辨率、帧率、垂直同步、音量与语言设置，接入背景音乐、语音和音效。
-- **开发工具**：F2 面板提供调试绘制、帧率统计、时间倍率和关卡相机控制；提供自动化测试、输入回放及资源检查工具。
+![main](docs/main.png)
 
-## 快速开始
+## Project Features
 
-### 环境要求
+- **Flight and physics**: Keyboard, mouse, and gamepad input, with variable thrust, steering, gravity, inertia, and collisions. Gamepads can be connected or disconnected while the game is running.
+- **Levels and mechanisms**: Terrain and object data for 60 levels have been imported, with moving platforms, rotating mechanisms, spikes, wind fields, portals, lasers, launchers, bombs, and other mechanics implemented.
+- **Story and presentation**: Lua drives level events, dialogue, tutorials, and camera movement. Character animations and effects for spawning, death, teleportation, reaching the goal, and collecting items are integrated.
+- **Collectibles and progress**: Each level has three stars, with large and small gems distinguished. The game records level scores, best times, death counts, story flags, and local achievements, and unlocks later content according to level dependencies.
+- **Desktop interface**: Includes the main menu, level selection, achievement gallery, settings, credits, and in-game HUD, pause, results, and new-record notifications. The interface combines original assets with a landscape layout.
+- **Settings and audio**: Window mode, resolution, frame rate, VSync, volume, and language settings, with background music, voices, and sound effects integrated.
+- **Development tools**: The F2 panel provides debug drawing, frame-rate statistics, time scaling, and level camera controls. Automated tests, input replay, and asset-checking tools are also included.
 
-当前主要开发与验证环境为 **Windows x64**：
+## Quick Start
 
-- 支持 **C++23** 的 MSVC 及 Windows SDK，可通过 Visual Studio 的“使用 C++ 的桌面开发”工作负载安装。
-- **CMake 3.24** 或更新版本。
-- **Ninja**。
-- **Python 3**：用于 MSVC 编译输出处理、资源检查及部分开发工具。
+### Requirements
 
-第三方依赖源码已包含在 `thirdparty/` 和 `game/vendor/` 中，正常配置时无需额外下载依赖。
+The primary development and validation environment is currently **Windows x64**:
 
-### 构建与运行
+- MSVC with **C++23** support and the Windows SDK, available through Visual Studio's "Desktop development with C++" workload.
+- **CMake 3.24** or later.
+- **Ninja**.
+- **Python 3**: Used to process MSVC compiler output, check assets, and run some development tools.
 
-打开 Visual Studio 的 **x64 Native Tools Command Prompt**，进入项目根目录后依次执行：
+Third-party dependency source code is included in `thirdparty/` and `game/vendor/`. No additional dependency downloads are needed during normal configuration.
+
+### Build and Run
+
+Open Visual Studio's **x64 Native Tools Command Prompt**, navigate to the project root, and run the following commands in order:
 
 ```bat
 cmake -S . -B out/build/debug -G Ninja -DCMAKE_BUILD_TYPE=Debug
@@ -45,96 +49,96 @@ cmake --build out/build/debug --target FlyMe2TheMoon --parallel
 out\build\debug\FlyMe2TheMoon.exe
 ```
 
-加载完成后，按任意键确认进入主菜单，再从主菜单进入选关页面。
+Once loading finishes, press any key to confirm and enter the main menu, then open level selection from there.
 
-也可以在 Visual Studio 中使用“打开文件夹”打开本项目，将 `FlyMe2TheMoon` 设为启动目标。
+You can also use "Open Folder" in Visual Studio to open the project and set `FlyMe2TheMoon` as the startup target.
 
-MSVC Debug 构建使用 `/Z7` 内嵌调试信息；Windows 构建会自动将 `SDL3.dll` 复制到可执行文件旁。
+MSVC Debug builds use `/Z7` embedded debugging information. Windows builds automatically copy `SDL3.dll` next to the executable.
 
-**运行时请保留完整的 `assets/` 目录**，包括 `assets/.elysia_root` 和 `assets/content_registry.json`。程序会向上查找资源，因此可以从项目根目录或上述构建目录启动。
+**Keep the complete `assets/` directory available at runtime**, including `assets/.elysia_root` and `assets/content_registry.json`. The program searches parent directories for assets, so it can be launched from the project root or the build directory shown above.
 
-- 日志：`logs/`
-- 用户配置与本地存档：`player_data/`
+- Logs: `logs/`
+- User configuration and local saves: `player_data/`
 
-### 构建选项
+### Build Options
 
-在 CMake 配置命令后追加所需选项：
+Append the desired options to the CMake configuration command:
 
-| 选项 | 默认值 | 说明 |
+| Option | Default | Description |
 | --- | --- | --- |
-| `ELYSIA_ENABLE_IMGUI` | `ON` | 是否编译 F2 开发面板；关闭后全局光标自动隐藏仍然生效。 |
-| `BUILD_TESTING` | `ON` | 是否生成自动化测试目标。 |
-| `FLY_DEBUG_SYMBOLS` | `ON` | 在 MSVC 优化构建中保留用于诊断的调试符号。 |
+| `ELYSIA_ENABLE_IMGUI` | `ON` | Whether to compile the F2 development panel. Global idle cursor hiding still works when this is disabled. |
+| `BUILD_TESTING` | `ON` | Whether to generate automated test targets. |
+| `FLY_DEBUG_SYMBOLS` | `ON` | Retain debugging symbols for diagnostics in optimized MSVC builds. |
 
-Release 建议使用独立的构建目录，并将 `CMAKE_BUILD_TYPE` 设为 `Release`。
+For Release builds, use a separate build directory and set `CMAKE_BUILD_TYPE` to `Release`.
 
-## 操作方式
+## Controls
 
-### 键盘与鼠标
+### Keyboard and Mouse
 
-| 场景 | 操作 |
+| Context | Controls |
 | --- | --- |
-| 菜单 | 鼠标点击；方向键导航，Enter 确认，Esc 返回。 |
-| 垂直喷射 | 按住 W、↑ 或空格。 |
-| 斜向飞行 | 按住 A / D 或 ← / →，向左上 / 右上喷射。 |
-| 鼠标飞行 | 按住鼠标左键，根据指针相对角色的位置反向喷射；距离与角度会影响推力。 |
-| 暂停 / 恢复 | Esc 或 P，也可点击局内暂停按钮。 |
-| 重试当前关卡 | R，或在暂停 / 结算菜单中选择“重新挑战”。 |
-| 剧情 | Enter 或鼠标左键继续；Tab 跳过已读剧情，遵循剧情的等待与跳过限制。 |
-| 制作名单 | ↑ / ↓ 滚动，空格暂停 / 继续自动滚动。 |
+| Menus | Click with the mouse; use the arrow keys to navigate, Enter to confirm, and Esc to go back. |
+| Vertical thrust | Hold W, ↑, or Space. |
+| Diagonal flight | Hold A / D or ← / → to apply thrust diagonally up-left / up-right. |
+| Mouse flight | Hold the left mouse button to apply thrust away from the pointer relative to the character. Distance and angle affect thrust. |
+| Pause / resume | Press Esc or P, or click the in-game pause button. |
+| Retry the current level | Press R, or select the retry option in the pause or results menu. |
+| Story | Press Enter or the left mouse button to continue. Tab skips previously read story content, subject to the story's waiting and skipping restrictions. |
+| Credits | Use ↑ / ↓ to scroll, and Space to pause / resume automatic scrolling. |
 
-### 手柄
+### Gamepad
 
-支持 SDL3 能识别的手柄。首次使用时，先按一下任意手柄按钮接管菜单。以下按钮名称按 Xbox 布局标注，其他手柄对应相同位置。
+Gamepads recognized by SDL3 are supported. On first use, press any gamepad button to take control of the menu. Button names below follow the Xbox layout; use the corresponding button positions on other gamepads.
 
-| 场景 | 操作 |
+| Context | Controls |
 | --- | --- |
-| 菜单、暂停与结算 | 方向键导航，A 确认，B 返回；结算时 A 执行当前选中按钮。 |
-| 飞行 | 左摇杆向上、左或右推动即可喷射，横向偏转控制倾角；方向键 ↑ / ← / → 也可飞行。 |
-| 垂直喷射 | 渐进按下 RT；可同时用左摇杆控制倾角。 |
-| 暂停 / 恢复 | B 或 Start 打开暂停菜单；暂停菜单中按 B 或 Start 返回游戏。 |
-| 重试当前关卡 | 在暂停或结算菜单中选择“重新挑战”，按 A 确认。 |
-| 剧情 | A 继续，Y 跳过已读剧情，遵循剧情的等待与跳过限制。 |
-| 制作名单 | 左摇杆滚动，X 暂停 / 继续自动滚动，B 返回。 |
+| Menus, pause, and results | Use the D-pad to navigate, A to confirm, and B to go back. On the results screen, A activates the currently selected button. |
+| Flight | Push the left stick up, left, or right to apply thrust; horizontal deflection controls the tilt angle. D-pad ↑ / ← / → also supports flight. |
+| Vertical thrust | Gradually press RT. You can use the left stick to control the tilt angle at the same time. |
+| Pause / resume | B or Start opens the pause menu. In the pause menu, B or Start returns to the game. |
+| Retry the current level | Select the retry option in the pause or results menu, then press A to confirm. |
+| Story | A continues; Y skips previously read story content, subject to the story's waiting and skipping restrictions. |
+| Credits | Use the left stick to scroll, X to pause / resume automatic scrolling, and B to go back. |
 
-左摇杆和 RT 的死区均为 **20%**，越过死区后推力连续增加；向下推摇杆不会单独喷射。手柄 A 用于确认和剧情继续，不绑定喷射；X 不绑定关卡重开。
+The left stick and RT both have a **20%** dead zone. Beyond it, thrust increases continuously. Pushing the stick down alone does not apply thrust. Gamepad A is used for confirmation and story continuation, not thrust; X is not bound to restarting a level.
 
-键盘飞行输入优先于手柄，按住鼠标喷射时优先于两者。飞行和剧情提示会随输入设备切换。
+Keyboard flight input takes priority over gamepad input. Mouse thrust takes priority over both while the mouse button is held. Flight and story prompts change with the input device in use.
 
-光标在所有页面静止 **2 秒**后自动隐藏，实际移动后立即显示；鼠标持续按住、键盘和手柄输入不重置计时。窗口失焦、鼠标移出窗口或程序关闭时恢复光标。
+The cursor automatically hides after **2 seconds** without movement on all screens, and reappears immediately when it actually moves. Holding a mouse button, or using the keyboard or gamepad, does not reset the timer. The cursor is restored when the window loses focus, the pointer leaves the window, or the program closes.
 
-## 开发与测试
+## Development and Testing
 
-### F2 开发面板
+### F2 Development Panel
 
-启用 ImGui 的构建中，按 **F2** 显示或隐藏开发面板。菜单与关卡中均可使用，关卡相机控制合并在同一面板内。
+In builds with ImGui enabled, press **F2** to show or hide the development panel. It is available in both menus and levels, with level camera controls integrated into the same panel.
 
-- **调试绘制**：查看碰撞体、接触点与法线、AABB、速度、姿态历史、关节等，可全选、清空或恢复默认类别。具体图元需要对应系统提交。
-- **性能统计**：查看 FPS、帧耗时与最近 120 帧的耗时曲线；开启右上角 FPS 后，收起 F2 面板仍会保留统计。
-- **时间控制**：在 0–2 倍速间调整模拟速度，支持暂停与恢复；暂停时面板仍可操作。
-- **关卡相机**：调整 0.1–10 倍缩放，提供快捷倍率和重置按钮；不改变 HUD 大小，重新进入关卡时恢复默认缩放。
+- **Debug drawing**: View colliders, contact points and normals, AABBs, velocities, pose history, joints, and more. Select all categories, clear them, or restore the defaults. Individual primitives must be submitted by the corresponding systems.
+- **Performance statistics**: View FPS, frame time, and a frame-time graph for the most recent 120 frames. Once the top-right FPS display is enabled, its statistics remain visible when the F2 panel is hidden.
+- **Time controls**: Adjust simulation speed from 0–2×, with pause and resume controls. The panel remains usable while paused.
+- **Level camera**: Adjust zoom from 0.1–10×, with preset and reset buttons. HUD size is unaffected, and the default zoom is restored when re-entering a level.
 
-项目还包含自动化测试、输入回放与资源检查工具。具体测试目标和命令以仓库当前构建配置为准。
+The project also includes automated tests, input replay, and asset-checking tools. Refer to the repository's current build configuration for specific test targets and commands.
 
-## 引擎相关
+## About the Engine
 
-本项目基于 **ElysiaEngine** 开发。ElysiaEngine 负责底层运行时与通用引擎能力，FlyMe2TheMoon 的游戏逻辑及 Lua 相关实现位于 Game Layer。
+This project is built on **ElysiaEngine**. ElysiaEngine provides the underlying runtime and general-purpose engine capabilities, while FlyMe2TheMoon's game logic and Lua-related implementation reside in the Game Layer.
 
-更多技术文档及引擎源码请参考：[ElysiaEngine](https://github.com/Akil0814/ElysiaEngine)。
+For further technical documentation and engine source code, see [ElysiaEngine](https://github.com/Akil0814/ElysiaEngine).
 
-## 许可与素材来源
+## License and Asset Sources
 
-本项目自行编写并有权授权的代码采用 [MIT License](LICENSE)。第三方库遵循各自的许可证，具体来源见[第三方依赖说明](thirdparty/SDL3-DEPENDENCIES.md)及相关组件附带的许可文件。
+Code written for this project that we have the right to license is released under the [MIT License](LICENSE). Third-party libraries follow their respective licenses; see the [third-party dependency documentation](thirdparty/SDL3-DEPENDENCIES.md) and the license files distributed with the relevant components.
 
-《FlyMe2TheMoon》原作的名称、角色、美术、音频、剧情及其他受保护内容归各自权利人所有，**不属于本项目 MIT 许可证的授权范围**。本项目是非官方学习与研究性质的复刻，与 miHoYo 无官方关联。
+The original *FlyMe2TheMoon* title, characters, artwork, audio, story, and other protected content belong to their respective rights holders and are **not covered by this project's MIT License**. This is an unofficial recreation for learning and research, with no official affiliation with miHoYo.
 
-本项目对原作资料的使用旨在学习、研究与本地验证。版权声明不代表取得原作内容的复制、改编或再分发授权。
+The original materials are used for learning, research, and local validation. A copyright notice does not constitute authorization to reproduce, adapt, or redistribute the original content.
 
 
-### AI 辅助素材处理声明
+### Disclosure of AI-Assisted Asset Editing
 
-本项目的部分美术素材使用了 AI 工具进行辅助调整，包括但不限于画面扩展、背景补全、尺寸适配及局部视觉修改。
+Some artwork in this project has been adjusted with the assistance of AI tools, including but not limited to image expansion, background completion, size adaptation, and localized visual modifications.
 
-相关处理主要用于适配 ElysiaEngine 的渲染方式、屏幕比例与游戏界面需求，并非意图替代原作的美术设计。
+These edits primarily adapt assets to ElysiaEngine's rendering, screen aspect ratios, and game interface requirements. They are not intended to replace the original artwork's design.
 
-原始素材及其相关知识产权仍归原权利人所有。AI 辅助修改不代表本项目取得了原始素材的所有权或再分发授权，相关素材亦不属于本项目 MIT License 的授权范围。
+The original assets and their associated intellectual property remain with the original rights holders. AI-assisted modifications do not give this project ownership of the original assets or authorization to redistribute them. These assets are also outside the scope of this project's MIT License.
