@@ -180,7 +180,7 @@ void LevelNode::submit_ui_render_commands(std::vector<core::UiRenderCommand>& ou
     if(!is_visible())return;
     const auto r=screen_rect();
     UiButton::submit_ui_render_commands(out);
-    if(_unlock_time>0)out.push_back(core::make_ui_fill_rect_command(r,{255,225,130,static_cast<Uint8>(100*_unlock_time/.6)}));
+    if(_unlock_time>0)out.push_back(core::make_ui_fill_rect_command(r,{255,225,130,static_cast<Uint8>(100*_unlock_time/.6)},style().chrome.corner_radius));
     const auto& color=_color;
     image(out,texture("point"+color),{r.x()+16,r.y()+30,40,40},_open?255:65);
     if(!_open){
