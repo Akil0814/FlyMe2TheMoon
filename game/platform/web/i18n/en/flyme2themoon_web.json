@@ -1,0 +1,40 @@
+{
+  "flyme2themoon_web": {
+    "title": "FlyMe2TheMoon Web Demo",
+    "intro": {
+      "kicker": "FlyMe2TheMoon / Browser Demo",
+      "title": "FlyMe2TheMoon Web Demo",
+      "desc": "Play the complete 60-level game in your desktop browser. The first launch downloads approximately 145 MiB of assets; progress and settings are stored in this browser."
+    },
+    "nav": {
+      "project_page": "Project Page"
+    },
+    "actions": {
+      "project_page": "Back to Project Page",
+      "more_projects": "More Projects",
+      "source": "Source Repo",
+      "start": "Start Game",
+      "fullscreen": "Fullscreen",
+      "reload": "Reload",
+      "notices": "Third-party notices",
+      "exit_fullscreen": "Exit Fullscreen"
+    },
+    "runtime": {
+      "title": "Live Demo",
+      "idle": "Ready to download",
+      "loading": "Downloading / initializing",
+      "running": "Running",
+      "exited": "Game closed",
+      "error": "Unable to run",
+      "size": "Full game · approximately 145 MiB of assets",
+      "cover": "Ready for the moon? Start the full game below.",
+      "temporary": "Browser storage is unavailable. Progress will be lost when this page closes.",
+      "failed": "The game could not start. Reload the page to try again.",
+      "controls": "Click the game to focus. Space / W / Up: thrust; A / D: steer. Hold the mouse below the character to fly. P: pause; R: retry; Esc: back. Supported gamepads can also be used.",
+      "note": "Desktop browsers with WebGL 2 are required. Click the game or press a key to enable audio. Saves belong to this browser and website; clearing site data removes them."
+    },
+    "footer": {
+      "page": "FlyMe2TheMoon Web Demo"
+    }
+  }
+}

@@ -86,6 +86,7 @@ private:
 	void worker_loop();
     bool handle_worker_exception();
 	void dispatch_prepare_jobs();
+    void prepare_jobs_on_main_thread();
 	void drain_completed_prepare_results();
 	bool commit_ready_streaming_results();
 	bool commit_texture_result(const elysia::resources::SurfaceLoadResult& surface_result);

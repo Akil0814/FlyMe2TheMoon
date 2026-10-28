@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en" data-i18n-page="flyme2themoon_web" data-i18n-base="../../..">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b1020" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../../../icon/Akil_icon_32.png" />
+  <link rel="icon" type="image/png" sizes="128x128" href="../../../icon/Akil_icon_128.png" />
+  <link rel="icon" type="image/png" sizes="1024x1024" href="../../../icon/Akil_icon_1024.png" />
+  <link rel="apple-touch-icon" href="../../../icon/Akil_icon_1024.png" />
+  <title data-i18n="flyme2themoon_web.title">FlyMe2TheMoon Web Demo</title>
+  <script src="../../../js/prefs_bootstrap.js"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../../css/tokens.css">
+  <link rel="stylesheet" href="../../../css/base.css">
+  <link rel="stylesheet" href="../../../css/layout.css">
+  <link rel="stylesheet" href="../../_shared/project_page.css?v=20260530a">
+
+  <link rel="stylesheet" href="./flyme2themoon_web.css?v=1.0.1">
+</head>
+<body>
+  <header class="nav">
+    <div class="nav__left">
+      <a class="brand" href="../../../index.html" aria-label="Home">
+        <span class="brand__dot"></span>
+        <span class="brand__text">AKIL</span>
+      </a>
+    </div>
+
+    <nav class="nav__right">
+      <a href="../FlyMe2TheMoon.html" data-i18n="flyme2themoon_web.nav.project_page">Project Page</a>
+      <select id="langSelect" class="lang-select" aria-label="Language select" data-i18n="common.lang.select" data-i18n-attr="aria-label">
+        <option value="zh" data-i18n="common.lang.zh">&#20013;&#25991;</option>
+        <option value="ja" data-i18n="common.lang.ja">&#26085;&#26412;&#35486;</option>
+        <option value="en" selected data-i18n="common.lang.en">English</option>
+      </select>
+      <button id="toggleFx" class="btn" type="button" title="Toggle visual effects" data-i18n="common.controls.fx">FX</button>
+      <button id="themeBtn" class="btn" type="button" title="Toggle theme" data-i18n="common.controls.theme">Theme</button>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <section class="project-intro">
+      <p data-i18n="flyme2themoon_web.intro.kicker" class="project-intro__kicker">FlyMe2TheMoon / Browser Demo</p>
+      <h1 data-i18n="flyme2themoon_web.intro.title" class="project-intro__title">FlyMe2TheMoon Web Demo</h1>
+      <p data-i18n="flyme2themoon_web.intro.desc" class="project-intro__desc">Play the complete 60-level game in your desktop browser. The first launch downloads approximately 145 MiB of assets; progress and settings are stored in this browser.</p>
+      <div class="demo-actions">
+        <a class="btn btn--link" href="../FlyMe2TheMoon.html" data-i18n="flyme2themoon_web.actions.project_page">Back to Project Page</a>
+        <a class="btn btn--link" href="../../index.html" data-i18n="flyme2themoon_web.actions.more_projects">More Projects</a>
+        <a class="btn btn--link" href="https://github.com/Akil0814/FlyMe2TheMoon" target="_blank" rel="noreferrer" data-i18n="flyme2themoon_web.actions.source">Source Repo</a>
+      </div>
+    </section>
+    <section class="section">
+      <article class="panel demo-stage">
+        <div class="demo-stage__top">
+          <h2 data-i18n="flyme2themoon_web.runtime.title" class="demo-stage__title">Live Demo</h2>
+          <span id="status" role="status" aria-live="polite" class="demo-stage__status">Ready to download</span>
+        </div>
+        <div id="gameViewport" class="game-viewport">
+          <canvas id="canvas" width="1280" height="720" tabindex="0" aria-label="FlyMe2TheMoon game" hidden></canvas>
+          <button id="exitFullscreen" class="btn game-fullscreen-exit" type="button" data-i18n="flyme2themoon_web.actions.exit_fullscreen" hidden>Exit Fullscreen</button>
+          <div id="gameCover"><p data-i18n="flyme2themoon_web.runtime.cover">Ready for the moon? Start the full game below.</p></div>
+        </div>
+        <div class="game-toolbar">
+          <button id="startGame" class="btn" type="button" data-i18n="flyme2themoon_web.actions.start" disabled>Start Game</button>
+          <button id="fullscreenGame" class="btn" type="button" data-i18n="flyme2themoon_web.actions.fullscreen" aria-pressed="false" disabled>Fullscreen</button>
+          <button id="reloadGame" class="btn" type="button" data-i18n="flyme2themoon_web.actions.reload" hidden>Reload</button>
+        </div>
+        <div class="game-details">
+          <progress id="downloadProgress" aria-label="Download progress" hidden></progress>
+          <p id="gameVersion">v1.0.1</p>
+          <p id="downloadDetail"></p>
+          <p id="storageStatus" role="status" hidden></p>
+          <p data-i18n="flyme2themoon_web.runtime.controls">Click the game to focus. Space / W / Up: thrust; A / D: steer. Hold the mouse below the character to fly. P: pause; R: retry; Esc: back. Supported gamepads can also be used.</p>
+          <p data-i18n="flyme2themoon_web.runtime.note">Desktop browsers with WebGL 2 are required. Click the game or press a key to enable audio. Saves belong to this browser and website; clearing site data removes them.</p>
+          <a href="./runtime/THIRD_PARTY_NOTICES.md" data-i18n="flyme2themoon_web.actions.notices">Third-party notices</a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p><span class="mono">&copy; <span id="year"></span> Akil</span> <span class="dot">&middot;</span> <span class="mono" data-i18n="flyme2themoon_web.footer.page">FlyMe2TheMoon Web Demo</span></p>
+  </footer>
+
+  <script src="../../../assets/js/i18n.js"></script>
+  <script src="../../_shared/project_page.js?v=20260228"></script>
+  <script src="./flyme2themoon_web.js?v=1.0.1"></script>
+</body>
+</html>

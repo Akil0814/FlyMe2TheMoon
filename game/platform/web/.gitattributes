@@ -1,0 +1,4 @@
+# Keep generated package hashes identical across Windows and GitHub Pages.
+runtime/** -text -whitespace
+runtime/*.data -diff
+runtime/*.wasm -diff

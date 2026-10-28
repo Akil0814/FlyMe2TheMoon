@@ -1,0 +1,40 @@
+{
+  "flyme2themoon_web": {
+    "title": "FlyMe2TheMoon Web Demo",
+    "intro": {
+      "kicker": "FlyMe2TheMoon / 浏览器演示",
+      "title": "FlyMe2TheMoon Web Demo",
+      "desc": "在桌面浏览器中体验完整 60 关。首次启动需下载约 145 MiB 资源，进度和设置保存在当前浏览器中。"
+    },
+    "nav": {
+      "project_page": "项目页"
+    },
+    "actions": {
+      "project_page": "返回项目页",
+      "more_projects": "更多项目",
+      "source": "源码仓库",
+      "start": "开始游戏",
+      "fullscreen": "全屏",
+      "reload": "重新加载",
+      "notices": "第三方声明",
+      "exit_fullscreen": "退出全屏"
+    },
+    "runtime": {
+      "title": "在线演示",
+      "idle": "等待开始",
+      "loading": "下载 / 初始化中",
+      "running": "运行中",
+      "exited": "游戏已退出",
+      "error": "无法运行",
+      "size": "完整游戏 · 资源约 145 MiB",
+      "cover": "准备好飞向月球了吗？点击下方按钮开始。",
+      "temporary": "浏览器存储不可用。本次进度会在关闭页面后丢失。",
+      "failed": "游戏启动失败，请重新加载页面后重试。",
+      "controls": "点击游戏画面获得焦点。Space / W / ↑：喷射；A / D：转向。也可按住角色下方的鼠标进行飞行。P：暂停；R：重试；Esc：返回。支持现有兼容手柄操作。",
+      "note": "需要支持 WebGL 2 的桌面浏览器。点击画面或按键以启用音频。存档属于当前浏览器和网站，清除网站数据会删除存档。"
+    },
+    "footer": {
+      "page": "FlyMe2TheMoon Web Demo"
+    }
+  }
+}
