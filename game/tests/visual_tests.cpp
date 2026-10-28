@@ -927,6 +927,33 @@ void check_thrower_head(SDL_Renderer* renderer) {
 }
 void check_laser_visuals(SDL_Renderer* renderer) {
     using namespace game::play;
+    {
+        // Level 30's mirrored static island must shield the actual spawn from
+        // the downward laser. A generic box-wall test cannot catch import bugs.
+        const auto level=game::content::level(30);
+        const auto source=std::find_if(level.at("entities").begin(),level.at("entities").end(),[](const auto& e){return !e.at("item").template get<bool>()&&e.at("id")==4;});
+        require(source!=level.at("entities").end(),"Level 30 downward laser missing");
+        physics::PhysicsWorld spawn_world({.units_per_meter=32,.gravity={0,0}});
+        Entity spawn_laser(*source);Player spawn_player({level.at("born")[0],level.at("born")[1]});
+        const auto laser_handle=spawn_world.register_object(spawn_laser,spawn_laser.body_definition(),spawn_laser.collider_definitions());
+        const auto role_handle=spawn_world.register_object(spawn_player,spawn_player.body_definition(),spawn_player.collider_definitions());
+        require(laser_handle.is_valid()&&role_handle.is_valid(),"Level 30 laser/role registration failed");
+        spawn_laser.bind_physics(spawn_world,laser_handle);spawn_player.bind_physics(spawn_world,role_handle);
+        std::vector<std::unique_ptr<Edge>> terrain;
+        std::vector<physics::PhysicsObjectHandle> terrain_handles;
+        for(const auto& line:level.at("edges"))for(std::size_t i=1;i<line.size();++i){
+            auto edge=std::make_unique<Edge>(Vec{line[i-1][0],line[i-1][1]},Vec{line[i][0],line[i][1]});
+            const auto handle=spawn_world.register_object(*edge,edge->body_definition(),edge->collider_definitions());
+            require(handle.is_valid(),"Level 30 terrain registration failed");
+            terrain_handles.push_back(handle);terrain.push_back(std::move(edge));
+        }
+        require(!spawn_laser.update_laser(1./60,spawn_player.center(),spawn_player)&&spawn_laser.laser_active(),"Level 30 island failed to shield the player at spawn");
+        require(spawn_laser.laser_length()>80&&spawn_laser.laser_length()<120,"Level 30 laser must stop on the middle island");
+        for(const auto handle:terrain_handles)require(spawn_world.unregister_object(handle),"Level 30 terrain cleanup failed");
+        require(spawn_laser.update_laser(1./60,spawn_player.center(),spawn_player),"Level 30 regression did not exercise a lethal unobstructed beam");
+        spawn_laser.unbind_physics();spawn_player.unbind_physics();
+        require(spawn_world.unregister_object(laser_handle)&&spawn_world.unregister_object(role_handle),"Level 30 fixture cleanup failed");
+    }
     auto data=mechanism(114);data["x"]=0;data["y"]=0;data["rotation"]=0;data["info"]={{"FixedAngle","90"},{"ActiveRange","-1"}};
     const auto key=data.at("key").get<std::string>();
     Entity laser(data);const auto idle=commands(laser);

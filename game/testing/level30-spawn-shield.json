@@ -1,0 +1,19 @@
+{
+  "name": "level30-spawn-shield",
+  "level": 30,
+  "duration": 5.5,
+  "events": [],
+  "expect": {
+    "level": 30,
+    "finished": false,
+    "deaths": 0,
+    "opening_camera": false,
+    "role_body_enabled": true
+  },
+  "observe": [
+    {
+      "field": "elapsed",
+      "max_at_least": 1.5
+    }
+  ]
+}

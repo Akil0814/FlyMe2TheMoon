@@ -89,6 +89,10 @@ def main():
                         for px,py in edges[ref['EdgeID']]:
                             rad=-math.radians(float(ref.get('Rotation',0)));scale=float(ref.get('Scale',1))
                             px,py=(px*math.cos(rad)-py*math.sin(rad))*scale+float(ref.get('X',0)),(px*math.sin(rad)+py*math.cos(rad))*scale+float(ref.get('Y',0))
+                            # StaticObjectLayer.load: mirrors the assembled edge
+                            # before object rotation (Edge 0x97e34..0x97ea4).
+                            if a.get('IsXFlipped')=='true':px=-px
+                            if a.get('IsYFlipped')=='true':py=-py
                             rad=-math.radians(rotation);scale=float(a.get('Scale',1))
                             px,py=(px*math.cos(rad)-py*math.sin(rad))*scale,(px*math.sin(rad)+py*math.cos(rad))*scale
                             points.append([x+px,h-y-py])
