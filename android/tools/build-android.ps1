@@ -16,19 +16,19 @@ New-Item -ItemType Directory -Force $destination | Out-Null
 foreach ($kind in @('debug','release')) {
     if ($Variant -ne 'All' -and $Variant.ToLowerInvariant() -ne $kind) { continue }
     $source = Join-Path $androidRoot "app/build/outputs/apk/$kind/app-$kind.apk"
-    $target = Join-Path $destination "FlyMe2TheMoon-1.0.0-arm64-$kind.apk"
+    $target = Join-Path $destination "FlyMe2TheMoon-1.0.1-arm64-$kind.apk"
     Copy-Item -LiteralPath $source -Destination $target -Force
     & (Join-Path $PSScriptRoot 'verify-apk.ps1') -Apk $target
 }
 $symbols = Join-Path $androidRoot 'app/build/outputs/native-debug-symbols/release/native-debug-symbols.zip'
 if ($Variant -ne 'Debug' -and (Test-Path -LiteralPath $symbols)) {
-    Copy-Item -LiteralPath $symbols -Destination (Join-Path $destination 'FlyMe2TheMoon-1.0.0-native-symbols.zip') -Force
+    Copy-Item -LiteralPath $symbols -Destination (Join-Path $destination 'FlyMe2TheMoon-1.0.1-native-symbols.zip') -Force
 } elseif ($Variant -ne 'Debug') {
     # AGP versions that only zip symbols for bundle tasks still retain unstripped
     # linked libraries. Keep these separately from the stripped release APK.
     $symbolRoot = Join-Path $androidRoot 'app/build/intermediates/cxx/RelWithDebInfo'
     $native = @(Get-ChildItem -LiteralPath $symbolRoot -Recurse -Filter libmain.so | Where-Object { $_.FullName -match '[\\/]obj[\\/]arm64-v8a[\\/]' })
     if ($native.Count -ne 1) { throw 'Could not identify the current Release native symbols.' }
-    Compress-Archive -Path (Join-Path $native[0].Directory.FullName '*.so') -DestinationPath (Join-Path $destination 'FlyMe2TheMoon-1.0.0-native-symbols.zip') -Force
+    Compress-Archive -Path (Join-Path $native[0].Directory.FullName '*.so') -DestinationPath (Join-Path $destination 'FlyMe2TheMoon-1.0.1-native-symbols.zip') -Force
 }
 Write-Host "Android artifacts: $destination"
