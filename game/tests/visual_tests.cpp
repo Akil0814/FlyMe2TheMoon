@@ -50,12 +50,15 @@ public:
     static void exit(Scene& scene){scene.lifecycle_exit();}
     static void update(Scene& scene,double delta){scene.lifecycle_update(delta);}
     static void input(Scene& scene,const input::InputSnapshot& snapshot){scene.lifecycle_input(snapshot);}
+    static void render(Scene& scene,SDL_Renderer* renderer){scene.lifecycle_render(renderer);}
+    static const auto& roots(const Scene& scene){return scene._ui_roots;}
     static ui::UiWindow& window(Scene& scene){return dynamic_cast<ui::UiWindow&>(*scene._ui_roots.at(0));}
 };
 }
 
 #include "game/progress/progress.h"
 #include "game/tests/audio_scene_checks.h"
+#include "game/tests/flight_ui_checks.h"
 
 namespace {
 using namespace elysia;
@@ -1597,6 +1600,7 @@ int main(int argc,char** argv) {
             check_original_tutorial_ui(renderer);
             check_main_menu_background(renderer,*registry);
             check_portrait_pages(renderer,*registry);
+            game::testing::check_flight_ui(renderer,*registry);
             check_run_stats(renderer);
             check_dialogue_and_pause(renderer);
             check_pickups_and_moon();

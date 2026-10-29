@@ -100,18 +100,7 @@ void FlightScene::on_enter(const elysia::scene::ScenePayload& payload) {
     if(!_player||!_player->physics_state())throw std::runtime_error("Player registration failed");
     _player->present_at(std::nullopt,1,true);
     create_and_add_object<Decor>(_data,true);
-    _hud_stars=create_and_add_object<frontend::StarRating>(Rect{982,24,136,40},11);
-    _star_pickups=create_and_add_object<frontend::StarPickupEffects>();
-    _hud=create_and_add_object<frontend::HudLabel>(Rect{16,12,280,64},11);
-    _hud_stats=create_and_add_object<frontend::RunStats>(Rect{312,12,620,64},11);
-    _pause_button=create_and_add_object<frontend::PauseIconButton>(Rect{1192,12,64,64},[this]{open_pause_menu();});
-    _hint=create_and_add_object<frontend::HudLabel>(Rect{24,668,1230,36},10);
-    _dialogue_panel=create_and_add_object<frontend::HudPanel>(Rect{24,474,1232,182},20);
-    _portrait_panel=create_and_add_object<frontend::HudPanel>(Rect{38,486,156,156},21);
-    _face=create_and_add_object<ui::UiImage>(nullptr,Rect{46,494,140,140},22);
-    _dialogue=create_and_add_object<frontend::StoryText>(Rect{212,492,1024,144},22);_dialogue->set_padding(8);
-    _dialogue->set_style_overrides({.text=core::Color{16,46,77,255}});
-    _tutorial=create_and_add_object<frontend::TutorialUi>();
+    build_ingame_ui();
     build_result_panel();
     build_pause_panel();
     set_ui_interaction_mode(elysia::scene::UiInteractionMode::Pointer);
@@ -132,7 +121,7 @@ void FlightScene::on_enter(const elysia::scene::ScenePayload& payload) {
     ELYSIA_LOG_INFO("fly",std::format("Entered level {}: {} entities, {} contours",_level,_entities.size(),_data.at("edges").size()));
     attach_development_panel();
 }
-void FlightScene::on_exit(){detach_development_panel();_audio.clear();ELYSIA_AUDIO->stop_music();_pause_updates.clear();_pause_menu_open=false;_player=nullptr;_entities.clear();_hud=nullptr;_hud_stats=nullptr;_pause_metrics=nullptr;_result_metrics=nullptr;_hint=nullptr;_hud_stars=nullptr;_star_pickups=nullptr;_pause_menu=nullptr;_pause_button=nullptr;_dialogue=nullptr;_face=nullptr;_tutorial=nullptr;_dialogue_panel=nullptr;_portrait_panel=nullptr;clear_scene_objects();}
+void FlightScene::on_exit(){detach_development_panel();_audio.clear();ELYSIA_AUDIO->stop_music();_pause_updates.clear();_pause_menu_open=false;_player=nullptr;_entities.clear();_hud=nullptr;_hud_stats=nullptr;_pause_metrics=nullptr;_result_metrics=nullptr;_hud_stars=nullptr;_star_pickups=nullptr;_pause_menu=nullptr;_pause_button=nullptr;_dialogue=nullptr;_face=nullptr;_tutorial=nullptr;_dialogue_panel=nullptr;_portrait_panel=nullptr;clear_scene_objects();}
 void FlightScene::on_reset(){on_exit();}
 void FlightScene::on_shortcuts(const input::RawInputFrame&,const std::vector<input::RawInputEvent>& events) {
     using C=input::RawInputControl;
@@ -143,7 +132,6 @@ void FlightScene::on_shortcuts(const input::RawInputFrame&,const std::vector<inp
             return;
         }
         if(e.type!=input::RawInputEventType::ControlPressed)continue;
-        _using_gamepad=e.device==input::InputDevice::Gamepad;
         if(_pause_menu_open){
             if(e.control==C::KeyP||e.control==C::KeyEscape||e.control==C::GamepadStart){consume_input(e);game::audio::ui_click();close_pause_menu();}
             else if(e.control==C::KeyR){consume_input(e);game::audio::ui_click();retry_level();}
@@ -162,8 +150,6 @@ void FlightScene::on_shortcuts(const input::RawInputFrame&,const std::vector<inp
     }
 }
 void FlightScene::on_routed_input(const input::InputSnapshot& snapshot) {
-    for(const auto& e:snapshot.events)if(e.type==input::RawInputEventType::ControlPressed||e.type==input::RawInputEventType::MouseMoved||
-        (e.type==input::RawInputEventType::AxisChanged&&std::abs(e.axis_value)>.2f))_using_gamepad=e.device==input::InputDevice::Gamepad;
     if(!_player)return;
     if(is_paused()||_finished||_event_pending||_transition.active()){_player->thrust={};return;}
     // Animation updates precede fixed steps. Keep the last replay input visible
@@ -197,13 +183,11 @@ void FlightScene::finish(bool success) {
     if(_finished||_death_pending)return;_audio.set_paused(true);_finished=true;_success=success;_player->thrust={};pause();
     _star_pickups->clear();_hud_stars->set_collected(_stars);
     for(auto* entity:_entities)if(entity->collected)entity->set_visible(false);
-    _hint->set_text_content(ui::ui_raw_text(content::ui(success?"success_hint":"failure_hint")));
     auto& store=progress::Store::instance();
     // Compare before record_clear replaces the previous best; ties are not records.
     const bool new_record=success&&(!store.data.score_verified[_level-1]||
         progress::original_score(_level,_stars,_crystals,_elapsed,content::catalog().at("score").at("svrs"))>store.data.scores[_level-1]);
     const bool saved=success?store.record_clear(_level,_stars,_crystals,_crystal_count,_stars+_crystal_count,_elapsed):store.record_death(_level,_crystal_count);
-    if(!saved)_hint->set_text_content(ui::ui_raw_text(content::ui("save_failure")));
     show_result(saved,new_record);
     ELYSIA_LOG_INFO("fly",std::format("Level {} {} time={:.3f} stars={} crystals={}",_level,success?"SUCCESS":"FAIL",_elapsed,_stars,_crystals));
 }
@@ -330,6 +314,7 @@ void FlightScene::update_dialogue() {
     }
     if(!has_dialogue)_dialogue_key.clear();
     _tutorial->set_visible(!_pause_menu_open&&!_finished);
+    update_hud_visibility();
 }
 void FlightScene::advance_dialogue(bool skip){
     if(!_story.dialogue())return;
@@ -383,7 +368,10 @@ void FlightScene::on_after_update(double delta) {
     if(!_pause_menu_open){
     _tutorial->advance(delta);
     if(_story.dialogue())_dialogue->advance(delta);
-    if(_demo)_tutorial->set_pointer_pressed(_tutorial_replay.pressed());
+    if(_demo){
+        _tutorial->set_pointer_pressed(_tutorial_replay.pressed());
+        if(const auto& point=_tutorial_replay.last_point())_tutorial->set_pointer_position(camera().world_to_screen(*point));
+    }
     if(!_finished)_star_pickups->advance(delta);
     const bool opening_frame=opening();
     std::erase_if(_projectiles,[](auto* p){if(p->expired){p->destroy();return true;}return false;});
@@ -449,10 +437,7 @@ void FlightScene::on_after_update(double delta) {
     _hud_stars->set_collected(_stars-_star_pickups->pending_count());
     _hud->set_text_content(ui::ui_raw_text(content::format("hud_stage",_level)));
     _hud_stats->set_values(_elapsed,large_crystal_count(),small_crystal_count());
-    _hint->set_visible(!_pause_menu_open&&!_finished&&!_death_pending);
-    if(opening())_hint->set_text_content(ui::ui_raw_text(content::ui("wait")));
-    else if(_story.dialogue())_hint->set_text_content(ui::ui_raw_text(content::ui(_story.dialogue()->remaining>0?"wait":_story.skip_enabled()?(_using_gamepad?"gamepad_skip":"skip"):(_using_gamepad?"gamepad_continue":"continue"))));
-    else if(!_finished)_hint->set_text_content(ui::ui_raw_text(content::ui(_using_gamepad?"gamepad_controls":"controls")));
+    update_hud_visibility();
     if(_probe.enabled()) {
     content::Json homing_projectiles=content::Json::array();
     if(_probe.enabled())for(const auto* projectile:_projectiles)if(projectile->homing()&&!projectile->expired){

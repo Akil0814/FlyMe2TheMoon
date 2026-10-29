@@ -4,9 +4,12 @@
 
 namespace game::frontend {
 using namespace elysia;
-TutorialUi::TutorialUi():UiElement({0,0,1280,720},19),_frames(content::read("tutorial_visual.json").at("direction_frames")){}
+TutorialUi::TutorialUi(core::Rect viewport):UiElement(viewport,23),_frames(content::read("tutorial_visual.json").at("direction_frames")){}
 void TutorialUi::submit_ui_render_commands(std::vector<core::UiRenderCommand>& out)const {
     if(!is_visible())return;
+    const auto viewport=screen_rect();const bool portrait=viewport.height()>=viewport.width();
+    const float fit=portrait?std::min(viewport.width()/320,viewport.height()/480):std::min(viewport.width()/1280,viewport.height()/720);
+    const core::Vector2 offset=viewport.position()+core::Vector2{(viewport.width()-(portrait?320:1280)*fit)/2,(viewport.height()-(portrait?480:720)*fit)/2};
     const auto draw=[&](const std::string& key,core::Vector2 point,float scale,core::Vector2 origin,double rotation=0){
         auto* texture=ELYSIA_RESOURCES->find_texture(key);float w=0,h=0;
         if(!texture||!SDL_GetTextureSize(texture,&w,&h))return;
@@ -18,16 +21,16 @@ void TutorialUi::submit_ui_render_commands(std::vector<core::UiRenderCommand>& o
         // Despite its name, inGame/blackEdge.png is the localized "Demo" label.
         const auto begin=out.size();
         const auto language=content::language()=="zh-Hans"?std::string("zh"):content::language();
-        draw("fly.frontend.tutorial_demo_"+language,{640,124},.75f,{.5f,0});
+        draw("fly.frontend.tutorial_demo_"+language,offset+(portrait?core::Vector2{160,32}:core::Vector2{640,124})*fit,(portrait?.5f:.75f)*fit,{.5f,0});
         if(out.size()>begin)out.back().alpha=static_cast<Uint8>(127+128*(1-std::abs(std::fmod(_demo_time,2.)-1)));
-        // Keep both states above the dialogue, independent of camera/recorded coordinates.
-        draw(_pressed?"fly.InGameUI.fingerDown":"fly.InGameUI.fingerUp",{640,420},.5f,{.5f,.5f});
+        const auto initial=offset+(portrait?core::Vector2{160,420}:core::Vector2{640,420})*fit;
+        draw(_pressed?"fly.InGameUI.fingerDown":"fly.InGameUI.fingerUp",_pointer.value_or(initial),.5f*fit,{.5f,.5f});
     }
     if(!_type)return;
-    // Preserve the original 320x480 local layout and source aspect ratios.
-    // Only its placement/overall scale change to fit above the desktop dialogue.
-    constexpr float scale=1.05f;
-    const auto point=[](float x,float y){return core::Vector2{900+(x-17)*scale,132+(475-y)*scale};};
+    // Phone coordinates are the original Y-up points; HD sprites need half
+    // the point-to-screen scale. Keep the existing widescreen placement.
+    const float scale=portrait?fit:1.05f*fit;
+    const auto point=[&](float x,float y){return offset+(portrait?core::Vector2{x,480-y}*fit:core::Vector2{900+(x-17)*1.05f,132+(475-y)*1.05f}*fit);};
     const auto sprite=[&](const char* key,float x,float y,double rotation=0,core::Vector2 anchor={0,0}){
         draw(std::string("fly.TutorialUI.")+key,point(x,y),.5f*scale,anchor,rotation);
     };

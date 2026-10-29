@@ -105,18 +105,19 @@ void RunStats::set_values(double seconds,int large_crystals,int small_crystals){
 void RunStats::submit_ui_render_commands(std::vector<core::UiRenderCommand>& out)const{
     if(!is_visible())return;
     const auto r=screen_rect();const float gap=8,cell=std::floor((r.width()-2*gap)/3);
+    const bool compact=cell<160;const float icon_center=compact?24.f:34.f,label_left=compact?44.f:62.f;
     const std::array<const char*,3> keys{{"fly.InGameUI.timeIcon","fly.InGameUI.uiCrystalLarge","fly.InGameUI.uiCrystalSmall"}};
     for(std::size_t i=0;i<3;++i){
         const core::Rect plate{r.x()+(cell+gap)*i,r.y(),cell,r.height()};hud_background(out,plate);
         auto* icon=ELYSIA_RESOURCES->find_texture(keys[i]);float width=0,height=0;
         if(icon&&SDL_GetTextureSize(icon,&width,&height)){
-            const float icon_height=r.height()*(i==2?.47f:.65f),icon_width=icon_height*width/height;
-            image(out,icon,{plate.x()+34-icon_width/2,plate.center().y-icon_height/2,icon_width,icon_height});
+            const float icon_height=std::min(r.height()*(i==2?.47f:.65f),compact?32.f:r.height()),icon_width=icon_height*width/height;
+            image(out,icon,{plate.x()+icon_center-icon_width/2,plate.center().y-icon_height/2,icon_width,icon_height});
         }
-        _labels[i].set_screen_rect({plate.x()+62,plate.y()+4,cell-70,plate.height()-8});_labels[i].submit_ui_render_commands(out);
+        _labels[i].set_screen_rect({plate.x()+label_left,plate.y()+4,cell-label_left-8,plate.height()-8});_labels[i].submit_ui_render_commands(out);
     }
 }
-PauseIconButton::PauseIconButton(core::Rect rect,std::function<void()> action):UiButton(rect,12){
+PauseIconButton::PauseIconButton(core::Rect rect,std::function<void()> action):UiButton(rect,25){
     set_style_overrides({.chrome={.draw_background=false,.draw_border=false}});
     set_state_textures({.idle=ELYSIA_RESOURCES->find_texture("fly.InGameUI.pauseBtnUp"),.pushed=ELYSIA_RESOURCES->find_texture("fly.InGameUI.pauseBtnDown")});
     set_on_click(std::move(action));
