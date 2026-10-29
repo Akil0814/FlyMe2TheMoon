@@ -18,12 +18,14 @@
 #include "game/audio/game_audio.h"
 #include "game/frontend/tutorial_ui.h"
 #include "game/frontend/story_text.h"
+#include "game/frontend/flight_ui_layout.h"
 
 namespace game::scene_keys {inline constexpr elysia::scene::SceneKey Flight=2;}
 namespace game::scene {
 struct FlightPayload {int level=1;bool restart=false;};
 class FlightScene final : public elysia::scene::Scene {
     friend class AudioTestAccess;
+    friend class FlightUiTestAccess;
 public:
     FlightScene();
     ~FlightScene() override;
@@ -41,13 +43,15 @@ protected:
 private:
     void attach_development_panel();
     void detach_development_panel();
-    static constexpr float kDefaultCameraZoom = 1.5f;
+    static constexpr float kDefaultCameraZoom = 1.8f;
 #if ELYSIA_ENABLE_IMGUI
     elysia::tools::IDevelopmentPanelRegistry* _development_panels = nullptr;
     elysia::tools::DevelopmentPanelHandle _development_panel{};
 #endif
     void finish(bool success);
     void build_result_panel();
+    void build_ingame_ui();
+    void update_hud_visibility();
     elysia::ui::UiWindow* build_modal_frame();
     void build_pause_panel();
     void open_pause_menu();
@@ -77,7 +81,6 @@ private:
     double _elapsed=0;
     bool _finished=false,_success=false;
     bool _death_pending=false;
-    bool _using_gamepad=false;
     bool _restart=false,_input_enabled=true,_demo=false,_demo_paused=false,_event_pending=false,_follow_role=true;
     play::Vec _story_camera{};
     play::CameraMove _camera_move;
@@ -104,7 +107,7 @@ private:
     std::string _failure_reason,_pending_failure;
     elysia::ui::UiLabel* _hud=nullptr;
     frontend::RunStats* _hud_stats=nullptr;
-    elysia::ui::UiLabel* _hint=nullptr;
+    frontend::FlightUiLayout _ui_layout;
     frontend::StarRating* _hud_stars=nullptr;
     frontend::StarPickupEffects* _star_pickups=nullptr;
     frontend::PauseIconButton* _pause_button=nullptr;
@@ -127,8 +130,8 @@ private:
     content::Json _text;
     std::string _dialogue_key;
     frontend::StoryText* _dialogue=nullptr;
-    frontend::HudPanel* _dialogue_panel=nullptr;
-    frontend::HudPanel* _portrait_panel=nullptr;
+    elysia::ui::UiImage* _dialogue_panel=nullptr;
+    elysia::ui::UiButton* _skip_button=nullptr;
     elysia::ui::UiImage* _face=nullptr;
     frontend::TutorialUi* _tutorial=nullptr;
     bool _dialogue_pointer_pressed=false;

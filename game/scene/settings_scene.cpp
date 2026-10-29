@@ -17,6 +17,18 @@
 namespace game::scene {
 using namespace elysia;
 namespace {
+void center_settings_actions(ui::SettingsPanel& panel){
+    for(std::size_t index=0;index<panel.child_count();++index){
+        auto* row=dynamic_cast<ui::UiListContainer*>(panel.child_at(index));
+        if(!row||row->child_count()!=2)continue;
+        auto* back=dynamic_cast<ui::UiButton*>(row->child_at(0));
+        auto* save=dynamic_cast<ui::UiButton*>(row->child_at(1));
+        if(!back||!save||back->text_content().value!="engine.settings.actions.back"||save->text_content().value!="engine.settings.actions.save")continue;
+        auto layout=*panel.child_layout_options(index);
+        layout._cross_align=ui::UiLayoutAlign::Center;layout._use_custom_cross_align=true;
+        panel.set_child_layout_options(index,layout);
+    }
+}
 void style_controls(ui::UiElement& element){
     if(auto* checkbox=dynamic_cast<ui::UiCheckbox*>(&element))checkbox->set_sounds({.toggle="fly.voice_6_3"});
     if(auto* radio=dynamic_cast<ui::UiRadioButton*>(&element))radio->set_sounds({.select="fly.voice_6_3"});
@@ -39,29 +51,24 @@ ui::SettingsPanelDraft draft(const config::UserConfigData& data){
 void SettingsScene::on_enter(const elysia::scene::ScenePayload&){
     ELYSIA_AUDIO->transition_music("fly.SkyTunnel");
     clear_scene_objects();_saved=false;_baseline=config::UserConfigService::instance()->user_config().runtime_state();
-    auto* window=create_and_add_object<ui::UiWindow>(core::Rect{0,0,1280,720});
+    const core::Rect viewport{0,0,static_cast<float>(runtime_context().logical_width()),static_cast<float>(runtime_context().logical_height())};
+    auto* window=create_and_add_object<ui::UiWindow>(viewport);
     window->set_style_overrides({.draw_background=false,.draw_border=false});
     window->set_on_cancel([this]{game::audio::ui_click();request_scene_switch(scene_keys::MainMenu);});
-    window->add_child(std::make_unique<frontend::MoonBackdrop>("settings",35));
-    auto panel=std::make_unique<ui::SettingsPanel>(core::Rect{0,0,732,660},ui::SettingsPanelVisibility{.window_mode=false});_panel=panel.get();
-    std::optional<ui::SettingsWindowSize> usable;
-    if(auto* native=SDL_GetRenderWindow(runtime_context().renderer())){
-        SDL_Rect bounds{};if(SDL_GetDisplayUsableBounds(SDL_GetDisplayForWindow(native),&bounds))usable=ui::SettingsWindowSize{bounds.w,bounds.h};
-    }
-    _panel->set_options({.window_sizes=ui::make_settings_window_size_options(usable,draft(_baseline.settings).window_size),
-        .target_fps_values=ui::make_settings_target_fps_options(_baseline.settings.target_fps),
-        .languages=ELYSIA_LOCALIZATION->supported_languages(),.usable_window_size=usable});
+    window->add_child(std::make_unique<frontend::MoonBackdrop>(runtime_context(),"settings",35));
+    auto panel=std::make_unique<ui::SettingsPanel>(core::Rect{0,0,std::min(592.f,viewport.width()-48),viewport.height()-48},ui::SettingsPanelVisibility{.window_mode=false});_panel=panel.get();
+    _panel->set_options({.target_fps_values=ui::make_settings_target_fps_options(_baseline.settings.target_fps),
+        .languages=ELYSIA_LOCALIZATION->supported_languages()});
     _panel->set_draft(draft(_baseline.settings));
+    center_settings_actions(*_panel);
     _panel->set_on_save([this](const ui::SettingsPanelDraft& value){save(value);});
     _panel->set_on_back([this]{request_scene_switch(scene_keys::MainMenu);});
-    window->add_child(std::move(panel),ui::UiLayoutChildOptions{._anchor=ui::UiLayoutAnchor::CenterRight,._margin={.right=28}});
+    window->add_child(std::move(panel),ui::UiLayoutChildOptions{._anchor=ui::UiLayoutAnchor::Center});
     _panel->register_with_window(*window);style_controls(*_panel);window->register_focus_scope(*_panel);window->focus_first_available_scope();
     if(_baseline.restart_required)_panel->set_status_content(ui::ui_text_key("engine.settings.status.restart_required"),false);
 }
 void SettingsScene::save(const ui::SettingsPanelDraft& value){
     auto* service=config::UserConfigService::instance();auto requested=service->user_config().snapshot();
-    requested.window={value.window_mode==ui::SettingsWindowMode::Windowed?config::WindowMode::Windowed:config::WindowMode::BorderlessFullscreen,
-        {value.window_size.width,value.window_size.height}};
     requested.target_fps=value.target_fps;requested.vsync=value.vsync;
     requested.audio={value.master_volume,value.music_volume,value.sound_volume};requested.language=value.language;
     const auto result=service->apply_and_save_user_config(requested,_baseline);

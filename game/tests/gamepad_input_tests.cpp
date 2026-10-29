@@ -181,6 +181,8 @@ struct Requests final:scene::SceneRequestObserver {
 };
 void test_menu(){
     game::scene::SelectionScene menu;Requests requests;menu.attach(&requests);
+    io::ContentRegistry registry;scene::SceneRuntimeContext context(nullptr,registry,1280,720);
+    scene::SceneTestAccess::bind(menu,context);
     scene::SceneTestAccess::enter(menu);scene::SceneTestAccess::layout(menu);
     input::InputSystem system;system.initialize();
     const auto send=[&]{scene::SceneTestAccess::input(menu,system.snapshot());scene::SceneTestAccess::layout(menu);};

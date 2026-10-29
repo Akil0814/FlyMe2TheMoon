@@ -1,6 +1,8 @@
 #include "moon_ui.h"
+#include "result_star_effects.h"
 #include "game/audio/game_audio.h"
 #include "engine/resources/resource_service.h"
+#include "engine/scene/runtime/scene_runtime_context.h"
 #include "game/content/content.h"
 #include <format>
 #include <cmath>
@@ -41,6 +43,10 @@ void draw_glass_button(const ui::UiButton& button,std::vector<core::UiRenderComm
     button.ui::UiButton::submit_ui_render_commands(out);
 }
 }
+void StarRating::present_result(int count,double elapsed){
+    _result_count=std::clamp(count,0,3);_result_elapsed=std::max(0.,elapsed);_collected=0;
+    while(_collected<_result_count&&_result_elapsed+1e-9>=_collected*result_star_interval+result_star_reveal_delay)++_collected;
+}
 core::Rect StarRating::slot_rect(int index)const{
     const auto r=screen_rect();const float gap=r.height()*.1875f;
     const float side=std::min(r.height(),(r.width()-gap*2)/3);
@@ -53,6 +59,8 @@ void StarRating::submit_ui_render_commands(std::vector<core::UiRenderCommand>& o
         auto* star=ELYSIA_RESOURCES->find_texture(index<_collected?"fly.InGameUI.starDown":"fly.InGameUI.starUp");
         image(out,star,slot_rect(index));
     }
+    for(int index=0;index<_result_count;++index)
+        submit_result_star_particles(out,slot_rect(index),_result_elapsed-index*result_star_interval,index);
 }
 HudLabel::HudLabel(core::Rect rect,int order,ui::UiTextContent text):UiLabel(rect,order,std::move(text)){
     set_typography_role(typography::UiTypographyRole::ButtonCompact);
@@ -88,6 +96,13 @@ RunStats::RunStats(core::Rect rect,int order):UiElement(rect,order){
     }
     set_values(0,0,0);
 }
+void RunStats::set_grouped(bool grouped){
+    _grouped=grouped;
+    for(auto& label:_labels){
+        label.set_typography_role(grouped?typography::UiTypographyRole::Number:typography::UiTypographyRole::ButtonCompact);
+        if(grouped)label.set_horizontal_align(ui::TextHorizontalAlign::Left);
+    }
+}
 void RunStats::set_values(double seconds,int large_crystals,int small_crystals){
     _large=large_crystals;_small=small_crystals;
     _labels[0].set_text_content(ui::ui_raw_text(std::format("{:.1f} s",seconds)));
@@ -97,18 +112,27 @@ void RunStats::set_values(double seconds,int large_crystals,int small_crystals){
 void RunStats::submit_ui_render_commands(std::vector<core::UiRenderCommand>& out)const{
     if(!is_visible())return;
     const auto r=screen_rect();const float gap=8,cell=std::floor((r.width()-2*gap)/3);
+    const bool compact=cell<160;
+    const float scale=_grouped?r.height()/64:1.f;
+    const float icon_center=(_grouped?18.f:compact?24.f:34.f)*scale,label_left=(_grouped?36.f:compact?44.f:62.f)*scale;
+    // Both crystal counts fit in two digits; reserve almost half the plate for time.
+    if(_grouped)hud_background(out,r);
+    const std::array<float,4> edges{{0,r.width()*.48f,r.width()*.74f,r.width()}};
     const std::array<const char*,3> keys{{"fly.InGameUI.timeIcon","fly.InGameUI.uiCrystalLarge","fly.InGameUI.uiCrystalSmall"}};
     for(std::size_t i=0;i<3;++i){
-        const core::Rect plate{r.x()+(cell+gap)*i,r.y(),cell,r.height()};hud_background(out,plate);
+        const core::Rect plate=_grouped?core::Rect{r.x()+edges[i],r.y(),edges[i+1]-edges[i],r.height()}
+            :core::Rect{r.x()+(cell+gap)*i,r.y(),cell,r.height()};
+        if(!_grouped)hud_background(out,plate);
         auto* icon=ELYSIA_RESOURCES->find_texture(keys[i]);float width=0,height=0;
         if(icon&&SDL_GetTextureSize(icon,&width,&height)){
-            const float icon_height=r.height()*(i==2?.47f:.65f),icon_width=icon_height*width/height;
-            image(out,icon,{plate.x()+34-icon_width/2,plate.center().y-icon_height/2,icon_width,icon_height});
+            const float icon_height=_grouped?(i==2?22.f:32.f)*scale:std::min(r.height()*(i==2?.47f:.65f),compact?32.f:r.height()),icon_width=icon_height*width/height;
+            image(out,icon,{plate.x()+icon_center-icon_width/2,plate.center().y-icon_height/2,icon_width,icon_height});
         }
-        _labels[i].set_screen_rect({plate.x()+62,plate.y()+4,cell-70,plate.height()-8});_labels[i].submit_ui_render_commands(out);
+        const float label_height=_grouped?r.height()*.75f:plate.height()-8;
+        _labels[i].set_screen_rect({plate.x()+label_left,plate.center().y-label_height/2,plate.width()-label_left-8*scale,label_height});_labels[i].submit_ui_render_commands(out);
     }
 }
-PauseIconButton::PauseIconButton(core::Rect rect,std::function<void()> action):UiButton(rect,12){
+PauseIconButton::PauseIconButton(core::Rect rect,std::function<void()> action):UiButton(rect,25){
     set_style_overrides({.chrome={.draw_background=false,.draw_border=false}});
     set_state_textures({.idle=ELYSIA_RESOURCES->find_texture("fly.InGameUI.pauseBtnUp"),.pushed=ELYSIA_RESOURCES->find_texture("fly.InGameUI.pauseBtnDown")});
     set_on_click(std::move(action));
@@ -122,7 +146,10 @@ void PauseIconButton::submit_ui_render_commands(std::vector<core::UiRenderComman
     auto command=core::make_ui_texture_command(text,{r.center().x-icon_width/2,r.center().y-extent/2,icon_width,extent});
     apply_opacity(command);out.push_back(command);
 }
-MoonBackdrop::MoonBackdrop(const char* name,int shade):UiElement({0,0,1280,720},-100),_texture(texture(std::string("background_")+name)),_shade(shade){}
+MoonBackdrop::MoonBackdrop(const scene::SceneRuntimeContext& context,const char* name,int shade)
+    :MoonBackdrop(core::Rect{0,0,static_cast<float>(context.logical_width()),static_cast<float>(context.logical_height())},name,shade){}
+MoonBackdrop::MoonBackdrop(core::Rect viewport,const char* name,int shade)
+    :UiElement(viewport,-100),_texture(texture(std::string("background_")+name)),_shade(shade){}
 void MoonBackdrop::submit_ui_render_commands(std::vector<core::UiRenderCommand>& out)const {
     const auto rect=screen_rect();out.push_back(core::make_ui_fill_rect_command(rect,{4,13,36,255}));
     if(_texture){
@@ -218,14 +245,16 @@ void ConstellationGrid::submit_ui_render_commands(std::vector<core::UiRenderComm
     // Use the actual laid-out nodes, so map lines follow logical-size changes.
     for(std::size_t index=1;index<child_count();++index){
         const auto* previous=child_at(index-1);const auto* current=child_at(index);
-        if(index%5==0)continue;
-        const auto a=previous->screen_rect().center(),b=current->screen_rect().center();
-        out.push_back(core::make_ui_draw_line_command({a.x+103,a.y},{b.x-103,b.y},{162,224,255,160}));
+        if(index%column_count()==0)continue;
+        const auto a=previous->screen_rect(),b=current->screen_rect();
+        out.push_back(core::make_ui_draw_line_command({a.right(),a.center().y},{b.x(),b.center().y},{162,224,255,160}));
     }
     UiGridContainer::submit_ui_render_commands(out);
 }
 AchievementCard::AchievementCard(int id,std::string title,std::string description,bool earned):UiElement({0,0,372,178}),
     _badge(texture(std::format("achv{}",id))),_earned(earned){
+    _compact_title.set_text_content(ui::ui_raw_text(title));_compact_title.set_typography_role(typography::UiTypographyRole::Label);
+    _compact_title.set_style_overrides({.text=core::Color{239,249,255,255}});
     _title.set_text_content(ui::ui_raw_text(std::move(title)));_title.set_typography_role(typography::UiTypographyRole::Label);
     _title.set_style_overrides({.text=core::Color{239,249,255,255}});_title.set_vertical_align(ui::TextVerticalAlign::Center);
     // Give the text wrapper a word boundary before numeric requirements so
@@ -241,9 +270,26 @@ AchievementCard::AchievementCard(int id,std::string title,std::string descriptio
     _status.set_style_overrides({.text=earned?core::Color{153,243,221,255}:core::Color{139,165,190,255}});
 }
 void AchievementCard::submit_ui_render_commands(std::vector<core::UiRenderCommand>& out)const {
+    if(!is_visible())return;
     const auto r=screen_rect();
     out.push_back(core::make_ui_fill_rect_command(r,_earned?core::Color{17,63,103,224}:core::Color{8,30,62,220},16));
     out.push_back(core::make_ui_draw_rect_command(r,_earned?core::Color{117,231,242,200}:core::Color{102,160,198,80},16));
+    if(r.width()<340){
+        const core::Rect badge{r.x()+16,r.y()+16,64,64};image(out,_badge,badge);
+        if(!_earned)out.push_back(core::make_ui_fill_rect_command(badge,{4,12,31,170},12));
+        else out.push_back(core::make_ui_draw_rect_command({badge.x()-3,badge.y()-3,70,70},{142,239,248,150},14));
+        const auto text=[&](ui::UiTextBlock& block,core::Rect area,float scale){
+            block.set_screen_rect({0,0,area.width()/scale,area.height()/scale});
+            std::vector<core::UiRenderCommand> commands;block.submit_ui_render_commands(commands);
+            float fit=scale;
+            for(const auto& command:commands)fit=std::min({fit,area.width()/std::max(1.f,command.screen_rect.right()),area.height()/std::max(1.f,command.screen_rect.bottom())});
+            for(auto command:commands){const auto rect=command.screen_rect;command.screen_rect={area.x()+rect.x()*fit,area.y()+rect.y()*fit,rect.width()*fit,rect.height()*fit};out.push_back(command);}
+        };
+        text(_compact_title,{r.x()+92,r.y()+16,r.width()-108,64},.8f);
+        text(_description,{r.x()+16,r.y()+92,r.width()-32,r.height()-132},.7f);
+        _status.set_screen_rect({r.x()+16,r.bottom()-35,r.width()-32,25});_status.submit_ui_render_commands(out);
+        return;
+    }
     const core::Rect badge{r.x()+18,r.y()+24,92,92};image(out,_badge,badge);
     if(!_earned)out.push_back(core::make_ui_fill_rect_command(badge,{4,12,31,170},12));
     else out.push_back(core::make_ui_draw_rect_command({badge.x()-3,badge.y()-3,98,98},{142,239,248,150},14));

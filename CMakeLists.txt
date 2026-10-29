@@ -7,7 +7,7 @@ if(POLICY CMP0141)
         "$<IF:$<CONFIG:Debug>,Embedded,$<$<CONFIG:RelWithDebInfo>:ProgramDatabase>>")
 endif()
 
-project(FlyMe2TheMoon LANGUAGES C CXX)
+project(FlyMe2TheMoon VERSION 1.1.0 LANGUAGES C CXX)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 if(ANDROID)
     set(BUILD_TESTING OFF CACHE BOOL "" FORCE)
@@ -103,6 +103,8 @@ else()
 endif()
 
 if(WIN32)
+    # SDL_main.h supplies WinMain. Release must not create a console window.
+    set_property(TARGET FlyMe2TheMoon PROPERTY WIN32_EXECUTABLE "$<CONFIG:Release>")
     enable_language(RC)
     configure_file(game/platform/windows/app.rc.in generated/fly/app.rc @ONLY)
     target_sources(FlyMe2TheMoon PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/generated/fly/app.rc")

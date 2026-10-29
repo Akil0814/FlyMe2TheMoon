@@ -17,8 +17,11 @@
 #include "game/scene/flight_scene.h"
 #include "game/tests/original_music_fixture.h"
 #include "engine/audio/audio_service.h"
+#include "engine/config/user_config_service.h"
+#include "engine/input/input_system.h"
 #include "engine/save/save_service.h"
 #include "engine/ui/window/ui_window.h"
+#include "engine/ui/containers/ui_panel.h"
 #include "engine/io/path/path_manager.h"
 #include "engine/io/loaders/content_registry_loader.h"
 #include "engine/loading/game_content_loader.h"
@@ -46,12 +49,16 @@ public:
     static void enter(Scene& scene,const ScenePayload& payload={}){scene.lifecycle_enter(payload);}
     static void exit(Scene& scene){scene.lifecycle_exit();}
     static void update(Scene& scene,double delta){scene.lifecycle_update(delta);}
+    static void input(Scene& scene,const input::InputSnapshot& snapshot){scene.lifecycle_input(snapshot);}
+    static void render(Scene& scene,SDL_Renderer* renderer){scene.lifecycle_render(renderer);}
+    static const auto& roots(const Scene& scene){return scene._ui_roots;}
     static ui::UiWindow& window(Scene& scene){return dynamic_cast<ui::UiWindow&>(*scene._ui_roots.at(0));}
 };
 }
 
 #include "game/progress/progress.h"
 #include "game/tests/audio_scene_checks.h"
+#include "game/tests/flight_ui_checks.h"
 
 namespace {
 using namespace elysia;
@@ -254,7 +261,7 @@ void check_dialogue_and_pause(SDL_Renderer* renderer){
     auto* plate=ELYSIA_RESOURCES->find_texture("fly.InGameUI.btn1Up");
     for(const auto size:{core::Vector2{1232,182},core::Vector2{156,156},core::Vector2{680,560}}){
         HudPanel panel({24,40,size.x,size.y});std::vector<core::UiRenderCommand> drawn;panel.submit_ui_render_commands(drawn);
-        require(drawn.size()==9,"Dialogue, portrait and modal frames must use nine-slice panels");
+        require(drawn.size()==9,"Generic modal frames must use nine-slice panels");
         float area=0;for(const auto& command:drawn){
             require(command.type==core::UiRenderCommandType::Texture&&command.texture==plate&&command.use_src_rect,"Frames must use btn1Up without additional lines or geometric borders");
             area+=command.screen_rect.width()*command.screen_rect.height();
@@ -288,32 +295,214 @@ void check_dialogue_and_pause(SDL_Renderer* renderer){
     HudLabel states({900,172,340,40},0,ui::ui_raw_text("Up / Down"));render(states);
     PauseIconButton normal({970,232,64,64},[]{}),pressed({1120,232,64,64},[]{});render(normal);
     pointer.type=ui::UiInputEventType::PointerPressed;pointer.mouse_x=1152;pointer.mouse_y=264;pressed.on_ui_input_event(pointer);render(pressed);
-    HudPanel dialogue({24,474,1232,182}),portrait({38,486,156,156});render(dialogue);render(portrait);
-    ui::UiImage face(ELYSIA_RESOURCES->find_texture("fly.ui.faceJingya"),core::Rect{46,494,140,140});render(face);
-    ui::UiTextBlock line({212,492,1024,144});line.set_padding(8);line.set_style_overrides({.text=core::Color{16,46,77,255}});
+    const auto layout=FlightUiLayout::make(1280,720);
+    ui::UiImage dialogue(ELYSIA_RESOURCES->find_texture("fly.InGameUI.tutorialPanelHalf"),layout.dialogue);render(dialogue);
+    ui::UiImage face(ELYSIA_RESOURCES->find_texture("fly.ui.faceJingya"),layout.face);render(face);
+    ui::UiTextBlock line(layout.text);line.set_padding(8);line.set_style_overrides({.text=core::Color{16,46,77,255}});
     auto source=game::content::read("text/zh-Hans/strings.json").at("Level39-1").get<std::string>();source=std::regex_replace(source,std::regex("#c[0-9a-fA-F]{6}|#n"),"");line.set_text_content(ui::ui_raw_text(source));render(line);
     auto* preview=SDL_RenderReadPixels(renderer,nullptr);require(preview!=nullptr,SDL_GetError());const bool saved=SDL_SaveBMP(preview,"out/qa/dialogue-pause-assets-preview.bmp");SDL_DestroySurface(preview);require(saved,SDL_GetError());
 }
 void check_main_menu_background(SDL_Renderer* renderer,const io::ContentRegistry& registry){
-    scene::SceneRuntimeContext context(renderer,registry,1280,720);
-    game::scene::MainMenuScene menu;scene::SceneTestAccess::bind(menu,context);scene::SceneTestAccess::enter(menu);
+    struct Requests final:scene::SceneRequestObserver {
+        std::vector<scene::SceneRequest> received;
+        void on_scene_request(const scene::SceneRequest& request)override{received.push_back(request);}
+    } requests;
+    scene::SceneRuntimeContext context(renderer,registry,640,960);
+    game::scene::MainMenuScene menu;menu.attach(&requests);scene::SceneTestAccess::bind(menu,context);scene::SceneTestAccess::enter(menu);
     auto& window=scene::SceneTestAccess::window(menu);window.update(0);
     std::vector<core::UiRenderCommand> drawn;window.submit_ui_render_commands(drawn);
     auto* expected=ELYSIA_RESOURCES->find_texture("fly.frontend.background_menu");require(expected!=nullptr,"Requested main-menu background missing");
     int backgrounds=0;
     for(const auto& command:drawn){
-        if(command.texture==expected){++backgrounds;require(command.screen_rect==core::Rect{0,0,1280,720},"Menu background must fill the viewport");}
+        if(command.texture==expected){++backgrounds;require(command.screen_rect==core::Rect{0,0,640,960},"Menu background must fill the portrait viewport");}
         // Pruned artwork resolves to nullptr; solid-color commands also have no texture.
         // Only texture commands can display an obsolete artwork layer.
         if(command.type==core::UiRenderCommandType::Texture)
             require(command.texture&&command.texture!=ELYSIA_RESOURCES->find_texture("fly.ui.mainBg2")&&command.texture!=ELYSIA_RESOURCES->find_texture("fly.ui.mainTitle2")&&command.texture!=ELYSIA_RESOURCES->find_texture("fly.frontend.background_menu_outpaint"),"New menu must not retain the old artwork layers");
     }
     require(backgrounds==1&&window.child_count()==3&&!window.child_at(2)->is_visible(),"Main menu must draw its background/navigation with the exit confirmation initially hidden");
+    auto* target=SDL_CreateTexture(renderer,SDL_PIXELFORMAT_RGBA32,SDL_TEXTUREACCESS_TARGET,640,960);
+    require(target&&SDL_SetRenderTarget(renderer,target),SDL_GetError());
     require(SDL_SetRenderDrawColor(renderer,12,20,35,255)&&SDL_RenderClear(renderer),SDL_GetError());
     for(const auto& command:drawn)core::require_render_success(core::execute_render_command(renderer,command));
     auto* preview=SDL_RenderReadPixels(renderer,nullptr);require(preview!=nullptr,SDL_GetError());
     std::filesystem::create_directories("out/qa");const bool saved=SDL_SaveBMP(preview,"out/qa/main-menu-background-preview.bmp");SDL_DestroySurface(preview);require(saved,SDL_GetError());
+    const auto click=[&](const ui::UiElement& element){
+        const auto point=element.screen_rect().center();
+        ui::UiInputEvent event{.type=ui::UiInputEventType::PointerPressed,.device=input::InputDevice::Mouse,.control=input::RawInputControl::MouseLeft,.mouse_x=static_cast<int>(point.x),.mouse_y=static_cast<int>(point.y)};
+        window.on_ui_input_event(event);window.on_ui_input_frame({});window.update(1./60.);
+        event.type=ui::UiInputEventType::PointerReleased;window.on_ui_input_event(event);window.on_ui_input_frame({});window.update(1./60.);
+    };
+    auto& navigation=dynamic_cast<ui::UiListContainer&>(*window.child_at(1));
+    auto& overlay=dynamic_cast<ui::UiPanel&>(*window.child_at(2));
+    click(*navigation.child_at(4));require(window.is_overlay_open(overlay),"Exit button must open its confirmation overlay");
+    require(overlay.screen_rect()==core::Rect{0,0,640,960}&&overlay.style().corner_radius==0,"Exit shade must cover the entire portrait viewport, including its corners");
+    require(overlay.child_at(0)->screen_rect()==core::Rect{64,310,512,340},"Exit dialog must be narrower and centered in the viewport");
+    auto& actions=dynamic_cast<ui::UiListContainer&>(*overlay.child_at(1));
+    click(*navigation.child_at(2));require(requests.received.empty()&&window.is_overlay_open(overlay),"Modal shade must block the Settings button below the dialog");
+    drawn.clear();window.submit_ui_render_commands(drawn);
+    require(SDL_SetRenderDrawColor(renderer,12,20,35,255)&&SDL_RenderClear(renderer),SDL_GetError());
+    for(const auto& command:drawn)core::require_render_success(core::execute_render_command(renderer,command));
+    preview=SDL_RenderReadPixels(renderer,nullptr);require(preview!=nullptr,SDL_GetError());
+    const bool dialog_saved=SDL_SaveBMP(preview,"out/qa/exit-dialog-portrait-preview.bmp");SDL_DestroySurface(preview);require(dialog_saved,SDL_GetError());
+    click(*actions.child_at(2));require(!window.is_overlay_open(overlay)&&requests.received.empty(),"Cancel must close the exit dialog without quitting");
+    click(*navigation.child_at(4));click(*actions.child_at(3));
+    require(requests.received.size()==1&&requests.received.back().type==scene::SceneRequestType::Quit,"Confirm Exit must request quit exactly once");
+    require(SDL_SetRenderTarget(renderer,nullptr),SDL_GetError());SDL_DestroyTexture(target);
     scene::SceneTestAccess::exit(menu);
+}
+void check_portrait_pages(SDL_Renderer* renderer,const io::ContentRegistry& registry){
+    struct Requests final:scene::SceneRequestObserver {
+        std::vector<scene::SceneRequest> received;
+        void on_scene_request(const scene::SceneRequest& request)override{received.push_back(request);}
+    };
+    const auto directory=std::filesystem::path("out/qa/portrait-pages")/std::to_string(SDL_GetTicksNS());
+    std::filesystem::create_directories(directory);
+    config::UserConfigData defaults;defaults.window.windowed_size={640,960};defaults.language="zh-Hans";
+    require(ELYSIA_USER_CONFIG->initialize(defaults,directory/"user_config.json").has_value(),"Portrait settings fixture config initialization failed");
+    scene::SceneRuntimeContext context(renderer,registry,640,960);
+    const auto click=[&](ui::UiWindow& window,const ui::UiElement& element){
+        const auto point=element.screen_rect().center();
+        ui::UiInputEvent event{.type=ui::UiInputEventType::PointerPressed,.device=input::InputDevice::Mouse,.control=input::RawInputControl::MouseLeft,.mouse_x=static_cast<int>(point.x),.mouse_y=static_cast<int>(point.y)};
+        window.on_ui_input_event(event);window.on_ui_input_frame({});window.update(1./60.);
+        event.type=ui::UiInputEventType::PointerReleased;window.on_ui_input_event(event);window.on_ui_input_frame({});window.update(1./60.);
+    };
+    const auto capture=[&](ui::UiWindow& window,const char* filename){
+        auto* target=SDL_CreateTexture(renderer,SDL_PIXELFORMAT_RGBA32,SDL_TEXTUREACCESS_TARGET,640,960);
+        require(target&&SDL_SetRenderTarget(renderer,target),SDL_GetError());
+        require(SDL_SetRenderDrawColor(renderer,12,20,35,255)&&SDL_RenderClear(renderer),SDL_GetError());
+        std::vector<core::UiRenderCommand> drawn;window.submit_ui_render_commands(drawn);
+        for(const auto& command:drawn)core::require_render_success(core::execute_render_command(renderer,command));
+        auto* preview=SDL_RenderReadPixels(renderer,nullptr);require(preview!=nullptr,SDL_GetError());
+        const bool saved=SDL_SaveBMP(preview,filename);SDL_DestroySurface(preview);require(saved,SDL_GetError());
+        require(SDL_SetRenderTarget(renderer,nullptr),SDL_GetError());SDL_DestroyTexture(target);
+    };
+    game::scene::SettingsScene settings;Requests settings_requests;settings.attach(&settings_requests);
+    scene::SceneTestAccess::bind(settings,context);scene::SceneTestAccess::enter(settings);
+    auto& settings_window=scene::SceneTestAccess::window(settings);settings_window.update(0);
+    auto& panel=dynamic_cast<ui::SettingsPanel&>(*settings_window.child_at(1));
+    require(settings_window.screen_rect()==core::Rect{0,0,640,960}&&panel.screen_rect()==core::Rect{24,24,592,912},"Portrait settings panel must fit within 24 pixel margins");
+    auto& actions=dynamic_cast<ui::UiListContainer&>(*panel.child_at(panel.child_count()-1));
+    auto& back=*actions.child_at(0);auto& save=*actions.child_at(1);
+    require(std::abs(actions.screen_rect().center().x-320)<.001f&&back.screen_rect().y()==save.screen_rect().y()&&back.screen_rect().right()<save.screen_rect().x()&&save.screen_rect().bottom()<=936,"Settings actions must be centered, horizontal and inside the viewport");
+    bool has_window_field=false;
+    const auto check_hidden=[&](auto&& self,ui::UiElement& element)->void{
+        if(auto* host=dynamic_cast<ui::UiChildHost*>(&element))for(std::size_t i=0;i<host->child_count();++i){
+            if(auto* label=dynamic_cast<ui::UiLabel*>(host->child_at(i));label&&(label->text_content().value=="engine.settings.fields.window_size"||label->text_content().value=="engine.settings.fields.window_mode"))has_window_field=true;
+            self(self,*host->child_at(i));
+        }
+    };
+    check_hidden(check_hidden,panel);require(!panel.visibility().window_mode&&!has_window_field,"Mobile settings must omit both window mode and window size controls");
+    auto hidden_draft=panel.draft();hidden_draft.window_mode=ui::SettingsWindowMode::BorderlessFullscreen;hidden_draft.window_size={1920,1080};panel.set_draft(hidden_draft);
+    click(settings_window,save);
+    auto& status=dynamic_cast<ui::UiLabel&>(*panel.child_at(panel.child_count()-2));
+    require(status.text_content().value=="engine.settings.status.saved"&&std::filesystem::is_regular_file(directory/"user_config.json"),"Portrait Save button must persist settings successfully");
+    require(ELYSIA_USER_CONFIG->user_config().snapshot().window==defaults.window,"Saving mobile settings must preserve window mode and size even if hidden draft values change");
+    capture(settings_window,"out/qa/settings-portrait-preview.bmp");
+    click(settings_window,back);require(settings_requests.received.size()==1&&settings_requests.received.back().route.target==game::scene_keys::MainMenu,"Portrait settings Back button must return to the menu");
+    scene::SceneTestAccess::exit(settings);ELYSIA_USER_CONFIG->shutdown();
+
+    game::scene::CreditsScene credits;Requests credits_requests;credits.attach(&credits_requests);
+    scene::SceneTestAccess::bind(credits,context);scene::SceneTestAccess::enter(credits);
+    auto& credits_window=scene::SceneTestAccess::window(credits);credits_window.update(0);
+    auto& scroll=dynamic_cast<ui::UiScrollContainer&>(*credits_window.child_at(1));
+    auto& controls=dynamic_cast<ui::UiListContainer&>(*credits_window.child_at(2));
+    require(scroll.screen_rect()==core::Rect{24,24,592,787}&&controls.screen_rect()==core::Rect{24,827,592,109},"Portrait credits must reserve the bottom controls outside its scroll area");
+    const auto& images=dynamic_cast<const ui::UiListContainer&>(*scroll.content());
+    require(images.child_count()==7,"Portrait credits lost an original image");
+    for(std::size_t i=0;i<images.child_count();++i){
+        const auto& image=dynamic_cast<const ui::UiImage&>(*images.child_at(i));
+        const auto rect=image.screen_rect();
+        require(rect.width()<=544.001f&&std::abs(rect.center().x-320)<.001f,"Portrait credits images must fit and remain horizontally centered");
+        std::vector<core::UiRenderCommand> drawn;image.submit_ui_render_commands(drawn);
+        require(drawn.size()==1,"Credits image draw missing");float width=0,height=0;require(SDL_GetTextureSize(drawn.front().texture,&width,&height),SDL_GetError());
+        require(std::abs(rect.width()/rect.height()-width/height)<.001f&&rect.width()/width<=1.5001f,"Credits artwork must preserve aspect and the original scale limit");
+    }
+    capture(credits_window,"out/qa/credits-portrait-start-preview.bmp");
+    scene::SceneTestAccess::update(credits,2.1);require(scroll.scroll_offset_y()>0,"Portrait credits auto scroll did not start");
+    input::InputSystem input_system;input_system.initialize();
+    const auto key=[&](SDL_Scancode scancode){
+        for(bool down:{true,false}){input_system.begin_frame();SDL_Event event{};event.type=down?SDL_EVENT_KEY_DOWN:SDL_EVENT_KEY_UP;event.key.scancode=scancode;event.key.key=SDL_GetKeyFromScancode(scancode,SDL_KMOD_NONE,false);event.key.down=down;input_system.process_event(event);scene::SceneTestAccess::input(credits,input_system.snapshot());}
+    };
+    key(SDL_SCANCODE_SPACE);const float paused=scroll.scroll_offset_y();scene::SceneTestAccess::update(credits,.5);require(scroll.scroll_offset_y()==paused,"Space must pause portrait credits auto scroll");
+    key(SDL_SCANCODE_SPACE);scene::SceneTestAccess::update(credits,.5);require(scroll.scroll_offset_y()>paused,"Space must resume portrait credits auto scroll");
+    const float before=scroll.scroll_offset_y();key(SDL_SCANCODE_DOWN);require(scroll.scroll_offset_y()>before,"Down must manually scroll portrait credits");
+    const float manual=scroll.scroll_offset_y();scene::SceneTestAccess::update(credits,.5);require(scroll.scroll_offset_y()==manual,"Manual scrolling must stop automatic scrolling");
+    scroll.scroll_to_bottom();credits_window.update(0);require(scroll.scroll_offset_y()==scroll.max_scroll_offset().y&&images.child_at(6)->screen_rect().bottom()<=scroll.screen_rect().bottom()+.001f,"Last credits image must be reachable above the fixed controls");
+    capture(credits_window,"out/qa/credits-portrait-end-preview.bmp");
+    click(credits_window,*controls.child_at(1));require(credits_requests.received.size()==1&&credits_requests.received.back().route.target==game::scene_keys::MainMenu,"Portrait credits Back button must remain clickable");
+    input_system.shutdown();scene::SceneTestAccess::exit(credits);
+
+    const auto original_language=ELYSIA_LOCALIZATION->current_language();
+    for(const auto& language:ELYSIA_LOCALIZATION->supported_languages()){
+        require(ELYSIA_LOCALIZATION->set_language(language).has_value(),"Achievement language switch failed");
+        int total=0;
+        for(int page=0;page<3;++page){
+            game::scene::AchievementsScene album;scene::SceneTestAccess::bind(album,context);
+            scene::SceneTestAccess::enter(album,game::scene::AchievementsPayload{page});
+            auto& window=scene::SceneTestAccess::window(album);window.update(0);
+            auto& list=dynamic_cast<ui::UiListContainer&>(*window.child_at(0));
+            auto& cards=dynamic_cast<ui::UiGridContainer&>(*list.child_at(1));
+            auto& pages=dynamic_cast<ui::UiGridContainer&>(*list.child_at(2));
+            std::vector<core::UiRenderCommand> heading;list.child_at(0)->submit_ui_render_commands(heading);
+            for(const auto& command:heading)require(command.screen_rect.y()>=24-.001f&&command.screen_rect.bottom()<=80+.001f,"Localized achievement heading must stay in its top title area");
+            require(cards.column_count()==2&&pages.screen_rect().height()>=56&&list.child_at(3)->screen_rect().bottom()<=936,"Phone achievements must fit their cards and touch-sized footer without scrolling");
+            for(std::size_t index=0;index<cards.child_count();++index){
+                auto& card=*cards.child_at(index);const auto rect=card.screen_rect();
+                require(rect.x()>=24&&rect.right()<=616&&rect.bottom()<=pages.screen_rect().y()-16+.001f,"Achievement card escaped the no-scroll page");
+                std::vector<core::UiRenderCommand> drawn;card.submit_ui_render_commands(drawn);
+                require(drawn.size()>=6,"Compact achievement must draw its badge, title, description and state");
+                for(const auto& command:drawn)require(command.screen_rect.x()>=rect.x()-.001f&&command.screen_rect.y()>=rect.y()-.001f&&command.screen_rect.right()<=rect.right()+.001f&&command.screen_rect.bottom()<=rect.bottom()+.001f,"Localized achievement content escaped its compact card");
+            }
+            total+=static_cast<int>(cards.child_count());
+            if(language=="zh-Hans"||language=="en")capture(window,std::format("out/qa/achievements-{}-page{}-preview.bmp",language,page+1).c_str());
+            scene::SceneTestAccess::exit(album);
+        }
+        require(total==17,"Localized phone achievement pages must retain all 17 descriptions");
+    }
+    auto& store=game::progress::Store::instance();const auto original_progress=store.data;
+    const auto original_error=store.error;const bool original_recovered=store.recovered;
+    store.error.clear();store.recovered=false;
+    for(int index=0;index<60;++index){
+        store.data.stars[index]=index%5-1;store.data.score_verified[index]=index%4!=0;
+        store.data.scores[index]=index%6==1?0:100000+index;store.data.legacy_scores[index]=999999;
+    }
+    for(const auto& language:ELYSIA_LOCALIZATION->supported_languages()){
+        require(ELYSIA_LOCALIZATION->set_language(language).has_value(),"Selection language switch failed");
+        for(int chapter=0;chapter<4;++chapter){
+            game::scene::SelectionScene selection;scene::SceneTestAccess::bind(selection,context);
+            scene::SceneTestAccess::enter(selection,game::scene::SelectionPayload{chapter});
+            auto& window=scene::SceneTestAccess::window(selection);window.update(0);
+            auto& list=dynamic_cast<ui::UiListContainer&>(*window.child_at(0));
+            auto& chapters=dynamic_cast<ui::UiGridContainer&>(*list.child_at(1));
+            auto& levels=dynamic_cast<game::frontend::ConstellationGrid&>(*list.child_at(2));
+            require(window.screen_rect()==core::Rect{0,0,640,960}&&chapters.column_count()==2&&levels.column_count()==3&&levels.child_count()==15,"Phone chapter must fit all fifteen levels without scrolling");
+            require(levels.screen_rect().nearly_equals({24,236,592,553})&&list.child_at(4)->screen_rect().nearly_equals({147.5f,869,345,67}),"Phone level grid and Back geometry changed");
+            for(std::size_t index=0;index<levels.child_count();++index){
+                const auto& node=dynamic_cast<const game::frontend::LevelNode&>(*levels.child_at(index));
+                const int saved=chapter*15+static_cast<int>(index);const auto rect=node.screen_rect();
+                const auto expected=store.data.stars[saved]>=0&&store.data.score_verified[saved]?std::optional<int>{store.data.scores[saved]}:std::nullopt;
+                require(node.best_score()==expected,"Phone level card must preserve zero, verified scores and legacy placeholders");
+                require(rect.x()>=24-.001f&&rect.right()<=616+.001f&&rect.y()>=236-.001f&&rect.bottom()<=789+.001f,"Phone level card escaped its no-scroll grid");
+                std::vector<core::UiRenderCommand> drawn;node.submit_ui_render_commands(drawn);
+                for(const auto& command:drawn)require(command.screen_rect.x()>=rect.x()-.001f&&command.screen_rect.y()>=rect.y()-.001f&&command.screen_rect.right()<=rect.right()+.001f&&command.screen_rect.bottom()<=rect.bottom()+.001f,"Phone level number, stars, lock or score escaped its button");
+            }
+            std::vector<core::UiRenderCommand> grid;levels.submit_ui_render_commands(grid);int lines=0;
+            for(const auto& command:grid)if(command.type==core::UiRenderCommandType::DrawLine){
+                const int row=lines/2,column=lines%2;const auto previous=levels.child_at(row*3+column)->screen_rect(),next=levels.child_at(row*3+column+1)->screen_rect();
+                require(std::abs(command.line_start.x-previous.right())<.001f&&std::abs(command.line_end.x-next.x())<.001f&&command.line_start.y==command.line_end.y,"Phone constellation lines must join adjacent edges in the same row");++lines;
+            }
+            require(lines==10,"A three-column chapter must have ten same-row connectors");
+            for(auto* element:std::array<ui::UiElement*,3>{list.child_at(0),list.child_at(3),&chapters}){
+                const auto rect=element->screen_rect();std::vector<core::UiRenderCommand> drawn;element->submit_ui_render_commands(drawn);
+                for(const auto& command:drawn)require(command.screen_rect.x()>=rect.x()-.001f&&command.screen_rect.y()>=rect.y()-.001f&&command.screen_rect.right()<=rect.right()+.001f&&command.screen_rect.bottom()<=rect.bottom()+.001f,"Localized phone chapter title, tabs or progress escaped its area");
+            }
+            if(language=="zh-Hans")capture(window,std::format("out/qa/selection-portrait-chapter{}-preview.bmp",chapter+1).c_str());
+            scene::SceneTestAccess::exit(selection);
+        }
+    }
+    store.data=original_progress;store.error=original_error;store.recovered=original_recovered;
+    require(ELYSIA_LOCALIZATION->set_language(original_language).has_value(),"Portrait fixture language restore failed");
 }
 void check_frontend_artwork(SDL_Renderer* renderer){
     auto* gold=ELYSIA_RESOURCES->find_texture("fly.InGameUI.starDown");auto* empty=ELYSIA_RESOURCES->find_texture("fly.InGameUI.starUp");
@@ -386,13 +575,16 @@ void check_frontend_artwork(SDL_Renderer* renderer){
             require(badges==1&&masks==(earned?0:1),"Locked achievements must show the original badge under a dark mask; earned badges must stay clear");
         }
     }
-    for(const char* name:{"menu","settings","moon"}){
-        game::frontend::MoonBackdrop background(name);std::vector<core::UiRenderCommand> drawn;background.submit_ui_render_commands(drawn);
+    for(const auto viewport:{core::Rect{0,0,640,960},core::Rect{0,0,1280,720}})for(const char* name:{"menu","settings","moon"}){
+        game::frontend::MoonBackdrop background(viewport,name);std::vector<core::UiRenderCommand> drawn;background.submit_ui_render_commands(drawn);
         auto* source=ELYSIA_RESOURCES->find_texture(std::string("fly.frontend.background_")+name);
-        require(source!=nullptr,"Supplied widescreen background missing");
+        require(source!=nullptr,"Supplied page background missing");
         const auto found=std::find_if(drawn.begin(),drawn.end(),[&](const auto& command){return command.texture==source;});
         require(found!=drawn.end()&&found->use_src_rect,"Background cover must use an aspect-preserving source crop");
-        require(std::abs(found->src_rect.width()/found->src_rect.height()-1280.f/720)<.001f,"Widescreen background was stretched");
+        require(found->screen_rect==viewport,"Page background did not fill its current viewport");
+        require(std::abs(found->src_rect.width()/found->src_rect.height()-viewport.width()/viewport.height())<.001f,"Page background was stretched");
+        float width=0,height=0;require(SDL_GetTextureSize(source,&width,&height),SDL_GetError());
+        require(found->src_rect.x()>=-.001f&&found->src_rect.y()>=-.001f&&found->src_rect.right()<=width+.001f&&found->src_rect.bottom()<=height+.001f,"Page background crop escaped the supplied image");
     }
 }
 std::vector<core::RenderCommand> commands(const core::GameObject& object);
@@ -457,6 +649,46 @@ void check_pickups_and_moon() {
                 "Pickup/moon is cycling between normal and effect images: kind "+std::to_string(kind));
         }
     }
+}
+void check_result_star_effects(SDL_Renderer* renderer){
+    using game::frontend::StarRating;
+    StarRating stars({532,234,216,64});
+    const auto drawn=[&]{std::vector<core::UiRenderCommand> out;stars.submit_ui_render_commands(out);return out;};
+    auto* empty=ELYSIA_RESOURCES->find_texture("fly.InGameUI.starUp");
+    auto* full=ELYSIA_RESOURCES->find_texture("fly.InGameUI.starDown");
+    auto* spark=ELYSIA_RESOURCES->find_texture("fly.result_star_particles");
+    require(spark!=nullptr,"Original result particle texture is unregistered");
+    stars.present_result(3,.1);const auto before=drawn();
+    require(stars.collected()==0&&before.size()>3&&before[0].texture==empty,"Result particles must precede the first bright star");
+    for(std::size_t i=0;i<before.size();++i){
+        require(before[i].rotation_degrees==0,"Settlement must not rotate stars or particle sprites");
+        if(i<3)require(before[i].screen_rect==stars.slot_rect(static_cast<int>(i)),"Settlement must not move or scale the star slots");
+        else require(before[i].texture==spark&&before[i].texture_color_modulation.has_value(),"Settlement must use its own grayscale texture and lifetime color");
+    }
+    SDL_BlendMode blend{};require(SDL_GetTextureBlendMode(spark,&blend)&&blend==SDL_BLENDMODE_ADD,"Original zero-alpha premultiplied star particles must add their RGB");
+    require(drawn().size()==before.size()&&drawn().back().screen_rect==before.back().screen_rect,"Redrawing settlement must not advance or randomize particles");
+    stars.present_result(3,.199);require(stars.collected()==0,"Bright star appeared too early");
+    stars.present_result(3,.2);require(stars.collected()==1&&drawn()[0].texture==full,"First star must light at 0.2 seconds");
+    stars.present_result(3,.6);require(stars.collected()==1&&drawn().size()>3,"Second particle burst must precede its own bright star");
+    stars.present_result(3,.7);require(stars.collected()==2,"Second star must light at 0.7 seconds");
+    stars.present_result(3,1.2);require(stars.collected()==3,"Third star must light at 1.2 seconds");
+    stars.present_result(3,1.9);require(drawn().size()==3,"All particles must expire after their finite emission and life");
+    stars.present_result(1,.95);require(stars.collected()==1&&drawn().size()==3,"Uncollected stars must not emit settlement particles");
+    stars.present_result(0,.1);require(drawn().size()==3&&stars.collected()==0,"Zero-star settlement must have no bursts");
+    stars.present_result(3,.1);stars.set_collected(2);require(drawn().size()==3&&stars.collected()==2,"Static/failure/skip displays must clear particle presentation");
+
+    require(SDL_SetRenderDrawColor(renderer,12,20,35,255)&&SDL_RenderClear(renderer),SDL_GetError());
+    const auto render=[&](const ui::UiElement& element){std::vector<core::UiRenderCommand> out;element.submit_ui_render_commands(out);for(const auto& c:out)core::require_render_success(core::execute_render_command(renderer,c));};
+    const std::array<double,9> times{{0,.1,.199,.2,.6,.7,1.1,1.2,1.9}};
+    for(int i=0;i<9;++i){
+        const float x=(i%3)*426.f,y=(i/3)*240.f;
+        game::frontend::HudPanel panel({x+12,y+12,402,216});render(panel);
+        game::frontend::HudLabel label({x+40,y+28,346,40},0,ui::ui_raw_text(std::format("{:.3f} s",times[i])));render(label);
+        StarRating sample({x+105,y+106,216,64});sample.present_result(3,times[i]);render(sample);
+    }
+    auto* preview=SDL_RenderReadPixels(renderer,nullptr);require(preview!=nullptr,SDL_GetError());
+    std::filesystem::create_directories("out/qa");
+    const bool saved=SDL_SaveBMP(preview,"out/qa/result-star-effects-preview.bmp");SDL_DestroySurface(preview);require(saved,SDL_GetError());
 }
 void check_pickup_effects(SDL_Renderer* renderer){
     const auto level=game::content::level(1);
@@ -1327,6 +1559,8 @@ void save_mechanism_preview(SDL_Renderer* renderer) {
 }
 
 int main(int argc,char** argv) {
+    const bool flight_dialogue_only=argc==2&&std::string_view(argv[1])=="--flight-dialogue-only";
+    const bool flight_hud_only=argc==2&&std::string_view(argv[1])=="--flight-hud-only";
     const bool level_music_only=argc==2&&std::string_view(argv[1])=="--level-music-only";
     const bool audio_only=argc==2&&std::string_view(argv[1])=="--audio-only";
     typography::FontResolver font_resolver;
@@ -1358,7 +1592,13 @@ int main(int argc,char** argv) {
             const auto deadline=SDL_GetTicks()+30000;
             while(loader.is_running()&&SDL_GetTicks()<deadline){loader.update();SDL_Delay(1);}
             require(loader.is_finished(),loader.failure()?loader.failure()->diagnostic.message:"Content load timed out");
-            if(audio_only){
+            if(flight_dialogue_only){
+                game::testing::check_flight_ui(renderer,*registry,false,true);
+            }else if(flight_hud_only){
+                game::testing::check_flight_ui(renderer,*registry,true);
+                check_run_stats(renderer);
+                check_dialogue_and_pause(renderer);
+            }else if(audio_only){
                 game::testing::check_scene_audio(renderer,*registry);
                 check_frontend_music(renderer,*registry);
             }else if(level_music_only){
@@ -1368,10 +1608,13 @@ int main(int argc,char** argv) {
             check_frontend_artwork(renderer);
             check_original_tutorial_ui(renderer);
             check_main_menu_background(renderer,*registry);
+            check_portrait_pages(renderer,*registry);
+            game::testing::check_flight_ui(renderer,*registry);
             check_run_stats(renderer);
             check_dialogue_and_pause(renderer);
             check_pickups_and_moon();
             check_pickup_effects(renderer);
+            check_result_star_effects(renderer);
             check_driven_rotor_pause();
             check_role_effects(renderer);
             check_thrust_particles(renderer);
@@ -1397,7 +1640,9 @@ int main(int argc,char** argv) {
             save_bomb_preview(renderer);
             }
         }
-        if(!level_music_only)std::cout<<"PASS: idle/mechanism/portal/bomb visuals, ordinary projectile gravity/arcs/terrain hits, homing motion preserved\n";
+        if(flight_dialogue_only)std::cout<<"PASS: original dialogue portrait, localized Skip, minimum time, pause and click routing in all languages\n";
+        else if(flight_hud_only)std::cout<<"PASS: compact flight HUD in all languages, long counters and pause interaction\n";
+        else if(!level_music_only)std::cout<<"PASS: idle/mechanism/portal/bomb visuals, ordinary projectile gravity/arcs/terrain hits, homing motion preserved\n";
         result=0;
     } catch(const std::exception& error) {
         std::cerr<<"FAIL: "<<error.what()<<'\n';

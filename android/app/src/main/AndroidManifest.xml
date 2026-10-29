@@ -6,7 +6,7 @@
         android:theme="@style/GameTheme" android:allowBackup="false"
         android:enableOnBackInvokedCallback="false">
         <activity android:name=".BootstrapActivity" android:exported="true"
-            android:screenOrientation="sensorLandscape"
+            android:screenOrientation="sensorPortrait"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -14,7 +14,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".GameActivity" android:exported="false"
-            android:launchMode="singleTask" android:screenOrientation="sensorLandscape"
+            android:launchMode="singleTask" android:screenOrientation="sensorPortrait"
             android:configChanges="layoutDirection|locale|fontScale|orientation|uiMode|screenLayout|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation|density" />
     </application>
 </manifest>

@@ -143,7 +143,7 @@ Game Layer 适配了 BoxShape、CollisionQueryFilter、overlap_shape 和关节 s
 
 原 `createInCarrier` 将炮座形状装在载体刚体上。游戏的独立运动学附属实体曾与载体互撞，导致第 30 关电动转杆停转；现以每个载体独立的负碰撞组排除本体和兄弟实体，仍保留玩家/环境碰撞。运动学目标方式仍有跟随步长和接触反作用方面的近似，未宣称完全等价于复合刚体。
 
-`RoleModel.load:` 0xce494～0xce4a4 和 `loadRoleState` 0xce384～0xce390 明确将 timeImmune 清零，不能据此添加出生无敌。激光 ray callback 0xb802c 忽略传感器并记录最近命中，未见角色过滤例外。第 42 关短程出生/飞行检查修复后通过；第 30 关仍出生激光死亡，继续调查。
+`RoleModel.load:` 0xce494～0xce4a4 和 `loadRoleState` 0xce384～0xce390 明确将 timeImmune 清零，不能据此添加出生无敌。激光 ray callback 0xb802c 忽略传感器并记录最近命中，未见角色过滤例外。第 42 关短程出生/飞行检查修复后通过；第 30 关当时仍出生激光死亡。后续已定位为中间静态平台的 IsXFlipped 碰撞漏导，并通过真实物理回归及无输入开场回放，见 `level30-laser-shield.md`。
 
 ## 墙体、前景与远景的镜像锚点（2026-10-25）
 

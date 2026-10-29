@@ -33,14 +33,19 @@ public:
         scene.begin_moon(scene._player->center());check(count(scene,"70-2")==1,"Moon transition did not request its sound");
         scene.begin_moon(scene._player->center());check(count(scene,"70-2")==1,"Moon transition repeated its sound");
         scene._event_pending=false;scene._transition={};scene._elapsed=10;scene._stars=3;scene.finish(true);
-        scene.update_result_animation(0);check(scene._result_stars->collected()==1&&count(scene,"106-1")==1,"First result star must sound at its reveal");
-        scene.update_result_animation(.49);check(scene._result_stars->collected()==1,"Result stars advanced too early");
-        scene.update_result_animation(.01);check(scene._result_stars->collected()==2&&count(scene,"106-2")==1,"Second result star timing incorrect");
-        scene.update_result_animation(.5);check(scene._result_stars->collected()==3&&count(scene,"106-3")==1,"Third result star timing incorrect");
+        scene.update_result_animation(0);check(scene._result_stars->collected()==0&&count(scene,"106-1")==1,"First result sound must start with particles, before the star lights");
+        scene.update_result_animation(.19);check(scene._result_stars->collected()==0,"Result star lit before its 0.2 second particle lead-in");
+        scene.update_result_animation(.01);check(scene._result_stars->collected()==1,"First result star did not light after its particle lead-in");
+        scene.update_result_animation(.3);check(scene._result_stars->collected()==1&&count(scene,"106-2")==1,"Second burst must sound before its star lights");
+        scene.update_result_animation(.2);check(scene._result_stars->collected()==2,"Second result star timing incorrect");
+        scene.update_result_animation(.3);check(scene._result_stars->collected()==2&&count(scene,"106-3")==1,"Third burst timing incorrect");
+        scene.update_result_animation(.2);check(scene._result_stars->collected()==3,"Third result star timing incorrect");
         for(int i=0;i<1800&&!scene._result_animation_done;++i)scene.update_result_animation(1./60.);
         check(scene._result_animation_done&&scene._result_display_score==scene._result_score&&count(scene,"107-1")>0&&count(scene,"109-1")==1,"Result score and high-score sequence incomplete");
         scene._audio.clear();scene._finished=false;scene._event_pending=false;scene._death_pending=false;scene._elapsed=10;scene._stars=3;
         scene.finish(true);scene.continue_from_result();check(scene._result_animation_done,"First result confirmation must finish the presentation before leaving");
+        std::vector<elysia::core::UiRenderCommand> skipped;scene._result_stars->submit_ui_render_commands(skipped);
+        check(scene._result_stars->collected()==3&&skipped.size()==3,"Skipping settlement must light all stars and remove pending particles");
         for(const auto& [file,n]:scene._audio.events())check(elysia::resources::ResourceService::instance()->find_sound(audio::sound_key(file))!=nullptr,"Scene requested an unregistered sound");
     }
 };

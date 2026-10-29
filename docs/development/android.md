@@ -1,6 +1,6 @@
 # Android APK 构建与验证
 
-当前分支面向 Android 8.0（API 26）及以上的 ARM64 手机。游戏内容随 APK 分发，安装后可离线游玩。应用包名为 `com.akil0814.flyme2themoon`，版本为 `1.0.1`（versionCode 2）。本次交付 APK，不包含商店发布流程。
+当前分支面向 Android 8.0（API 26）及以上的 ARM64 手机。游戏内容随 APK 分发，安装后可离线游玩。应用包名为 `com.akil0814.flyme2themoon`，版本为 `1.1.0`（versionCode 3）。本次交付 APK，不包含商店发布流程。
 
 ## Windows 构建
 
@@ -31,13 +31,13 @@
 
 ```powershell
 ./out/android/sdk/platform-tools/adb.exe devices
-./out/android/sdk/platform-tools/adb.exe install -r ./out/android/dist/FlyMe2TheMoon-1.0.1-arm64-release.apk
+./out/android/sdk/platform-tools/adb.exe install -r ./out/android/dist/FlyMe2TheMoon-1.1.0-arm64-release.apk
 ./out/android/sdk/platform-tools/adb.exe shell am start -n com.akil0814.flyme2themoon/.BootstrapActivity
 ```
 
 手机需要允许这台电脑进行 USB 调试。也可以直接将 APK 复制到手机上安装。
 
-- 游戏固定横屏，以 1280×720 逻辑画面等比显示，留边不参与操作。
+- 游戏固定竖屏，以 640×960 逻辑画面等比显示，留边不参与操作。
 - 按住屏幕位置操控飞行，松手停止推力；按钮、滑块和菜单直接触摸。
 - 同时只接受一个触点，额外手指不抢占；滑出游戏区域、取消和切换场景会清除按住状态。
 - 系统返回在关卡中打开暂停，再次返回继续；菜单返回上级，主菜单返回弹出退出确认。

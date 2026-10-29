@@ -11,7 +11,7 @@ if ($LASTEXITCODE) { throw 'APK zip alignment failed.' }
 $badging = & (Join-Path $tools 'aapt.exe') dump badging $Apk
 if ($LASTEXITCODE) { throw 'APK metadata inspection failed.' }
 $badging | Set-Content -Encoding utf8 "$Apk.metadata.txt"
-if (!($badging -match "package: name='com.akil0814.flyme2themoon' versionCode='2' versionName='1.0.1'")) { throw 'Unexpected APK identity.' }
+if (!($badging -match "package: name='com.akil0814.flyme2themoon' versionCode='3' versionName='1.1.0'")) { throw 'Unexpected APK identity.' }
 if (!($badging -match "native-code: 'arm64-v8a'$") -or !($badging -match "sdkVersion:'26'")) { throw 'Unexpected APK ABI or minimum SDK.' }
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 $archive = [IO.Compression.ZipFile]::OpenRead([IO.Path]::GetFullPath($Apk))
