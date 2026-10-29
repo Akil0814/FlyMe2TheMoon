@@ -46,13 +46,14 @@ public:
         scene._player->present_at(std::nullopt);scene._player->play_effect(play::RoleEffect::None);
         scene.camera_runtime().snap_to_focus(camera::CameraSlot::Main);scene.resume();
         scene._stars=2;scene._elapsed=123.4;scene._crystals=27;scene._crystal_count=15;scene.on_after_update(0);
-        check(scene._hud->screen_rect()==Rect{12,12,112,40}&&scene._hud_stats->screen_rect()==Rect{132,12,316,40}&&scene._hud_stars->screen_rect()==Rect{460,16,104,32}&&scene._pause_button->screen_rect()==Rect{580,10,44,44},"Phone HUD must use one compact row ordered stage, time, crystals, stars, pause");
+        check(scene._hud->screen_rect()==Rect{12,12,128,48}&&scene._hud_stats->screen_rect()==Rect{148,12,276,48}&&scene._hud_stars->screen_rect()==Rect{432,16,132,40}&&scene._pause_button->screen_rect()==Rect{572,8,56,56},"Phone HUD must use one compact row ordered stage, time, crystals, stars, pause");
         const auto& roots=elysia::scene::SceneTestAccess::roots(scene);
         check(std::count_if(roots.begin(),roots.end(),[](const auto& root){return dynamic_cast<ui::UiLabel*>(root.get())!=nullptr;})==1,"The bottom instruction bar must be removed, not merely hidden");
         check(scene._hud->is_visible()&&scene._hud_stats->is_visible()&&scene._hud_stars->is_visible(),"Normal flight must show all HUD counters");
         check(scene._pause_button->order()>scene._tutorial->order()&&scene._tutorial->order()>scene._dialogue->order(),"Pause and Demo pointer must remain above tutorial/dialogue artwork");
         contained(*scene._hud,scene._hud->screen_rect());contained(*scene._hud_stats,scene._hud_stats->screen_rect());
         scene._hud_stats->set_values(99999.9,9999,9999);contained(*scene._hud_stats,scene._hud_stats->screen_rect());
+        scene._hud_stats->set_values(123.4,99,99);contained(*scene._hud_stats,scene._hud_stats->screen_rect());capture("hud-two-digit");
         scene._hud_stats->set_values(scene._elapsed,3,12);capture("hud");
         if(hud_only){scene.detach(&requests);return;}
 

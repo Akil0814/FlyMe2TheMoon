@@ -14,8 +14,8 @@ struct FlightUiLayout {
             // One compact row: stage, time, large/small crystals, stars, pause.
             const float scale=width/640.f;
             const auto hud=[&](Rect r){return Rect{r.x()*scale,r.y()*scale,r.width()*scale,r.height()*scale};};
-            layout.stage=hud({12,12,112,40});layout.stats=hud({132,12,316,40});
-            layout.stars=hud({460,16,104,32});layout.pause=hud({580,10,44,44});
+            layout.stage=hud({12,12,128,48});layout.stats=hud({148,12,276,48});
+            layout.stars=hud({432,16,132,40});layout.pause=hud({572,8,56,56});
             const float top=static_cast<float>(height)-272;
             layout.dialogue={16,top,static_cast<float>(width)-32,248};layout.portrait={28,top+16,112,112};
             layout.face={36,top+24,96,96};layout.text={156,top+16,static_cast<float>(width)-188,216};

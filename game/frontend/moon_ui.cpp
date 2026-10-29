@@ -96,6 +96,13 @@ RunStats::RunStats(core::Rect rect,int order):UiElement(rect,order){
     }
     set_values(0,0,0);
 }
+void RunStats::set_grouped(bool grouped){
+    _grouped=grouped;
+    for(auto& label:_labels){
+        label.set_typography_role(grouped?typography::UiTypographyRole::Number:typography::UiTypographyRole::ButtonCompact);
+        if(grouped)label.set_horizontal_align(ui::TextHorizontalAlign::Left);
+    }
+}
 void RunStats::set_values(double seconds,int large_crystals,int small_crystals){
     _large=large_crystals;_small=small_crystals;
     _labels[0].set_text_content(ui::ui_raw_text(std::format("{:.1f} s",seconds)));
@@ -107,10 +114,10 @@ void RunStats::submit_ui_render_commands(std::vector<core::UiRenderCommand>& out
     const auto r=screen_rect();const float gap=8,cell=std::floor((r.width()-2*gap)/3);
     const bool compact=cell<160;
     const float scale=_grouped?r.height()/64:1.f;
-    const float icon_center=(_grouped||compact?24.f:34.f)*scale,label_left=(_grouped||compact?44.f:62.f)*scale;
-    // Portrait counters share one plate; give the timer more room than the counts.
+    const float icon_center=(_grouped?18.f:compact?24.f:34.f)*scale,label_left=(_grouped?36.f:compact?44.f:62.f)*scale;
+    // Both crystal counts fit in two digits; reserve almost half the plate for time.
     if(_grouped)hud_background(out,r);
-    const std::array<float,4> edges{{0,r.width()*.4f,r.width()*.7f,r.width()}};
+    const std::array<float,4> edges{{0,r.width()*.48f,r.width()*.74f,r.width()}};
     const std::array<const char*,3> keys{{"fly.InGameUI.timeIcon","fly.InGameUI.uiCrystalLarge","fly.InGameUI.uiCrystalSmall"}};
     for(std::size_t i=0;i<3;++i){
         const core::Rect plate=_grouped?core::Rect{r.x()+edges[i],r.y(),edges[i+1]-edges[i],r.height()}
@@ -121,7 +128,8 @@ void RunStats::submit_ui_render_commands(std::vector<core::UiRenderCommand>& out
             const float icon_height=_grouped?(i==2?22.f:32.f)*scale:std::min(r.height()*(i==2?.47f:.65f),compact?32.f:r.height()),icon_width=icon_height*width/height;
             image(out,icon,{plate.x()+icon_center-icon_width/2,plate.center().y-icon_height/2,icon_width,icon_height});
         }
-        _labels[i].set_screen_rect({plate.x()+label_left,plate.y()+4*scale,plate.width()-label_left-8*scale,plate.height()-8*scale});_labels[i].submit_ui_render_commands(out);
+        const float label_height=_grouped?r.height()*.75f:plate.height()-8;
+        _labels[i].set_screen_rect({plate.x()+label_left,plate.center().y-label_height/2,plate.width()-label_left-8*scale,label_height});_labels[i].submit_ui_render_commands(out);
     }
 }
 PauseIconButton::PauseIconButton(core::Rect rect,std::function<void()> action):UiButton(rect,25){

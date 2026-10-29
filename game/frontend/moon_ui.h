@@ -38,7 +38,7 @@ public:
 class RunStats final:public elysia::ui::UiElement {
 public:
     explicit RunStats(elysia::core::Rect rect,int order=0);
-    void set_grouped(bool grouped){_grouped=grouped;}
+    void set_grouped(bool grouped);
     void set_values(double seconds,int large_crystals,int small_crystals);
     int large_crystals()const{return _large;}
     int small_crystals()const{return _small;}

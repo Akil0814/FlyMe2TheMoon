@@ -10,7 +10,7 @@ void FlightScene::build_ingame_ui(){
     _star_pickups=create_and_add_object<frontend::StarPickupEffects>();_star_pickups->set_screen_rect(_ui_layout.viewport);
     _hud=create_and_add_object<frontend::HudLabel>(_ui_layout.stage,11);
     _hud_stats=create_and_add_object<frontend::RunStats>(_ui_layout.stats,11);
-    if(_ui_layout.vertical){_hud->set_padding(4);_hud_stats->set_grouped(true);}
+    if(_ui_layout.vertical){_hud->set_typography_role(typography::UiTypographyRole::Button);_hud->set_padding(8);_hud_stats->set_grouped(true);}
     _pause_button=create_and_add_object<frontend::PauseIconButton>(_ui_layout.pause,[this]{open_pause_menu();});
     _dialogue_panel=create_and_add_object<frontend::HudPanel>(_ui_layout.dialogue,20);
     _portrait_panel=create_and_add_object<frontend::HudPanel>(_ui_layout.portrait,21);
