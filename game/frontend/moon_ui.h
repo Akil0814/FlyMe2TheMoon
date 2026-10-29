@@ -10,6 +10,7 @@
 #include <optional>
 #include <array>
 
+namespace elysia::scene {class SceneRuntimeContext;}
 namespace game::frontend {
 class StarRating final:public elysia::ui::UiElement {
 public:
@@ -53,7 +54,8 @@ public:
 // Artwork is supplied by the project; all interactive controls remain engine UI.
 class MoonBackdrop final:public elysia::ui::UiElement {
 public:
-    MoonBackdrop(const char* name,int shade=0);
+    MoonBackdrop(const elysia::scene::SceneRuntimeContext& context,const char* name,int shade=0);
+    MoonBackdrop(elysia::core::Rect viewport,const char* name,int shade=0);
     void submit_ui_render_commands(std::vector<elysia::core::UiRenderCommand>& out)const override;
 private:
     SDL_Texture* _texture=nullptr;

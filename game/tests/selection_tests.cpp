@@ -18,7 +18,15 @@
 namespace elysia::scene {
 class SceneTestAccess {
 public:
-    static void enter(Scene& scene, const ScenePayload& payload) { scene.lifecycle_enter(payload); }
+    static void enter(Scene& scene, const ScenePayload& payload) {
+        // SceneManager supplies this in the game; isolated UI fixtures need it too.
+        if(!scene._runtime_context){
+            static const io::ContentRegistry registry;
+            static const SceneRuntimeContext context(nullptr,registry,1280,720);
+            scene.bind_runtime_context(context);
+        }
+        scene.lifecycle_enter(payload);
+    }
     static void bind(Scene& scene,const SceneRuntimeContext& context){scene.bind_runtime_context(context);}
     static ui::UiWindow& window(Scene& scene) {
         return dynamic_cast<ui::UiWindow&>(*scene._ui_roots.at(0));

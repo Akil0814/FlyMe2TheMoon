@@ -36,28 +36,28 @@ void MainMenuScene::on_enter(const elysia::scene::ScenePayload&)
     _window=window;
     window->set_on_cancel([this] { game::audio::ui_click();open_exit_dialog(); });
     window->set_style_overrides({.draw_background=false,.draw_border=false});
-    window->add_child(std::make_unique<frontend::MoonBackdrop>("menu"));
+    window->add_child(std::make_unique<frontend::MoonBackdrop>(context,"menu"));
     // Menu scenes share this track; transitioning to the same key preserves playback.
     ELYSIA_AUDIO->transition_music("fly.SkyTunnel");
 
     auto content = std::make_unique<elysia::ui::UiListContainer>(
-        elysia::core::Rect{0, 0, 316, 336});
+        elysia::core::Rect{0, 0, 361, 379});
     content->set_cross_align(elysia::ui::UiLayoutAlign::Center);
     content->set_item_spacing(14);
 
-    auto play = std::make_unique<frontend::GlassButton>(game::content::ui("play"),300,58,[this] {request_scene_switch(game::scene_keys::Selection);});
+    auto play = std::make_unique<frontend::GlassButton>(game::content::ui("play"),345,67,[this] {request_scene_switch(game::scene_keys::Selection);});
     content->add_back(std::move(play));
-    content->add_back(std::make_unique<frontend::GlassButton>(game::content::ui("achievements"),300,58,[this]{request_scene_switch(game::scene_keys::Achievements);}));
-    content->add_back(std::make_unique<frontend::GlassButton>(game::content::ui("settings"),300,58,[this]{request_scene_switch(game::scene_keys::Settings);}));
+    content->add_back(std::make_unique<frontend::GlassButton>(game::content::ui("achievements"),345,67,[this]{request_scene_switch(game::scene_keys::Achievements);}));
+    content->add_back(std::make_unique<frontend::GlassButton>(game::content::ui("settings"),345,67,[this]{request_scene_switch(game::scene_keys::Settings);}));
 
-    content->add_back(std::make_unique<frontend::GlassButton>(game::content::ui("credits"),300,58,[this]{request_scene_switch(game::scene_keys::Credits);}));
+    content->add_back(std::make_unique<frontend::GlassButton>(game::content::ui("credits"),345,67,[this]{request_scene_switch(game::scene_keys::Credits);}));
 
-    auto exit = std::make_unique<frontend::GlassButton>(game::content::ui("exit"),300,48,[this] { open_exit_dialog(); });
+    auto exit = std::make_unique<frontend::GlassButton>(game::content::ui("exit"),345,55,[this] { open_exit_dialog(); });
     content->add_back(std::move(exit));
 
     auto* focus_scope = content.get();
     window->add_child(std::move(content),
-        elysia::ui::UiLayoutChildOptions{._anchor = elysia::ui::UiLayoutAnchor::CenterRight,._margin={.right=48}});
+        elysia::ui::UiLayoutChildOptions{._anchor = elysia::ui::UiLayoutAnchor::TopCenter,._margin={.top=window->screen_rect().height()*2/3-168}});
     window->register_focus_scope(*focus_scope);
     window->focus_first_available_scope();
 

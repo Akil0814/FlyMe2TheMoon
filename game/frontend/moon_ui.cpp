@@ -2,6 +2,7 @@
 #include "result_star_effects.h"
 #include "game/audio/game_audio.h"
 #include "engine/resources/resource_service.h"
+#include "engine/scene/runtime/scene_runtime_context.h"
 #include "game/content/content.h"
 #include <format>
 #include <cmath>
@@ -129,7 +130,10 @@ void PauseIconButton::submit_ui_render_commands(std::vector<core::UiRenderComman
     auto command=core::make_ui_texture_command(text,{r.center().x-icon_width/2,r.center().y-extent/2,icon_width,extent});
     apply_opacity(command);out.push_back(command);
 }
-MoonBackdrop::MoonBackdrop(const char* name,int shade):UiElement({0,0,1280,720},-100),_texture(texture(std::string("background_")+name)),_shade(shade){}
+MoonBackdrop::MoonBackdrop(const scene::SceneRuntimeContext& context,const char* name,int shade)
+    :MoonBackdrop(core::Rect{0,0,static_cast<float>(context.logical_width()),static_cast<float>(context.logical_height())},name,shade){}
+MoonBackdrop::MoonBackdrop(core::Rect viewport,const char* name,int shade)
+    :UiElement(viewport,-100),_texture(texture(std::string("background_")+name)),_shade(shade){}
 void MoonBackdrop::submit_ui_render_commands(std::vector<core::UiRenderCommand>& out)const {
     const auto rect=screen_rect();out.push_back(core::make_ui_fill_rect_command(rect,{4,13,36,255}));
     if(_texture){

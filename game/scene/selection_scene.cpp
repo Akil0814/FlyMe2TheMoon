@@ -72,7 +72,7 @@ void SelectionScene::on_enter(const elysia::scene::ScenePayload& payload) {
     if(levels_scope->focus_first_available())list_scope->set_focused_target(levels_scope->focused_target());
     else if(current_chapter){chapter_scope->set_focused_target(current_chapter);list_scope->set_focused_target(current_chapter);}
     window->register_focus_scope(*list_scope);window->focus_first_available_scope();
-    window->add_child(std::make_unique<frontend::MoonBackdrop>("moon",110));
+    window->add_child(std::make_unique<frontend::MoonBackdrop>(runtime_context(),"moon",110));
 }
 void AchievementsScene::on_enter(const elysia::scene::ScenePayload& payload) {
     ELYSIA_AUDIO->transition_music("fly.SkyTunnel");
@@ -101,6 +101,6 @@ void AchievementsScene::on_enter(const elysia::scene::ScenePayload& payload) {
     auto* scope=list.get();window->add_child(std::move(list),ui::UiLayoutChildOptions{._anchor=ui::UiLayoutAnchor::Center});
     page_scope->set_focused_target(current_page);scope->set_focused_target(current_page);
     window->register_focus_scope(*scope);window->focus_first_available_scope();
-    window->add_child(std::make_unique<frontend::MoonBackdrop>("moon",145));
+    window->add_child(std::make_unique<frontend::MoonBackdrop>(runtime_context(),"moon",145));
 }
 }

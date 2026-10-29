@@ -17,6 +17,8 @@
 #include "game/scene/flight_scene.h"
 #include "game/tests/original_music_fixture.h"
 #include "engine/audio/audio_service.h"
+#include "engine/config/user_config_service.h"
+#include "engine/input/input_system.h"
 #include "engine/save/save_service.h"
 #include "engine/ui/window/ui_window.h"
 #include "engine/io/path/path_manager.h"
@@ -46,6 +48,7 @@ public:
     static void enter(Scene& scene,const ScenePayload& payload={}){scene.lifecycle_enter(payload);}
     static void exit(Scene& scene){scene.lifecycle_exit();}
     static void update(Scene& scene,double delta){scene.lifecycle_update(delta);}
+    static void input(Scene& scene,const input::InputSnapshot& snapshot){scene.lifecycle_input(snapshot);}
     static ui::UiWindow& window(Scene& scene){return dynamic_cast<ui::UiWindow&>(*scene._ui_roots.at(0));}
 };
 }
@@ -295,25 +298,110 @@ void check_dialogue_and_pause(SDL_Renderer* renderer){
     auto* preview=SDL_RenderReadPixels(renderer,nullptr);require(preview!=nullptr,SDL_GetError());const bool saved=SDL_SaveBMP(preview,"out/qa/dialogue-pause-assets-preview.bmp");SDL_DestroySurface(preview);require(saved,SDL_GetError());
 }
 void check_main_menu_background(SDL_Renderer* renderer,const io::ContentRegistry& registry){
-    scene::SceneRuntimeContext context(renderer,registry,1280,720);
+    scene::SceneRuntimeContext context(renderer,registry,640,960);
     game::scene::MainMenuScene menu;scene::SceneTestAccess::bind(menu,context);scene::SceneTestAccess::enter(menu);
     auto& window=scene::SceneTestAccess::window(menu);window.update(0);
     std::vector<core::UiRenderCommand> drawn;window.submit_ui_render_commands(drawn);
     auto* expected=ELYSIA_RESOURCES->find_texture("fly.frontend.background_menu");require(expected!=nullptr,"Requested main-menu background missing");
     int backgrounds=0;
     for(const auto& command:drawn){
-        if(command.texture==expected){++backgrounds;require(command.screen_rect==core::Rect{0,0,1280,720},"Menu background must fill the viewport");}
+        if(command.texture==expected){++backgrounds;require(command.screen_rect==core::Rect{0,0,640,960},"Menu background must fill the portrait viewport");}
         // Pruned artwork resolves to nullptr; solid-color commands also have no texture.
         // Only texture commands can display an obsolete artwork layer.
         if(command.type==core::UiRenderCommandType::Texture)
             require(command.texture&&command.texture!=ELYSIA_RESOURCES->find_texture("fly.ui.mainBg2")&&command.texture!=ELYSIA_RESOURCES->find_texture("fly.ui.mainTitle2")&&command.texture!=ELYSIA_RESOURCES->find_texture("fly.frontend.background_menu_outpaint"),"New menu must not retain the old artwork layers");
     }
     require(backgrounds==1&&window.child_count()==3&&!window.child_at(2)->is_visible(),"Main menu must draw its background/navigation with the exit confirmation initially hidden");
+    auto* target=SDL_CreateTexture(renderer,SDL_PIXELFORMAT_RGBA32,SDL_TEXTUREACCESS_TARGET,640,960);
+    require(target&&SDL_SetRenderTarget(renderer,target),SDL_GetError());
     require(SDL_SetRenderDrawColor(renderer,12,20,35,255)&&SDL_RenderClear(renderer),SDL_GetError());
     for(const auto& command:drawn)core::require_render_success(core::execute_render_command(renderer,command));
     auto* preview=SDL_RenderReadPixels(renderer,nullptr);require(preview!=nullptr,SDL_GetError());
     std::filesystem::create_directories("out/qa");const bool saved=SDL_SaveBMP(preview,"out/qa/main-menu-background-preview.bmp");SDL_DestroySurface(preview);require(saved,SDL_GetError());
+    require(SDL_SetRenderTarget(renderer,nullptr),SDL_GetError());SDL_DestroyTexture(target);
     scene::SceneTestAccess::exit(menu);
+}
+void check_portrait_pages(SDL_Renderer* renderer,const io::ContentRegistry& registry){
+    struct Requests final:scene::SceneRequestObserver {
+        std::vector<scene::SceneRequest> received;
+        void on_scene_request(const scene::SceneRequest& request)override{received.push_back(request);}
+    };
+    const auto directory=std::filesystem::path("out/qa/portrait-pages")/std::to_string(SDL_GetTicksNS());
+    std::filesystem::create_directories(directory);
+    config::UserConfigData defaults;defaults.window.windowed_size={640,960};defaults.language="zh-Hans";
+    require(ELYSIA_USER_CONFIG->initialize(defaults,directory/"user_config.json").has_value(),"Portrait settings fixture config initialization failed");
+    scene::SceneRuntimeContext context(renderer,registry,640,960);
+    const auto click=[&](ui::UiWindow& window,const ui::UiElement& element){
+        const auto point=element.screen_rect().center();
+        ui::UiInputEvent event{.type=ui::UiInputEventType::PointerPressed,.device=input::InputDevice::Mouse,.control=input::RawInputControl::MouseLeft,.mouse_x=static_cast<int>(point.x),.mouse_y=static_cast<int>(point.y)};
+        window.on_ui_input_event(event);window.on_ui_input_frame({});window.update(1./60.);
+        event.type=ui::UiInputEventType::PointerReleased;window.on_ui_input_event(event);window.on_ui_input_frame({});window.update(1./60.);
+    };
+    const auto capture=[&](ui::UiWindow& window,const char* filename){
+        auto* target=SDL_CreateTexture(renderer,SDL_PIXELFORMAT_RGBA32,SDL_TEXTUREACCESS_TARGET,640,960);
+        require(target&&SDL_SetRenderTarget(renderer,target),SDL_GetError());
+        require(SDL_SetRenderDrawColor(renderer,12,20,35,255)&&SDL_RenderClear(renderer),SDL_GetError());
+        std::vector<core::UiRenderCommand> drawn;window.submit_ui_render_commands(drawn);
+        for(const auto& command:drawn)core::require_render_success(core::execute_render_command(renderer,command));
+        auto* preview=SDL_RenderReadPixels(renderer,nullptr);require(preview!=nullptr,SDL_GetError());
+        const bool saved=SDL_SaveBMP(preview,filename);SDL_DestroySurface(preview);require(saved,SDL_GetError());
+        require(SDL_SetRenderTarget(renderer,nullptr),SDL_GetError());SDL_DestroyTexture(target);
+    };
+    game::scene::SettingsScene settings;Requests settings_requests;settings.attach(&settings_requests);
+    scene::SceneTestAccess::bind(settings,context);scene::SceneTestAccess::enter(settings);
+    auto& settings_window=scene::SceneTestAccess::window(settings);settings_window.update(0);
+    auto& panel=dynamic_cast<ui::SettingsPanel&>(*settings_window.child_at(1));
+    require(settings_window.screen_rect()==core::Rect{0,0,640,960}&&panel.screen_rect()==core::Rect{24,24,592,912},"Portrait settings panel must fit within 24 pixel margins");
+    auto& actions=dynamic_cast<ui::UiListContainer&>(*panel.child_at(panel.child_count()-1));
+    auto& back=*actions.child_at(0);auto& save=*actions.child_at(1);
+    require(std::abs(actions.screen_rect().center().x-320)<.001f&&back.screen_rect().y()==save.screen_rect().y()&&back.screen_rect().right()<save.screen_rect().x()&&save.screen_rect().bottom()<=936,"Settings actions must be centered, horizontal and inside the viewport");
+    bool has_window_field=false;
+    const auto check_hidden=[&](auto&& self,ui::UiElement& element)->void{
+        if(auto* host=dynamic_cast<ui::UiChildHost*>(&element))for(std::size_t i=0;i<host->child_count();++i){
+            if(auto* label=dynamic_cast<ui::UiLabel*>(host->child_at(i));label&&(label->text_content().value=="engine.settings.fields.window_size"||label->text_content().value=="engine.settings.fields.window_mode"))has_window_field=true;
+            self(self,*host->child_at(i));
+        }
+    };
+    check_hidden(check_hidden,panel);require(!panel.visibility().window_mode&&!has_window_field,"Mobile settings must omit both window mode and window size controls");
+    auto hidden_draft=panel.draft();hidden_draft.window_mode=ui::SettingsWindowMode::BorderlessFullscreen;hidden_draft.window_size={1920,1080};panel.set_draft(hidden_draft);
+    click(settings_window,save);
+    auto& status=dynamic_cast<ui::UiLabel&>(*panel.child_at(panel.child_count()-2));
+    require(status.text_content().value=="engine.settings.status.saved"&&std::filesystem::is_regular_file(directory/"user_config.json"),"Portrait Save button must persist settings successfully");
+    require(ELYSIA_USER_CONFIG->user_config().snapshot().window==defaults.window,"Saving mobile settings must preserve window mode and size even if hidden draft values change");
+    capture(settings_window,"out/qa/settings-portrait-preview.bmp");
+    click(settings_window,back);require(settings_requests.received.size()==1&&settings_requests.received.back().route.target==game::scene_keys::MainMenu,"Portrait settings Back button must return to the menu");
+    scene::SceneTestAccess::exit(settings);ELYSIA_USER_CONFIG->shutdown();
+
+    game::scene::CreditsScene credits;Requests credits_requests;credits.attach(&credits_requests);
+    scene::SceneTestAccess::bind(credits,context);scene::SceneTestAccess::enter(credits);
+    auto& credits_window=scene::SceneTestAccess::window(credits);credits_window.update(0);
+    auto& scroll=dynamic_cast<ui::UiScrollContainer&>(*credits_window.child_at(1));
+    auto& controls=dynamic_cast<ui::UiListContainer&>(*credits_window.child_at(2));
+    require(scroll.screen_rect()==core::Rect{24,24,592,787}&&controls.screen_rect()==core::Rect{24,827,592,109},"Portrait credits must reserve the bottom controls outside its scroll area");
+    const auto& images=dynamic_cast<const ui::UiListContainer&>(*scroll.content());
+    require(images.child_count()==7,"Portrait credits lost an original image");
+    for(std::size_t i=0;i<images.child_count();++i){
+        const auto& image=dynamic_cast<const ui::UiImage&>(*images.child_at(i));
+        const auto rect=image.screen_rect();
+        require(rect.width()<=544.001f&&std::abs(rect.center().x-320)<.001f,"Portrait credits images must fit and remain horizontally centered");
+        std::vector<core::UiRenderCommand> drawn;image.submit_ui_render_commands(drawn);
+        require(drawn.size()==1,"Credits image draw missing");float width=0,height=0;require(SDL_GetTextureSize(drawn.front().texture,&width,&height),SDL_GetError());
+        require(std::abs(rect.width()/rect.height()-width/height)<.001f&&rect.width()/width<=1.5001f,"Credits artwork must preserve aspect and the original scale limit");
+    }
+    capture(credits_window,"out/qa/credits-portrait-start-preview.bmp");
+    scene::SceneTestAccess::update(credits,2.1);require(scroll.scroll_offset_y()>0,"Portrait credits auto scroll did not start");
+    input::InputSystem input_system;input_system.initialize();
+    const auto key=[&](SDL_Scancode scancode){
+        for(bool down:{true,false}){input_system.begin_frame();SDL_Event event{};event.type=down?SDL_EVENT_KEY_DOWN:SDL_EVENT_KEY_UP;event.key.scancode=scancode;event.key.key=SDL_GetKeyFromScancode(scancode,SDL_KMOD_NONE,false);event.key.down=down;input_system.process_event(event);scene::SceneTestAccess::input(credits,input_system.snapshot());}
+    };
+    key(SDL_SCANCODE_SPACE);const float paused=scroll.scroll_offset_y();scene::SceneTestAccess::update(credits,.5);require(scroll.scroll_offset_y()==paused,"Space must pause portrait credits auto scroll");
+    key(SDL_SCANCODE_SPACE);scene::SceneTestAccess::update(credits,.5);require(scroll.scroll_offset_y()>paused,"Space must resume portrait credits auto scroll");
+    const float before=scroll.scroll_offset_y();key(SDL_SCANCODE_DOWN);require(scroll.scroll_offset_y()>before,"Down must manually scroll portrait credits");
+    const float manual=scroll.scroll_offset_y();scene::SceneTestAccess::update(credits,.5);require(scroll.scroll_offset_y()==manual,"Manual scrolling must stop automatic scrolling");
+    scroll.scroll_to_bottom();credits_window.update(0);require(scroll.scroll_offset_y()==scroll.max_scroll_offset().y&&images.child_at(6)->screen_rect().bottom()<=scroll.screen_rect().bottom()+.001f,"Last credits image must be reachable above the fixed controls");
+    capture(credits_window,"out/qa/credits-portrait-end-preview.bmp");
+    click(credits_window,*controls.child_at(1));require(credits_requests.received.size()==1&&credits_requests.received.back().route.target==game::scene_keys::MainMenu,"Portrait credits Back button must remain clickable");
+    input_system.shutdown();scene::SceneTestAccess::exit(credits);
 }
 void check_frontend_artwork(SDL_Renderer* renderer){
     auto* gold=ELYSIA_RESOURCES->find_texture("fly.InGameUI.starDown");auto* empty=ELYSIA_RESOURCES->find_texture("fly.InGameUI.starUp");
@@ -386,13 +474,16 @@ void check_frontend_artwork(SDL_Renderer* renderer){
             require(badges==1&&masks==(earned?0:1),"Locked achievements must show the original badge under a dark mask; earned badges must stay clear");
         }
     }
-    for(const char* name:{"menu","settings","moon"}){
-        game::frontend::MoonBackdrop background(name);std::vector<core::UiRenderCommand> drawn;background.submit_ui_render_commands(drawn);
+    for(const auto viewport:{core::Rect{0,0,640,960},core::Rect{0,0,1280,720}})for(const char* name:{"menu","settings","moon"}){
+        game::frontend::MoonBackdrop background(viewport,name);std::vector<core::UiRenderCommand> drawn;background.submit_ui_render_commands(drawn);
         auto* source=ELYSIA_RESOURCES->find_texture(std::string("fly.frontend.background_")+name);
-        require(source!=nullptr,"Supplied widescreen background missing");
+        require(source!=nullptr,"Supplied page background missing");
         const auto found=std::find_if(drawn.begin(),drawn.end(),[&](const auto& command){return command.texture==source;});
         require(found!=drawn.end()&&found->use_src_rect,"Background cover must use an aspect-preserving source crop");
-        require(std::abs(found->src_rect.width()/found->src_rect.height()-1280.f/720)<.001f,"Widescreen background was stretched");
+        require(found->screen_rect==viewport,"Page background did not fill its current viewport");
+        require(std::abs(found->src_rect.width()/found->src_rect.height()-viewport.width()/viewport.height())<.001f,"Page background was stretched");
+        float width=0,height=0;require(SDL_GetTextureSize(source,&width,&height),SDL_GetError());
+        require(found->src_rect.x()>=-.001f&&found->src_rect.y()>=-.001f&&found->src_rect.right()<=width+.001f&&found->src_rect.bottom()<=height+.001f,"Page background crop escaped the supplied image");
     }
 }
 std::vector<core::RenderCommand> commands(const core::GameObject& object);
@@ -1408,6 +1499,7 @@ int main(int argc,char** argv) {
             check_frontend_artwork(renderer);
             check_original_tutorial_ui(renderer);
             check_main_menu_background(renderer,*registry);
+            check_portrait_pages(renderer,*registry);
             check_run_stats(renderer);
             check_dialogue_and_pause(renderer);
             check_pickups_and_moon();
