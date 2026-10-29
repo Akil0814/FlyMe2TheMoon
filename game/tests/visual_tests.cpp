@@ -458,6 +458,46 @@ void check_pickups_and_moon() {
         }
     }
 }
+void check_result_star_effects(SDL_Renderer* renderer){
+    using game::frontend::StarRating;
+    StarRating stars({532,234,216,64});
+    const auto drawn=[&]{std::vector<core::UiRenderCommand> out;stars.submit_ui_render_commands(out);return out;};
+    auto* empty=ELYSIA_RESOURCES->find_texture("fly.InGameUI.starUp");
+    auto* full=ELYSIA_RESOURCES->find_texture("fly.InGameUI.starDown");
+    auto* spark=ELYSIA_RESOURCES->find_texture("fly.result_star_particles");
+    require(spark!=nullptr,"Original result particle texture is unregistered");
+    stars.present_result(3,.1);const auto before=drawn();
+    require(stars.collected()==0&&before.size()>3&&before[0].texture==empty,"Result particles must precede the first bright star");
+    for(std::size_t i=0;i<before.size();++i){
+        require(before[i].rotation_degrees==0,"Settlement must not rotate stars or particle sprites");
+        if(i<3)require(before[i].screen_rect==stars.slot_rect(static_cast<int>(i)),"Settlement must not move or scale the star slots");
+        else require(before[i].texture==spark&&before[i].texture_color_modulation.has_value(),"Settlement must use its own grayscale texture and lifetime color");
+    }
+    SDL_BlendMode blend{};require(SDL_GetTextureBlendMode(spark,&blend)&&blend==SDL_BLENDMODE_ADD,"Original zero-alpha premultiplied star particles must add their RGB");
+    require(drawn().size()==before.size()&&drawn().back().screen_rect==before.back().screen_rect,"Redrawing settlement must not advance or randomize particles");
+    stars.present_result(3,.199);require(stars.collected()==0,"Bright star appeared too early");
+    stars.present_result(3,.2);require(stars.collected()==1&&drawn()[0].texture==full,"First star must light at 0.2 seconds");
+    stars.present_result(3,.6);require(stars.collected()==1&&drawn().size()>3,"Second particle burst must precede its own bright star");
+    stars.present_result(3,.7);require(stars.collected()==2,"Second star must light at 0.7 seconds");
+    stars.present_result(3,1.2);require(stars.collected()==3,"Third star must light at 1.2 seconds");
+    stars.present_result(3,1.9);require(drawn().size()==3,"All particles must expire after their finite emission and life");
+    stars.present_result(1,.95);require(stars.collected()==1&&drawn().size()==3,"Uncollected stars must not emit settlement particles");
+    stars.present_result(0,.1);require(drawn().size()==3&&stars.collected()==0,"Zero-star settlement must have no bursts");
+    stars.present_result(3,.1);stars.set_collected(2);require(drawn().size()==3&&stars.collected()==2,"Static/failure/skip displays must clear particle presentation");
+
+    require(SDL_SetRenderDrawColor(renderer,12,20,35,255)&&SDL_RenderClear(renderer),SDL_GetError());
+    const auto render=[&](const ui::UiElement& element){std::vector<core::UiRenderCommand> out;element.submit_ui_render_commands(out);for(const auto& c:out)core::require_render_success(core::execute_render_command(renderer,c));};
+    const std::array<double,9> times{{0,.1,.199,.2,.6,.7,1.1,1.2,1.9}};
+    for(int i=0;i<9;++i){
+        const float x=(i%3)*426.f,y=(i/3)*240.f;
+        game::frontend::HudPanel panel({x+12,y+12,402,216});render(panel);
+        game::frontend::HudLabel label({x+40,y+28,346,40},0,ui::ui_raw_text(std::format("{:.3f} s",times[i])));render(label);
+        StarRating sample({x+105,y+106,216,64});sample.present_result(3,times[i]);render(sample);
+    }
+    auto* preview=SDL_RenderReadPixels(renderer,nullptr);require(preview!=nullptr,SDL_GetError());
+    std::filesystem::create_directories("out/qa");
+    const bool saved=SDL_SaveBMP(preview,"out/qa/result-star-effects-preview.bmp");SDL_DestroySurface(preview);require(saved,SDL_GetError());
+}
 void check_pickup_effects(SDL_Renderer* renderer){
     const auto level=game::content::level(1);
     for(int kind:{4,5}){
@@ -1372,6 +1412,7 @@ int main(int argc,char** argv) {
             check_dialogue_and_pause(renderer);
             check_pickups_and_moon();
             check_pickup_effects(renderer);
+            check_result_star_effects(renderer);
             check_driven_rotor_pause();
             check_role_effects(renderer);
             check_thrust_particles(renderer);

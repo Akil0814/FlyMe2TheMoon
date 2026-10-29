@@ -14,12 +14,15 @@ namespace game::frontend {
 class StarRating final:public elysia::ui::UiElement {
 public:
     explicit StarRating(elysia::core::Rect rect,int order=0):UiElement(rect,order){}
-    void set_collected(int count){_collected=std::clamp(count,0,3);}
+    void set_collected(int count){_collected=std::clamp(count,0,3);_result_count=0;_result_elapsed=-1;}
+    void present_result(int count,double elapsed);
     int collected()const{return _collected;}
     elysia::core::Rect slot_rect(int index)const;
     void submit_ui_render_commands(std::vector<elysia::core::UiRenderCommand>& out)const override;
 private:
     int _collected=0;
+    int _result_count=0;
+    double _result_elapsed=-1;
 };
 class HudLabel final:public elysia::ui::UiLabel {
 public:
