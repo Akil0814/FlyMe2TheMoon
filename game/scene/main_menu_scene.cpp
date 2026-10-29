@@ -61,24 +61,27 @@ void MainMenuScene::on_enter(const elysia::scene::ScenePayload&)
     window->register_focus_scope(*focus_scope);
     window->focus_first_available_scope();
 
-    auto dialog=std::make_unique<elysia::ui::UiPanel>(elysia::core::Rect{0,0,1280,720});
+    const float dialog_width=std::min(512.f,window->screen_rect().width()-48),dialog_content_width=dialog_width-80;
+    const float dialog_button_width=std::min(345.f,dialog_content_width);
+    auto dialog=std::make_unique<elysia::ui::UiPanel>(window->screen_rect());
     _exit_dialog=dialog.get();
-    dialog->set_style_overrides({.draw_background=true,.draw_border=false,.background=elysia::core::Color{2,8,24,170}});
-    dialog->add_child(std::make_unique<frontend::HudPanel>(elysia::core::Rect{0,0,640,340},-1),
+    dialog->set_style_overrides({.corner_radius=0.f,.draw_background=true,.draw_border=false,.background=elysia::core::Color{2,8,24,170}});
+    dialog->add_child(std::make_unique<frontend::HudPanel>(elysia::core::Rect{0,0,dialog_width,340},-1),
         elysia::ui::UiLayoutChildOptions{._anchor=elysia::ui::UiLayoutAnchor::Center});
-    auto actions=std::make_unique<elysia::ui::UiListContainer>(elysia::core::Rect{0,0,560,256});
+    auto actions=std::make_unique<elysia::ui::UiListContainer>(elysia::core::Rect{0,0,dialog_content_width,256});
     actions->set_cross_align(elysia::ui::UiLayoutAlign::Center);actions->set_item_spacing(16);
-    auto title=frontend::label(game::content::ui("exit_confirm_title"),560,48,true);
+    auto title=frontend::label(game::content::ui("exit_confirm_title"),dialog_content_width,48,true);
     title->set_typography_role(elysia::typography::UiTypographyRole::Heading);
+    title->set_horizontal_align(elysia::ui::TextHorizontalAlign::Center);
     title->set_style_overrides({.text=elysia::core::Color{16,46,77,255}});
     title->set_text_fit_mode(elysia::ui::UiLabelTextFitMode::ShrinkToFit);
     actions->add_back(std::move(title));
-    auto message=frontend::label(game::content::ui("exit_confirm_message"),560,64,true);
+    auto message=frontend::label(game::content::ui("exit_confirm_message"),dialog_content_width,64,true);
     message->set_style_overrides({.text=elysia::core::Color{16,46,77,255}});
     message->set_text_fit_mode(elysia::ui::UiLabelTextFitMode::ShrinkToFit);
     actions->add_back(std::move(message));
-    actions->add_back(std::make_unique<frontend::GlassButton>(game::content::ui("exit_cancel"),360,48,[this]{close_exit_dialog();}));
-    actions->add_back(std::make_unique<frontend::GlassButton>(game::content::ui("exit_confirm"),360,48,[this]{
+    actions->add_back(std::make_unique<frontend::GlassButton>(game::content::ui("exit_cancel"),dialog_button_width,48,[this]{close_exit_dialog();}));
+    actions->add_back(std::make_unique<frontend::GlassButton>(game::content::ui("exit_confirm"),dialog_button_width,48,[this]{
         ELYSIA_LOG_INFO("fly.menu","Exit confirmed");request_quit();}));
     dialog->add_child(std::move(actions),elysia::ui::UiLayoutChildOptions{._anchor=elysia::ui::UiLayoutAnchor::Center});
     window->add_child(std::move(dialog));

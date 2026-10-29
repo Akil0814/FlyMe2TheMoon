@@ -21,6 +21,7 @@
 #include "engine/input/input_system.h"
 #include "engine/save/save_service.h"
 #include "engine/ui/window/ui_window.h"
+#include "engine/ui/containers/ui_panel.h"
 #include "engine/io/path/path_manager.h"
 #include "engine/io/loaders/content_registry_loader.h"
 #include "engine/loading/game_content_loader.h"
@@ -298,8 +299,12 @@ void check_dialogue_and_pause(SDL_Renderer* renderer){
     auto* preview=SDL_RenderReadPixels(renderer,nullptr);require(preview!=nullptr,SDL_GetError());const bool saved=SDL_SaveBMP(preview,"out/qa/dialogue-pause-assets-preview.bmp");SDL_DestroySurface(preview);require(saved,SDL_GetError());
 }
 void check_main_menu_background(SDL_Renderer* renderer,const io::ContentRegistry& registry){
+    struct Requests final:scene::SceneRequestObserver {
+        std::vector<scene::SceneRequest> received;
+        void on_scene_request(const scene::SceneRequest& request)override{received.push_back(request);}
+    } requests;
     scene::SceneRuntimeContext context(renderer,registry,640,960);
-    game::scene::MainMenuScene menu;scene::SceneTestAccess::bind(menu,context);scene::SceneTestAccess::enter(menu);
+    game::scene::MainMenuScene menu;menu.attach(&requests);scene::SceneTestAccess::bind(menu,context);scene::SceneTestAccess::enter(menu);
     auto& window=scene::SceneTestAccess::window(menu);window.update(0);
     std::vector<core::UiRenderCommand> drawn;window.submit_ui_render_commands(drawn);
     auto* expected=ELYSIA_RESOURCES->find_texture("fly.frontend.background_menu");require(expected!=nullptr,"Requested main-menu background missing");
@@ -318,6 +323,27 @@ void check_main_menu_background(SDL_Renderer* renderer,const io::ContentRegistry
     for(const auto& command:drawn)core::require_render_success(core::execute_render_command(renderer,command));
     auto* preview=SDL_RenderReadPixels(renderer,nullptr);require(preview!=nullptr,SDL_GetError());
     std::filesystem::create_directories("out/qa");const bool saved=SDL_SaveBMP(preview,"out/qa/main-menu-background-preview.bmp");SDL_DestroySurface(preview);require(saved,SDL_GetError());
+    const auto click=[&](const ui::UiElement& element){
+        const auto point=element.screen_rect().center();
+        ui::UiInputEvent event{.type=ui::UiInputEventType::PointerPressed,.device=input::InputDevice::Mouse,.control=input::RawInputControl::MouseLeft,.mouse_x=static_cast<int>(point.x),.mouse_y=static_cast<int>(point.y)};
+        window.on_ui_input_event(event);window.on_ui_input_frame({});window.update(1./60.);
+        event.type=ui::UiInputEventType::PointerReleased;window.on_ui_input_event(event);window.on_ui_input_frame({});window.update(1./60.);
+    };
+    auto& navigation=dynamic_cast<ui::UiListContainer&>(*window.child_at(1));
+    auto& overlay=dynamic_cast<ui::UiPanel&>(*window.child_at(2));
+    click(*navigation.child_at(4));require(window.is_overlay_open(overlay),"Exit button must open its confirmation overlay");
+    require(overlay.screen_rect()==core::Rect{0,0,640,960}&&overlay.style().corner_radius==0,"Exit shade must cover the entire portrait viewport, including its corners");
+    require(overlay.child_at(0)->screen_rect()==core::Rect{64,310,512,340},"Exit dialog must be narrower and centered in the viewport");
+    auto& actions=dynamic_cast<ui::UiListContainer&>(*overlay.child_at(1));
+    click(*navigation.child_at(2));require(requests.received.empty()&&window.is_overlay_open(overlay),"Modal shade must block the Settings button below the dialog");
+    drawn.clear();window.submit_ui_render_commands(drawn);
+    require(SDL_SetRenderDrawColor(renderer,12,20,35,255)&&SDL_RenderClear(renderer),SDL_GetError());
+    for(const auto& command:drawn)core::require_render_success(core::execute_render_command(renderer,command));
+    preview=SDL_RenderReadPixels(renderer,nullptr);require(preview!=nullptr,SDL_GetError());
+    const bool dialog_saved=SDL_SaveBMP(preview,"out/qa/exit-dialog-portrait-preview.bmp");SDL_DestroySurface(preview);require(dialog_saved,SDL_GetError());
+    click(*actions.child_at(2));require(!window.is_overlay_open(overlay)&&requests.received.empty(),"Cancel must close the exit dialog without quitting");
+    click(*navigation.child_at(4));click(*actions.child_at(3));
+    require(requests.received.size()==1&&requests.received.back().type==scene::SceneRequestType::Quit,"Confirm Exit must request quit exactly once");
     require(SDL_SetRenderTarget(renderer,nullptr),SDL_GetError());SDL_DestroyTexture(target);
     scene::SceneTestAccess::exit(menu);
 }
