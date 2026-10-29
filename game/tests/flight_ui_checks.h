@@ -35,7 +35,7 @@ class FlightUiTestAccess {
         for(std::size_t i=0;i<list.child_count();++i)contained(*list.child_at(i),list.screen_rect());
     }
 public:
-    static void run(FlightScene& scene,const std::function<void(const char*)>& capture){
+    static void run(FlightScene& scene,const std::function<void(const char*)>& capture,bool hud_only=false){
         using namespace elysia;
         struct Requests final:elysia::scene::SceneRequestObserver {
             std::vector<elysia::scene::SceneRequest> items;
@@ -46,7 +46,7 @@ public:
         scene._player->present_at(std::nullopt);scene._player->play_effect(play::RoleEffect::None);
         scene.camera_runtime().snap_to_focus(camera::CameraSlot::Main);scene.resume();
         scene._stars=2;scene._elapsed=123.4;scene._crystals=27;scene._crystal_count=15;scene.on_after_update(0);
-        check(scene._hud->screen_rect()==Rect{16,16,208,56}&&scene._hud_stars->screen_rect()==Rect{240,24,136,40}&&scene._hud_stats->screen_rect()==Rect{16,84,608,48}&&scene._pause_button->screen_rect()==Rect{560,12,64,64},"Phone HUD must use its two-row portrait layout");
+        check(scene._hud->screen_rect()==Rect{12,12,112,40}&&scene._hud_stats->screen_rect()==Rect{132,12,316,40}&&scene._hud_stars->screen_rect()==Rect{460,16,104,32}&&scene._pause_button->screen_rect()==Rect{580,10,44,44},"Phone HUD must use one compact row ordered stage, time, crystals, stars, pause");
         const auto& roots=elysia::scene::SceneTestAccess::roots(scene);
         check(std::count_if(roots.begin(),roots.end(),[](const auto& root){return dynamic_cast<ui::UiLabel*>(root.get())!=nullptr;})==1,"The bottom instruction bar must be removed, not merely hidden");
         check(scene._hud->is_visible()&&scene._hud_stats->is_visible()&&scene._hud_stars->is_visible(),"Normal flight must show all HUD counters");
@@ -54,6 +54,7 @@ public:
         contained(*scene._hud,scene._hud->screen_rect());contained(*scene._hud_stats,scene._hud_stats->screen_rect());
         scene._hud_stats->set_values(99999.9,9999,9999);contained(*scene._hud_stats,scene._hud_stats->screen_rect());
         scene._hud_stats->set_values(scene._elapsed,3,12);capture("hud");
+        if(hud_only){scene.detach(&requests);return;}
 
         scene._star_pickups->launch({120,600},scene._hud_stars->slot_rect(1).center());scene._star_pickups->advance(.35);
         scene._tutorial->set_type(1);scene.update_hud_visibility();
@@ -139,7 +140,7 @@ public:
 }
 
 namespace game::testing {
-inline void check_flight_ui(SDL_Renderer* renderer,const elysia::io::ContentRegistry& registry){
+inline void check_flight_ui(SDL_Renderer* renderer,const elysia::io::ContentRegistry& registry,bool hud_only=false){
     using namespace elysia;
     const auto language=ELYSIA_LOCALIZATION->current_language();auto& store=progress::Store::instance();const auto progress=store.data;
     const auto directory=std::filesystem::path("out/qa/flight-ui")/std::to_string(SDL_GetTicksNS());std::filesystem::create_directories(directory);
@@ -151,13 +152,14 @@ inline void check_flight_ui(SDL_Renderer* renderer,const elysia::io::ContentRegi
         elysia::scene::SceneRuntimeContext context(renderer,registry,640,960);game::scene::FlightScene flight;
         elysia::scene::SceneTestAccess::bind(flight,context);elysia::scene::SceneTestAccess::enter(flight,game::scene::FlightPayload{1});
         game::scene::FlightUiTestAccess::run(flight,[&](const char* state){
-            if(locale!="zh-Hans")return;
+            if(locale!="zh-Hans"&&!hud_only)return;
             if(!SDL_SetRenderTarget(renderer,target)||!SDL_SetRenderDrawColor(renderer,4,13,36,255)||!SDL_RenderClear(renderer))throw std::runtime_error(SDL_GetError());
             elysia::scene::SceneTestAccess::render(flight,renderer);
             auto* surface=SDL_RenderReadPixels(renderer,nullptr);if(!surface)throw std::runtime_error(SDL_GetError());
-            const bool saved=SDL_SaveBMP(surface,std::format("out/qa/flight-portrait-{}-preview.bmp",state).c_str());SDL_DestroySurface(surface);
+            const auto path=hud_only?std::format("out/qa/flight-portrait-{}-{}-preview.bmp",state,locale):std::format("out/qa/flight-portrait-{}-preview.bmp",state);
+            const bool saved=SDL_SaveBMP(surface,path.c_str());SDL_DestroySurface(surface);
             if(!saved||!SDL_SetRenderTarget(renderer,nullptr))throw std::runtime_error(SDL_GetError());
-        });
+        },hud_only);
         elysia::scene::SceneTestAccess::exit(flight);
     }
     SDL_DestroyTexture(target);store.data=progress;

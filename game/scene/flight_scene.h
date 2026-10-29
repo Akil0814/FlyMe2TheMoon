@@ -42,7 +42,7 @@ protected:
 private:
     void attach_development_panel();
     void detach_development_panel();
-    static constexpr float kDefaultCameraZoom = 1.5f;
+    static constexpr float kDefaultCameraZoom = 1.8f;
 #if ELYSIA_ENABLE_IMGUI
     elysia::tools::IDevelopmentPanelRegistry* _development_panels = nullptr;
     elysia::tools::DevelopmentPanelHandle _development_panel{};
