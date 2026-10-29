@@ -21,8 +21,8 @@ namespace game::application
         using elysia::builtin::StartupLoadingScenePayload;
 
         elysia::application::ApplicationDescriptor descriptor;
-        descriptor.logical_width = 1280;
-        descriptor.logical_height = 720;
+        descriptor.logical_width = 640;
+        descriptor.logical_height = 960;
         descriptor.presentation.render.texture_filter =
             elysia::application::ApplicationTextureFilter::Linear;
         descriptor.presentation.ui.default_theme =

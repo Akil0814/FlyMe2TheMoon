@@ -17,6 +17,19 @@
 namespace game::scene {
 using namespace elysia;
 namespace {
+void hide_window_size_row(ui::UiElement& element){
+    auto* host=dynamic_cast<ui::UiChildHost*>(&element);if(!host)return;
+    // The engine visibility flag groups size with display mode. Hide only the
+    // size field here so the other window controls remain available.
+    for(std::size_t index=0;index<host->child_count();++index){
+        if(auto* label=dynamic_cast<ui::UiLabel*>(host->child_at(index));label&&
+            label->text_content().kind==ui::UiTextContentKind::TextKey&&
+            label->text_content().value=="engine.settings.fields.window_size"){
+            element.set_visible(false);element.set_active(false);return;
+        }
+    }
+    for(std::size_t index=0;index<host->child_count();++index)hide_window_size_row(*host->child_at(index));
+}
 void style_controls(ui::UiElement& element){
     if(auto* checkbox=dynamic_cast<ui::UiCheckbox*>(&element))checkbox->set_sounds({.toggle="fly.voice_6_3"});
     if(auto* radio=dynamic_cast<ui::UiRadioButton*>(&element))radio->set_sounds({.select="fly.voice_6_3"});
@@ -44,14 +57,11 @@ void SettingsScene::on_enter(const elysia::scene::ScenePayload&){
     window->set_on_cancel([this]{game::audio::ui_click();request_scene_switch(scene_keys::MainMenu);});
     window->add_child(std::make_unique<frontend::MoonBackdrop>("settings",35));
     auto panel=std::make_unique<ui::SettingsPanel>(core::Rect{0,0,732,660});_panel=panel.get();
-    std::optional<ui::SettingsWindowSize> usable;
-    if(auto* native=SDL_GetRenderWindow(runtime_context().renderer())){
-        SDL_Rect bounds{};if(SDL_GetDisplayUsableBounds(SDL_GetDisplayForWindow(native),&bounds))usable=ui::SettingsWindowSize{bounds.w,bounds.h};
-    }
-    _panel->set_options({.window_sizes=ui::make_settings_window_size_options(usable,draft(_baseline.settings).window_size),
+    _panel->set_options({.window_sizes={draft(_baseline.settings).window_size},
         .target_fps_values=ui::make_settings_target_fps_options(_baseline.settings.target_fps),
-        .languages=ELYSIA_LOCALIZATION->supported_languages(),.usable_window_size=usable});
+        .languages=ELYSIA_LOCALIZATION->supported_languages()});
     _panel->set_draft(draft(_baseline.settings));
+    hide_window_size_row(*_panel);
     _panel->set_on_save([this](const ui::SettingsPanelDraft& value){save(value);});
     _panel->set_on_back([this]{request_scene_switch(scene_keys::MainMenu);});
     window->add_child(std::move(panel),ui::UiLayoutChildOptions{._anchor=ui::UiLayoutAnchor::CenterRight,._margin={.right=28}});
@@ -60,8 +70,7 @@ void SettingsScene::on_enter(const elysia::scene::ScenePayload&){
 }
 void SettingsScene::save(const ui::SettingsPanelDraft& value){
     auto* service=config::UserConfigService::instance();auto requested=service->user_config().snapshot();
-    requested.window={value.window_mode==ui::SettingsWindowMode::Windowed?config::WindowMode::Windowed:config::WindowMode::BorderlessFullscreen,
-        {value.window_size.width,value.window_size.height}};
+    requested.window.mode=value.window_mode==ui::SettingsWindowMode::Windowed?config::WindowMode::Windowed:config::WindowMode::BorderlessFullscreen;
     requested.target_fps=value.target_fps;requested.vsync=value.vsync;
     requested.audio={value.master_volume,value.music_volume,value.sound_volume};requested.language=value.language;
     const auto result=service->apply_and_save_user_config(requested,_baseline);
