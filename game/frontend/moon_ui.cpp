@@ -229,9 +229,9 @@ void ConstellationGrid::submit_ui_render_commands(std::vector<core::UiRenderComm
     // Use the actual laid-out nodes, so map lines follow logical-size changes.
     for(std::size_t index=1;index<child_count();++index){
         const auto* previous=child_at(index-1);const auto* current=child_at(index);
-        if(index%5==0)continue;
-        const auto a=previous->screen_rect().center(),b=current->screen_rect().center();
-        out.push_back(core::make_ui_draw_line_command({a.x+103,a.y},{b.x-103,b.y},{162,224,255,160}));
+        if(index%column_count()==0)continue;
+        const auto a=previous->screen_rect(),b=current->screen_rect();
+        out.push_back(core::make_ui_draw_line_command({a.right(),a.center().y},{b.x(),b.center().y},{162,224,255,160}));
     }
     UiGridContainer::submit_ui_render_commands(out);
 }

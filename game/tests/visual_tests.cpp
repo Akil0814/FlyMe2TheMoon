@@ -430,7 +430,49 @@ void check_portrait_pages(SDL_Renderer* renderer,const io::ContentRegistry& regi
         }
         require(total==17,"Localized phone achievement pages must retain all 17 descriptions");
     }
-    require(ELYSIA_LOCALIZATION->set_language(original_language).has_value(),"Achievement fixture language restore failed");
+    auto& store=game::progress::Store::instance();const auto original_progress=store.data;
+    const auto original_error=store.error;const bool original_recovered=store.recovered;
+    store.error.clear();store.recovered=false;
+    for(int index=0;index<60;++index){
+        store.data.stars[index]=index%5-1;store.data.score_verified[index]=index%4!=0;
+        store.data.scores[index]=index%6==1?0:100000+index;store.data.legacy_scores[index]=999999;
+    }
+    for(const auto& language:ELYSIA_LOCALIZATION->supported_languages()){
+        require(ELYSIA_LOCALIZATION->set_language(language).has_value(),"Selection language switch failed");
+        for(int chapter=0;chapter<4;++chapter){
+            game::scene::SelectionScene selection;scene::SceneTestAccess::bind(selection,context);
+            scene::SceneTestAccess::enter(selection,game::scene::SelectionPayload{chapter});
+            auto& window=scene::SceneTestAccess::window(selection);window.update(0);
+            auto& list=dynamic_cast<ui::UiListContainer&>(*window.child_at(0));
+            auto& chapters=dynamic_cast<ui::UiGridContainer&>(*list.child_at(1));
+            auto& levels=dynamic_cast<game::frontend::ConstellationGrid&>(*list.child_at(2));
+            require(window.screen_rect()==core::Rect{0,0,640,960}&&chapters.column_count()==2&&levels.column_count()==3&&levels.child_count()==15,"Phone chapter must fit all fifteen levels without scrolling");
+            require(levels.screen_rect().nearly_equals({24,236,592,553})&&list.child_at(4)->screen_rect().nearly_equals({147.5f,869,345,67}),"Phone level grid and Back geometry changed");
+            for(std::size_t index=0;index<levels.child_count();++index){
+                const auto& node=dynamic_cast<const game::frontend::LevelNode&>(*levels.child_at(index));
+                const int saved=chapter*15+static_cast<int>(index);const auto rect=node.screen_rect();
+                const auto expected=store.data.stars[saved]>=0&&store.data.score_verified[saved]?std::optional<int>{store.data.scores[saved]}:std::nullopt;
+                require(node.best_score()==expected,"Phone level card must preserve zero, verified scores and legacy placeholders");
+                require(rect.x()>=24-.001f&&rect.right()<=616+.001f&&rect.y()>=236-.001f&&rect.bottom()<=789+.001f,"Phone level card escaped its no-scroll grid");
+                std::vector<core::UiRenderCommand> drawn;node.submit_ui_render_commands(drawn);
+                for(const auto& command:drawn)require(command.screen_rect.x()>=rect.x()-.001f&&command.screen_rect.y()>=rect.y()-.001f&&command.screen_rect.right()<=rect.right()+.001f&&command.screen_rect.bottom()<=rect.bottom()+.001f,"Phone level number, stars, lock or score escaped its button");
+            }
+            std::vector<core::UiRenderCommand> grid;levels.submit_ui_render_commands(grid);int lines=0;
+            for(const auto& command:grid)if(command.type==core::UiRenderCommandType::DrawLine){
+                const int row=lines/2,column=lines%2;const auto previous=levels.child_at(row*3+column)->screen_rect(),next=levels.child_at(row*3+column+1)->screen_rect();
+                require(std::abs(command.line_start.x-previous.right())<.001f&&std::abs(command.line_end.x-next.x())<.001f&&command.line_start.y==command.line_end.y,"Phone constellation lines must join adjacent edges in the same row");++lines;
+            }
+            require(lines==10,"A three-column chapter must have ten same-row connectors");
+            for(auto* element:std::array<ui::UiElement*,3>{list.child_at(0),list.child_at(3),&chapters}){
+                const auto rect=element->screen_rect();std::vector<core::UiRenderCommand> drawn;element->submit_ui_render_commands(drawn);
+                for(const auto& command:drawn)require(command.screen_rect.x()>=rect.x()-.001f&&command.screen_rect.y()>=rect.y()-.001f&&command.screen_rect.right()<=rect.right()+.001f&&command.screen_rect.bottom()<=rect.bottom()+.001f,"Localized phone chapter title, tabs or progress escaped its area");
+            }
+            if(language=="zh-Hans")capture(window,std::format("out/qa/selection-portrait-chapter{}-preview.bmp",chapter+1).c_str());
+            scene::SceneTestAccess::exit(selection);
+        }
+    }
+    store.data=original_progress;store.error=original_error;store.recovered=original_recovered;
+    require(ELYSIA_LOCALIZATION->set_language(original_language).has_value(),"Portrait fixture language restore failed");
 }
 void check_frontend_artwork(SDL_Renderer* renderer){
     auto* gold=ELYSIA_RESOURCES->find_texture("fly.InGameUI.starDown");auto* empty=ELYSIA_RESOURCES->find_texture("fly.InGameUI.starUp");
