@@ -7,7 +7,7 @@ if(POLICY CMP0141)
         "$<IF:$<CONFIG:Debug>,Embedded,$<$<CONFIG:RelWithDebInfo>:ProgramDatabase>>")
 endif()
 
-project(FlyMe2TheMoon VERSION 1.0.1 LANGUAGES C CXX)
+project(FlyMe2TheMoon VERSION 1.1.0 LANGUAGES C CXX)
 include(CTest)
 
 if(MSVC)
