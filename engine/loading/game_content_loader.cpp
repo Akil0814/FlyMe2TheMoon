@@ -165,6 +165,9 @@ void GameContentLoader::update()
 
 		if (handle_worker_exception()) return;
 		dispatch_prepare_jobs();
+#ifdef __EMSCRIPTEN__
+        prepare_jobs_on_main_thread();
+#endif
 		if (handle_worker_exception()) return;
 		drain_completed_prepare_results();
 		if (handle_worker_exception()) return;
@@ -330,6 +333,7 @@ void GameContentLoader::reset_streaming_state()
 
 void GameContentLoader::start_worker_threads()
 {
+#ifndef __EMSCRIPTEN__
 	const std::size_t total_prepare_jobs =
 		_load_plan.texture_requests().size() + _atlas_frame_tasks.size();
 	const std::size_t worker_count = resolve_worker_count(total_prepare_jobs);
@@ -350,6 +354,41 @@ void GameContentLoader::start_worker_threads()
 		shutdown_worker_threads();
 		throw;
 	}
+#endif
+}
+
+void GameContentLoader::prepare_jobs_on_main_thread()
+{
+    const auto start = SDL_GetTicksNS();
+    elysia::resources::SurfaceLoader surface_loader;
+    elysia::resources::AtlasBuildPreparer atlas_preparer;
+    for (int count = 0; count < 4 && !_prepare_jobs.empty(); ++count) {
+        auto job = std::move(_prepare_jobs.front());
+        _prepare_jobs.pop_front();
+        struct Completion {
+            std::atomic<std::size_t>& count;
+            ~Completion() { count.fetch_sub(1); }
+        } completion{_in_flight_prepare_job_count};
+        try {
+            if (const auto* texture = std::get_if<elysia::resources::TextureLoadRequest>(&job.payload)) {
+                elysia::resources::SurfaceLoadRequest request;
+                request._asset_key = texture->key;
+                request._subject_type = "texture";
+                request._frame_path = texture->file_path;
+                request._origin = texture->origin;
+                _completed_texture_results.push_back({surface_loader.load_surface(request)});
+            } else {
+                _completed_atlas_frame_results.push_back({atlas_preparer.prepare_frame(
+                    std::get<elysia::resources::AtlasFramePrepareTask>(job.payload))});
+            }
+        } catch (...) {
+            _worker_exception.emplace(WorkerException{std::current_exception(), WorkerStage::Preparing,
+                std::move(job), std::source_location::current()});
+            request_worker_stop();
+            return;
+        }
+        if (SDL_GetTicksNS() - start >= 4'000'000) break;
+    }
 }
 
 void GameContentLoader::request_worker_stop()

@@ -1,0 +1,50 @@
+{
+  "flyme2themoon_web": {
+    "title": "FlyMe2TheMoon Web Demo",
+    "intro": {
+      "kicker": "FlyMe2TheMoon / 浏览器演示",
+      "title": "FlyMe2TheMoon Web Demo",
+      "desc": "选择横屏键鼠／手柄版，或新版竖屏触控版。两版保留全部 60 关，共用当前浏览器在本网站的进度与设置。"
+    },
+    "nav": {
+      "project_page": "项目页"
+    },
+    "actions": {
+      "project_page": "返回项目页",
+      "more_projects": "更多项目",
+      "source": "源码仓库",
+      "start": "开始游戏",
+      "fullscreen": "全屏",
+      "reload": "重新加载",
+      "notices": "第三方声明",
+      "exit_fullscreen": "退出全屏",
+      "landscape": "横屏版 · 键鼠／手柄",
+      "portrait": "竖屏版 · 触控",
+      "leave_game": "返回页面",
+      "resume_game": "继续游戏",
+      "switch_version": "切换横／竖版"
+    },
+    "runtime": {
+      "title": "在线演示",
+      "idle": "等待开始",
+      "loading": "下载 / 初始化中",
+      "running": "运行中",
+      "exited": "游戏已退出",
+      "error": "无法运行",
+      "size": "完整游戏 · 首次下载",
+      "cover": "准备好飞向月球了吗？点击下方按钮开始。",
+      "temporary": "浏览器存储不可用。本次进度会在关闭页面后丢失。",
+      "failed": "游戏启动失败，请重新加载页面后重试。",
+      "controls": "点击游戏画面获得焦点。Space / W / ↑：喷射；A / D：转向。也可按住角色下方的鼠标进行飞行。P：暂停；R：重试；Esc：返回。支持现有兼容手柄操作。",
+      "note": "需要 WebGL 2，点按画面启用音频。两版共用当前浏览器与本网站的存档；清除网站数据会删除存档。请勿同时运行多个游戏标签页。",
+      "display_mode": "游戏版本",
+      "temporary_short": "无法保存",
+      "saving": "正在保存并切换",
+      "save_failed": "存档同步失败，游戏仍保留。请检查浏览器存储后重试；存储不可用时的临时进度无法跨版本保留。",
+      "touch_controls": "点按菜单，按住琪亚娜下方并拖动飞行，松手停止。通过暂停菜单重试或返回选关。"
+    },
+    "footer": {
+      "page": "FlyMe2TheMoon Web Demo"
+    }
+  }
+}

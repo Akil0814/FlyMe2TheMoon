@@ -18,6 +18,7 @@
 #include <SDL3/SDL.h>
 
 #include <expected>
+#include <cstdint>
 #include <optional>
 #include <source_location>
 #include <string>
@@ -46,6 +47,10 @@ public:
 
     bool initialize(int argc,char** argv,const IGameModule& game_module);
     ApplicationRunResult run();
+    void begin_run();
+    // nullopt means another frame is needed; a value requests termination.
+    std::optional<ApplicationRunResult> run_frame();
+    ApplicationRunResult finish_run(ApplicationRunResult result);
 
     std::expected<void,elysia::config::UserConfigFailure> apply_master_volume(int value) override;
     std::expected<void,elysia::config::UserConfigFailure> apply_music_volume(int value) override;
@@ -84,6 +89,8 @@ private:
 
 private:
     double _target_fps = 60.0;
+    std::uint64_t _last_frame_start = 0;
+    std::uint64_t _counter_frequency = 0;
 
     SDL_Event _event{};
     SDL_Window* _window = nullptr;

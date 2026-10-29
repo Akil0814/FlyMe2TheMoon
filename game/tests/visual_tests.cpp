@@ -1560,6 +1560,7 @@ void save_mechanism_preview(SDL_Renderer* renderer) {
 
 int main(int argc,char** argv) {
     const bool flight_dialogue_only=argc==2&&std::string_view(argv[1])=="--flight-dialogue-only";
+    const bool web_input_only=argc==2&&std::string_view(argv[1])=="--web-input-only";
     const bool flight_hud_only=argc==2&&std::string_view(argv[1])=="--flight-hud-only";
     const bool level_music_only=argc==2&&std::string_view(argv[1])=="--level-music-only";
     const bool audio_only=argc==2&&std::string_view(argv[1])=="--audio-only";
@@ -1592,7 +1593,9 @@ int main(int argc,char** argv) {
             const auto deadline=SDL_GetTicks()+30000;
             while(loader.is_running()&&SDL_GetTicks()<deadline){loader.update();SDL_Delay(1);}
             require(loader.is_finished(),loader.failure()?loader.failure()->diagnostic.message:"Content load timed out");
-            if(flight_dialogue_only){
+            if(web_input_only){
+                game::testing::check_flight_ui(renderer,*registry,false,false,true);
+            }else if(flight_dialogue_only){
                 game::testing::check_flight_ui(renderer,*registry,false,true);
             }else if(flight_hud_only){
                 game::testing::check_flight_ui(renderer,*registry,true);

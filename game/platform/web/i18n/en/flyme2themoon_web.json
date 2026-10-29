@@ -1,0 +1,50 @@
+{
+  "flyme2themoon_web": {
+    "title": "FlyMe2TheMoon Web Demo",
+    "intro": {
+      "kicker": "FlyMe2TheMoon / Browser Demo",
+      "title": "FlyMe2TheMoon Web Demo",
+      "desc": "Choose the landscape keyboard / gamepad edition or the new portrait touch edition. All 60 levels are included; progress and settings are shared in this browser on this website."
+    },
+    "nav": {
+      "project_page": "Project Page"
+    },
+    "actions": {
+      "project_page": "Back to Project Page",
+      "more_projects": "More Projects",
+      "source": "Source Repo",
+      "start": "Start Game",
+      "fullscreen": "Fullscreen",
+      "reload": "Reload",
+      "notices": "Third-party notices",
+      "exit_fullscreen": "Exit Fullscreen",
+      "landscape": "Landscape · keyboard / gamepad",
+      "portrait": "Portrait · touch",
+      "leave_game": "Back to Page",
+      "resume_game": "Continue Game",
+      "switch_version": "Switch Version"
+    },
+    "runtime": {
+      "title": "Live Demo",
+      "idle": "Ready to download",
+      "loading": "Downloading / initializing",
+      "running": "Running",
+      "exited": "Game closed",
+      "error": "Unable to run",
+      "size": "Full game · first download",
+      "cover": "Ready for the moon? Start the full game below.",
+      "temporary": "Browser storage is unavailable. Progress will be lost when this page closes.",
+      "failed": "The game could not start. Reload the page to try again.",
+      "controls": "Click the game to focus. Space / W / Up: thrust; A / D: steer. Hold the mouse below the character to fly. P: pause; R: retry; Esc: back. Supported gamepads can also be used.",
+      "note": "Requires WebGL 2. Tap the game to enable audio. Both editions share saves in this browser and website. Clearing site data removes saves. Run only one game tab at a time.",
+      "display_mode": "Version",
+      "temporary_short": "Saves off",
+      "saving": "Saving before switching",
+      "save_failed": "Could not save. The game stays open; check browser storage and retry. Temporary progress cannot be transferred after storage fails.",
+      "touch_controls": "Tap menus. Hold below Kiana and drag to fly; release to stop. Use the pause menu to retry or return."
+    },
+    "footer": {
+      "page": "FlyMe2TheMoon Web Demo"
+    }
+  }
+}

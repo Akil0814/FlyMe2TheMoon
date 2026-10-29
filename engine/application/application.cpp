@@ -439,10 +439,15 @@ bool Application::initialize_runtime(
 
 
 
+#ifdef __EMSCRIPTEN__
+    _window = SDL_CreateWindow(settings.window_title.c_str(), descriptor.logical_width, descriptor.logical_height, 0);
+#else
     _window = SDL_CreateWindow(settings.window_title.c_str(), user_settings.window.windowed_size.width, user_settings.window.windowed_size.height, 0);
+#endif
     if (!check_startup_step(_window != nullptr,"platform","SDL_CreateWindow Error"))
         return false;
 
+#ifndef __EMSCRIPTEN__
     const auto startup_window = detail::apply_startup_window_settings(
         user_settings.window,detail::make_sdl_window_operations(_window));
     if (!startup_window)
@@ -452,10 +457,19 @@ bool Application::initialize_runtime(
         elysia::tools::Logger::instance()->warn("application",elysia::core::format_failure_diagnostic(
             **startup_window,"STARTUP-WINDOW","platform"),(**startup_window).origin);
 
+#endif
+#ifdef __EMSCRIPTEN__
+    // SDL_GPU has no browser backend. SDL's GLES renderer targets WebGL instead.
+    _renderer = SDL_CreateRenderer(_window,"opengles2");
+    if (!check_startup_step(_renderer != nullptr,"platform","SDL WebGL renderer creation failed"))
+        return false;
+    ELYSIA_LOG("application","SDL3 WebGL renderer: " << SDL_GetRendererName(_renderer));
+#else
     _renderer = SDL_CreateGPURenderer(nullptr,_window);
     if (!check_startup_step(_renderer != nullptr,"platform","SDL GPU renderer creation failed"))
         return false;
     ELYSIA_LOG("application","SDL3 GPU backend: " << SDL_GetGPUDeviceDriver(SDL_GetGPURendererDevice(_renderer)));
+#endif
     if (!check_startup_step(SDL_SetRenderVSync(_renderer,user_settings.vsync ? 1 : 0),"platform","SDL VSync configuration failed"))
         return false;
     if (auto filter_result = detail::configure_sdl_texture_filter(_renderer,descriptor.presentation.render); !filter_result)
@@ -513,12 +527,36 @@ bool Application::enter_initial_scene(
     return true;
 }
 
+void Application::begin_run()
+{
+    _last_frame_start = SDL_GetPerformanceCounter();
+    _counter_frequency = SDL_GetPerformanceFrequency();
+    elysia::core::Time::instance()->reset();
+}
+
 ApplicationRunResult Application::run()
 {
-    std::uint64_t last_frame_start = SDL_GetPerformanceCounter();
-    const std::uint64_t counter_freq = SDL_GetPerformanceFrequency();
-    elysia::core::Time::instance()->reset();
+    begin_run();
+    for (;;)
+    {
+        const auto frame_start = SDL_GetPerformanceCounter();
+        if (auto result = run_frame()) return finish_run(*result);
+        detail::wait_for_frame(_target_fps,
+            [&] { return static_cast<double>(SDL_GetPerformanceCounter() - frame_start) / _counter_frequency; },
+            [this] {
+                SDL_PumpEvents();
+                return _normal_exit_requested || SDL_HasEvent(SDL_EVENT_QUIT)
+                    || elysia::tools::TerminationManager::instance()->termination_requested();
+            },
+            [](std::uint64_t ns,bool precise) {
+                if (precise) SDL_DelayPrecise(ns);
+                else SDL_DelayNS(ns);
+            });
+    }
+}
 
+std::optional<ApplicationRunResult> Application::run_frame()
+{
     ApplicationRunResult run_result = ApplicationRunResult::NormalExit;
     auto resolve_exit = [this,&run_result]()
     {
@@ -543,12 +581,13 @@ ApplicationRunResult Application::run()
         log_published_termination(std::nullopt);
     };
 
-    while (_active)
+    if (!_active) return run_result;
+    do
     {
         const std::uint64_t frame_start = SDL_GetPerformanceCounter();
         const double delta =
-            static_cast<double>(frame_start - last_frame_start) / counter_freq;
-        last_frame_start = frame_start;
+            static_cast<double>(frame_start - _last_frame_start) / _counter_frequency;
+        _last_frame_start = frame_start;
         elysia::core::Time::instance()->begin_frame(delta);
 
         if (!run_event_boundary("events",[this]()
@@ -627,24 +666,13 @@ ApplicationRunResult Application::run()
         if (resolve_exit())
             break;
 
-        detail::wait_for_frame(_target_fps,
-            [&] { return static_cast<double>(SDL_GetPerformanceCounter() - frame_start) / counter_freq; },
-            [this]
-            {
-                SDL_PumpEvents();
-                return _normal_exit_requested || SDL_HasEvent(SDL_EVENT_QUIT)
-                    || elysia::tools::TerminationManager::instance()->termination_requested();
-            },
-            [](std::uint64_t ns,bool precise)
-            {
-                if (precise) SDL_DelayPrecise(ns);
-                else SDL_DelayNS(ns);
-            });
-    }
+    } while (false);
+    return _active ? std::nullopt : std::optional{run_result};
+}
 
-    if (!shutdown())
-        run_result = ApplicationRunResult::FaultExit;
-    return run_result;
+ApplicationRunResult Application::finish_run(ApplicationRunResult result)
+{
+    return shutdown() ? result : ApplicationRunResult::FaultExit;
 }
 
 bool Application::shutdown() noexcept
@@ -806,6 +834,11 @@ std::expected<void,elysia::config::UserConfigFailure>
 Application::apply_window_settings(
     const elysia::config::WindowSettings& settings)
 {
+#ifdef __EMSCRIPTEN__
+    // Browser canvas geometry belongs to the selected build, not desktop settings.
+    (void)settings;
+    return {};
+#else
     if (!_window)
         return runtime_apply_failure("window_settings","Application window is unavailable.");
 
@@ -826,5 +859,6 @@ Application::apply_window_settings(
             result.error()));
     }
     return {};
+#endif
 }
 }

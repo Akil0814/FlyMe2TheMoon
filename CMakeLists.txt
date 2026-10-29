@@ -28,7 +28,9 @@ if(MSVC)
 endif()
 
 add_subdirectory(thirdparty/box2d EXCLUDE_FROM_ALL)
-add_subdirectory(thirdparty/enet EXCLUDE_FROM_ALL  )
+if(NOT EMSCRIPTEN)
+    add_subdirectory(thirdparty/enet EXCLUDE_FROM_ALL)
+endif()
 
 # ENet 1.3.18 links these libraries for MinGW itself. Add the equivalent
 # transitive dependencies for the bundled MSVC build.
@@ -39,6 +41,11 @@ endif()
 
 option(ELYSIA_ENABLE_ASAN "Enable AddressSanitizer for project targets" OFF)
 option(ELYSIA_ENABLE_IMGUI "Build the optional Dear ImGui development overlay" ON)
+if(EMSCRIPTEN)
+    set(ELYSIA_ENABLE_IMGUI OFF CACHE BOOL "" FORCE)
+    add_compile_options(-fwasm-exceptions)
+    add_link_options(-fwasm-exceptions)
+endif()
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -103,6 +110,16 @@ if(WIN32)
 endif()
 
 target_link_libraries(FlyMe2TheMoon PRIVATE game_lib)
+if(EMSCRIPTEN)
+    target_link_options(FlyMe2TheMoon PRIVATE
+        -sALLOW_MEMORY_GROWTH=1 -sINITIAL_MEMORY=268435456
+        -sMAXIMUM_MEMORY=2147483648 -sFORCE_FILESYSTEM=1
+        -sEXPORTED_RUNTIME_METHODS=FS,IDBFS,addRunDependency,removeRunDependency
+        -sEXPORTED_FUNCTIONS=_main -sNO_EXIT_RUNTIME=1
+        -sMIN_WEBGL_VERSION=2 -sMAX_WEBGL_VERSION=2
+        -sENVIRONMENT=web -lidbfs.js
+        --pre-js "${PROJECT_SOURCE_DIR}/game/platform/web/persistence.js")
+endif()
 if(FLY_DEBUG_SYMBOLS AND MSVC)
     target_compile_options(FlyMe2TheMoon PRIVATE /Z7)
 endif()

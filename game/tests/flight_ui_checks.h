@@ -4,6 +4,7 @@
 #include "game/scene/credits_scene.h"
 #include "engine/ui/containers/ui_list_container.h"
 #include "engine/ui/widgets/image/ui_image.h"
+#include "game/platform/web_input.h"
 
 namespace game::scene {
 class FlightUiTestAccess {
@@ -35,6 +36,30 @@ class FlightUiTestAccess {
         for(std::size_t i=0;i<list.child_count();++i)contained(*list.child_at(i),list.screen_rect());
     }
 public:
+    static void run_web_input(FlightScene& scene){
+        using namespace elysia;
+        scene._opening_phase=FlightScene::OpeningPhase::Ready;scene._camera_move={};scene._event_pending=false;
+        scene._story_started=false;scene._input_enabled=true;scene._demo=false;scene.resume();
+        scene._player->present_at(std::nullopt);scene._player->play_effect(play::RoleEffect::None);
+        scene.camera_runtime().snap_to_focus(camera::CameraSlot::Main);
+        const auto world=scene._player->position()+core::Vector2{0,140};
+        const auto screen=scene.camera().world_to_screen(world);
+        check((scene.camera().screen_to_world(screen)-world).length()<.01f,"Web pointer projection changed");
+        SDL_Event event{};while(SDL_PollEvent(&event)){}
+        input::InputSystem inputs;inputs.initialize();inputs.begin_frame();
+        event.type=SDL_EVENT_MOUSE_BUTTON_DOWN;event.button.button=SDL_BUTTON_LEFT;event.button.x=screen.x;event.button.y=screen.y;
+        inputs.process_event(event);elysia::scene::SceneTestAccess::input(scene,inputs.snapshot());
+        check(scene._player->thrust.y<0,"Web drag below the role must thrust upward");
+        inputs.begin_frame();platform::cancel_web_pointer();while(SDL_PollEvent(&event))inputs.process_event(event);
+        elysia::scene::SceneTestAccess::input(scene,inputs.snapshot());
+        check(scene._player->thrust.length_squared()==0,"Browser cancellation must release thrust");
+        inputs.begin_frame();elysia::scene::SceneTestAccess::input(scene,inputs.snapshot());
+        check(scene._player->thrust.length_squared()==0,"Cancelled thrust must not reappear");
+        platform::request_web_pause();scene.on_before_update(0);
+        check(scene._pause_menu_open&&scene.is_paused(),"Browser pause request must open the existing pause menu");
+        scene.on_before_update(0);check(scene._pause_menu_open,"Browser resume must not unpause automatically");
+        scene.close_pause_menu();inputs.shutdown();
+    }
     static void run_dialogue(FlightScene& scene,const std::function<void(const char*)>& capture){
         using namespace elysia;
         scene._opening_phase=FlightScene::OpeningPhase::Ready;scene._camera_move={};scene._event_pending=false;
@@ -185,7 +210,7 @@ public:
 }
 
 namespace game::testing {
-inline void check_flight_ui(SDL_Renderer* renderer,const elysia::io::ContentRegistry& registry,bool hud_only=false,bool dialogue_only=false){
+inline void check_flight_ui(SDL_Renderer* renderer,const elysia::io::ContentRegistry& registry,bool hud_only=false,bool dialogue_only=false,bool web_input_only=false){
     using namespace elysia;
     const auto language=ELYSIA_LOCALIZATION->current_language();auto& store=progress::Store::instance();const auto progress=store.data;
     const auto directory=std::filesystem::path("out/qa/flight-ui")/std::to_string(SDL_GetTicksNS());std::filesystem::create_directories(directory);
@@ -209,7 +234,8 @@ inline void check_flight_ui(SDL_Renderer* renderer,const elysia::io::ContentRegi
             const bool saved=SDL_SaveBMP(surface,path.c_str());SDL_DestroySurface(surface);
             if(!saved||!SDL_SetRenderTarget(renderer,nullptr))throw std::runtime_error(SDL_GetError());
         };
-        if(dialogue_only)game::scene::FlightUiTestAccess::run_dialogue(flight,capture);
+        if(web_input_only)game::scene::FlightUiTestAccess::run_web_input(flight);
+        else if(dialogue_only)game::scene::FlightUiTestAccess::run_dialogue(flight,capture);
         else game::scene::FlightUiTestAccess::run(flight,capture,hud_only);
         elysia::scene::SceneTestAccess::exit(flight);
     }

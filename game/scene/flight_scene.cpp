@@ -1,4 +1,5 @@
 #include "flight_scene.h"
+#include "game/platform/web_input.h"
 #include "main_menu_scene.h"
 #include "selection_scene.h"
 #include "game/progress/progress.h"
@@ -52,6 +53,7 @@ void FlightScene::detach_development_panel() {
 #endif
 }
 void FlightScene::on_enter(const elysia::scene::ScenePayload& payload) {
+    _web_pause_seen=platform::web_pause_generation;
     detach_development_panel();
     _audio.reset();_rotation_audio.clear();_entrance_sound_pending=false;_role_velocity_valid=false;_idle_audio_time=_audio.next_idle_delay();
     _probe.begin();
@@ -222,6 +224,11 @@ double FlightScene::move_camera(Vec destination) {
     return duration;
 }
 void FlightScene::on_before_update(double delta) {
+    if(_web_pause_seen!=platform::web_pause_generation){
+        _web_pause_seen=platform::web_pause_generation;
+        if(_player)_player->thrust={};
+        open_pause_menu();
+    }
     _audio.set_listener(camera().center());
     if(_pause_menu_open)return;
     if(_camera_move.active()){_camera_move.advance(delta);_story_camera=_camera_move.position();}
