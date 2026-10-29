@@ -402,6 +402,35 @@ void check_portrait_pages(SDL_Renderer* renderer,const io::ContentRegistry& regi
     capture(credits_window,"out/qa/credits-portrait-end-preview.bmp");
     click(credits_window,*controls.child_at(1));require(credits_requests.received.size()==1&&credits_requests.received.back().route.target==game::scene_keys::MainMenu,"Portrait credits Back button must remain clickable");
     input_system.shutdown();scene::SceneTestAccess::exit(credits);
+
+    const auto original_language=ELYSIA_LOCALIZATION->current_language();
+    for(const auto& language:ELYSIA_LOCALIZATION->supported_languages()){
+        require(ELYSIA_LOCALIZATION->set_language(language).has_value(),"Achievement language switch failed");
+        int total=0;
+        for(int page=0;page<3;++page){
+            game::scene::AchievementsScene album;scene::SceneTestAccess::bind(album,context);
+            scene::SceneTestAccess::enter(album,game::scene::AchievementsPayload{page});
+            auto& window=scene::SceneTestAccess::window(album);window.update(0);
+            auto& list=dynamic_cast<ui::UiListContainer&>(*window.child_at(0));
+            auto& cards=dynamic_cast<ui::UiGridContainer&>(*list.child_at(1));
+            auto& pages=dynamic_cast<ui::UiGridContainer&>(*list.child_at(2));
+            std::vector<core::UiRenderCommand> heading;list.child_at(0)->submit_ui_render_commands(heading);
+            for(const auto& command:heading)require(command.screen_rect.y()>=24-.001f&&command.screen_rect.bottom()<=80+.001f,"Localized achievement heading must stay in its top title area");
+            require(cards.column_count()==2&&pages.screen_rect().height()>=56&&list.child_at(3)->screen_rect().bottom()<=936,"Phone achievements must fit their cards and touch-sized footer without scrolling");
+            for(std::size_t index=0;index<cards.child_count();++index){
+                auto& card=*cards.child_at(index);const auto rect=card.screen_rect();
+                require(rect.x()>=24&&rect.right()<=616&&rect.bottom()<=pages.screen_rect().y()-16+.001f,"Achievement card escaped the no-scroll page");
+                std::vector<core::UiRenderCommand> drawn;card.submit_ui_render_commands(drawn);
+                require(drawn.size()>=6,"Compact achievement must draw its badge, title, description and state");
+                for(const auto& command:drawn)require(command.screen_rect.x()>=rect.x()-.001f&&command.screen_rect.y()>=rect.y()-.001f&&command.screen_rect.right()<=rect.right()+.001f&&command.screen_rect.bottom()<=rect.bottom()+.001f,"Localized achievement content escaped its compact card");
+            }
+            total+=static_cast<int>(cards.child_count());
+            if(language=="zh-Hans"||language=="en")capture(window,std::format("out/qa/achievements-{}-page{}-preview.bmp",language,page+1).c_str());
+            scene::SceneTestAccess::exit(album);
+        }
+        require(total==17,"Localized phone achievement pages must retain all 17 descriptions");
+    }
+    require(ELYSIA_LOCALIZATION->set_language(original_language).has_value(),"Achievement fixture language restore failed");
 }
 void check_frontend_artwork(SDL_Renderer* renderer){
     auto* gold=ELYSIA_RESOURCES->find_texture("fly.InGameUI.starDown");auto* empty=ELYSIA_RESOURCES->find_texture("fly.InGameUI.starUp");

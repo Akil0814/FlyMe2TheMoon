@@ -102,6 +102,6 @@ private:
     SDL_Texture* _badge=nullptr;
     bool _earned=false;
     mutable elysia::ui::UiLabel _title,_status;
-    mutable elysia::ui::UiTextBlock _description;
+    mutable elysia::ui::UiTextBlock _description,_compact_title;
 };
 }

@@ -23,10 +23,7 @@ void SelectionScene::on_after_update(double delta){
     const auto& store=progress::Store::instance();
     if(testing::ReplayProbe::shared().update(runtime_context().renderer(),{{"scene",3},{"cleared",std::count_if(store.data.stars.begin(),store.data.stars.end(),[](int s){return s>=0;})},{"stars_level1",store.data.stars[0]},{"score_level1",store.data.scores[0]},{"score_verified_level1",store.data.score_verified[0]},{"achievement101",store.data.achievements.contains(101)},{"save_error",store.error}}))request_quit();
 }
-void AchievementsScene::on_after_update(double){
-    const auto& store=progress::Store::instance();
-    if(testing::ReplayProbe::shared().update(runtime_context().renderer(),{{"scene",4},{"achievement_page",_page},{"achievement_count",store.data.achievements.size()},{"achievement101",store.data.achievements.contains(101)},{"save_error",store.error}}))request_quit();
-}
+
 namespace {
 std::unique_ptr<ui::UiButton> button(std::string text,float width,float height,std::function<void()> action) {
     return std::make_unique<frontend::GlassButton>(std::move(text),width,height,std::move(action));
@@ -73,34 +70,5 @@ void SelectionScene::on_enter(const elysia::scene::ScenePayload& payload) {
     else if(current_chapter){chapter_scope->set_focused_target(current_chapter);list_scope->set_focused_target(current_chapter);}
     window->register_focus_scope(*list_scope);window->focus_first_available_scope();
     window->add_child(std::make_unique<frontend::MoonBackdrop>(runtime_context(),"moon",110));
-}
-void AchievementsScene::on_enter(const elysia::scene::ScenePayload& payload) {
-    ELYSIA_AUDIO->transition_music("fly.SkyTunnel");
-    clear_scene_objects();auto& store=progress::Store::instance();(void)store.load();
-    _page=0;if(auto* p=elysia::scene::try_scene_payload<AchievementsPayload>(payload))_page=std::clamp(p->page,0,2);
-    auto* window=create_and_add_object<ui::UiWindow>(core::Rect{0,0,1280,720});window->set_on_cancel([this]{game::audio::ui_click();request_scene_switch(scene_keys::MainMenu);});
-    window->set_style_overrides({.draw_background=false,.draw_border=false});
-    auto list=std::make_unique<ui::UiListContainer>(core::Rect{0,0,1160,652});list->set_item_spacing(16);list->set_cross_align(ui::UiLayoutAlign::Center);
-    title(*list,content::format("achievements_title",store.data.achievements.size()));
-    list->add_back(std::make_unique<ui::UiElement>(core::Rect{0,0,1120,30}));
-    auto grid=std::make_unique<ui::UiGridContainer>(core::Rect{0,0,1160,374});grid->set_column_count(3);grid->set_cell_spacing({20,18});
-    const auto descriptions=content::read("text/"+content::language()+"/gcDescriptions.json");
-    int index=0;
-    for(const auto& [key,a]:descriptions.at("achievements").items()) {
-        if(index++/6!=_page)continue;
-        grid->add_child(std::make_unique<frontend::AchievementCard>(std::stoi(key),a.at("title"),a.at("earnedDesc"),store.data.achievements.contains(std::stoi(key))));
-    }
-    list->add_back(std::move(grid));
-    auto pages=std::make_unique<ui::UiGridContainer>(core::Rect{0,0,560,44});pages->set_column_count(3);pages->set_cell_spacing({16,0});
-    auto* page_scope=pages.get();ui::UiButton* current_page=nullptr;
-    for(int p=0;p<3;++p){auto b=button(content::format("album_page",p+1),176,44,[this,p]{request_scene_switch(scene_keys::Achievements,AchievementsPayload{p},elysia::scene::SceneReloadMode::Recreate);});
-        if(p==_page){frontend::mark_selected(*b);current_page=b.get();}
-        pages->add_child(std::move(b));}
-    list->add_back(std::move(pages));
-    list->add_back(button(content::ui("back"),320,48,[this]{request_scene_switch(scene_keys::MainMenu);}));
-    auto* scope=list.get();window->add_child(std::move(list),ui::UiLayoutChildOptions{._anchor=ui::UiLayoutAnchor::Center});
-    page_scope->set_focused_target(current_page);scope->set_focused_target(current_page);
-    window->register_focus_scope(*scope);window->focus_first_available_scope();
-    window->add_child(std::make_unique<frontend::MoonBackdrop>(runtime_context(),"moon",145));
 }
 }

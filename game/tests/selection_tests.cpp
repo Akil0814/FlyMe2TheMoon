@@ -161,13 +161,17 @@ void test_menu_routes(){
 }
 void test_achievement_pages(){
     int total=0;
+    io::ContentRegistry registry;scene::SceneRuntimeContext context(nullptr,registry,640,960);
     for(int page=0;page<3;++page){
         game::scene::AchievementsScene album;Requests requests;album.attach(&requests);
+        scene::SceneTestAccess::bind(album,context);
         scene::SceneTestAccess::enter(album,game::scene::AchievementsPayload{page});
         auto& window=scene::SceneTestAccess::window(album);window.update(0);
         auto& list=dynamic_cast<ui::UiListContainer&>(*window.child_at(0));
-        auto& cards=dynamic_cast<ui::UiGridContainer&>(*list.child_at(2));
-        auto& pages=dynamic_cast<ui::UiGridContainer&>(*list.child_at(3));
+        auto& cards=dynamic_cast<ui::UiGridContainer&>(*list.child_at(1));
+        auto& pages=dynamic_cast<ui::UiGridContainer&>(*list.child_at(2));
+        require(window.screen_rect()==core::Rect{0,0,640,960}&&cards.column_count()==2,"Phone achievement pages must use the portrait viewport and two columns");
+        for(std::size_t index=0;index<cards.child_count();++index){const auto rect=cards.child_at(index)->screen_rect();if(!(rect.x()>=24-.001f&&rect.right()<=616+.001f&&rect.y()>=96-.001f&&rect.bottom()<=pages.screen_rect().y()-16+.001f))throw std::runtime_error("Phone achievement card escaped: "+std::to_string(rect.x())+","+std::to_string(rect.y())+","+std::to_string(rect.width())+","+std::to_string(rect.height())+"; pages y="+std::to_string(pages.screen_rect().y()));}
         key(window,ui::UiAction::Confirm);
         require(requests.received.size()==1,"Current achievement page must retain keyboard focus after rebuilding");
         const auto* focused_page=scene::try_scene_payload<game::scene::AchievementsPayload>(requests.received.back().route.payload);
@@ -180,7 +184,7 @@ void test_achievement_pages(){
             const auto& request=requests.received.back();const auto* payload=scene::try_scene_payload<game::scene::AchievementsPayload>(request.route.payload);
             require(request.route.target==game::scene_keys::Achievements&&payload&&payload->page==target&&request.route.reload_mode==scene::SceneReloadMode::Recreate,"Achievement page route must retain its selected page");requests.received.clear();
         }
-        click(window,*list.child_at(4));require(requests.received.size()==1&&requests.received.back().route.target==game::scene_keys::MainMenu,"Achievement Back must remain available on every page");
+        click(window,*list.child_at(3));require(requests.received.size()==1&&requests.received.back().route.target==game::scene_keys::MainMenu,"Achievement Back must remain available on every page");
     }
     require(total==17,"Achievement album lost original content");
 }

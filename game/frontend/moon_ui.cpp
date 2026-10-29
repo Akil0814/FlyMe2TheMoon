@@ -237,6 +237,8 @@ void ConstellationGrid::submit_ui_render_commands(std::vector<core::UiRenderComm
 }
 AchievementCard::AchievementCard(int id,std::string title,std::string description,bool earned):UiElement({0,0,372,178}),
     _badge(texture(std::format("achv{}",id))),_earned(earned){
+    _compact_title.set_text_content(ui::ui_raw_text(title));_compact_title.set_typography_role(typography::UiTypographyRole::Label);
+    _compact_title.set_style_overrides({.text=core::Color{239,249,255,255}});
     _title.set_text_content(ui::ui_raw_text(std::move(title)));_title.set_typography_role(typography::UiTypographyRole::Label);
     _title.set_style_overrides({.text=core::Color{239,249,255,255}});_title.set_vertical_align(ui::TextVerticalAlign::Center);
     // Give the text wrapper a word boundary before numeric requirements so
@@ -252,9 +254,26 @@ AchievementCard::AchievementCard(int id,std::string title,std::string descriptio
     _status.set_style_overrides({.text=earned?core::Color{153,243,221,255}:core::Color{139,165,190,255}});
 }
 void AchievementCard::submit_ui_render_commands(std::vector<core::UiRenderCommand>& out)const {
+    if(!is_visible())return;
     const auto r=screen_rect();
     out.push_back(core::make_ui_fill_rect_command(r,_earned?core::Color{17,63,103,224}:core::Color{8,30,62,220},16));
     out.push_back(core::make_ui_draw_rect_command(r,_earned?core::Color{117,231,242,200}:core::Color{102,160,198,80},16));
+    if(r.width()<340){
+        const core::Rect badge{r.x()+16,r.y()+16,64,64};image(out,_badge,badge);
+        if(!_earned)out.push_back(core::make_ui_fill_rect_command(badge,{4,12,31,170},12));
+        else out.push_back(core::make_ui_draw_rect_command({badge.x()-3,badge.y()-3,70,70},{142,239,248,150},14));
+        const auto text=[&](ui::UiTextBlock& block,core::Rect area,float scale){
+            block.set_screen_rect({0,0,area.width()/scale,area.height()/scale});
+            std::vector<core::UiRenderCommand> commands;block.submit_ui_render_commands(commands);
+            float fit=scale;
+            for(const auto& command:commands)fit=std::min({fit,area.width()/std::max(1.f,command.screen_rect.right()),area.height()/std::max(1.f,command.screen_rect.bottom())});
+            for(auto command:commands){const auto rect=command.screen_rect;command.screen_rect={area.x()+rect.x()*fit,area.y()+rect.y()*fit,rect.width()*fit,rect.height()*fit};out.push_back(command);}
+        };
+        text(_compact_title,{r.x()+92,r.y()+16,r.width()-108,64},.8f);
+        text(_description,{r.x()+16,r.y()+92,r.width()-32,r.height()-132},.7f);
+        _status.set_screen_rect({r.x()+16,r.bottom()-35,r.width()-32,25});_status.submit_ui_render_commands(out);
+        return;
+    }
     const core::Rect badge{r.x()+18,r.y()+24,92,92};image(out,_badge,badge);
     if(!_earned)out.push_back(core::make_ui_fill_rect_command(badge,{4,12,31,170},12));
     else out.push_back(core::make_ui_draw_rect_command({badge.x()-3,badge.y()-3,98,98},{142,239,248,150},14));
