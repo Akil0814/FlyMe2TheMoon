@@ -12,11 +12,16 @@ void FlightScene::build_ingame_ui(){
     _hud_stats=create_and_add_object<frontend::RunStats>(_ui_layout.stats,11);
     if(_ui_layout.vertical){_hud->set_typography_role(typography::UiTypographyRole::Button);_hud->set_padding(8);_hud_stats->set_grouped(true);}
     _pause_button=create_and_add_object<frontend::PauseIconButton>(_ui_layout.pause,[this]{open_pause_menu();});
-    _dialogue_panel=create_and_add_object<frontend::HudPanel>(_ui_layout.dialogue,20);
-    _portrait_panel=create_and_add_object<frontend::HudPanel>(_ui_layout.portrait,21);
+    _dialogue_panel=create_and_add_object<ui::UiImage>(ELYSIA_RESOURCES->find_texture("fly.InGameUI.tutorialPanelHalf"),_ui_layout.dialogue,20);
     _face=create_and_add_object<ui::UiImage>(nullptr,_ui_layout.face,22);
     _dialogue=create_and_add_object<frontend::StoryText>(_ui_layout.text,22);_dialogue->set_padding(8);
     _dialogue->set_style_overrides({.text=core::Color{16,46,77,255}});
+    _skip_button=create_and_add_object<ui::UiButton>(_ui_layout.skip,24);
+    _skip_button->set_style_overrides({.chrome={.draw_background=false,.draw_border=false}});
+    _skip_button->set_state_textures({.idle=ELYSIA_RESOURCES->find_texture("fly.frontend.dialogue_skip_up"),.pushed=ELYSIA_RESOURCES->find_texture("fly.frontend.dialogue_skip_down")});
+    _skip_button->set_on_click([this]{
+        if(!_pause_menu_open&&!_finished&&!_death_pending)advance_dialogue(true);
+    });
     _tutorial=create_and_add_object<frontend::TutorialUi>(_ui_layout.viewport);
 }
 void FlightScene::update_hud_visibility(){

@@ -121,7 +121,7 @@ void FlightScene::on_enter(const elysia::scene::ScenePayload& payload) {
     ELYSIA_LOG_INFO("fly",std::format("Entered level {}: {} entities, {} contours",_level,_entities.size(),_data.at("edges").size()));
     attach_development_panel();
 }
-void FlightScene::on_exit(){detach_development_panel();_audio.clear();ELYSIA_AUDIO->stop_music();_pause_updates.clear();_pause_menu_open=false;_player=nullptr;_entities.clear();_hud=nullptr;_hud_stats=nullptr;_pause_metrics=nullptr;_result_metrics=nullptr;_hud_stars=nullptr;_star_pickups=nullptr;_pause_menu=nullptr;_pause_button=nullptr;_dialogue=nullptr;_face=nullptr;_tutorial=nullptr;_dialogue_panel=nullptr;_portrait_panel=nullptr;clear_scene_objects();}
+void FlightScene::on_exit(){detach_development_panel();_audio.clear();ELYSIA_AUDIO->stop_music();_pause_updates.clear();_pause_menu_open=false;_player=nullptr;_entities.clear();_hud=nullptr;_hud_stats=nullptr;_pause_metrics=nullptr;_result_metrics=nullptr;_hud_stars=nullptr;_star_pickups=nullptr;_pause_menu=nullptr;_pause_button=nullptr;_dialogue=nullptr;_face=nullptr;_tutorial=nullptr;_dialogue_panel=nullptr;_skip_button=nullptr;clear_scene_objects();}
 void FlightScene::on_reset(){on_exit();}
 void FlightScene::on_shortcuts(const input::RawInputFrame&,const std::vector<input::RawInputEvent>& events) {
     using C=input::RawInputControl;
@@ -307,7 +307,9 @@ content::Json FlightScene::story_action(const std::string& op,const content::Jso
     return nullptr;
 }
 void FlightScene::update_dialogue() {
-    const auto& line=_story.dialogue();const bool has_dialogue=_story_started&&line.has_value();const bool visible=has_dialogue&&!_pause_menu_open;_dialogue_panel->set_visible(visible);_portrait_panel->set_visible(visible);_dialogue->set_visible(visible);_face->set_visible(visible);
+    const auto& line=_story.dialogue();const bool has_dialogue=_story_started&&line.has_value();const bool visible=has_dialogue&&!_pause_menu_open&&!_finished;
+    _dialogue_panel->set_visible(visible);_dialogue->set_visible(visible);_face->set_visible(visible);
+    _skip_button->set_visible(visible&&_story.skip_enabled());
     if(has_dialogue&&_dialogue_key!=line->key){_dialogue_key=line->key;
         _dialogue->set_story_text(_text.value(line->key,line->key));_face->set_texture(ELYSIA_RESOURCES->find_texture("fly.ui."+line->face));
         ELYSIA_LOG_INFO("fly.story","Dialogue: "+line->key);

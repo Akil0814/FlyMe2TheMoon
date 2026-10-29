@@ -129,8 +129,8 @@ private:
     content::Json _text;
     std::string _dialogue_key;
     frontend::StoryText* _dialogue=nullptr;
-    frontend::HudPanel* _dialogue_panel=nullptr;
-    frontend::HudPanel* _portrait_panel=nullptr;
+    elysia::ui::UiImage* _dialogue_panel=nullptr;
+    elysia::ui::UiButton* _skip_button=nullptr;
     elysia::ui::UiImage* _face=nullptr;
     frontend::TutorialUi* _tutorial=nullptr;
     bool _dialogue_pointer_pressed=false;

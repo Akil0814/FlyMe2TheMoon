@@ -35,6 +35,50 @@ class FlightUiTestAccess {
         for(std::size_t i=0;i<list.child_count();++i)contained(*list.child_at(i),list.screen_rect());
     }
 public:
+    static void run_dialogue(FlightScene& scene,const std::function<void(const char*)>& capture){
+        using namespace elysia;
+        scene._opening_phase=FlightScene::OpeningPhase::Ready;scene._camera_move={};scene._event_pending=false;
+        scene._story_started=true;scene._input_enabled=false;scene._demo=false;scene._tutorial->set_type(0);scene.pause();
+        const auto start=[&](const std::string& script){
+            scene._dialogue_key.clear();scene._story.start(script,[&scene](const std::string& op,const content::Json& args){return scene.story_action(op,args);});
+            scene.update_dialogue();
+        };
+        start("dialog.show('Level1-1',facePutong)");
+        check(scene._face->is_visible()&&scene._dialogue_panel->is_visible()&&!scene._skip_button->is_visible(),"Unread dialogue must retain the original disabled-skip rule");
+        const auto face=scene._face->screen_rect(),plate=scene._dialogue_panel->screen_rect();
+        check(face.y()<plate.y()&&face.bottom()==plate.bottom()&&std::abs(face.width()/face.height()-268.f/340)<.001f,"Unframed portrait must retain its aspect ratio and protrude above the bottom plate");
+        const auto portrait=commands(*scene._face);
+        check(portrait.size()==1&&!portrait.front().use_src_rect,"Portrait must render as one complete transparent image without a frame or crop");
+        const auto panel=commands(*scene._dialogue_panel);
+        check(panel.size()==1&&panel.front().texture==ELYSIA_RESOURCES->find_texture("fly.InGameUI.tutorialPanelHalf"),"Dialogue must use its original bottom gradient, not a button frame");
+        std::string longest;
+        for(const auto& [key,value]:scene._text.items())if(value.is_string()&&value.get_ref<const std::string&>().size()>longest.size())longest=value.get<std::string>();
+        scene._dialogue->set_story_text(longest);scene._dialogue->reveal();
+        contained(*scene._dialogue,scene._ui_layout.text);capture("dialogue-long");
+        start("dialog.setSkipEnabled(true); if dialog.showMinTime('Level1-1',facePutong,60)==1 then dialog.setSkipEnabled(false); dialog.show('Level1-2',faceManyi) end");
+        check(scene._skip_button->is_visible()&&scene._story.dialogue()->remaining==60,"Skippable dialogue must show Skip even during its minimum reading time");
+        texture(commands(*scene._skip_button),"fly.frontend.dialogue_skip_up");
+        scene._dialogue->reveal();capture("dialogue-skip");
+        input::InputSystem inputs;inputs.initialize();
+        const auto pointer=[&](bool down,core::Vector2 point){
+            inputs.begin_frame();SDL_Event motion{};motion.type=SDL_EVENT_MOUSE_MOTION;motion.motion.x=point.x;motion.motion.y=point.y;inputs.process_event(motion);
+            SDL_Event event{};event.type=down?SDL_EVENT_MOUSE_BUTTON_DOWN:SDL_EVENT_MOUSE_BUTTON_UP;event.button.button=SDL_BUTTON_LEFT;event.button.down=down;event.button.x=point.x;event.button.y=point.y;inputs.process_event(event);
+            elysia::scene::SceneTestAccess::input(scene,inputs.snapshot());
+        };
+        const auto button=scene._skip_button->screen_rect().center();
+        pointer(true,button);check(scene._dialogue_key=="Level1-1","Skip must not activate on press");
+        capture("dialogue-skip-pressed");
+        pointer(false,{320,400});check(scene._dialogue_key=="Level1-1","Releasing outside Skip must cancel without advancing the line");
+        scene.open_pause_menu();
+        check(!scene._skip_button->is_visible()&&!scene._face->is_visible(),"Pause must hide dialogue and Skip");
+        scene.close_pause_menu();check(scene._skip_button->is_visible(),"Resuming must restore Skip with the current script permission");
+        pointer(true,button);pointer(false,button);
+        check(scene._dialogue_key=="Level1-2"&&!scene._dialogue->complete()&&!scene._skip_button->is_visible(),"Skip must return 1 to Lua, bypass the minimum time and never also reveal or advance the next line");
+        check(scene._player->thrust.length_squared()==0,"Skip click must not leak into flight controls");
+        scene._story.advance();scene.update_dialogue();
+        check(!scene._skip_button->is_visible()&&!scene._face->is_visible()&&!scene._dialogue_panel->is_visible(),"All dialogue artwork and Skip must disappear when the script ends");
+        inputs.shutdown();
+    }
     static void run(FlightScene& scene,const std::function<void(const char*)>& capture,bool hud_only=false){
         using namespace elysia;
         struct Requests final:elysia::scene::SceneRequestObserver {
@@ -70,9 +114,9 @@ public:
         std::string longest;
         for(const auto& [key,value]:scene._text.items())if(value.is_string()&&value.get_ref<const std::string&>().size()>longest.size())longest=value.get<std::string>();
         scene._dialogue->set_story_text(longest);scene._dialogue->reveal();
-        scene._dialogue_panel->set_visible(true);scene._portrait_panel->set_visible(true);scene._face->set_visible(true);scene._dialogue->set_visible(true);
+        scene._dialogue_panel->set_visible(true);scene._face->set_visible(true);scene._dialogue->set_visible(true);
         scene._face->set_texture(ELYSIA_RESOURCES->find_texture("fly.ui.facePutong"));
-        check(scene._dialogue_panel->screen_rect()==Rect{16,688,608,248}&&scene._dialogue->screen_rect()==Rect{156,704,452,216},"Phone story layout must sit above the bottom margin");
+        check(scene._dialogue_panel->screen_rect()==Rect{0,690,640,270}&&scene._dialogue->screen_rect()==Rect{220,690,404,214},"Phone story layout must leave more text width above the lower bottom-anchored plate");
         contained(*scene._dialogue,scene._ui_layout.text);capture("tutorial");
         scene._tutorial->set_type(2);
         const auto frames=content::read("tutorial_visual.json").at("direction_frames");
@@ -141,29 +185,37 @@ public:
 }
 
 namespace game::testing {
-inline void check_flight_ui(SDL_Renderer* renderer,const elysia::io::ContentRegistry& registry,bool hud_only=false){
+inline void check_flight_ui(SDL_Renderer* renderer,const elysia::io::ContentRegistry& registry,bool hud_only=false,bool dialogue_only=false){
     using namespace elysia;
     const auto language=ELYSIA_LOCALIZATION->current_language();auto& store=progress::Store::instance();const auto progress=store.data;
     const auto directory=std::filesystem::path("out/qa/flight-ui")/std::to_string(SDL_GetTicksNS());std::filesystem::create_directories(directory);
     if(!ELYSIA_SAVE->initialize(directory)||!ELYSIA_AUDIO->initialize({}))throw std::runtime_error("Flight UI fixture initialization failed");
-    auto* target=SDL_CreateTexture(renderer,SDL_PIXELFORMAT_RGBA32,SDL_TEXTUREACCESS_TARGET,640,960);
+    const std::vector<core::Vector2> viewports=dialogue_only?std::vector<core::Vector2>{{640,960},{1280,720}}:std::vector<core::Vector2>{{640,960}};
+    for(const auto viewport:viewports){
+    const auto width=static_cast<int>(viewport.x),height=static_cast<int>(viewport.y);
+    auto* target=SDL_CreateTexture(renderer,SDL_PIXELFORMAT_RGBA32,SDL_TEXTUREACCESS_TARGET,width,height);
     if(!target)throw std::runtime_error(SDL_GetError());
     for(const auto& locale:ELYSIA_LOCALIZATION->supported_languages()){
         if(!ELYSIA_LOCALIZATION->set_language(locale))throw std::runtime_error("Flight UI language switch failed");
-        elysia::scene::SceneRuntimeContext context(renderer,registry,640,960);game::scene::FlightScene flight;
+        elysia::scene::SceneRuntimeContext context(renderer,registry,width,height);game::scene::FlightScene flight;
         elysia::scene::SceneTestAccess::bind(flight,context);elysia::scene::SceneTestAccess::enter(flight,game::scene::FlightPayload{1});
-        game::scene::FlightUiTestAccess::run(flight,[&](const char* state){
-            if(locale!="zh-Hans"&&!hud_only)return;
+        const auto capture=[&](const char* state){
+            if(locale!="zh-Hans"&&!hud_only&&!dialogue_only)return;
             if(!SDL_SetRenderTarget(renderer,target)||!SDL_SetRenderDrawColor(renderer,4,13,36,255)||!SDL_RenderClear(renderer))throw std::runtime_error(SDL_GetError());
             elysia::scene::SceneTestAccess::render(flight,renderer);
             auto* surface=SDL_RenderReadPixels(renderer,nullptr);if(!surface)throw std::runtime_error(SDL_GetError());
-            const auto path=hud_only?std::format("out/qa/flight-portrait-{}-{}-preview.bmp",state,locale):std::format("out/qa/flight-portrait-{}-preview.bmp",state);
+            const auto orientation=height>=width?"portrait":"landscape";
+            const auto path=hud_only||dialogue_only?std::format("out/qa/flight-{}-{}-{}-preview.bmp",orientation,state,locale):std::format("out/qa/flight-portrait-{}-preview.bmp",state);
             const bool saved=SDL_SaveBMP(surface,path.c_str());SDL_DestroySurface(surface);
             if(!saved||!SDL_SetRenderTarget(renderer,nullptr))throw std::runtime_error(SDL_GetError());
-        },hud_only);
+        };
+        if(dialogue_only)game::scene::FlightUiTestAccess::run_dialogue(flight,capture);
+        else game::scene::FlightUiTestAccess::run(flight,capture,hud_only);
         elysia::scene::SceneTestAccess::exit(flight);
     }
-    SDL_DestroyTexture(target);store.data=progress;
+    SDL_DestroyTexture(target);
+    }
+    store.data=progress;
     if(!ELYSIA_LOCALIZATION->set_language(language))throw std::runtime_error("Flight UI language restore failed");
     ELYSIA_AUDIO->shutdown();ELYSIA_SAVE->shutdown();
 }

@@ -261,7 +261,7 @@ void check_dialogue_and_pause(SDL_Renderer* renderer){
     auto* plate=ELYSIA_RESOURCES->find_texture("fly.InGameUI.btn1Up");
     for(const auto size:{core::Vector2{1232,182},core::Vector2{156,156},core::Vector2{680,560}}){
         HudPanel panel({24,40,size.x,size.y});std::vector<core::UiRenderCommand> drawn;panel.submit_ui_render_commands(drawn);
-        require(drawn.size()==9,"Dialogue, portrait and modal frames must use nine-slice panels");
+        require(drawn.size()==9,"Generic modal frames must use nine-slice panels");
         float area=0;for(const auto& command:drawn){
             require(command.type==core::UiRenderCommandType::Texture&&command.texture==plate&&command.use_src_rect,"Frames must use btn1Up without additional lines or geometric borders");
             area+=command.screen_rect.width()*command.screen_rect.height();
@@ -295,9 +295,10 @@ void check_dialogue_and_pause(SDL_Renderer* renderer){
     HudLabel states({900,172,340,40},0,ui::ui_raw_text("Up / Down"));render(states);
     PauseIconButton normal({970,232,64,64},[]{}),pressed({1120,232,64,64},[]{});render(normal);
     pointer.type=ui::UiInputEventType::PointerPressed;pointer.mouse_x=1152;pointer.mouse_y=264;pressed.on_ui_input_event(pointer);render(pressed);
-    HudPanel dialogue({24,474,1232,182}),portrait({38,486,156,156});render(dialogue);render(portrait);
-    ui::UiImage face(ELYSIA_RESOURCES->find_texture("fly.ui.faceJingya"),core::Rect{46,494,140,140});render(face);
-    ui::UiTextBlock line({212,492,1024,144});line.set_padding(8);line.set_style_overrides({.text=core::Color{16,46,77,255}});
+    const auto layout=FlightUiLayout::make(1280,720);
+    ui::UiImage dialogue(ELYSIA_RESOURCES->find_texture("fly.InGameUI.tutorialPanelHalf"),layout.dialogue);render(dialogue);
+    ui::UiImage face(ELYSIA_RESOURCES->find_texture("fly.ui.faceJingya"),layout.face);render(face);
+    ui::UiTextBlock line(layout.text);line.set_padding(8);line.set_style_overrides({.text=core::Color{16,46,77,255}});
     auto source=game::content::read("text/zh-Hans/strings.json").at("Level39-1").get<std::string>();source=std::regex_replace(source,std::regex("#c[0-9a-fA-F]{6}|#n"),"");line.set_text_content(ui::ui_raw_text(source));render(line);
     auto* preview=SDL_RenderReadPixels(renderer,nullptr);require(preview!=nullptr,SDL_GetError());const bool saved=SDL_SaveBMP(preview,"out/qa/dialogue-pause-assets-preview.bmp");SDL_DestroySurface(preview);require(saved,SDL_GetError());
 }
@@ -1558,6 +1559,7 @@ void save_mechanism_preview(SDL_Renderer* renderer) {
 }
 
 int main(int argc,char** argv) {
+    const bool flight_dialogue_only=argc==2&&std::string_view(argv[1])=="--flight-dialogue-only";
     const bool flight_hud_only=argc==2&&std::string_view(argv[1])=="--flight-hud-only";
     const bool level_music_only=argc==2&&std::string_view(argv[1])=="--level-music-only";
     const bool audio_only=argc==2&&std::string_view(argv[1])=="--audio-only";
@@ -1590,7 +1592,9 @@ int main(int argc,char** argv) {
             const auto deadline=SDL_GetTicks()+30000;
             while(loader.is_running()&&SDL_GetTicks()<deadline){loader.update();SDL_Delay(1);}
             require(loader.is_finished(),loader.failure()?loader.failure()->diagnostic.message:"Content load timed out");
-            if(flight_hud_only){
+            if(flight_dialogue_only){
+                game::testing::check_flight_ui(renderer,*registry,false,true);
+            }else if(flight_hud_only){
                 game::testing::check_flight_ui(renderer,*registry,true);
                 check_run_stats(renderer);
                 check_dialogue_and_pause(renderer);
@@ -1636,7 +1640,8 @@ int main(int argc,char** argv) {
             save_bomb_preview(renderer);
             }
         }
-        if(flight_hud_only)std::cout<<"PASS: compact flight HUD in all languages, long counters and pause interaction\n";
+        if(flight_dialogue_only)std::cout<<"PASS: original dialogue portrait, localized Skip, minimum time, pause and click routing in all languages\n";
+        else if(flight_hud_only)std::cout<<"PASS: compact flight HUD in all languages, long counters and pause interaction\n";
         else if(!level_music_only)std::cout<<"PASS: idle/mechanism/portal/bomb visuals, ordinary projectile gravity/arcs/terrain hits, homing motion preserved\n";
         result=0;
     } catch(const std::exception& error) {
