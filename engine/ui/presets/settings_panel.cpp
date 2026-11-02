@@ -782,7 +782,15 @@ void SettingsPanel::rebuild_language_options()
     std::vector<UiDropdownOption> options;
     options.reserve(_options.languages.size());
     for (const std::string& language : _options.languages)
-        options.push_back(UiDropdownOption{ language_content(language) });
+    {
+        UiDropdownOption option{ language_content(language) };
+        if (!elysia::localization::locale_key_segment(language).empty())
+        {
+            option.font_language_override = language;
+            option.font_source_override = elysia::typography::FontSource::EngineBuiltIn;
+        }
+        options.push_back(std::move(option));
+    }
     _language_dropdown->set_options(std::move(options));
 }
 

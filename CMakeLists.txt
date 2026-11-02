@@ -7,7 +7,7 @@ if(POLICY CMP0141)
         "$<IF:$<CONFIG:Debug>,Embedded,$<$<CONFIG:RelWithDebInfo>:ProgramDatabase>>")
 endif()
 
-project(FlyMe2TheMoon VERSION 1.1.0 LANGUAGES C CXX)
+project(FlyMe2TheMoon VERSION 1.1.1 LANGUAGES C CXX)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 if(ANDROID)
     set(BUILD_TESTING OFF CACHE BOOL "" FORCE)
