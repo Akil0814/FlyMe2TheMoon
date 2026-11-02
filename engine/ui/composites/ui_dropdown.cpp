@@ -14,6 +14,18 @@ using elysia::typography::UiTypographyRole;
 
 namespace
 {
+void apply_option_font(UiButton& button,const UiDropdownOption* option)
+{
+    if (option && option->font_language_override)
+        button.set_font_language_override(*option->font_language_override);
+    else
+        button.clear_font_language_override();
+    if (option && option->font_source_override)
+        button.set_font_source_override(*option->font_source_override);
+    else
+        button.clear_font_source_override();
+}
+
 [[nodiscard]] bool is_primary_mouse_press(const UiInputEvent& event) noexcept
 {
     return event.type == UiInputEventType::PointerPressed
@@ -382,6 +394,7 @@ void UiDropdown::rebuild_option_buttons()
     {
         auto button = std::make_unique<UiButton>(elysia::core::Rect{ 0,0,width,option_height });
         button->set_text_content(_options[index].content);
+        apply_option_font(*button,&_options[index]);
         button->set_typography_role(UiTypographyRole::Button);
         button->set_enabled(_options[index].enabled);
         button->set_on_click([this,index]()
@@ -406,6 +419,7 @@ void UiDropdown::sync_visual_state()
     _trigger.set_opacity(opacity());
     _trigger.set_enabled(is_enabled() && has_selection);
     _trigger.set_text_content(has_selection ? _options[*_selected_index].content : UiTextContent{});
+    apply_option_font(_trigger,has_selection ? &_options[*_selected_index] : nullptr);
     if (!_expanded)
         _trigger.set_focused(is_focused());
 }

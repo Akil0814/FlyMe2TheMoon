@@ -31,6 +31,7 @@ struct TextTextureCacheKey
 	std::uint64_t font_generation = 0;
 	elysia::core::Color color{};
 	int wrap_width = 0;
+	std::optional<std::string> font_language_override;
 
 	bool operator==(const TextTextureCacheKey& other) const;
 };

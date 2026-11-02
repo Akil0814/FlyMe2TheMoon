@@ -483,7 +483,7 @@ TTF_Font* LocalizationManager::resolve_text_font(
 
 	const auto resolved = _font_resolver->resolve_ui(
 		style.typography_role,
-		_current_language,
+		style.font_language_override ? *style.font_language_override : _current_language,
 		style.font_source_override);
 	if (!resolved)
 	{
