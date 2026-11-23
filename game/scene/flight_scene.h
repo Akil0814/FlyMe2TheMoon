@@ -26,6 +26,8 @@ struct FlightPayload {int level=1;bool restart=false;};
 class FlightScene final : public elysia::scene::Scene {
     friend class AudioTestAccess;
     friend class FlightUiTestAccess;
+    friend class PortalTestAccess;
+    friend class ProjectileTestAccess;
 public:
     FlightScene();
     ~FlightScene() override;
@@ -63,6 +65,7 @@ private:
     void restore_player();
     void begin_moon(play::Vec center);
     void begin_portal(play::Entity& source,play::Entity& destination);
+    play::Entity* find_portal_destination(int target) const;
     void update_transition(double delta);
     double move_camera(play::Vec destination);
     void apply_pointer(play::Vec point);
@@ -102,6 +105,7 @@ private:
     play::Vec _wind_force{};
     bool _laser_hit=false;
     std::vector<play::Projectile*> _projectiles;
+    std::vector<play::ProjectileBurst*> _projectile_bursts;
     int _shots_fired=0,_homing_fired=0;
     int _deaths=0;
     std::string _failure_reason,_pending_failure;

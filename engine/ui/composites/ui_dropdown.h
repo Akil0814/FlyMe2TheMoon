@@ -34,6 +34,8 @@ struct UiDropdownOption
 {
     UiTextContent content{};
     bool enabled = true;
+    std::optional<std::string> font_language_override;
+    std::optional<elysia::typography::FontSource> font_source_override;
 };
 
 using UiDropdownSelectionChangedCallback = std::function<void(std::size_t selected_index)>;

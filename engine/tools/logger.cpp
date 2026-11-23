@@ -144,10 +144,10 @@ bool Logger::configure(const LoggerConfig& config) noexcept
 {
     try
     {
-        if (config.file_mode == LogFileMode::Append)
+        if (config.file_mode == LogFileMode::Overwrite)
         {
-            const std::filesystem::path append_name(config.append_file_name);
-            if (append_name.empty() || append_name.is_absolute() || append_name.has_parent_path())
+            const std::filesystem::path overwrite_name(config.overwrite_file_name);
+            if (overwrite_name.empty() || overwrite_name.is_absolute() || overwrite_name.has_parent_path())
                 return false;
         }
         std::lock_guard lock(_mutex);
@@ -206,12 +206,10 @@ void Logger::initialize_file() noexcept
         if (!path_manager || !path_manager->is_initialized())
             return;
 
-        const std::filesystem::path path = _config.file_mode == LogFileMode::Append
-            ? path_manager->logs() / _config.append_file_name
+        const std::filesystem::path path = _config.file_mode == LogFileMode::Overwrite
+            ? path_manager->logs() / _config.overwrite_file_name
             : new_run_file_path();
-        const std::ios::openmode mode = _config.file_mode == LogFileMode::Append
-            ? std::ios::out | std::ios::app
-            : std::ios::out;
+        const std::ios::openmode mode = std::ios::out | std::ios::trunc;
         _file.clear();
         _file.open(path,mode);
         if (!_file.is_open())

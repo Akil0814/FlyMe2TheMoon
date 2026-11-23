@@ -13,6 +13,7 @@ def main():
     parser.add_argument('--site-root', type=Path, default=Path(r'G:\Coding\Projects\Akil0814.github.io'))
     parser.add_argument('--port', type=int, default=8765)
     parser.add_argument('--host', default='127.0.0.1')
+    parser.add_argument('--deployed', action='store_true', help='Preview the currently deployed packages instead of local builds')
     parser.add_argument('--fail-package', action='store_true', help='Local QA only: return 404 for the first data package')
     parser.add_argument('--disable-storage', action='store_true', help='Local QA only: simulate unavailable IndexedDB')
     args = parser.parse_args()
@@ -21,10 +22,12 @@ def main():
     class Handler(SimpleHTTPRequestHandler):
         def translate_path(self, path):
             route = unquote(urlsplit(path).path)
-            if route.startswith(prefix + 'runtime-portrait/'):
+            if args.deployed and route.startswith(prefix):
+                base, suffix = site / 'projects/FlyMe2TheMoon/web', route[len(prefix):] or 'index.html'
+            elif route.startswith(prefix + 'runtime-portrait/'):
                 base, suffix = ROOT / 'out/web-portrait/runtime', route[len(prefix + 'runtime-portrait/'):]
             elif route.startswith(prefix + 'runtime/'):
-                base, suffix = site / 'projects/FlyMe2TheMoon/web/runtime', route[len(prefix + 'runtime/'):]
+                base, suffix = ROOT / 'out/web/runtime', route[len(prefix + 'runtime/'):]
             elif route.startswith(prefix):
                 base, suffix = ROOT / 'game/platform/web', route[len(prefix):] or 'index.html'
             elif route in [f'/i18n/{lang}/flyme2themoon_web.json' for lang in ['en', 'zh', 'ja']]:
