@@ -1,4 +1,5 @@
 #include "moon_ui.h"
+#include "result_star_effects.h"
 #include "game/audio/game_audio.h"
 #include "engine/resources/resource_service.h"
 #include "game/content/content.h"
@@ -41,6 +42,10 @@ void draw_glass_button(const ui::UiButton& button,std::vector<core::UiRenderComm
     button.ui::UiButton::submit_ui_render_commands(out);
 }
 }
+void StarRating::present_result(int count,double elapsed){
+    _result_count=std::clamp(count,0,3);_result_elapsed=std::max(0.,elapsed);_collected=0;
+    while(_collected<_result_count&&_result_elapsed+1e-9>=_collected*result_star_interval+result_star_reveal_delay)++_collected;
+}
 core::Rect StarRating::slot_rect(int index)const{
     const auto r=screen_rect();const float gap=r.height()*.1875f;
     const float side=std::min(r.height(),(r.width()-gap*2)/3);
@@ -53,6 +58,8 @@ void StarRating::submit_ui_render_commands(std::vector<core::UiRenderCommand>& o
         auto* star=ELYSIA_RESOURCES->find_texture(index<_collected?"fly.InGameUI.starDown":"fly.InGameUI.starUp");
         image(out,star,slot_rect(index));
     }
+    for(int index=0;index<_result_count;++index)
+        submit_result_star_particles(out,slot_rect(index),_result_elapsed-index*result_star_interval,index);
 }
 HudLabel::HudLabel(core::Rect rect,int order,ui::UiTextContent text):UiLabel(rect,order,std::move(text)){
     set_typography_role(typography::UiTypographyRole::ButtonCompact);

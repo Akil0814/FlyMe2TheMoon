@@ -1,6 +1,7 @@
 #include "flight_scene.h"
 #include "selection_scene.h"
 #include "credits_scene.h"
+#include "game/frontend/result_star_effects.h"
 #include "game/progress/progress.h"
 #include "game/progress/scoring.h"
 #include "engine/ui/containers/ui_list_container.h"
@@ -93,6 +94,7 @@ void FlightScene::show_result(bool saved,bool new_record){
     _result_stars->set_collected(_success?0:_stars);
     const int score=_success?progress::original_score(_level,_stars,_crystals,_elapsed,content::catalog().at("score").at("svrs")):0;
     _result_animation_time=0;_result_tick_time=0;_result_animation_stars=0;_result_score=score;_result_display_score=0;
+    if(_success)_result_stars->present_result(_stars,0);
     _result_new_record=saved&&new_record;_result_animation_done=!_success;
     _result_stats->set_text_content(ui::ui_raw_text(content::format("result_score",0)));
     _result_metrics->set_values(_elapsed,large_crystal_count(),small_crystal_count());
@@ -116,10 +118,11 @@ void FlightScene::continue_from_result(){
 void FlightScene::update_result_animation(double delta){
     if(!_finished||_result_animation_done)return;
     _result_animation_time+=std::max(0.,delta);
-    while(_result_animation_stars<_stars&&_result_animation_time>=_result_animation_stars*.5){
-        ++_result_animation_stars;_result_stars->set_collected(_result_animation_stars);
+    while(_result_animation_stars<_stars&&_result_animation_time+1e-9>=_result_animation_stars*frontend::result_star_interval){
+        ++_result_animation_stars;
         _audio.play("106-"+std::to_string(_result_animation_stars),1,true);
     }
+    _result_stars->present_result(_stars,_result_animation_time);
     const double score_time=std::max(0.,_result_animation_time-_stars*.5-1);
     while(_result_tick_time+1./60.<=score_time&&_result_display_score<_result_score){
         _result_tick_time+=1./60.;

@@ -5,6 +5,10 @@
 #include <cstdlib>
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
+#include "game/platform/web_input.h"
+
+extern "C" EMSCRIPTEN_KEEPALIVE void fly_web_cancel_pointer(){game::platform::cancel_web_pointer();}
+extern "C" EMSCRIPTEN_KEEPALIVE void fly_web_request_pause(){fly_web_cancel_pointer();game::platform::request_web_pause();}
 
 namespace {
 void web_frame(void* context)
@@ -33,6 +37,8 @@ int main(int argc, char** argv)
 		static game::application::GameModule game_module;
 #ifdef __EMSCRIPTEN__
         SDL_SetHint(SDL_HINT_EMSCRIPTEN_KEYBOARD_ELEMENT, "#canvas");
+        SDL_SetHint(SDL_HINT_TOUCH_MOUSE_EVENTS,"1");
+        SDL_SetHint(SDL_HINT_MOUSE_TOUCH_EVENTS,"0");
 #endif
 		if (!ELYSIA_INITIALIZE_APP(argc, argv, game_module))
         {

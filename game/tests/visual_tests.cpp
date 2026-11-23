@@ -46,12 +46,17 @@ public:
     static void enter(Scene& scene,const ScenePayload& payload={}){scene.lifecycle_enter(payload);}
     static void exit(Scene& scene){scene.lifecycle_exit();}
     static void update(Scene& scene,double delta){scene.lifecycle_update(delta);}
+    static void input(Scene& scene,const input::InputSnapshot& snapshot){scene.lifecycle_input(snapshot);}
+    static void render(Scene& scene,SDL_Renderer* renderer){scene.lifecycle_render(renderer);}
     static ui::UiWindow& window(Scene& scene){return dynamic_cast<ui::UiWindow&>(*scene._ui_roots.at(0));}
 };
 }
 
 #include "game/progress/progress.h"
 #include "game/tests/audio_scene_checks.h"
+#include "game/tests/portal_scene_checks.h"
+#include "game/tests/web_input_checks.h"
+#include "game/tests/projectile_burst_checks.h"
 
 namespace {
 using namespace elysia;
@@ -252,9 +257,9 @@ void check_run_stats(SDL_Renderer* renderer){
 void check_dialogue_and_pause(SDL_Renderer* renderer){
     using namespace game::frontend;
     auto* plate=ELYSIA_RESOURCES->find_texture("fly.InGameUI.btn1Up");
-    for(const auto size:{core::Vector2{1232,182},core::Vector2{156,156},core::Vector2{680,560}}){
+    for(const auto size:{core::Vector2{1232,182},core::Vector2{680,560}}){
         HudPanel panel({24,40,size.x,size.y});std::vector<core::UiRenderCommand> drawn;panel.submit_ui_render_commands(drawn);
-        require(drawn.size()==9,"Dialogue, portrait and modal frames must use nine-slice panels");
+        require(drawn.size()==9,"Dialogue and modal frames must use nine-slice panels");
         float area=0;for(const auto& command:drawn){
             require(command.type==core::UiRenderCommandType::Texture&&command.texture==plate&&command.use_src_rect,"Frames must use btn1Up without additional lines or geometric borders");
             area+=command.screen_rect.width()*command.screen_rect.height();
@@ -288,8 +293,11 @@ void check_dialogue_and_pause(SDL_Renderer* renderer){
     HudLabel states({900,172,340,40},0,ui::ui_raw_text("Up / Down"));render(states);
     PauseIconButton normal({970,232,64,64},[]{}),pressed({1120,232,64,64},[]{});render(normal);
     pointer.type=ui::UiInputEventType::PointerPressed;pointer.mouse_x=1152;pointer.mouse_y=264;pressed.on_ui_input_event(pointer);render(pressed);
-    HudPanel dialogue({24,474,1232,182}),portrait({38,486,156,156});render(dialogue);render(portrait);
-    ui::UiImage face(ELYSIA_RESOURCES->find_texture("fly.ui.faceJingya"),core::Rect{46,494,140,140});render(face);
+    HudPanel dialogue({24,474,1232,182});render(dialogue);
+    auto* portrait=ELYSIA_RESOURCES->find_texture("fly.ui.faceJingya");float portrait_width=0,portrait_height=0;
+    require(SDL_GetTextureSize(portrait,&portrait_width,&portrait_height)&&portrait_width>0&&portrait_height>0,"Portrait preview texture unavailable");
+    const float portrait_scale=std::min(172.f/portrait_width,216.f/portrait_height);
+    ui::UiImage face(portrait,core::Rect{118-portrait_width*portrait_scale/2,648-portrait_height*portrait_scale,portrait_width*portrait_scale,portrait_height*portrait_scale});render(face);
     ui::UiTextBlock line({212,492,1024,144});line.set_padding(8);line.set_style_overrides({.text=core::Color{16,46,77,255}});
     auto source=game::content::read("text/zh-Hans/strings.json").at("Level39-1").get<std::string>();source=std::regex_replace(source,std::regex("#c[0-9a-fA-F]{6}|#n"),"");line.set_text_content(ui::ui_raw_text(source));render(line);
     auto* preview=SDL_RenderReadPixels(renderer,nullptr);require(preview!=nullptr,SDL_GetError());const bool saved=SDL_SaveBMP(preview,"out/qa/dialogue-pause-assets-preview.bmp");SDL_DestroySurface(preview);require(saved,SDL_GetError());
@@ -457,6 +465,46 @@ void check_pickups_and_moon() {
                 "Pickup/moon is cycling between normal and effect images: kind "+std::to_string(kind));
         }
     }
+}
+void check_result_star_effects(SDL_Renderer* renderer){
+    using game::frontend::StarRating;
+    StarRating stars({532,234,216,64});
+    const auto drawn=[&]{std::vector<core::UiRenderCommand> out;stars.submit_ui_render_commands(out);return out;};
+    auto* empty=ELYSIA_RESOURCES->find_texture("fly.InGameUI.starUp");
+    auto* full=ELYSIA_RESOURCES->find_texture("fly.InGameUI.starDown");
+    auto* spark=ELYSIA_RESOURCES->find_texture("fly.result_star_particles");
+    require(spark!=nullptr,"Original result particle texture is unregistered");
+    stars.present_result(3,.1);const auto before=drawn();
+    require(stars.collected()==0&&before.size()>3&&before[0].texture==empty,"Result particles must precede the first bright star");
+    for(std::size_t i=0;i<before.size();++i){
+        require(before[i].rotation_degrees==0,"Settlement must not rotate stars or particle sprites");
+        if(i<3)require(before[i].screen_rect==stars.slot_rect(static_cast<int>(i)),"Settlement must not move or scale the star slots");
+        else require(before[i].texture==spark&&before[i].texture_color_modulation.has_value(),"Settlement must use its own grayscale texture and lifetime color");
+    }
+    SDL_BlendMode blend{};require(SDL_GetTextureBlendMode(spark,&blend)&&blend==SDL_BLENDMODE_ADD,"Original zero-alpha premultiplied star particles must add their RGB");
+    require(drawn().size()==before.size()&&drawn().back().screen_rect==before.back().screen_rect,"Redrawing settlement must not advance or randomize particles");
+    stars.present_result(3,.199);require(stars.collected()==0,"Bright star appeared too early");
+    stars.present_result(3,.2);require(stars.collected()==1&&drawn()[0].texture==full,"First star must light at 0.2 seconds");
+    stars.present_result(3,.6);require(stars.collected()==1&&drawn().size()>3,"Second particle burst must precede its own bright star");
+    stars.present_result(3,.7);require(stars.collected()==2,"Second star must light at 0.7 seconds");
+    stars.present_result(3,1.2);require(stars.collected()==3,"Third star must light at 1.2 seconds");
+    stars.present_result(3,1.9);require(drawn().size()==3,"All particles must expire after their finite emission and life");
+    stars.present_result(1,.95);require(stars.collected()==1&&drawn().size()==3,"Uncollected stars must not emit settlement particles");
+    stars.present_result(0,.1);require(drawn().size()==3&&stars.collected()==0,"Zero-star settlement must have no bursts");
+    stars.present_result(3,.1);stars.set_collected(2);require(drawn().size()==3&&stars.collected()==2,"Static/failure/skip displays must clear particle presentation");
+
+    require(SDL_SetRenderDrawColor(renderer,12,20,35,255)&&SDL_RenderClear(renderer),SDL_GetError());
+    const auto render=[&](const ui::UiElement& element){std::vector<core::UiRenderCommand> out;element.submit_ui_render_commands(out);for(const auto& c:out)core::require_render_success(core::execute_render_command(renderer,c));};
+    const std::array<double,9> times{{0,.1,.199,.2,.6,.7,1.1,1.2,1.9}};
+    for(int i=0;i<9;++i){
+        const float x=(i%3)*426.f,y=(i/3)*240.f;
+        game::frontend::HudPanel panel({x+12,y+12,402,216});render(panel);
+        game::frontend::HudLabel label({x+40,y+28,346,40},0,ui::ui_raw_text(std::format("{:.3f} s",times[i])));render(label);
+        StarRating sample({x+105,y+106,216,64});sample.present_result(3,times[i]);render(sample);
+    }
+    auto* preview=SDL_RenderReadPixels(renderer,nullptr);require(preview!=nullptr,SDL_GetError());
+    std::filesystem::create_directories("out/qa");
+    const bool saved=SDL_SaveBMP(preview,"out/qa/result-star-effects-preview.bmp");SDL_DestroySurface(preview);require(saved,SDL_GetError());
 }
 void check_pickup_effects(SDL_Renderer* renderer){
     const auto level=game::content::level(1);
@@ -1329,6 +1377,9 @@ void save_mechanism_preview(SDL_Renderer* renderer) {
 int main(int argc,char** argv) {
     const bool level_music_only=argc==2&&std::string_view(argv[1])=="--level-music-only";
     const bool audio_only=argc==2&&std::string_view(argv[1])=="--audio-only";
+    const bool web_input_only=argc==2&&std::string_view(argv[1])=="--web-input-only";
+    const bool portal_only=argc==2&&std::string_view(argv[1])=="--portal-only";
+    const bool projectile_only=argc==2&&std::string_view(argv[1])=="--projectile-only";
     typography::FontResolver font_resolver;
     SDL_Surface* surface=nullptr;
     SDL_Renderer* renderer=nullptr;
@@ -1358,7 +1409,14 @@ int main(int argc,char** argv) {
             const auto deadline=SDL_GetTicks()+30000;
             while(loader.is_running()&&SDL_GetTicks()<deadline){loader.update();SDL_Delay(1);}
             require(loader.is_finished(),loader.failure()?loader.failure()->diagnostic.message:"Content load timed out");
-            if(audio_only){
+            if(web_input_only){
+                game::testing::check_web_input(renderer,*registry);
+            }else if(projectile_only){
+                check_projectile(false);check_projectile(true);check_projectile_gravity();
+                game::testing::check_projectile_bursts(renderer,*registry);
+            }else if(portal_only){
+                game::testing::check_portal_links(renderer,*registry);
+            }else if(audio_only){
                 game::testing::check_scene_audio(renderer,*registry);
                 check_frontend_music(renderer,*registry);
             }else if(level_music_only){
@@ -1372,6 +1430,7 @@ int main(int argc,char** argv) {
             check_dialogue_and_pause(renderer);
             check_pickups_and_moon();
             check_pickup_effects(renderer);
+            check_result_star_effects(renderer);
             check_driven_rotor_pause();
             check_role_effects(renderer);
             check_thrust_particles(renderer);
@@ -1397,7 +1456,7 @@ int main(int argc,char** argv) {
             save_bomb_preview(renderer);
             }
         }
-        if(!level_music_only)std::cout<<"PASS: idle/mechanism/portal/bomb visuals, ordinary projectile gravity/arcs/terrain hits, homing motion preserved\n";
+        if(!level_music_only&&!portal_only&&!projectile_only&&!web_input_only)std::cout<<"PASS: idle/mechanism/portal/bomb visuals, ordinary projectile gravity/arcs/terrain hits, homing motion preserved\n";
         result=0;
     } catch(const std::exception& error) {
         std::cerr<<"FAIL: "<<error.what()<<'\n';

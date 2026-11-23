@@ -1,4 +1,4 @@
-"""Build and package the full desktop-browser edition; never commits or pushes."""
+"""Build this branch's browser edition; never commits or pushes."""
 import argparse
 import hashlib
 import json
@@ -32,6 +32,10 @@ def main():
     version = (em / 'emscripten-version.txt').read_text().strip().strip('"')
     game_version = re.search(r'project\(FlyMe2TheMoon\s+VERSION\s+(\d+\.\d+\.\d+)',
                              (ROOT / 'CMakeLists.txt').read_text(encoding='utf8'))[1]
+    descriptor = (ROOT / 'game/application/game_module.cpp').read_text(encoding='utf8')
+    width = int(re.search(r'descriptor.logical_width\s*=\s*(\d+)', descriptor)[1])
+    height = int(re.search(r'descriptor.logical_height\s*=\s*(\d+)', descriptor)[1])
+    mode, edition = {(1280, 720): ('landscape', 'web'), (640, 960): ('portrait', 'web-portrait')}[(width, height)]
     if version != '5.0.6':
         raise RuntimeError('This build is pinned to Emscripten 5.0.6, found ' + version)
     env = os.environ.copy()
@@ -44,7 +48,7 @@ def main():
     env['EM_CACHE'] = str(ROOT / 'out/web-cache')
     env['PATH'] = os.pathsep.join([str(Path(args.cmake).parent), str(Path(args.ninja).parent),
                                   str(em), env.get('PATH', '')])
-    build = ROOT / 'out/build/web'
+    build = ROOT / 'out/build' / edition
     def run(command, **kwargs):
         subprocess.run([str(x) for x in command], cwd=ROOT, env=env, check=True, **kwargs)
     if not args.package_only:
@@ -53,7 +57,7 @@ def main():
              '-DCMAKE_BUILD_TYPE=Release', '-DBUILD_TESTING=OFF',
              '-DELYSIA_ENABLE_IMGUI=OFF', '-DELYSIA_ENABLE_ASAN=OFF'])
         run([args.cmake, '--build', build, '--target', 'FlyMe2TheMoon', '-j', args.jobs])
-    output = ROOT / 'out/web'
+    output = ROOT / 'out' / edition
     runtime = output / 'runtime'
     runtime.mkdir(parents=True, exist_ok=True)
     for name in ['FlyMe2TheMoon.js', 'FlyMe2TheMoon.wasm']:
@@ -90,7 +94,8 @@ def main():
     managed += [name for package in packages for name in [package['script'], package['data']]]
     entries = {name: {'bytes': (runtime / name).stat().st_size, 'sha256': sha(runtime / name)} for name in managed}
     build_id = hashlib.sha256(json.dumps(entries, sort_keys=True).encode()).hexdigest()[:16]
-    manifest = {'version': 1, 'gameVersion': game_version, 'buildId': build_id, 'emscripten': version, 'sourceRevision': source,
+    manifest = {'version': 1, 'gameVersion': game_version, 'displayMode': mode,
+                'logicalWidth': width, 'logicalHeight': height, 'buildId': build_id, 'emscripten': version, 'sourceRevision': source,
                 'sourceHasLocalChanges': dirty, 'runtime': 'FlyMe2TheMoon.js', 'packages': packages,
                 'downloadBytes': sum(v['bytes'] for k, v in entries.items() if k != 'asset-manifest.json'),
                 'assetBytes': sum(p.stat().st_size for p in files), 'assetCount': len(files), 'files': entries}

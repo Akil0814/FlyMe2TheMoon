@@ -4,12 +4,12 @@
 .demo-stage__top { display:flex; justify-content:space-between; align-items:center; gap:16px; padding:18px 20px; border-bottom:1px solid var(--line); }
 .demo-stage__title { margin:0; font-size:20px; }
 .demo-stage__status { padding:8px 12px; border:1px solid var(--line); border-radius:999px; font-size:12px; }
-.game-viewport { position:relative; aspect-ratio:16/9; background:#060b18; }
+.game-viewport { --game-ratio:1.7777777778; --game-inverse:.5625; position:relative; aspect-ratio:var(--game-ratio); background:#060b18; }
 #canvas { display:block; width:100%; height:100%; outline:none; object-fit:contain; }
 #canvas:focus-visible { outline:2px solid #a4cbff; outline-offset:-2px; }
 /* Fullscreen the host, not the SDL canvas: its drawing buffer must stay stable. */
 .game-viewport:fullscreen { width:100vw; height:100vh; aspect-ratio:auto; display:flex; align-items:center; justify-content:center; background:#060b18; }
-.game-viewport:fullscreen #canvas { flex:none; width:min(100vw, calc(100vh * 16 / 9)); height:min(100vh, calc(100vw * 9 / 16)); }
+.game-viewport:fullscreen #canvas { flex:none; width:min(100vw, calc(100vh * var(--game-ratio))); height:min(100vh, calc(100vw * var(--game-inverse))); }
 .game-viewport::backdrop { background:#060b18; }
 .game-fullscreen-exit { position:absolute; top:12px; right:12px; z-index:2; background:#101b31; color:#fff; border:1px solid #8da9ce; }
 #gameCover { position:absolute; inset:0; display:grid; place-content:center; text-align:center; padding:28px; color:var(--muted); background:radial-gradient(ellipse at top,rgba(124,77,255,.18),transparent 70%); }
@@ -22,3 +22,26 @@
 .btn:disabled { opacity:.55; cursor:default; }
 [hidden] { display:none !important; }
 @media(max-width:820px) { .demo-stage__top { flex-direction:column; align-items:flex-start; } }
+.portrait-game .game-viewport { max-width:500px; margin-inline:auto; }
+#mobileToolbar { display:none; }
+#canvas { touch-action:none; -webkit-user-select:none; user-select:none; -webkit-touch-callout:none; }
+.portrait-focused { overflow:hidden; overscroll-behavior:none; }
+.portrait-focused > .nav,.portrait-focused > .footer,.portrait-focused .project-intro { visibility:hidden; }
+.portrait-focused .game-viewport,.portrait-game .game-viewport:fullscreen {
+  position:fixed; inset:0; z-index:2000; max-width:none; margin:0; border:0; width:100vw; height:100dvh; aspect-ratio:auto;
+  display:flex; align-items:center; justify-content:center; box-sizing:border-box;
+  padding:calc(56px + env(safe-area-inset-top,0px)) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px);
+}
+.portrait-focused #canvas,.portrait-game .game-viewport:fullscreen #canvas {
+  flex:none; width:min(calc(100vw - env(safe-area-inset-left,0px) - env(safe-area-inset-right,0px)),calc((100dvh - 56px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px)) * var(--game-ratio)));
+  height:auto; aspect-ratio:var(--game-ratio);
+}
+.portrait-focused #mobileToolbar,.portrait-game .game-viewport:fullscreen #mobileToolbar {
+  position:absolute; top:env(safe-area-inset-top,0px); left:env(safe-area-inset-left,0px); right:env(safe-area-inset-right,0px); height:56px;
+  display:flex; align-items:center; justify-content:space-between; gap:8px; padding:0 8px; box-sizing:border-box; z-index:3;
+}
+#mobileToolbar button { min-width:72px; min-height:44px; padding:8px 12px; background:#152743; color:#eefaff; font-size:14px; }
+#mobileStorageWarning { color:#ffcf87; font-size:12px; text-align:center; }
+.portrait-focused #exitFullscreen,.portrait-game .game-viewport:fullscreen #exitFullscreen { display:none; }
+.portrait-focused #gameCover { top:56px; }
+.game-toolbar select,.game-toolbar button { min-height:44px; }

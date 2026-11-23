@@ -2,7 +2,7 @@
 <html lang="en" data-i18n-page="flyme2themoon_web" data-i18n-base="../../..">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#0b1020" />
   <link rel="icon" type="image/png" sizes="32x32" href="../../../icon/Akil_icon_32.png" />
   <link rel="icon" type="image/png" sizes="128x128" href="../../../icon/Akil_icon_128.png" />
@@ -20,7 +20,7 @@
   <link rel="stylesheet" href="../../../css/layout.css">
   <link rel="stylesheet" href="../../_shared/project_page.css?v=20260530a">
 
-  <link rel="stylesheet" href="./flyme2themoon_web.css?v=1.0.1">
+  <link rel="stylesheet" href="./flyme2themoon_web.css?v=web112">
 </head>
 <body>
   <header class="nav">
@@ -61,34 +61,48 @@
           <span id="status" role="status" aria-live="polite" class="demo-stage__status">Ready to download</span>
         </div>
         <div id="gameViewport" class="game-viewport">
+          <div id="mobileToolbar" hidden>
+            <button id="leaveGame" class="btn" type="button" data-i18n="flyme2themoon_web.actions.leave_game">Back to Page</button>
+            <span id="mobileStorageWarning" role="status" hidden></span>
+            <button id="mobileFullscreen" class="btn" type="button" data-i18n="flyme2themoon_web.actions.fullscreen" disabled>Fullscreen</button>
+          </div>
           <canvas id="canvas" width="1280" height="720" tabindex="0" aria-label="FlyMe2TheMoon game" hidden></canvas>
           <button id="exitFullscreen" class="btn game-fullscreen-exit" type="button" data-i18n="flyme2themoon_web.actions.exit_fullscreen" hidden>Exit Fullscreen</button>
           <div id="gameCover"><p data-i18n="flyme2themoon_web.runtime.cover">Ready for the moon? Start the full game below.</p></div>
         </div>
         <div class="game-toolbar">
+          <label for="displayMode" data-i18n="flyme2themoon_web.runtime.display_mode">Version</label>
+          <select id="displayMode" class="lang-select">
+            <option value="landscape" data-i18n="flyme2themoon_web.actions.landscape">Landscape · keyboard / gamepad</option>
+            <option value="portrait" data-i18n="flyme2themoon_web.actions.portrait">Portrait · touch</option>
+          </select>
           <button id="startGame" class="btn" type="button" data-i18n="flyme2themoon_web.actions.start" disabled>Start Game</button>
+          <button id="resumeGame" class="btn" type="button" data-i18n="flyme2themoon_web.actions.resume_game" hidden>Continue Game</button>
           <button id="fullscreenGame" class="btn" type="button" data-i18n="flyme2themoon_web.actions.fullscreen" aria-pressed="false" disabled>Fullscreen</button>
+          <button id="switchGame" class="btn" type="button" data-i18n="flyme2themoon_web.actions.switch_version" hidden>Switch Version</button>
           <button id="reloadGame" class="btn" type="button" data-i18n="flyme2themoon_web.actions.reload" hidden>Reload</button>
         </div>
         <div class="game-details">
           <progress id="downloadProgress" aria-label="Download progress" hidden></progress>
-          <p id="gameVersion">v1.0.1</p>
+          <p id="gameVersion">v1.1.2</p>
           <p id="downloadDetail"></p>
           <p id="storageStatus" role="status" hidden></p>
           <p data-i18n="flyme2themoon_web.runtime.controls">Click the game to focus. Space / W / Up: thrust; A / D: steer. Hold the mouse below the character to fly. P: pause; R: retry; Esc: back. Supported gamepads can also be used.</p>
           <p data-i18n="flyme2themoon_web.runtime.note">Desktop browsers with WebGL 2 are required. Click the game or press a key to enable audio. Saves belong to this browser and website; clearing site data removes them.</p>
-          <a href="./runtime/THIRD_PARTY_NOTICES.md" data-i18n="flyme2themoon_web.actions.notices">Third-party notices</a>
+          <a id="gameNotices" href="./runtime/THIRD_PARTY_NOTICES.md" data-i18n="flyme2themoon_web.actions.notices">Third-party notices</a>
         </div>
       </article>
     </section>
   </main>
 
   <footer class="footer">
+    <p class="mono"><span data-i18n="flyme2themoon_web.footer.visitors">Total page visitors:</span> <span id="busuanzi_page_uv">&mdash;</span></p>
     <p><span class="mono">&copy; <span id="year"></span> Akil</span> <span class="dot">&middot;</span> <span class="mono" data-i18n="flyme2themoon_web.footer.page">FlyMe2TheMoon Web Demo</span></p>
   </footer>
 
   <script src="../../../assets/js/i18n.js"></script>
   <script src="../../_shared/project_page.js?v=20260228"></script>
-  <script src="./flyme2themoon_web.js?v=1.0.1"></script>
+  <script src="./platform.js?v=web112"></script>
+  <script src="./flyme2themoon_web.js?v=web112"></script>
 </body>
 </html>

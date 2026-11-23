@@ -148,6 +148,10 @@ public:
     [[nodiscard]] std::optional<elysia::typography::FontSource>
         font_source_override() const noexcept;
 
+    void set_font_language_override(std::string language);
+    void clear_font_language_override() noexcept;
+    [[nodiscard]] const std::optional<std::string>& font_language_override() const noexcept;
+
     void set_padding(int padding);
     [[nodiscard]] int padding() const noexcept;
 
@@ -190,6 +194,7 @@ private:
     elysia::typography::UiTypographyRole _typography_role =
         elysia::typography::UiTypographyRole::Button;
     std::optional<elysia::typography::FontSource> _font_source_override;
+    std::optional<std::string> _font_language_override;
 
     int _padding = 5;
     bool _is_pushed = false;

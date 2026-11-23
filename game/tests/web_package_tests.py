@@ -5,12 +5,17 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-runtime = ROOT / 'out/web/runtime'
+descriptor = (ROOT / 'game/application/game_module.cpp').read_text(encoding='utf8')
+width = int(re.search(r'descriptor.logical_width\s*=\s*(\d+)', descriptor)[1])
+height = int(re.search(r'descriptor.logical_height\s*=\s*(\d+)', descriptor)[1])
+mode, edition = {(1280,720): ('landscape','web'), (640,960): ('portrait','web-portrait')}[(width,height)]
+runtime = ROOT / 'out' / edition / 'runtime'
 manifest = json.loads((runtime / 'manifest.json').read_text())
 assets = json.loads((runtime / 'asset-manifest.json').read_text())
 expected_version = re.search(r'project\(FlyMe2TheMoon\s+VERSION\s+(\d+\.\d+\.\d+)',
                              (ROOT / 'CMakeLists.txt').read_text(encoding='utf8'))[1]
 assert manifest['version'] == 1 and manifest['gameVersion'] == expected_version
+assert (manifest['displayMode'],manifest['logicalWidth'],manifest['logicalHeight']) == (mode,width,height)
 seen = set()
 for package in manifest['packages']:
     data = (runtime / package['data']).read_bytes()

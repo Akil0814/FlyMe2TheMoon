@@ -25,6 +25,7 @@ bool TextTextureCacheKey::operator==(const TextTextureCacheKey& other) const
 		&& is_raw_text == other.is_raw_text
 		&& typography_role == other.typography_role
 		&& font_source_override == other.font_source_override
+		&& font_language_override == other.font_language_override
 		&& font_generation == other.font_generation
 		&& wrap_width == other.wrap_width
 		&& color == other.color;
@@ -42,6 +43,7 @@ size_t TextTextureCacheKeyHash::operator()(const TextTextureCacheKey& key) const
 			? static_cast<int>(*key.font_source_override)
 			: -1));
 	hash_combine(seed, std::hash<std::uint64_t>{}(key.font_generation));
+	hash_combine(seed, std::hash<std::optional<std::string>>{}(key.font_language_override));
 	hash_combine(seed, std::hash<int>{}(key.wrap_width));
 	hash_combine(seed, std::hash<unsigned int>{}(key.color.r));
 	hash_combine(seed, std::hash<unsigned int>{}(key.color.g));
@@ -62,6 +64,7 @@ SDL_Texture* TextTextureCache::get_or_create(
 	key.language = language;
 	key.translation_key = std::string(translation_key);
 	key.is_raw_text = false;
+	key.font_language_override = style.font_language_override;
 	key.typography_role = style.typography_role;
 	key.font_source_override = style.font_source_override;
 	key.font_generation = font_generation;
@@ -96,6 +99,7 @@ SDL_Texture* TextTextureCache::get_or_create_raw(
 	key.language = language;
 	key.translation_key = std::string(raw_text);
 	key.is_raw_text = true;
+	key.font_language_override = style.font_language_override;
 	key.typography_role = style.typography_role;
 	key.font_source_override = style.font_source_override;
 	key.font_generation = font_generation;

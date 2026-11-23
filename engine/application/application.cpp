@@ -439,10 +439,15 @@ bool Application::initialize_runtime(
 
 
 
+#ifdef __EMSCRIPTEN__
+    _window = SDL_CreateWindow(settings.window_title.c_str(), descriptor.logical_width, descriptor.logical_height, 0);
+#else
     _window = SDL_CreateWindow(settings.window_title.c_str(), user_settings.window.windowed_size.width, user_settings.window.windowed_size.height, 0);
+#endif
     if (!check_startup_step(_window != nullptr,"platform","SDL_CreateWindow Error"))
         return false;
 
+#ifndef __EMSCRIPTEN__
     const auto startup_window = detail::apply_startup_window_settings(
         user_settings.window,detail::make_sdl_window_operations(_window));
     if (!startup_window)
@@ -452,6 +457,7 @@ bool Application::initialize_runtime(
         elysia::tools::Logger::instance()->warn("application",elysia::core::format_failure_diagnostic(
             **startup_window,"STARTUP-WINDOW","platform"),(**startup_window).origin);
 
+#endif
 #ifdef __EMSCRIPTEN__
     // SDL_GPU has no browser backend. SDL's GLES renderer targets WebGL instead.
     _renderer = SDL_CreateRenderer(_window,"opengles2");
@@ -460,9 +466,18 @@ bool Application::initialize_runtime(
     ELYSIA_LOG("application","SDL3 WebGL renderer: " << SDL_GetRendererName(_renderer));
 #else
     _renderer = SDL_CreateGPURenderer(nullptr,_window);
-    if (!check_startup_step(_renderer != nullptr,"platform","SDL GPU renderer creation failed"))
+    const bool using_gpu_renderer = _renderer != nullptr;
+    if (!using_gpu_renderer)
+    {
+        ELYSIA_LOG_WARN("application","SDL GPU renderer unavailable; falling back to SDL renderer: " << SDL_GetError());
+        _renderer = SDL_CreateRenderer(_window,nullptr);
+    }
+    if (!check_startup_step(_renderer != nullptr,"platform","SDL renderer creation failed"))
         return false;
-    ELYSIA_LOG("application","SDL3 GPU backend: " << SDL_GetGPUDeviceDriver(SDL_GetGPURendererDevice(_renderer)));
+    if (using_gpu_renderer)
+        ELYSIA_LOG("application","SDL3 GPU backend: " << SDL_GetGPUDeviceDriver(SDL_GetGPURendererDevice(_renderer)));
+    else
+        ELYSIA_LOG("application","SDL3 renderer backend: " << SDL_GetRendererName(_renderer));
 #endif
     if (!check_startup_step(SDL_SetRenderVSync(_renderer,user_settings.vsync ? 1 : 0),"platform","SDL VSync configuration failed"))
         return false;
@@ -828,6 +843,11 @@ std::expected<void,elysia::config::UserConfigFailure>
 Application::apply_window_settings(
     const elysia::config::WindowSettings& settings)
 {
+#ifdef __EMSCRIPTEN__
+    // Browser canvas geometry belongs to the selected build, not desktop settings.
+    (void)settings;
+    return {};
+#else
     if (!_window)
         return runtime_apply_failure("window_settings","Application window is unavailable.");
 
@@ -848,5 +868,6 @@ Application::apply_window_settings(
             result.error()));
     }
     return {};
+#endif
 }
 }

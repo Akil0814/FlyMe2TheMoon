@@ -1,97 +1,101 @@
-# Desktop browser build
+# Dual-version browser release
 
-The browser edition includes the current game's full 60-level content and normal
-unlock rules. It uses WebAssembly, WebGL 2, SDL3, and a browser-driven frame loop.
-Touch controls are not included. ImGui, ENet, and pthreads are disabled for this
-build. The Windows build retains its existing overlay, loading workers and frame
-pacing.
+The `web` branch builds the 1280x720 landscape edition; `web-portrait` builds the
+640x960 portrait edition with its existing layouts and 1.8 camera zoom. Version
+1.1.2 includes the public changes from master/dc41d06 (tag v.1.1.2), including the
+level-48 portal object-ID fix, settings language rendering, ordinary projectile
+bursts and aspect-correct dialogue portraits. Keep the two branches' layouts.
 
-## Build
+## Build and preview
 
-The tested toolchain is Emscripten **5.0.6**. On this workstation:
+Use Emscripten 5.0.6, C++23 and Wasm exceptions. WebGL 2 and static SDL are used;
+ImGui, unused ENet and pthreads are disabled for Web. Native worker loading and
+pacing remain; browser preparation is bounded per frame.
+
+Run on each edition's clean source branch:
 
 ```powershell
 & 'G:\DevelopTools\Toolchains\emsdk\python\3.13.3_64bit\python.exe' game/tools/build_web.py
+& 'G:\DevelopTools\Toolchains\emsdk\python\3.13.3_64bit\python.exe' game/tests/web_package_tests.py
+& 'G:\DevelopTools\Toolchains\emsdk\node\22.16.0_64bit\bin\node.exe' game/tests/web_launcher_tests.mjs
 ```
 
-Use `--emsdk`, `--cmake`, and `--ninja` to select other tool locations. Run the
-script with a Python interpreter supported by the SDK. `--fresh` clears CMake's
-cached feature checks; `--package-only` repackages an already compiled runtime.
-Build, cache, temporary files and packages are confined to `out/`.
+The script reads logical dimensions from GameModule, uses out/build/web/ or
+out/build/web-portrait/, and packages into out/web/runtime/ or
+out/web-portrait/runtime/. It records the CMake game version, display mode,
+logical dimensions, clean source revision, build ID and SHA-256 hashes in a
+schema-version-1 manifest. Keep all 60 levels and hidden root markers; stable
+path-ordered data packages must each remain at most 32 MiB. Include licenses.
 
-The generated `out/web/runtime/manifest.json` records `gameVersion` from the CMake
-project version (currently **1.0.1**). Its `version` remains the manifest schema
-version, independently of game releases. The page displays the game version.
-The manifest also records the source revision, whether
-it included local changes, toolchain, runtime hashes, resource sizes and a build
-identifier. `asset-manifest.json` lists every asset and its SHA-256. Resources,
-including `assets/.elysia_root`, are sorted by path and split into packages of at
-most 32 MiB without changing their contents or virtual paths. The first download
-contains approximately 145 MiB of assets plus the runtime.
-
-## Preview and prepare the website
+`--package-only` updates packaging and metadata from an existing binary; use it
+only when compiled C++ and all build inputs match the recorded source.
 
 ```powershell
-& 'G:\DevelopTools\Toolchains\emsdk\python\3.13.3_64bit\python.exe' game/tools/preview_web.py
+& 'G:\DevelopTools\Toolchains\emsdk\python\3.13.3_64bit\python.exe' game/tools/preview_web.py --host 0.0.0.0 --port 8782
 ```
 
-Open <http://127.0.0.1:8765/projects/FlyMe2TheMoon/web/>. The preview serves the
-existing website with the local build and page overlaid at their real deployment
-paths. It does not modify the website checkout. Use `--port` and `--site-root`
-when needed. QA-only flags `--fail-package` and `--disable-storage` simulate
-download and IndexedDB failures; neither changes the deployment files.
+Preview uses the actual /projects/FlyMe2TheMoon/web/ subpath, both local packages
+and current shared launcher. `--deployed` reads the existing website page and
+packages. Without --host, bind only to loopback. --fail-package and
+--disable-storage provide separate local failure cases. A LAN address is a
+different browser origin and therefore has its own saves.
 
-After validation:
+## Entry and persistence
+
+The user chooses landscape/runtime/ or portrait/runtime-portrait/ before Start.
+Only the selected edition downloads. Viewport direction supplies an initial
+default; rotation never replaces an active instance. Keep the game's loading
+confirmation, three-language page, visitor counter and outer-host fullscreen.
+Canvas geometry is configured before SDL initialization and ignores saved native
+window sizes. Scale with each edition's true ratio; do not fullscreen SDL's
+canvas directly. Portrait Back to Page preserves the instance; Continue returns.
+The Web bridge cancels pointers and requests pause on focus loss/backgrounding;
+returning leaves the player to resume manually.
+
+Both editions restore IDBFS /player_data before game startup and automatically
+persist writes. Preserve existing save file names and schema. Switch Version and
+Reload await FS.syncfs(false); failure retains the instance and offers retry.
+Unavailable storage allows temporary play with a visible warning and blocks
+in-page switching to avoid silently discarding progress. Do not ship unlocked
+saves or clear IndexedDB. Multiple simultaneous game tabs are unsupported.
+
+Every visit fetches the small manifest without cache. Build IDs invalidate
+runtime-resource URLs; normal browser HTTP caching is used. Reading cached bytes
+still updates the loading progress. There is no persistent offline resource
+cache, PWA or cloud save. Site-data deletion can remove saves.
+
+## Stage and publish
+
+Build, test and commit both source branches. Repackage from matching compiled
+inputs so manifests record clean final source commits, then run:
 
 ```powershell
 & 'G:\DevelopTools\Toolchains\emsdk\python\3.13.3_64bit\python.exe' game/tools/deploy_web.py --site-root 'G:\Coding\Projects\Akil0814.github.io'
 ```
 
-This verifies runtime hashes, copies the page, scripts, styles and runtime to
-`projects/FlyMe2TheMoon/web/`, and updates only this page's English, Chinese and
-Japanese dictionaries. Overwritten page files are backed up under
-`out/web/backups/`, together with the old runtime and build notes. Existing project
-description pages remain the entry point.
-The script never runs Git commit, push, or a remote deployment. Review the
-website changes and publish with its existing GitHub Pages workflow.
+The script validates both versions, dimensions, hashes and package sizes before
+copying. It backs up both existing runtimes and managed page/dictionary files in
+out/web-release/backups/, stages both editions together, removes only obsolete
+files listed by the previous manifests, and verifies copied packages. It never
+commits, pushes, changes Pages settings or touches unrelated website files.
 
-Runtime requests use the manifest's build identifier for cache invalidation.
-Serve over HTTP or HTTPS, including the `.wasm` and `.data` files; opening the
-HTML directly with `file://` is unsupported. No cross-origin isolation headers
-or service worker are required. Keep third-party notices and licenses with the
-runtime. A rebuild can leave older, unused package files in the output directory;
-the manifest identifies which packages are actually used.
+Push ordinary commits to web and web-portrait; commit only managed website files
+on main. Preserve unrelated working-tree edits. Wait for the existing main-root
+GitHub Pages deployment, then verify both online versions and startup/fullscreen.
 
-## Browser behavior
+## Acceptance evidence
 
-Click **Start Game** to download and launch. The startup confirmation inside the
-game remains. Click the canvas to focus it and enable audio; keyboard capture is
-restricted to that canvas. Space/W/Up supplies thrust, A/D steers, P pauses,
-R retries and Escape returns. Existing mouse and gamepad controls are retained.
-Fullscreen is requested through the page button and requires a browser gesture.
-The outer game host enters fullscreen while the SDL canvas keeps its drawing
-buffer size. CSS fits the complete 16:9 canvas inside the screen with letterbox
-space when needed; this avoids competing browser and SDL viewport resizes that
-can crop rendering to the lower-left corner. Escape or the in-screen exit
-button leaves fullscreen without sending Escape to the game's navigation.
-The Web settings panel exposes audio and language; canvas size, refresh cadence
-and fullscreen are controlled by the browser instead of desktop window settings.
+Record native baselines before merging and rerun settings languages, portal
+references/real scene links, projectile bursts, progress, story, mechanisms and
+Web input checks. Run the normal-input level48-route01 replay; fixture portal
+positioning is separate evidence from a complete gameplay replay. Do not roll
+back portrait UI to satisfy a pre-existing coordinate assertion.
 
-`/player_data` is mounted with IDBFS and populated before the game initializes.
-Both progress and user settings are automatically written to IndexedDB. Saves
-are specific to the browser and origin; a localhost save does not transfer to
-GitHub Pages. Clearing site data removes it. If storage initialization fails,
-the game runs with temporary data and displays a warning. The last asynchronous
-write may not survive an immediate browser/process termination.
-
-The loader prepares up to four textures/atlas frames per browser update, stopping
-after approximately four milliseconds between jobs. Large individual decodes
-can exceed that budget. GPU upload and existing content validation still use
-the same resource/error handling as the native game. The browser controls frame
-cadence; its background-tab policy may reduce or suspend updates.
-
-## Validation records
-
-See `out/web/validation.md` in the game workspace for this build's actual checks
-and remaining manual coverage. Bundling all levels does not establish that every
-level has been manually completed.
+Check local browser startup, confirmation, menu, dialogue, settings language
+switching, pause/retry/result, fullscreen and input cancellation. Inspect portrait
+360x640, 390x844 and 412x915. In an isolated origin run old 1.0.1 first, save
+progress/settings, replace packages, then verify 1.1.2 restoration in both modes
+and both switching directions. Fault tests must retain recoverable UI. Do not
+change production saves for level-48 acceptance. Record Android hardware, Firefox,
+audio, gamepad and all-level-playthrough limits honestly. Keep logs and screenshots
+under out/qa/web112/ and the completed release record in out/web-release/validation.md.

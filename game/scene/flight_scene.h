@@ -24,6 +24,9 @@ namespace game::scene {
 struct FlightPayload {int level=1;bool restart=false;};
 class FlightScene final : public elysia::scene::Scene {
     friend class AudioTestAccess;
+    friend class WebInputTestAccess;
+    friend class PortalTestAccess;
+    friend class ProjectileTestAccess;
 public:
     FlightScene();
     ~FlightScene() override;
@@ -38,6 +41,7 @@ protected:
     void on_fixed_update(std::uint64_t tick,double delta)override;
     std::optional<elysia::camera::CameraFocus> resolve_camera_focus(elysia::camera::CameraSlot) const override;
 private:
+    std::uint64_t _web_pause_seen=0;
     void attach_development_panel();
     void detach_development_panel();
     static constexpr float kDefaultCameraZoom = 1.5f;
@@ -58,6 +62,7 @@ private:
     void restore_player();
     void begin_moon(play::Vec center);
     void begin_portal(play::Entity& source,play::Entity& destination);
+    play::Entity* find_portal_destination(int target) const;
     void update_transition(double delta);
     double move_camera(play::Vec destination);
     void apply_pointer(play::Vec point);
@@ -98,6 +103,7 @@ private:
     play::Vec _wind_force{};
     bool _laser_hit=false;
     std::vector<play::Projectile*> _projectiles;
+    std::vector<play::ProjectileBurst*> _projectile_bursts;
     int _shots_fired=0,_homing_fired=0;
     int _deaths=0;
     std::string _failure_reason,_pending_failure;
@@ -127,7 +133,6 @@ private:
     std::string _dialogue_key;
     frontend::StoryText* _dialogue=nullptr;
     frontend::HudPanel* _dialogue_panel=nullptr;
-    frontend::HudPanel* _portrait_panel=nullptr;
     elysia::ui::UiImage* _face=nullptr;
     frontend::TutorialUi* _tutorial=nullptr;
     bool _dialogue_pointer_pressed=false;
