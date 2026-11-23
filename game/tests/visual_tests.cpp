@@ -255,9 +255,9 @@ void check_run_stats(SDL_Renderer* renderer){
 void check_dialogue_and_pause(SDL_Renderer* renderer){
     using namespace game::frontend;
     auto* plate=ELYSIA_RESOURCES->find_texture("fly.InGameUI.btn1Up");
-    for(const auto size:{core::Vector2{1232,182},core::Vector2{156,156},core::Vector2{680,560}}){
+    for(const auto size:{core::Vector2{1232,182},core::Vector2{680,560}}){
         HudPanel panel({24,40,size.x,size.y});std::vector<core::UiRenderCommand> drawn;panel.submit_ui_render_commands(drawn);
-        require(drawn.size()==9,"Dialogue, portrait and modal frames must use nine-slice panels");
+        require(drawn.size()==9,"Dialogue and modal frames must use nine-slice panels");
         float area=0;for(const auto& command:drawn){
             require(command.type==core::UiRenderCommandType::Texture&&command.texture==plate&&command.use_src_rect,"Frames must use btn1Up without additional lines or geometric borders");
             area+=command.screen_rect.width()*command.screen_rect.height();
@@ -291,8 +291,11 @@ void check_dialogue_and_pause(SDL_Renderer* renderer){
     HudLabel states({900,172,340,40},0,ui::ui_raw_text("Up / Down"));render(states);
     PauseIconButton normal({970,232,64,64},[]{}),pressed({1120,232,64,64},[]{});render(normal);
     pointer.type=ui::UiInputEventType::PointerPressed;pointer.mouse_x=1152;pointer.mouse_y=264;pressed.on_ui_input_event(pointer);render(pressed);
-    HudPanel dialogue({24,474,1232,182}),portrait({38,486,156,156});render(dialogue);render(portrait);
-    ui::UiImage face(ELYSIA_RESOURCES->find_texture("fly.ui.faceJingya"),core::Rect{46,494,140,140});render(face);
+    HudPanel dialogue({24,474,1232,182});render(dialogue);
+    auto* portrait=ELYSIA_RESOURCES->find_texture("fly.ui.faceJingya");float portrait_width=0,portrait_height=0;
+    require(SDL_GetTextureSize(portrait,&portrait_width,&portrait_height)&&portrait_width>0&&portrait_height>0,"Portrait preview texture unavailable");
+    const float portrait_scale=std::min(172.f/portrait_width,216.f/portrait_height);
+    ui::UiImage face(portrait,core::Rect{118-portrait_width*portrait_scale/2,648-portrait_height*portrait_scale,portrait_width*portrait_scale,portrait_height*portrait_scale});render(face);
     ui::UiTextBlock line({212,492,1024,144});line.set_padding(8);line.set_style_overrides({.text=core::Color{16,46,77,255}});
     auto source=game::content::read("text/zh-Hans/strings.json").at("Level39-1").get<std::string>();source=std::regex_replace(source,std::regex("#c[0-9a-fA-F]{6}|#n"),"");line.set_text_content(ui::ui_raw_text(source));render(line);
     auto* preview=SDL_RenderReadPixels(renderer,nullptr);require(preview!=nullptr,SDL_GetError());const bool saved=SDL_SaveBMP(preview,"out/qa/dialogue-pause-assets-preview.bmp");SDL_DestroySurface(preview);require(saved,SDL_GetError());

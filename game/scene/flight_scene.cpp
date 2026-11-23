@@ -26,6 +26,9 @@
 namespace game::scene {
 using namespace elysia;
 using namespace play;
+namespace {
+const Rect kDialoguePortraitBounds{32,432,172,216};
+}
 FlightScene::FlightScene():Scene(elysia::scene::SceneRuntimeFeatures{
     .fixed_step=elysia::scene::FixedStepConfig{},
     .physics=physics::PhysicsWorldConfig{.units_per_meter=32,.gravity={0,320}},
@@ -107,8 +110,7 @@ void FlightScene::on_enter(const elysia::scene::ScenePayload& payload) {
     _pause_button=create_and_add_object<frontend::PauseIconButton>(Rect{1192,12,64,64},[this]{open_pause_menu();});
     _hint=create_and_add_object<frontend::HudLabel>(Rect{24,668,1230,36},10);
     _dialogue_panel=create_and_add_object<frontend::HudPanel>(Rect{24,474,1232,182},20);
-    _portrait_panel=create_and_add_object<frontend::HudPanel>(Rect{38,486,156,156},21);
-    _face=create_and_add_object<ui::UiImage>(nullptr,Rect{46,494,140,140},22);
+    _face=create_and_add_object<ui::UiImage>(nullptr,kDialoguePortraitBounds,22);
     _dialogue=create_and_add_object<frontend::StoryText>(Rect{212,492,1024,144},22);_dialogue->set_padding(8);
     _dialogue->set_style_overrides({.text=core::Color{16,46,77,255}});
     _tutorial=create_and_add_object<frontend::TutorialUi>();
@@ -132,7 +134,7 @@ void FlightScene::on_enter(const elysia::scene::ScenePayload& payload) {
     ELYSIA_LOG_INFO("fly",std::format("Entered level {}: {} entities, {} contours",_level,_entities.size(),_data.at("edges").size()));
     attach_development_panel();
 }
-void FlightScene::on_exit(){detach_development_panel();_audio.clear();ELYSIA_AUDIO->stop_music();_pause_updates.clear();_pause_menu_open=false;_player=nullptr;_entities.clear();_projectiles.clear();_projectile_bursts.clear();_hud=nullptr;_hud_stats=nullptr;_pause_metrics=nullptr;_result_metrics=nullptr;_hint=nullptr;_hud_stars=nullptr;_star_pickups=nullptr;_pause_menu=nullptr;_pause_button=nullptr;_dialogue=nullptr;_face=nullptr;_tutorial=nullptr;_dialogue_panel=nullptr;_portrait_panel=nullptr;clear_scene_objects();}
+void FlightScene::on_exit(){detach_development_panel();_audio.clear();ELYSIA_AUDIO->stop_music();_pause_updates.clear();_pause_menu_open=false;_player=nullptr;_entities.clear();_projectiles.clear();_projectile_bursts.clear();_hud=nullptr;_hud_stats=nullptr;_pause_metrics=nullptr;_result_metrics=nullptr;_hint=nullptr;_hud_stars=nullptr;_star_pickups=nullptr;_pause_menu=nullptr;_pause_button=nullptr;_dialogue=nullptr;_face=nullptr;_tutorial=nullptr;_dialogue_panel=nullptr;clear_scene_objects();}
 void FlightScene::on_reset(){on_exit();}
 void FlightScene::on_shortcuts(const input::RawInputFrame&,const std::vector<input::RawInputEvent>& events) {
     using C=input::RawInputControl;
@@ -333,9 +335,15 @@ content::Json FlightScene::story_action(const std::string& op,const content::Jso
     return nullptr;
 }
 void FlightScene::update_dialogue() {
-    const auto& line=_story.dialogue();const bool has_dialogue=_story_started&&line.has_value();const bool visible=has_dialogue&&!_pause_menu_open;_dialogue_panel->set_visible(visible);_portrait_panel->set_visible(visible);_dialogue->set_visible(visible);_face->set_visible(visible);
+    const auto& line=_story.dialogue();const bool has_dialogue=_story_started&&line.has_value();const bool visible=has_dialogue&&!_pause_menu_open;_dialogue_panel->set_visible(visible);_dialogue->set_visible(visible);_face->set_visible(visible);
     if(has_dialogue&&_dialogue_key!=line->key){_dialogue_key=line->key;
         _dialogue->set_story_text(_text.value(line->key,line->key));_face->set_texture(ELYSIA_RESOURCES->find_texture("fly.ui."+line->face));
+        float width=0,height=0;
+        if(_face->texture()&&SDL_GetTextureSize(_face->texture(),&width,&height)&&width>0&&height>0){
+            const float scale=std::min(kDialoguePortraitBounds.width()/width,kDialoguePortraitBounds.height()/height);
+            _face->set_size({width*scale,height*scale});
+            _face->set_position({kDialoguePortraitBounds.center().x-width*scale/2,kDialoguePortraitBounds.y()+kDialoguePortraitBounds.height()-height*scale});
+        }
         ELYSIA_LOG_INFO("fly.story","Dialogue: "+line->key);
     }
     if(!has_dialogue)_dialogue_key.clear();
