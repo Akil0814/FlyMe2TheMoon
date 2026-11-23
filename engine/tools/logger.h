@@ -41,8 +41,8 @@ enum class ConsoleColorMode
 struct LoggerConfig
 {
     LogLevel minimum_level{ LogLevel::Debug };
-    LogFileMode file_mode{ LogFileMode::NewRunFile };
-    std::string overwrite_file_name{ "Elysia.log" };
+    LogFileMode file_mode{ LogFileMode::Overwrite };
+    std::string overwrite_file_name{ "Elysia-FlyMe2TheMoon.log" };
     bool console_enabled = true;
     ConsoleColorMode console_color_mode{ ConsoleColorMode::Auto };
 };
