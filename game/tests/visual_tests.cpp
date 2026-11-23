@@ -46,12 +46,15 @@ public:
     static void enter(Scene& scene,const ScenePayload& payload={}){scene.lifecycle_enter(payload);}
     static void exit(Scene& scene){scene.lifecycle_exit();}
     static void update(Scene& scene,double delta){scene.lifecycle_update(delta);}
+    static void render(Scene& scene,SDL_Renderer* renderer){scene.lifecycle_render(renderer);}
     static ui::UiWindow& window(Scene& scene){return dynamic_cast<ui::UiWindow&>(*scene._ui_roots.at(0));}
 };
 }
 
 #include "game/progress/progress.h"
 #include "game/tests/audio_scene_checks.h"
+#include "game/tests/portal_scene_checks.h"
+#include "game/tests/projectile_burst_checks.h"
 
 namespace {
 using namespace elysia;
@@ -1369,6 +1372,8 @@ void save_mechanism_preview(SDL_Renderer* renderer) {
 int main(int argc,char** argv) {
     const bool level_music_only=argc==2&&std::string_view(argv[1])=="--level-music-only";
     const bool audio_only=argc==2&&std::string_view(argv[1])=="--audio-only";
+    const bool portal_only=argc==2&&std::string_view(argv[1])=="--portal-only";
+    const bool projectile_only=argc==2&&std::string_view(argv[1])=="--projectile-only";
     typography::FontResolver font_resolver;
     SDL_Surface* surface=nullptr;
     SDL_Renderer* renderer=nullptr;
@@ -1398,7 +1403,12 @@ int main(int argc,char** argv) {
             const auto deadline=SDL_GetTicks()+30000;
             while(loader.is_running()&&SDL_GetTicks()<deadline){loader.update();SDL_Delay(1);}
             require(loader.is_finished(),loader.failure()?loader.failure()->diagnostic.message:"Content load timed out");
-            if(audio_only){
+            if(projectile_only){
+                check_projectile(false);check_projectile(true);check_projectile_gravity();
+                game::testing::check_projectile_bursts(renderer,*registry);
+            }else if(portal_only){
+                game::testing::check_portal_links(renderer,*registry);
+            }else if(audio_only){
                 game::testing::check_scene_audio(renderer,*registry);
                 check_frontend_music(renderer,*registry);
             }else if(level_music_only){
@@ -1438,7 +1448,7 @@ int main(int argc,char** argv) {
             save_bomb_preview(renderer);
             }
         }
-        if(!level_music_only)std::cout<<"PASS: idle/mechanism/portal/bomb visuals, ordinary projectile gravity/arcs/terrain hits, homing motion preserved\n";
+        if(!level_music_only&&!portal_only&&!projectile_only)std::cout<<"PASS: idle/mechanism/portal/bomb visuals, ordinary projectile gravity/arcs/terrain hits, homing motion preserved\n";
         result=0;
     } catch(const std::exception& error) {
         std::cerr<<"FAIL: "<<error.what()<<'\n';

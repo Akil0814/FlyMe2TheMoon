@@ -59,7 +59,7 @@ void FlightScene::on_enter(const elysia::scene::ScenePayload& payload) {
     _pause_menu_open=false;_pause_was_logic_paused=false;_pause_updates.clear();
     _transition={};_portal_emerging=false;_spawn_effects=0;_moon_effects=0;
     _camera_move={};_opening_phase=OpeningPhase::Pan;_story_started=false;_camera_moves=0;
-    clear_scene_objects();_entities.clear();_projectiles.clear();_shots_fired=0;_homing_fired=0;_player=nullptr;_portal_lock=nullptr;_portal_transits=0;
+    clear_scene_objects();_entities.clear();_projectiles.clear();_projectile_bursts.clear();_shots_fired=0;_homing_fired=0;_player=nullptr;_portal_lock=nullptr;_portal_transits=0;
     if(const auto* p=elysia::scene::try_scene_payload<FlightPayload>(payload)){_level=p->level;_restart=p->restart;}
     _data=content::level(_level);_stars=0;_crystals=0;_crystal_count=0;_elapsed=0;_finished=false;_success=false;
     (void)progress::Store::instance().load();
@@ -132,7 +132,7 @@ void FlightScene::on_enter(const elysia::scene::ScenePayload& payload) {
     ELYSIA_LOG_INFO("fly",std::format("Entered level {}: {} entities, {} contours",_level,_entities.size(),_data.at("edges").size()));
     attach_development_panel();
 }
-void FlightScene::on_exit(){detach_development_panel();_audio.clear();ELYSIA_AUDIO->stop_music();_pause_updates.clear();_pause_menu_open=false;_player=nullptr;_entities.clear();_hud=nullptr;_hud_stats=nullptr;_pause_metrics=nullptr;_result_metrics=nullptr;_hint=nullptr;_hud_stars=nullptr;_star_pickups=nullptr;_pause_menu=nullptr;_pause_button=nullptr;_dialogue=nullptr;_face=nullptr;_tutorial=nullptr;_dialogue_panel=nullptr;_portrait_panel=nullptr;clear_scene_objects();}
+void FlightScene::on_exit(){detach_development_panel();_audio.clear();ELYSIA_AUDIO->stop_music();_pause_updates.clear();_pause_menu_open=false;_player=nullptr;_entities.clear();_projectiles.clear();_projectile_bursts.clear();_hud=nullptr;_hud_stats=nullptr;_pause_metrics=nullptr;_result_metrics=nullptr;_hint=nullptr;_hud_stars=nullptr;_star_pickups=nullptr;_pause_menu=nullptr;_pause_button=nullptr;_dialogue=nullptr;_face=nullptr;_tutorial=nullptr;_dialogue_panel=nullptr;_portrait_panel=nullptr;clear_scene_objects();}
 void FlightScene::on_reset(){on_exit();}
 void FlightScene::on_shortcuts(const input::RawInputFrame&,const std::vector<input::RawInputEvent>& events) {
     using C=input::RawInputControl;
@@ -222,6 +222,7 @@ void FlightScene::restore_player() {
     _portal_lock=nullptr;_transition={};_portal_emerging=false;_death_pending=false;
     _audio.reset();_role_velocity_valid=false;_idle_audio_time=_audio.next_idle_delay();_player->idle_action_time=0;_result_animation_done=true;
     for(auto* projectile:_projectiles)projectile->destroy();_projectiles.clear();
+    for(auto* burst:_projectile_bursts)burst->destroy();_projectile_bursts.clear();
     physics_world().teleport_object(_player->physics_handle(),role_spawn({_data.at("born")[0],_data.at("born")[1]}),physics::TeleportVelocityMode::Clear);
     physics_world().set_body_enabled(_player->physics_handle(),true);
     _player->present_at(std::nullopt);_player->play_effect(RoleEffect::Enter);start_entrance_sound();++_spawn_effects;
@@ -240,6 +241,9 @@ double FlightScene::move_camera(Vec destination) {
 void FlightScene::on_before_update(double delta) {
     _audio.set_listener(camera().center());
     if(_pause_menu_open)return;
+    // Advance presentation even while the role's death pauses physics. Modal
+    // pause freezes it, and newly spawned bursts retain their first frame.
+    if(!is_paused()||_death_pending)std::erase_if(_projectile_bursts,[delta](auto* burst){burst->advance(delta);if(burst->finished()){burst->destroy();return true;}return false;});
     if(_camera_move.active()){_camera_move.advance(delta);_story_camera=_camera_move.position();}
 }
 void FlightScene::begin_moon(Vec center) {
@@ -249,6 +253,12 @@ void FlightScene::begin_moon(Vec center) {
     _player->present_at(_transition.from);_player->play_effect(RoleEffect::Moon);
     if(!physics_world().set_body_enabled(_player->physics_handle(),false))throw std::runtime_error("Moon transition body disable rejected");
     ELYSIA_LOG_INFO("fly.effect","Moon approach started");
+}
+Entity* FlightScene::find_portal_destination(int target) const {
+    // Portal.tryTeleportRole calls DynamicObjectLayer.getObjectByID: in the
+    // original. Info.PortalID is not an alternate object identifier.
+    for(auto* candidate:_entities)if(candidate->kind==115&&candidate->id==target)return candidate;
+    return nullptr;
 }
 void FlightScene::begin_portal(Entity& source,Entity& destination) {
     _player->thrust={};_portal_lock=&destination;_portal_emerging=false;_audio.play("20-1");
@@ -348,7 +358,10 @@ void FlightScene::on_fixed_update(std::uint64_t,double delta) {
         for(auto* projectile:_projectiles){
             const bool was_expired=projectile->expired;
             if(projectile->advance(delta,_player->position(),*_player)){_laser_hit=true;_pending_failure="projectile";}
-            if(!was_expired&&projectile->expired)_audio.at("34-1",projectile->position());
+            if(!was_expired&&projectile->expired){
+                _audio.at("34-1",projectile->position());
+                if(const auto center=projectile->burst_position())_projectile_bursts.push_back(create_and_add_object<ProjectileBurst>(*center));
+            }
         }
         for(auto* entity:_entities){
             _wind_force+=entity->wind_force_at(_player->position());
@@ -433,11 +446,8 @@ void FlightScene::on_after_update(double delta) {
             }
             else if(entity->kind==101){entity->light_moon();begin_moon(entity->center());}
             else if(entity->kind==115&&entity!=_portal_lock&&entity->info.contains("TargetPortalID")) {
-                const int target=static_cast<int>(parameter(entity->info,"TargetPortalID"));Entity* destination=nullptr;
-                // Original levels normally reference object IDs. The single explicit
-                // PortalID override in level 48 takes precedence over that fallback.
-                for(auto* candidate:_entities)if(candidate->kind==115&&candidate->info.contains("PortalID")&&parameter(candidate->info,"PortalID")==target)destination=candidate;
-                if(!destination)for(auto* candidate:_entities)if(candidate->kind==115&&candidate->id==target)destination=candidate;
+                const int target=static_cast<int>(parameter(entity->info,"TargetPortalID"));
+                auto* destination=find_portal_destination(target);
                 if(!destination)throw std::runtime_error("Portal destination absent");
                 begin_portal(*entity,*destination);
             }

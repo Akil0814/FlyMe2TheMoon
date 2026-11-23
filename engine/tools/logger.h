@@ -27,7 +27,7 @@ enum class LogLevel
 enum class LogFileMode
 {
     Disabled,
-    Append,
+    Overwrite,
     NewRunFile
 };
 
@@ -42,7 +42,7 @@ struct LoggerConfig
 {
     LogLevel minimum_level{ LogLevel::Debug };
     LogFileMode file_mode{ LogFileMode::NewRunFile };
-    std::string append_file_name{ "Elysia.log" };
+    std::string overwrite_file_name{ "Elysia.log" };
     bool console_enabled = true;
     ConsoleColorMode console_color_mode{ ConsoleColorMode::Auto };
 };
