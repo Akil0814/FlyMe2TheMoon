@@ -485,10 +485,26 @@ bool Application::initialize_runtime(
             **startup_window,"STARTUP-WINDOW","platform"),(**startup_window).origin);
 #endif
 
+#if defined(__ANDROID__)
     _renderer = SDL_CreateRenderer(_window,"opengles2");
     if (!check_startup_step(_renderer != nullptr,"platform","OpenGL ES renderer creation failed"))
         return false;
     ELYSIA_LOG("application","SDL renderer: " << SDL_GetRendererName(_renderer));
+#else
+    _renderer = SDL_CreateGPURenderer(nullptr,_window);
+    const bool using_gpu_renderer = _renderer != nullptr;
+    if (!using_gpu_renderer)
+    {
+        ELYSIA_LOG_WARN("application","SDL GPU renderer unavailable; falling back to SDL renderer: " << SDL_GetError());
+        _renderer = SDL_CreateRenderer(_window,nullptr);
+    }
+    if (!check_startup_step(_renderer != nullptr,"platform","SDL renderer creation failed"))
+        return false;
+    if (using_gpu_renderer)
+        ELYSIA_LOG("application","SDL3 GPU backend: " << SDL_GetGPUDeviceDriver(SDL_GetGPURendererDevice(_renderer)));
+    else
+        ELYSIA_LOG("application","SDL3 renderer backend: " << SDL_GetRendererName(_renderer));
+#endif
     if (!check_startup_step(SDL_SetRenderVSync(_renderer,user_settings.vsync ? 1 : 0),"platform","SDL VSync configuration failed"))
         return false;
     if (auto filter_result = detail::configure_sdl_texture_filter(_renderer,descriptor.presentation.render); !filter_result)

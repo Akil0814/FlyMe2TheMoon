@@ -1,6 +1,6 @@
 # Android APK 构建与验证
 
-当前分支面向 Android 8.0（API 26）及以上的 ARM64 手机。游戏内容随 APK 分发，安装后可离线游玩。应用包名为 `com.akil0814.flyme2themoon`，版本为 `1.1.1`（versionCode 4）。本次交付 APK，不包含商店发布流程。
+当前分支面向 Android 8.0（API 26）及以上的 ARM64 手机。游戏内容随 APK 分发，安装后可离线游玩。应用包名为 `com.akil0814.flyme2themoon`，版本为 `1.1.2`（versionCode 5）。本次交付 APK，不包含商店发布流程。游戏启动前的 Android 资源准备页面统一使用英文提示。
 
 ## Windows 构建
 
@@ -31,7 +31,7 @@
 
 ```powershell
 ./out/android/sdk/platform-tools/adb.exe devices
-./out/android/sdk/platform-tools/adb.exe install -r ./out/android/dist/FlyMe2TheMoon-1.1.1-arm64-release.apk
+./out/android/sdk/platform-tools/adb.exe install -r ./out/android/dist/FlyMe2TheMoon-1.1.2-arm64-release.apk
 ./out/android/sdk/platform-tools/adb.exe shell am start -n com.akil0814.flyme2themoon/.BootstrapActivity
 ```
 

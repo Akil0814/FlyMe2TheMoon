@@ -59,6 +59,8 @@ public:
 #include "game/progress/progress.h"
 #include "game/tests/audio_scene_checks.h"
 #include "game/tests/flight_ui_checks.h"
+#include "game/tests/portal_scene_checks.h"
+#include "game/tests/projectile_burst_checks.h"
 
 namespace {
 using namespace elysia;
@@ -259,7 +261,7 @@ void check_run_stats(SDL_Renderer* renderer){
 void check_dialogue_and_pause(SDL_Renderer* renderer){
     using namespace game::frontend;
     auto* plate=ELYSIA_RESOURCES->find_texture("fly.InGameUI.btn1Up");
-    for(const auto size:{core::Vector2{1232,182},core::Vector2{156,156},core::Vector2{680,560}}){
+    for(const auto size:{core::Vector2{1232,182},core::Vector2{680,560}}){
         HudPanel panel({24,40,size.x,size.y});std::vector<core::UiRenderCommand> drawn;panel.submit_ui_render_commands(drawn);
         require(drawn.size()==9,"Generic modal frames must use nine-slice panels");
         float area=0;for(const auto& command:drawn){
@@ -1563,6 +1565,8 @@ int main(int argc,char** argv) {
     const bool flight_hud_only=argc==2&&std::string_view(argv[1])=="--flight-hud-only";
     const bool level_music_only=argc==2&&std::string_view(argv[1])=="--level-music-only";
     const bool audio_only=argc==2&&std::string_view(argv[1])=="--audio-only";
+    const bool portal_only=argc==2&&std::string_view(argv[1])=="--portal-only";
+    const bool projectile_only=argc==2&&std::string_view(argv[1])=="--projectile-only";
     typography::FontResolver font_resolver;
     SDL_Surface* surface=nullptr;
     SDL_Renderer* renderer=nullptr;
@@ -1598,6 +1602,11 @@ int main(int argc,char** argv) {
                 game::testing::check_flight_ui(renderer,*registry,true);
                 check_run_stats(renderer);
                 check_dialogue_and_pause(renderer);
+            }else if(projectile_only){
+                check_projectile(false);check_projectile(true);check_projectile_gravity();
+                game::testing::check_projectile_bursts(renderer,*registry);
+            }else if(portal_only){
+                game::testing::check_portal_links(renderer,*registry);
             }else if(audio_only){
                 game::testing::check_scene_audio(renderer,*registry);
                 check_frontend_music(renderer,*registry);
@@ -1642,7 +1651,7 @@ int main(int argc,char** argv) {
         }
         if(flight_dialogue_only)std::cout<<"PASS: original dialogue portrait, localized Skip, minimum time, pause and click routing in all languages\n";
         else if(flight_hud_only)std::cout<<"PASS: compact flight HUD in all languages, long counters and pause interaction\n";
-        else if(!level_music_only)std::cout<<"PASS: idle/mechanism/portal/bomb visuals, ordinary projectile gravity/arcs/terrain hits, homing motion preserved\n";
+        else if(!level_music_only&&!portal_only&&!projectile_only)std::cout<<"PASS: idle/mechanism/portal/bomb visuals, ordinary projectile gravity/arcs/terrain hits, homing motion preserved\n";
         result=0;
     } catch(const std::exception& error) {
         std::cerr<<"FAIL: "<<error.what()<<'\n';

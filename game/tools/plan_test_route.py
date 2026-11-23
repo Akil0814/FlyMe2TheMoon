@@ -5,12 +5,18 @@ need runtime observations and route tuning; an A* route is not proof of a clear.
 """
 import argparse, heapq, json, math
 from pathlib import Path
-from PIL import Image, ImageDraw
 
 ROOT=Path(__file__).resolve().parents[2]
 STEP=8
 
+def _portal_destination(portals, identifier):
+    target=next((e for e in portals if e['id']==identifier),None)
+    if target is None:raise ValueError(f'Portal destination absent: {identifier}')
+    return target
+
+
 def plan(level,destination=None):
+    from PIL import Image, ImageDraw
     data=json.loads((ROOT/f'assets/configs/levels/{level:03}.json').read_text(encoding='utf8'))
     width,height=math.ceil(data['width']/STEP),math.ceil(data['height']/STEP)
     mask=Image.new('L',(width,height));draw=ImageDraw.Draw(mask)
@@ -36,8 +42,7 @@ def plan(level,destination=None):
     for portal in portals:
         if 'TargetPortalID' not in portal['info']:continue
         identifier=int(portal['info']['TargetPortalID'])
-        target=next((e for e in portals if int(e['info'].get('PortalID',-1))==identifier),None)
-        if target is None:target=next(e for e in portals if e['id']==identifier)
+        target=_portal_destination(portals,identifier)
         origin=nearest((round(portal['x']/STEP),round((portal['y']-13)/STEP)))
         destination=nearest((round(target['x']/STEP),round((target['y']-13)/STEP)))
         portal_links[origin]=destination

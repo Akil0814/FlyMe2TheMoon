@@ -30,9 +30,9 @@ public final class BootstrapActivity extends Activity {
         layout.addView(status);
         progress = new ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal);
         layout.addView(progress, new LinearLayout.LayoutParams(640, 36));
-        retry = new Button(this); retry.setText("Retry / 重试"); retry.setVisibility(android.view.View.GONE);
+        retry = new Button(this); retry.setText("Retry"); retry.setVisibility(android.view.View.GONE);
         retry.setOnClickListener(view -> prepare()); layout.addView(retry);
-        Button exit = new Button(this); exit.setText("Exit / 退出"); exit.setOnClickListener(view -> finish()); layout.addView(exit);
+        Button exit = new Button(this); exit.setText("Exit"); exit.setOnClickListener(view -> finish()); layout.addView(exit);
         setContentView(layout);
         prepare();
     }
@@ -40,7 +40,7 @@ public final class BootstrapActivity extends Activity {
         if (working) return;
         working = true;
         retry.setVisibility(android.view.View.GONE);
-        status.setText("Preparing game resources / 正在准备游戏资源…");
+        status.setText("Preparing game resources…");
         progress.setProgress(0);
         new Thread(() -> {
             try {
@@ -71,7 +71,7 @@ public final class BootstrapActivity extends Activity {
                 runOnUiThread(() -> {
                     working = false;
                     if (isFinishing() || isDestroyed()) return;
-                    status.setText("Resource preparation failed / 资源准备失败\n" + error.getMessage());
+                    status.setText("Resource preparation failed\n" + error.getMessage());
                     retry.setVisibility(android.view.View.VISIBLE);
                 });
             }
